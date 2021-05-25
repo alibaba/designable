@@ -1,1 +1,1 @@
-# @designable/core
+# @designable/react-settings-form

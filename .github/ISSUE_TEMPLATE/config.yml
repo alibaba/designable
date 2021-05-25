@@ -1,4 +1,4 @@
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
   - name: ✨ Question Answer / Idea
     url: https://github.com/alibaba/designable/discussions/new
