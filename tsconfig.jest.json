@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "paths": {
+      "@designable/*": ["./packages/*/src"]
+    }
+  },
+  "exclude": ["./packages/*/esm", "./packages/*/lib"]
+}

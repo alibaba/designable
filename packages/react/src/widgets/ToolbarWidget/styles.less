@@ -1,0 +1,26 @@
+@import '../../variables.less';
+
+.@{prefix-cls}-toolbar {
+  .ant-input-number {
+    font-size: 12px !important;
+    background: var(--ud-toolbar-input-bg-color) !important;
+    border-color: var(--ud-toolbar-input-border-color) !important;
+    color: var(--ud-toolbar-input-color) !important;
+
+    .ant-input-number-handler-wrap,
+    .ant-input-number-handler {
+      background: var(--ud-toolbar-input-handler-bg-color) !important;
+      border-color: var(--ud-toolbar-input-border-color) !important;
+      color: var(--ud-toolbar-input-color) !important;
+    }
+
+    .ant-input-number-handler-down-inner,
+    .ant-input-number-handler-up-inner {
+      color: var(--ud-toolbar-input-color) !important;
+    }
+
+    &:hover {
+      border-color: var(--ud-toolbar-input-hover-border-color) !important;
+    }
+  }
+}

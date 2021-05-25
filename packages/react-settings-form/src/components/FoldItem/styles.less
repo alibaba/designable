@@ -1,0 +1,39 @@
+@import '~antd/lib/style/themes/default.less';
+
+.ud-fold-item {
+  .@{ant-prefix}-formily-item-label-content {
+    overflow: visible;
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: -10px;
+
+    .ud-icon {
+      transform: translateX(-3px);
+
+      svg {
+        transition: all 0.15s ease-in-out;
+        transform: rotate(-90deg);
+      }
+    }
+
+    &.expand {
+      .ud-icon {
+        svg {
+          transform: rotate(0deg);
+        }
+      }
+    }
+  }
+
+  &-extra {
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding: 10px 10px 0 10px;
+    background-color: @border-color-split;
+  }
+}

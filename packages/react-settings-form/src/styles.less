@@ -1,0 +1,30 @@
+@import '~antd/lib/style/themes/default.less';
+
+.ud-settings-form {
+  padding: 10px 20px;
+
+  &-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+  }
+
+  .@{ant-prefix}-formily-item {
+    border-bottom: 1px solid @border-color-split;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+
+    * {
+      font-size: 13px;
+    }
+
+    .@{ant-prefix}-formily-item-control-content-component {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+}
