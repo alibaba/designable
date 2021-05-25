@@ -21,7 +21,7 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
 
   if (engine)
     throw new Error(
-      'There can only be one UDesigner Engine Context in the React Tree'
+      'There can only be one Designable Engine Context in the React Tree'
     )
 
   return (
