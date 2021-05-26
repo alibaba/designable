@@ -29,8 +29,8 @@
     flex-grow: 0;
     flex-shrink: 0;
     justify-content: space-between;
-    background: var(--ud-main-panel-header-bg-color);
-    border-bottom: 1px solid var(--ud-main-panel-header-border-color);
+    background: var(--dn-main-panel-header-bg-color);
+    border-bottom: 1px solid var(--dn-main-panel-header-border-color);
     padding: 4px;
 
     &-logo {
@@ -65,13 +65,13 @@
   &-tabs {
     display: flex;
     flex-direction: column;
-    background-color: var(--ud-composite-panel-tabs-bg-color);
-    border-right: 1px solid var(--ud-composite-panel-tabs-content-border-color);
+    background-color: var(--dn-composite-panel-tabs-bg-color);
+    border-right: 1px solid var(--dn-composite-panel-tabs-content-border-color);
     z-index: 2;
     position: relative;
 
     &-pane {
-      color: var(--ud-composite-panel-tabs-color);
+      color: var(--dn-composite-panel-tabs-color);
       height: 48px;
       width: 48px;
       display: flex;
@@ -82,11 +82,11 @@
       font-size: 20px;
 
       &:hover {
-        color: var(--ud-composite-panel-tabs-hover-color);
+        color: var(--dn-composite-panel-tabs-hover-color);
       }
 
       &.active {
-        color: var(--ud-composite-panel-tabs-hover-color);
+        color: var(--dn-composite-panel-tabs-hover-color);
 
         &::after {
           position: absolute;
@@ -96,7 +96,7 @@
           content: '';
           width: 2px;
           height: 100%;
-          background-color: var(--ud-composite-panel-tabs-hover-color);
+          background-color: var(--dn-composite-panel-tabs-hover-color);
         }
       }
     }
@@ -104,8 +104,8 @@
     &-content {
       width: 300px;
       border-right: 1px solid
-        var(--ud-composite-panel-tabs-content-border-color);
-      background: var(--ud-composite-panel-tabs-content-bg-color);
+        var(--dn-composite-panel-tabs-content-border-color);
+      background: var(--dn-composite-panel-tabs-content-bg-color);
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -122,11 +122,11 @@
 
     &-header {
       padding: 14px 7px;
-      color: var(--ud-composite-panel-tabs-header-color);
+      color: var(--dn-composite-panel-tabs-header-color);
       line-height: 18px;
       font-size: 16px;
       border-bottom: 1px solid
-        var(--ud-composite-panel-tabs-content-border-color);
+        var(--dn-composite-panel-tabs-content-border-color);
       display: flex;
       justify-content: space-between;
 
@@ -179,7 +179,7 @@
   padding: 4px;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: var(--ud-workspace-panel-bg-color);
+  background-color: var(--dn-workspace-panel-bg-color);
   position: relative;
   z-index: 1;
 
@@ -196,8 +196,8 @@
   flex-direction: column;
   z-index: 2;
   width: 300px;
-  background: var(--ud-composite-panel-tabs-content-bg-color);
-  border-left: 1px solid var(--ud-composite-panel-tabs-content-border-color);
+  background: var(--dn-composite-panel-tabs-content-bg-color);
+  border-left: 1px solid var(--dn-composite-panel-tabs-content-border-color);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -216,10 +216,10 @@
 
   &-header {
     padding: 14px 7px;
-    color: var(--ud-composite-panel-tabs-header-color);
+    color: var(--dn-composite-panel-tabs-header-color);
     line-height: 18px;
     font-size: 16px;
-    border-bottom: 1px solid var(--ud-composite-panel-tabs-content-border-color);
+    border-bottom: 1px solid var(--dn-composite-panel-tabs-content-border-color);
     display: flex;
     justify-content: space-between;
 

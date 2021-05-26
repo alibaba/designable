@@ -63,12 +63,12 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
             height: 5px;
           }
           ::-webkit-scrollbar-thumb {
-            background-color:${getCSSVar('--ud-scrollbar-color')};
+            background-color:${getCSSVar('--dn-scrollbar-color')};
             border-radius: 0;
             transition: all .25s ease-in-out;
           }
           ::-webkit-scrollbar-thumb:hover {
-            background-color: ${getCSSVar('--ud-scrollbar-hover-color')};
+            background-color: ${getCSSVar('--dn-scrollbar-hover-color')};
           }
           body{
             margin:0;
