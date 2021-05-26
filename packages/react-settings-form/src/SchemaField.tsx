@@ -25,6 +25,7 @@ import {
   CornerInput,
   ValueInput,
   BoxStyleSetter,
+  BorderStyleSetter,
 } from './components'
 
 export const SchemaField = createSchemaField({
@@ -39,6 +40,7 @@ export const SchemaField = createSchemaField({
     CornerInput,
     BackgroundImageInput,
     BoxStyleSetter,
+    BorderStyleSetter,
     NumberPicker,
     DatePicker,
     TimePicker,

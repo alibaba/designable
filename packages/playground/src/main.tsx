@@ -16,7 +16,7 @@ import {
   SettingsPanel,
 } from '@designable/react'
 import { SettingsForm } from '@designable/react-settings-form'
-import { createEngine, registry } from '@designable/core'
+import { createDesigner, registry } from '@designable/core'
 import { Content } from './content'
 import { Space, Button } from 'antd'
 //import { Sandbox } from '@designable/react-sandbox'
@@ -82,6 +82,10 @@ registry.registerDesignerProps({
           title: 'Padding',
           'x-component': 'BoxStyleSetter',
         },
+        'style.border': {
+          title: 'Border',
+          'x-component': 'BorderStyleSetter',
+        },
       },
     },
   },
@@ -136,7 +140,7 @@ const App = () => {
   const [view, setView] = useState('design')
   const engine = useMemo(
     () =>
-      createEngine({
+      createDesigner({
         defaultComponentTree: [
           {
             componentName: 'Field',

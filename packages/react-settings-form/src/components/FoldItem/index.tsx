@@ -1,8 +1,11 @@
 import React, { Fragment, useState, useRef } from 'react'
 import { FormItem, IFormItemProps } from '@formily/antd'
+import { useField } from '@formily/react'
 import { IconWidget, usePrefix } from '@designable/react'
 import cls from 'classnames'
 import './styles.less'
+
+const ExpandedMap = new Map<string, boolean>()
 
 export const FoldItem = ({
   className,
@@ -11,7 +14,10 @@ export const FoldItem = ({
   ...props
 }: React.PropsWithChildren<IFormItemProps>) => {
   const prefix = usePrefix('fold-item')
-  const [expand, setExpand] = useState(false)
+  const field = useField()
+  const [expand, setExpand] = useState(
+    ExpandedMap.get(field.address.toString())
+  )
   const slots = useRef({ base: null, extra: null })
   React.Children.forEach(children, (node) => {
     if (React.isValidElement(node)) {
@@ -33,7 +39,9 @@ export const FoldItem = ({
               expand,
             })}
             onClick={() => {
-              setExpand(!expand)
+              const newExpaned = !expand
+              setExpand(newExpaned)
+              ExpandedMap.set(field.address.toString(), newExpaned)
             }}
           >
             <IconWidget infer="Expand" size={10} />

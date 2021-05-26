@@ -7,7 +7,7 @@ export * from './models'
 export * from './events'
 export * from './types'
 
-export const createEngine = (props: IEngineProps<Engine> = {}) => {
+export const createDesigner = (props: IEngineProps<Engine> = {}) => {
   const drivers = props.drivers || []
   const effects = props.effects || []
   const shortcuts = props.shortcuts || []
