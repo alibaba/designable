@@ -1,3 +1,3 @@
 # Designable
 
-> Make everything is designable
+> Make everything designable
