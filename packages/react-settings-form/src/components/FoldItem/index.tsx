@@ -31,26 +31,36 @@ export const FoldItem = ({
   })
   return (
     <div className={cls(prefix, className)}>
-      <FormItem.BaseItem
-        {...props}
-        label={
-          <span
-            className={cls(prefix + '-title', {
-              expand,
-            })}
-            onClick={() => {
-              const newExpaned = !expand
-              setExpand(newExpaned)
-              ExpandedMap.set(field.address.toString(), newExpaned)
+      <div
+        className={prefix + '-base'}
+        onClick={() => {
+          const newExpaned = !expand
+          setExpand(newExpaned)
+          ExpandedMap.set(field.address.toString(), newExpaned)
+        }}
+      >
+        <FormItem.BaseItem
+          {...props}
+          label={
+            <span
+              className={cls(prefix + '-title', {
+                expand,
+              })}
+            >
+              <IconWidget infer="Expand" size={10} />
+              {props.label}
+            </span>
+          }
+        >
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
             }}
           >
-            <IconWidget infer="Expand" size={10} />
-            {props.label}
-          </span>
-        }
-      >
-        {slots.current.base}
-      </FormItem.BaseItem>
+            {slots.current.base}
+          </div>
+        </FormItem.BaseItem>
+      </div>
       {expand && <div className={prefix + '-extra'}>{slots.current.extra}</div>}
     </div>
   )

@@ -75,15 +75,19 @@ registry.registerDesignerProps({
           'x-component': 'ValueInput',
         },
         'style.margin': {
-          title: 'Margin',
+          title: '外边距',
           'x-component': 'BoxStyleSetter',
         },
         'style.padding': {
-          title: 'Padding',
+          title: '内边距',
           'x-component': 'BoxStyleSetter',
         },
+        'style.borderRadius': {
+          title: '圆角',
+          'x-component': 'BorderRadiusStyleSetter',
+        },
         'style.border': {
-          title: 'Border',
+          title: '边框',
           'x-component': 'BorderStyleSetter',
         },
       },

@@ -1,12 +1,18 @@
 import React from 'react'
-import { FormItem } from '@formily/antd'
 import { useField } from '@formily/react'
+import { usePrefix, IconWidget } from '@designable/react'
 import { FoldItem } from '../FoldItem'
 import { SizeInput } from '../SizeInput'
+import cls from 'classnames'
+import './styles.less'
 
+type Position = 'top' | 'right' | 'left' | 'bottom' | 'all'
 export interface IMarginStyleSetterProps {
-  value: string
-  onChange: (value: string) => void
+  className?: string
+  style?: React.CSSProperties
+  labels?: React.ReactNode[]
+  value?: string
+  onChange?: (value: string) => void
 }
 
 const PositionMap = {
@@ -22,28 +28,31 @@ const BoxRex =
 
 export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = (props) => {
   const field = useField()
+  const prefix = usePrefix('box-style-setter')
   const createPositionHandler = (
-    position: 'top' | 'right' | 'left' | 'bottom' | 'all',
+    position: Position,
     props: IMarginStyleSetterProps
   ) => {
-    const matched = String(props.value).match(BoxRex)
-    let value = undefined
-    if (matched) {
-      value = matched[PositionMap[position]]
-    }
+    const matched = String(props.value).match(BoxRex) || []
+    const value = matched[PositionMap[position]]
+    const v1 = matched[1]
+    const v2 = matched[2]
+    const v3 = matched[3]
+    const v4 = matched[4]
+    const allEqualls = v1 === v2 && v2 === v3 && v3 === v4
     return {
       ...props,
-      value,
+      value: position === 'all' ? (allEqualls ? v1 : undefined) : value,
       onChange(value: string) {
         if (position === 'all') {
-          props.onChange(
+          props.onChange?.(
             `${value || '0px'} ${value || '0px'} ${value || '0px'} ${
               value || '0px'
             }`
           )
         } else {
           matched[PositionMap[position]] = value
-          props.onChange(
+          props.onChange?.(
             `${matched[1] || '0px'} ${matched[2] || '0px'} ${
               matched[3] || '0px'
             } ${matched[4] || '0px'}`
@@ -54,7 +63,7 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = (props) => {
   }
 
   return (
-    <FoldItem label={field.title}>
+    <FoldItem className={cls(prefix, props.className)} label={field.title}>
       <FoldItem.Base>
         <SizeInput
           {...createPositionHandler('all', props)}
@@ -62,31 +71,46 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = (props) => {
         />
       </FoldItem.Base>
       <FoldItem.Extra>
-        <FormItem.BaseItem label="Top">
-          <SizeInput
-            {...createPositionHandler('top', props)}
-            exclude={['auto']}
-          />
-        </FormItem.BaseItem>
-        <FormItem.BaseItem label="Right">
-          <SizeInput
-            {...createPositionHandler('right', props)}
-            exclude={['auto']}
-          />
-        </FormItem.BaseItem>
-        <FormItem.BaseItem label="Bottom">
-          <SizeInput
-            {...createPositionHandler('bottom', props)}
-            exclude={['auto']}
-          />
-        </FormItem.BaseItem>
-        <FormItem.BaseItem label="Left">
-          <SizeInput
-            {...createPositionHandler('left', props)}
-            exclude={['auto']}
-          />
-        </FormItem.BaseItem>
+        <div className={prefix + '-inputs'}>
+          <div className={prefix + '-input-item'}>
+            {props.labels[0]}
+            <SizeInput
+              {...createPositionHandler('top', props)}
+              exclude={['auto']}
+            />
+          </div>
+          <div className={prefix + '-input-item'}>
+            {props.labels[1]}
+            <SizeInput
+              {...createPositionHandler('right', props)}
+              exclude={['auto']}
+            />
+          </div>
+          <div className={prefix + '-input-item'}>
+            {props.labels[2]}
+            <SizeInput
+              {...createPositionHandler('bottom', props)}
+              exclude={['auto']}
+            />
+          </div>
+          <div className={prefix + '-input-item'}>
+            {props.labels[3]}
+            <SizeInput
+              {...createPositionHandler('left', props)}
+              exclude={['auto']}
+            />
+          </div>
+        </div>
       </FoldItem.Extra>
     </FoldItem>
   )
+}
+
+BoxStyleSetter.defaultProps = {
+  labels: [
+    <IconWidget infer="Top" size={16} key="1" />,
+    <IconWidget infer="Right" size={16} key="2" />,
+    <IconWidget infer="Bottom" size={16} key="3" />,
+    <IconWidget infer="Left" size={16} key="4" />,
+  ],
 }

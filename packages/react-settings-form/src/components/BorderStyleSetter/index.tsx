@@ -4,7 +4,6 @@ import { camelCase } from '@formily/shared'
 import { Select } from '@formily/antd'
 import { observable } from '@formily/reactive'
 import { useField, Field, observer } from '@formily/react'
-import { Space } from 'antd'
 import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
 import { SizeInput } from '../SizeInput'
@@ -96,7 +95,7 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
                       )}
                       basePath={field.address.parent()}
                       reactions={reaction}
-                      component={[SizeInput]}
+                      component={[SizeInput, { exclude: ['auto'] }]}
                     />
                     <Field
                       name={camelCase(
