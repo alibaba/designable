@@ -23,9 +23,9 @@
   "dependencies": {
     "@designable/react": "^0.1.0",
     "@designable/core": "^0.1.0",
-    "@formily/antd": "^2.0.0-beta.44",
-    "@formily/core": "^2.0.0-beta.44",
-    "@formily/react": "^2.0.0-beta.44",
+    "@formily/antd": "^2.0.0-beta.57",
+    "@formily/core": "^2.0.0-beta.57",
+    "@formily/react": "^2.0.0-beta.57",
     "react-color": "^2.19.3"
   },
   "publishConfig": {
