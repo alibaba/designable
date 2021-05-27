@@ -48,6 +48,21 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
     )
     const field = useField()
     const prefix = usePrefix('border-style-setter')
+
+    const createReaction =
+      (position: string) => (field: Formily.Core.Models.Field) => {
+        field.display =
+          currentPosition.value === position ? 'visible' : 'hidden'
+        if (position !== 'center') {
+          const borderStyle = field.query('.borderStyle').value()
+          const borderWidth = field.query('.borderWidth').value()
+          const borderColor = field.query('.borderColor').value()
+          if (borderStyle || borderWidth || borderColor) {
+            field.value = undefined
+          }
+        }
+      }
+
     return (
       <FoldItem label={field.title}>
         <FoldItem.Extra>
@@ -62,18 +77,6 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
             </div>
             <div className={prefix + '-input'}>
               {Positions.map((position, key) => {
-                const reaction = (field: Formily.Core.Models.Field) => {
-                  field.display =
-                    currentPosition.value === position ? 'visible' : 'hidden'
-                  if (position !== 'center') {
-                    const borderStyle = field.query('.borderStyle').value()
-                    const borderWidth = field.query('.borderWidth').value()
-                    const borderColor = field.query('.borderColor').value()
-                    if (borderStyle || borderWidth || borderColor) {
-                      field.value = undefined
-                    }
-                  }
-                }
                 return (
                   <Fragment key={key}>
                     <Field
@@ -84,8 +87,8 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
                       )}
                       basePath={field.address.parent()}
                       dataSource={BorderStyleOptions}
-                      reactions={reaction}
-                      component={[Select]}
+                      reactions={createReaction(position)}
+                      component={[Select, { placeholder: 'Please Select' }]}
                     />
                     <Field
                       name={camelCase(
@@ -94,7 +97,7 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
                         }Width`
                       )}
                       basePath={field.address.parent()}
-                      reactions={reaction}
+                      reactions={createReaction(position)}
                       component={[SizeInput, { exclude: ['auto'] }]}
                     />
                     <Field
@@ -104,7 +107,7 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
                         }Color`
                       )}
                       basePath={field.address.parent()}
-                      reactions={reaction}
+                      reactions={createReaction(position)}
                       component={[ColorInput]}
                     />
                   </Fragment>

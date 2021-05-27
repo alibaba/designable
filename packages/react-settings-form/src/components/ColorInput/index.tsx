@@ -13,7 +13,7 @@ export const ColorInput: React.FC<InputProps> = (props) => {
     <div ref={container} className={prefix}>
       <Input
         {...props}
-        placeholder="#EFEFEF"
+        placeholder="Color"
         prefix={
           <Popover
             autoAdjustOverflow

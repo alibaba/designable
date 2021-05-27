@@ -25,18 +25,30 @@ const createUnitType = (type: string) => {
   }
 }
 
-export const SizeInput = createPolyInput([
-  {
-    type: 'auto',
-    checker(value) {
-      if (!value) return true
-      if (value === 'auto') return true
-      return false
-    },
-    toChangeValue() {
-      return 'auto'
-    },
+const createSpecialSizeOption = (type: string) => ({
+  type: type,
+  checker(value: any) {
+    if (value === type) return true
+    return false
   },
+  toChangeValue() {
+    return type
+  },
+})
+
+const NormalSizeOptions = [
+  createSpecialSizeOption('auto'),
+  createUnitType('px'),
+  createUnitType('%'),
+  createUnitType('vh'),
+  createUnitType('em'),
+]
+
+export const SizeInput = createPolyInput(NormalSizeOptions)
+
+export const BackgroundSizeInput = createPolyInput([
+  createSpecialSizeOption('cover'),
+  createSpecialSizeOption('contain'),
   createUnitType('px'),
   createUnitType('%'),
   createUnitType('vh'),

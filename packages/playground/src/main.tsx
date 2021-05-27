@@ -57,12 +57,6 @@ registry.registerDesignerProps({
           'x-decorator': 'FormItem',
           'x-component': 'ColorInput',
         },
-        'style.background': {
-          type: 'string',
-          title: '背景图片',
-          'x-decorator': 'FormItem',
-          'x-component': 'BackgroundImageInput',
-        },
         hidden: {
           type: 'string',
           title: '是否隐藏',
@@ -73,6 +67,10 @@ registry.registerDesignerProps({
           title: '默认值',
           'x-decorator': 'FormItem',
           'x-component': 'ValueInput',
+        },
+        'style.background': {
+          title: '背景',
+          'x-component': 'BackgroundStyleSetter',
         },
         'style.margin': {
           title: '外边距',
