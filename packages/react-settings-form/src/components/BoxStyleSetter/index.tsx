@@ -3,8 +3,8 @@ import { useField } from '@formily/react'
 import { usePrefix, IconWidget } from '@designable/react'
 import { FoldItem } from '../FoldItem'
 import { SizeInput } from '../SizeInput'
+import { InputItems } from '../InpuItems'
 import cls from 'classnames'
-import './styles.less'
 
 type Position = 'top' | 'right' | 'left' | 'bottom' | 'all'
 export interface IMarginStyleSetterProps {
@@ -71,36 +71,32 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = (props) => {
         />
       </FoldItem.Base>
       <FoldItem.Extra>
-        <div className={prefix + '-inputs'}>
-          <div className={prefix + '-input-item'}>
-            {props.labels[0]}
+        <InputItems width="50%">
+          <InputItems.Item icon={props.labels[0]}>
             <SizeInput
               {...createPositionHandler('top', props)}
               exclude={['auto']}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            {props.labels[1]}
+          </InputItems.Item>
+          <InputItems.Item icon={props.labels[1]}>
             <SizeInput
               {...createPositionHandler('right', props)}
               exclude={['auto']}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            {props.labels[2]}
+          </InputItems.Item>
+          <InputItems.Item icon={props.labels[2]}>
             <SizeInput
               {...createPositionHandler('bottom', props)}
               exclude={['auto']}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            {props.labels[3]}
+          </InputItems.Item>
+          <InputItems.Item icon={props.labels[3]}>
             <SizeInput
               {...createPositionHandler('left', props)}
               exclude={['auto']}
             />
-          </div>
-        </div>
+          </InputItems.Item>
+        </InputItems>
       </FoldItem.Extra>
     </FoldItem>
   )

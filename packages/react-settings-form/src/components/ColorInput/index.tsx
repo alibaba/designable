@@ -1,18 +1,25 @@
 import React, { useRef } from 'react'
-import { InputProps } from 'antd/lib/input'
 import { Input, Popover } from 'antd'
 import { usePrefix } from '@designable/react'
 import { SketchPicker } from 'react-color'
 import './styles.less'
 
-export const ColorInput: React.FC<InputProps> = (props) => {
+export interface IColorInputProps {
+  value?: string
+  onChange?: (color: string) => void
+}
+
+export const ColorInput: React.FC<IColorInputProps> = (props) => {
   const container = useRef<HTMLDivElement>()
   const prefix = usePrefix('color-input')
   const color = props.value as string
   return (
     <div ref={container} className={prefix}>
       <Input
-        {...props}
+        value={props.value}
+        onChange={(e) => {
+          props.onChange?.(e.target.value)
+        }}
         placeholder="Color"
         prefix={
           <Popover
@@ -23,7 +30,9 @@ export const ColorInput: React.FC<InputProps> = (props) => {
             content={
               <SketchPicker
                 color={color}
-                onChange={({ hex }) => props.onChange?.(hex)}
+                onChange={({ rgb }) => {
+                  props.onChange?.(`rgba(${rgb.r},${rgb.g},${rgb.b},${rgb.a})`)
+                }}
               />
             }
           >

@@ -72,6 +72,10 @@ registry.registerDesignerProps({
           title: '背景',
           'x-component': 'BackgroundStyleSetter',
         },
+        'style.boxShadow': {
+          title: '阴影',
+          'x-component': 'BoxShadowStyleSetter',
+        },
         'style.margin': {
           title: '外边距',
           'x-component': 'BoxStyleSetter',

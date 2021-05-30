@@ -6,8 +6,8 @@ import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
 import { BackgroundSizeInput } from '../SizeInput'
 import { BackgroundImageInput } from '../ImageInput'
+import { InputItems } from '../InpuItems'
 import cls from 'classnames'
-import './styles.less'
 
 export interface IBackgroundStyleSetterProps {
   className?: string
@@ -29,43 +29,28 @@ export const BackgroundStyleSetter: React.FC<IBackgroundStyleSetterProps> = (
         />
       </FoldItem.Base>
       <FoldItem.Extra>
-        <div className={prefix + '-inputs'}>
-          <div className={prefix + '-input-item'}>
-            <IconWidget
-              infer="Image"
-              className={prefix + '-input-icon'}
-              size={16}
-            />
+        <InputItems>
+          <InputItems.Item icon="Image">
             <Field
               name="backgroundImage"
               basePath={field.address.parent()}
               component={[BackgroundImageInput]}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            <IconWidget
-              infer="ImageSize"
-              className={prefix + '-input-icon'}
-              size={16}
-            />
+          </InputItems.Item>
+          <InputItems.Item icon="ImageSize" width="50%">
             <Field
               name="backgroundSize"
               basePath={field.address.parent()}
               component={[BackgroundSizeInput]}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            <IconWidget
-              infer="Repeat"
-              className={prefix + '-input-icon'}
-              size={16}
-            />
+          </InputItems.Item>
+          <InputItems.Item icon="Repeat" width="50%">
             <Field
               name="backgroundRepeat"
               basePath={field.address.parent()}
               component={[
                 Select,
-                { style: { width: '100%' }, placeholder: 'Please Select' },
+                { style: { width: '100%' }, placeholder: 'Repeat' },
               ]}
               dataSource={[
                 {
@@ -94,20 +79,15 @@ export const BackgroundStyleSetter: React.FC<IBackgroundStyleSetterProps> = (
                 },
               ]}
             />
-          </div>
-          <div className={prefix + '-input-item'}>
-            <IconWidget
-              infer="Position"
-              className={prefix + '-input-icon'}
-              size={16}
-            />
+          </InputItems.Item>
+          <InputItems.Item icon="Position">
             <Field
               name="backgroundPosition"
               basePath={field.address.parent()}
               component={[Input, { placeholder: 'center center' }]}
             />
-          </div>
-        </div>
+          </InputItems.Item>
+        </InputItems>
       </FoldItem.Extra>
     </FoldItem>
   )
