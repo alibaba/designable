@@ -1,3 +1,5 @@
+@import '~antd/lib/style/themes/default.less';
+
 .dn-input-items {
   display: flex;
   flex-wrap: wrap;
@@ -21,6 +23,16 @@
       min-width: 0;
       flex-shrink: 1;
       flex-grow: 1;
+
+      .@{ant-prefix}-radio-group {
+        display: flex;
+
+        .@{ant-prefix}-radio-button-wrapper {
+          flex-grow: 1;
+          display: flex;
+          justify-content: center;
+        }
+      }
     }
   }
 }

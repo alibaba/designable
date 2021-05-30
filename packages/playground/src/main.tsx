@@ -51,12 +51,6 @@ registry.registerDesignerProps({
           'x-decorator': 'FormItem',
           'x-component': 'SizeInput',
         },
-        'style.color': {
-          type: 'string',
-          title: '文本颜色',
-          'x-decorator': 'FormItem',
-          'x-component': 'ColorInput',
-        },
         hidden: {
           type: 'string',
           title: '是否隐藏',
@@ -75,6 +69,10 @@ registry.registerDesignerProps({
         'style.boxShadow': {
           title: '阴影',
           'x-component': 'BoxShadowStyleSetter',
+        },
+        'style.font': {
+          title: '字体',
+          'x-component': 'FontStyleSetter',
         },
         'style.margin': {
           title: '外边距',

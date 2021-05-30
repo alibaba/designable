@@ -53,6 +53,7 @@ export const FoldItem = ({
           }
         >
           <div
+            style={{ width: '100%' }}
             onClick={(e) => {
               e.stopPropagation()
             }}
