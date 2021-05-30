@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePrefix, IconWidget } from '@designable/react'
 import { useField, Field } from '@formily/react'
-import { Select, Radio } from '@formily/antd'
+import { Select, Radio, NumberPicker } from '@formily/antd'
 import { FoldItem } from '../FoldItem'
 import { InputItems } from '../InpuItems'
 import { SizeInput } from '../SizeInput'
@@ -72,7 +72,7 @@ export const FontStyleSetter: React.FC<IFontStyleSetterProps> = (props) => {
             <Field
               name="fontWeight"
               basePath={field.address.parent()}
-              component={[SizeInput, { exclude: ['auto'] }]}
+              component={[NumberPicker, { placeholder: '400' }]}
             />
           </InputItems.Item>
           <InputItems.Item icon="FontStyle" width="50%">
