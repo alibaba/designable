@@ -39,7 +39,7 @@ export default {
     children: false,
   },
   entry: {
-    main: path.resolve(__dirname, '../src/main'),
+    playground: path.resolve(__dirname, '../src/main'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -56,11 +56,6 @@ export default {
     'react-dom': 'ReactDOM',
     moment: 'moment',
     antd: 'antd',
-  },
-  optimization: {
-    runtimeChunk: {
-      name: 'runtime',
-    },
   },
   module: {
     rules: [

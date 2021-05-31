@@ -18,7 +18,7 @@ import {
 import { SettingsForm } from '@designable/react-settings-form'
 import { createDesigner, registry } from '@designable/core'
 import { Content } from './content'
-import { Space, Button } from 'antd'
+import { Space, Button, Radio } from 'antd'
 //import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
 import './theme.less'
@@ -100,7 +100,6 @@ registry.registerDesignerProps({
   Card: {
     title: '卡片',
     droppable: true,
-    icon: 'Container',
     inlineChildrenLayout: true,
     allowAppend: (target, sources) =>
       sources.every((node) => node.componentName === 'Field'),
@@ -128,7 +127,7 @@ registry.registerSourcesByGroup('form', [
   },
 ])
 
-const Logo = () => (
+const Logo: React.FC = () => (
   <div style={{ display: 'flex', alignItems: 'center', fontSize: 14 }}>
     <IconWidget
       infer="Logo"
@@ -145,6 +144,7 @@ const Actions = () => (
 )
 
 const App = () => {
+  const [theme, setTheme] = useState('light')
   const [view, setView] = useState('design')
   const engine = useMemo(
     () =>

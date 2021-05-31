@@ -29,19 +29,19 @@ export const DisplayStyleSetter: React.FC<IDisplayStyleSetterProps> = (
           className={prefix + '-radio'}
           options={[
             {
-              label: <IconWidget infer="DisplayBlock" />,
+              label: <IconWidget infer="DisplayBlock" size={16} />,
               value: 'block',
             },
             {
-              label: <IconWidget infer="DisplayInlineBlock" />,
+              label: <IconWidget infer="DisplayInlineBlock" size={16} />,
               value: 'inline-block',
             },
             {
-              label: <IconWidget infer="DisplayInline" />,
+              label: <IconWidget infer="DisplayInline" size={16} />,
               value: 'inline',
             },
             {
-              label: <IconWidget infer="DisplayFlex" />,
+              label: <IconWidget infer="DisplayFlex" size={16} />,
               value: 'flex',
             },
           ]}
