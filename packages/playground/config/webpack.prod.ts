@@ -19,8 +19,8 @@ export default {
   mode: 'production',
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: '[name].[hash].css',
+      chunkFilename: '[id].[hash].css',
     }),
     ...createPages([
       {
