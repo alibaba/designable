@@ -17,7 +17,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",
-    "preversion": "npm run build && npm run lint && npm run test",
+    "preversion": "npm run build && npm run lint",
     "version": "ts-node scripts/release changelog && git add -A",
     "version:alpha": "lerna version prerelease --preid alpha",
     "version:beta": "lerna version prerelease --preid beta",

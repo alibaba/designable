@@ -18,8 +18,8 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@designable/react": "^0.1.0",
-    "@designable/shared": "^0.1.0"
+    "@designable/react": "0.1.0",
+    "@designable/shared": "0.1.0"
   },
   "publishConfig": {
     "access": "public"
