@@ -138,13 +138,13 @@ const Logo: React.FC = () => (
 
 const Actions = () => (
   <Space style={{ marginRight: 10 }}>
+    <Button href="https://github.com/alibaba/designable">GITHUB</Button>
     <Button>保存</Button>
     <Button type="primary">发布</Button>
   </Space>
 )
 
 const App = () => {
-  const [theme, setTheme] = useState('light')
   const [view, setView] = useState('design')
   const engine = useMemo(
     () =>
