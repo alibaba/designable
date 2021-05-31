@@ -13,8 +13,8 @@ export const Content = () => (
             {...props}
             style={{
               background: '#eee',
-              ...props.style,
               display: 'inline-block',
+              ...props.style,
               padding: '10px 20px',
               border: '1px solid #ddd',
             }}

@@ -30,6 +30,8 @@ import {
   BackgroundStyleSetter,
   BoxShadowStyleSetter,
   FontStyleSetter,
+  DisplayStyleSetter,
+  FlexStyleSetter,
 } from './components'
 
 export const SchemaField = createSchemaField({
@@ -47,7 +49,9 @@ export const SchemaField = createSchemaField({
     BoxStyleSetter,
     BorderStyleSetter,
     BorderRadiusStyleSetter,
+    DisplayStyleSetter,
     BoxShadowStyleSetter,
+    FlexStyleSetter,
     FontStyleSetter,
     NumberPicker,
     DatePicker,

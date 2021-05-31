@@ -62,6 +62,10 @@ registry.registerDesignerProps({
           'x-decorator': 'FormItem',
           'x-component': 'ValueInput',
         },
+        'style.display': {
+          title: '展示',
+          'x-component': 'DisplayStyleSetter',
+        },
         'style.background': {
           title: '背景',
           'x-component': 'BackgroundStyleSetter',

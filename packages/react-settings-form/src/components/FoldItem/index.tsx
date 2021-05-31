@@ -47,7 +47,7 @@ export const FoldItem = ({
                 expand,
               })}
             >
-              <IconWidget infer="Expand" size={10} />
+              {slots.current.extra && <IconWidget infer="Expand" size={10} />}
               {props.label}
             </span>
           }
@@ -62,7 +62,9 @@ export const FoldItem = ({
           </div>
         </FormItem.BaseItem>
       </div>
-      {expand && <div className={prefix + '-extra'}>{slots.current.extra}</div>}
+      {expand && slots.current.extra && (
+        <div className={prefix + '-extra'}>{slots.current.extra}</div>
+      )}
     </div>
   )
 }
