@@ -1,5 +1,5 @@
 <p align="center">
-<img width="600" src="https://img.alicdn.com/imgextra/i3/O1CN01Eib3GC1c7JthHYQnI_!!6000000003553-55-tps-1783-385.svg">
+<img width="600" style="margin-top:30px" src="https://img.alicdn.com/imgextra/i3/O1CN01Eib3GC1c7JthHYQnI_!!6000000003553-55-tps-1783-385.svg">
 <p align="center">Make Everything Designable</p>
 </p>
 
@@ -28,4 +28,7 @@ designable is your perfect choice.
 ## Contributors
 
 This project exists thanks to all the people who contribute.
+
+<p>
 <a href="https://github.com/alibaba/designable/graphs/contributors"><img src="https://contrib.rocks/image?repo=alibaba/designable" /></a>
+</p>
