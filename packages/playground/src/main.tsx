@@ -146,23 +146,7 @@ const Actions = () => (
 
 const App = () => {
   const [view, setView] = useState('design')
-  const engine = useMemo(
-    () =>
-      createDesigner({
-        defaultComponentTree: [
-          {
-            componentName: 'Field',
-            props: {
-              title: '输入框',
-              type: 'string',
-              'x-decorator': 'FormItem',
-              'x-component': 'Input',
-            },
-          },
-        ],
-      }),
-    []
-  )
+  const engine = useMemo(() => createDesigner(), [])
 
   return (
     <Designer engine={engine}>
