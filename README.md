@@ -1,5 +1,5 @@
 <p align="center">
-<img width="600" src="https://img.alicdn.com/imgextra/i4/O1CN019bbwYi1RormuMH4Kw_!!6000000002159-55-tps-2200-981.svg">
+<img width="600" src="https://img.alicdn.com/imgextra/i1/O1CN01bg1tTN1p5ZOPmhKV0_!!6000000005309-55-tps-2200-981.svg">
 </p>
 
 ---
