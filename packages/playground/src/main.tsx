@@ -18,7 +18,8 @@ import {
 import { SettingsForm } from '@designable/react-settings-form'
 import { createDesigner, registry } from '@designable/core'
 import { Content } from './content'
-import { Space, Button, Radio } from 'antd'
+import { Space, Button } from 'antd'
+import { GithubOutlined } from '@ant-design/icons'
 //import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
 import './theme.less'
@@ -138,7 +139,10 @@ const Logo: React.FC = () => (
 
 const Actions = () => (
   <Space style={{ marginRight: 10 }}>
-    <Button href="https://github.com/alibaba/designable">GITHUB</Button>
+    <Button href="https://github.com/alibaba/designable" target="_blank">
+      <GithubOutlined />
+      Github
+    </Button>
     <Button>保存</Button>
     <Button type="primary">发布</Button>
   </Space>
