@@ -62,7 +62,7 @@ export interface IDesignerProps {
   propsSchema?: JSONSchema7 //标准JSON Schema
   defaultProps?: any //默认属性
   effects?: (engine: Engine) => void
-  getDragNodes?: (node: TreeNode) => TreeNode[] //拦截拖拽节点
+  getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截拖拽节点
   getComponentProps?: (node: TreeNode) => any //拦截属性
   allowAppend?: (target: TreeNode, sources?: TreeNode[]) => boolean
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean

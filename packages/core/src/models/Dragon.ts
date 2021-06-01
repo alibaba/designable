@@ -243,7 +243,7 @@ export class Dragon {
     const dragNodes: TreeNode[] = nodes.reduce((buf, node) => {
       if (isFn(node?.designerProps?.getDragNodes)) {
         const transformed = node.designerProps.getDragNodes(node)
-        return isArr(transformed) ? buf.concat(transformed) : buf
+        return transformed ? buf.concat(transformed) : buf
       }
       return buf.concat([node])
     }, [])
