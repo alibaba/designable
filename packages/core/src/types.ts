@@ -42,7 +42,7 @@ export type IControlNodeType =
   | IControlNodeMetaType
   | ((node: TreeNode) => IControlNodeMetaType)
 
-export interface IDesignerControllerProps {
+export interface IDesignerProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
   version?: string //semever版本号
@@ -51,14 +51,14 @@ export interface IDesignerControllerProps {
   description?: string //描述
   icon?: string //icon
   group?: string //分类
-  droppable?: IControlType //是否可作为拖拽容器，默认为true
-  draggable?: IControlType //是否可拖拽，默认为true
-  deletable?: IControlType //是否可删除，默认为true
-  cloneable?: IControlType //是否可拷贝，默认为true
-  resizable?: IControlType //是否可修改尺寸，默认为false
-  inlineLayout?: IControlType //是否是内联布局
-  inlineChildrenLayout?: IControlType //子节点是否内联
-  selfRenderChildren?: IControlType //是否自己渲染子节点
+  droppable?: boolean //是否可作为拖拽容器，默认为true
+  draggable?: boolean //是否可拖拽，默认为true
+  deletable?: boolean //是否可删除，默认为true
+  cloneable?: boolean //是否可拷贝，默认为true
+  resizable?: boolean //是否可修改尺寸，默认为false
+  inlineLayout?: boolean //是否是内联布局
+  inlineChildrenLayout?: boolean //子节点是否内联
+  selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: JSONSchema7 //标准JSON Schema
   defaultProps?: any //默认属性
   effects?: (engine: Engine) => void
@@ -68,22 +68,16 @@ export interface IDesignerControllerProps {
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean
 }
 
-export interface IDesignerProps extends IDesignerControllerProps {
-  droppable?: boolean //是否可作为拖拽容器，默认为true
-  draggable?: boolean //是否可拖拽，默认为true
-  deletable?: boolean //是否可删除，默认为true
-  cloneable?: boolean //是否可拷贝，默认为true
-  resizable?: boolean //是否可修改尺寸，默认为false
-  inlineLayout?: boolean //是否是内联布局
-  inlineChildrenLayout?: boolean //子节点是否内联
-  selfRenderChildren?: boolean //是否自己渲染子节点
-}
+export type IDesignerPropsMap = Record<string, IDesignerProps>
+
+export type IDesignerControllerProps =
+  | IDesignerProps
+  | ((node: TreeNode) => IDesignerProps)
 
 export type IDesignerControllerPropsMap = Record<
   string,
   IDesignerControllerProps
 >
-export type IDesignerPropsMap = Record<string, IDesignerProps>
 export interface IDesignerLocales {
   messages: {
     [ISOCode: string]: {

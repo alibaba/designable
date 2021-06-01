@@ -1,5 +1,5 @@
 import { action, define, observable, toJS } from '@formily/reactive'
-import { uid, isBool, isFn, each } from '@designable/shared'
+import { uid, isFn } from '@designable/shared'
 import { Operation } from './Operation'
 import {
   InsertBeforeEvent,
@@ -75,24 +75,6 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   })
 }
 
-const transformControlTypeOfDesignerProps =
-  (keys: (keyof IDesignerControllerProps)[], context: any) =>
-  (designerProps: IDesignerControllerProps): IDesignerProps => {
-    const results = {}
-    each(designerProps, (value, key) => {
-      if (keys.includes(key as any)) {
-        if (isBool(value)) {
-          results[key] = value
-        } else if (isFn(value)) {
-          results[key] = value(context)
-        }
-      } else {
-        results[key] = value
-      }
-    })
-    return results
-  }
-
 export class TreeNode {
   parent: TreeNode
 
@@ -156,27 +138,28 @@ export class TreeNode {
 
   get designerProps(): IDesignerProps {
     const designerProps = registry.getComponentDesignerProps(this.componentName)
-    const transformedProps = transformControlTypeOfDesignerProps(
-      [
-        'deletable',
-        'draggable',
-        'droppable',
-        'inlineChildrenLayout',
-        'inlineLayout',
-        'resizable',
-        'selfRenderChildren',
-        'cloneable',
-      ],
-      this
-    )({ ...designerProps, ...this.originDesignerProps })
+    const finallyDesignerProps: IDesignerProps = {}
+    if (isFn(designerProps)) {
+      Object.assign(
+        finallyDesignerProps,
+        designerProps(this),
+        this.originDesignerProps
+      )
+    } else {
+      Object.assign(
+        finallyDesignerProps,
+        designerProps,
+        this.originDesignerProps
+      )
+    }
     const display = this.props?.style?.display
 
     if (display) {
-      transformedProps.inlineLayout =
+      finallyDesignerProps.inlineLayout =
         display === 'inline' || display === 'inline-block'
     }
 
-    return transformedProps
+    return finallyDesignerProps
   }
 
   get previous() {
