@@ -534,8 +534,9 @@ export class TreeNode {
     if (node.componentName) {
       this.componentName = node.componentName
     }
-    if (node.props) {
-      this.props = node.props
+    this.props = {
+      ...this.designerProps?.defaultProps,
+      ...node.props,
     }
     if (node.hidden) {
       this.hidden = node.hidden

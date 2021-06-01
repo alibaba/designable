@@ -16,7 +16,6 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   nodeIdAttrName?: string //节点Id的dom属性名
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
-  defaultRootProps?: any //默认根组件属性
   defaultComponentTree?: ITreeNode[] //默认组件树
   defaultScreenType?: ScreenType
   shortcuts?: Shortcut[]
@@ -61,6 +60,7 @@ export interface IDesignerControllerProps {
   inlineChildrenLayout?: IControlType //子节点是否内联
   selfRenderChildren?: IControlType //是否自己渲染子节点
   propsSchema?: JSONSchema7 //标准JSON Schema
+  defaultProps?: any //默认属性
   effects?: (engine: Engine) => void
   getDragNodes?: (node: TreeNode) => TreeNode[] //拦截拖拽节点
   getComponentProps?: (node: TreeNode) => any //拦截属性

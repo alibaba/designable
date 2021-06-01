@@ -44,7 +44,6 @@ export class Operation {
       componentName: 'Root',
       operation: this,
       children: this.engine.props.defaultComponentTree || [],
-      props: this.engine.props.defaultRootProps || {},
     })
     this.selection = new Selection({
       operation: this,
