@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.2(2021-06-01)
+
+### :tada: Enhancements
+
+1. [feat(core): defaultRootProps ==> treeNode.designerProps.defaultProps](https://github.com/alibaba/designable/commit/1a5d729) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :beetle: Bug Fixes
+
+1. [docs(readme): fix typo](https://github.com/alibaba/designable/commit/37178c9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :memo: Documents Changes
+
+1. [docs(readme): fix typo](https://github.com/alibaba/designable/commit/37178c9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.1(2021-06-01)
 
 ### :tada: Enhancements
