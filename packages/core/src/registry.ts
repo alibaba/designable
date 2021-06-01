@@ -1,4 +1,4 @@
-import { each } from '@designable/shared'
+import { each, isFn } from '@designable/shared'
 import { ITreeNode, GlobalDragSource } from './models'
 import {
   IDesignerControllerProps,
@@ -51,7 +51,19 @@ const DESIGNER_REGISTRY = {
     props: IDesignerControllerProps
   ) => {
     const originProps = registry.getComponentDesignerProps(componentName)
-    DESINGER_PROPS_MAP[componentName] = { ...originProps, ...props }
+    DESINGER_PROPS_MAP[componentName] = (node) => {
+      if (isFn(originProps)) {
+        if (isFn(props)) {
+          return { ...originProps(node), ...props(node) }
+        } else {
+          return { ...originProps(node), ...props }
+        }
+      } else if (isFn(props)) {
+        return { ...originProps, ...props(node) }
+      } else {
+        return { ...originProps, ...props }
+      }
+    }
   },
 
   getComponentDesignerProps: (componentName: string) => {
