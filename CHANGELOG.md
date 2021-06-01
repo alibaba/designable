@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.3(2021-06-02)
+
+### :rose: Improve code quality
+
+1. [refactor(core): refactor designerProps api](https://github.com/alibaba/designable/commit/be3d7fd) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.2(2021-06-01)
 
 ### :tada: Enhancements
