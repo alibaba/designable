@@ -16,6 +16,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   nodeIdAttrName?: string //节点Id的dom属性名
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
+  defaultRootProps?: any //默认根组件属性
   defaultComponentTree?: ITreeNode[] //默认组件树
   defaultScreenType?: ScreenType
   shortcuts?: Shortcut[]
