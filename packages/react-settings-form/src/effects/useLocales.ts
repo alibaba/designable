@@ -1,4 +1,4 @@
-import { onFieldReact } from '@formily/core'
+import { isVoidField, onFieldReact } from '@formily/core'
 import { registry } from '@designable/core'
 import { isPlainObj, isStr } from '@designable/shared'
 
@@ -29,6 +29,16 @@ export const useLocales = () => {
     if (locales.placeholder) {
       field.component[1] = field.component[1] || []
       field.component[1].placeholder = locales.placeholder
+    }
+    if (!isVoidField(field)) {
+      if (locales.dataSource?.length) {
+        field.dataSource = field.dataSource.map((item, index) => {
+          return {
+            ...item,
+            label: item.label || locales.dataSource[index],
+          }
+        })
+      }
     }
   })
 }
