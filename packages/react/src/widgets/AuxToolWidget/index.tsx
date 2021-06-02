@@ -20,19 +20,9 @@ const setCursorState = (contentWindow: Window, state: string) => {
   const root = contentWindow?.document?.getElementsByTagName('html')?.[0]
   if (root) {
     root.style.cursor = state
-    if (state === 'default') {
-      root.classList.remove('inherit-cusor')
-    } else {
-      root.classList.add('inherit-cusor')
-    }
   }
   if (currentRoot) {
     currentRoot.style.cursor = state
-    if (state === 'default') {
-      currentRoot.classList.remove('inherit-cusor')
-    } else {
-      currentRoot.classList.add('inherit-cusor')
-    }
   }
 }
 

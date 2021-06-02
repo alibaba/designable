@@ -85,7 +85,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
     }
     return children
   }
-  return (
+  return renderTooltips(
     <span
       {...props}
       className={cls(prefix, props.className)}
@@ -94,7 +94,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
         cursor: props.onClick ? 'pointer' : props.style?.cursor,
       }}
     >
-      {renderTooltips(takeIcon(props.infer))}
+      {takeIcon(props.infer)}
     </span>
   )
 })

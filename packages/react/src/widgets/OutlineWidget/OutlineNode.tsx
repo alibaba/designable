@@ -16,6 +16,7 @@ import {
   useDesigner,
 } from '../../hooks'
 import { IconWidget } from '../IconWidget'
+import { TextWidget } from '../TextWidget'
 import { NodeContext } from './context'
 import cls from 'classnames'
 import './styles.less'
@@ -112,9 +113,11 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
       if (isFn(ctx.renderTitle)) return ctx.renderTitle(node)
       return (
         <span>
-          {node?.props?.title ||
-            node?.designerProps?.title ||
-            node.componentName}
+          <TextWidget>
+            {node?.props?.title ||
+              node?.designerProps?.title ||
+              node.componentName}
+          </TextWidget>
         </span>
       )
     }

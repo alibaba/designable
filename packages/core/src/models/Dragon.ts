@@ -4,7 +4,6 @@ import { observable, define, action } from '@formily/reactive'
 import {
   calcDistanceOfPointToRect,
   calcDistancePointToEdge,
-  isArr,
   isFn,
   isNearAfter,
   isPointInRect,
@@ -44,7 +43,6 @@ export interface IDragonCalculateProps {
   closestNode?: TreeNode
   closestDirection?: ClosestDirection
 }
-
 export class Dragon {
   operation: Operation
 
