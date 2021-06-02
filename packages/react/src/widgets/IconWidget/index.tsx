@@ -1,24 +1,32 @@
-import React from 'react'
-import { registry } from '@designable/core'
+import React, { createContext, useContext } from 'react'
+import { registry, IDesignerRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
+import { Tooltip } from 'antd'
 import { usePrefix, useRegistry, useTheme } from '../../hooks'
 import cls from 'classnames'
 import * as icons from '../../icons'
 import './styles.less'
 
-if (window['__DESIGNER_REGISTRY__']) {
-  window['__DESIGNER_REGISTRY__'].registerDesignerIcons(icons)
-} else {
-  registry.registerDesignerIcons(icons)
-}
+const GlobalRegistry: IDesignerRegistry =
+  window['__DESIGNER_REGISTRY__'] || registry
 
+GlobalRegistry.registerDesignerIcons(icons)
+
+const IconContext = createContext<IconProviderProps>(null)
+
+export interface IconProviderProps {
+  tooltip?: boolean
+}
 export interface IIconWidgetProps extends React.HTMLAttributes<HTMLElement> {
   infer: React.ReactNode
   size?: number | string
 }
 
-export const IconWidget: React.FC<IIconWidgetProps> = (props) => {
+export const IconWidget: React.FC<IIconWidgetProps> & {
+  Provider: React.FC<IconProviderProps>
+} = (props) => {
   const theme = useTheme()
+  const context = useContext(IconContext)
   const registry = useRegistry()
   const prefix = usePrefix('icon')
   const size = props.size || '1em'
@@ -68,6 +76,14 @@ export const IconWidget: React.FC<IIconWidgetProps> = (props) => {
       }
     }
   }
+  const renderTooltips = (children: React.ReactNode) => {
+    if (!isStr(props.infer) && context.tooltip) return children
+    const tooltip = registry.getDesignerMessage(`icons.${props.infer}`)
+    if (tooltip) {
+      return <Tooltip title={tooltip}>{children}</Tooltip>
+    }
+    return children
+  }
   return (
     <span
       {...props}
@@ -77,7 +93,13 @@ export const IconWidget: React.FC<IIconWidgetProps> = (props) => {
         cursor: props.onClick ? 'pointer' : props.style?.cursor,
       }}
     >
-      {takeIcon(props.infer)}
+      {renderTooltips(takeIcon(props.infer))}
     </span>
+  )
+}
+
+IconWidget.Provider = (props) => {
+  return (
+    <IconContext.Provider value={props}>{props.children}</IconContext.Provider>
   )
 }

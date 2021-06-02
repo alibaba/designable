@@ -3,11 +3,11 @@ import { createForm } from '@formily/core'
 import { Form } from '@formily/antd'
 import { observer } from '@formily/react'
 import { Empty } from 'antd'
-import cls from 'classnames'
-import { useSelection, useTree, usePrefix } from '@designable/react'
+import { useSelection, useTree, usePrefix, IconWidget } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './context'
+import cls from 'classnames'
 import './styles.less'
 
 const useSelected = () => {
@@ -31,27 +31,31 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer((props) => {
     })
   }, [node])
 
-  if (node && node.designerProps?.propsSchema && selected.length === 1) {
+  const render = () => {
+    if (node && node.designerProps?.propsSchema && selected.length === 1) {
+      return (
+        <div className={cls(prefix, props.className)} style={props.style}>
+          <SettingsFormContext.Provider value={props}>
+            <Form
+              form={form}
+              colon={false}
+              labelWidth={120}
+              labelAlign="left"
+              wrapperAlign="right"
+              feedbackLayout="none"
+            >
+              <SchemaField schema={node.designerProps.propsSchema as any} />
+            </Form>
+          </SettingsFormContext.Provider>
+        </div>
+      )
+    }
     return (
-      <div className={cls(prefix, props.className)} style={props.style}>
-        <SettingsFormContext.Provider value={props}>
-          <Form
-            form={form}
-            colon={false}
-            labelWidth={120}
-            labelAlign="left"
-            wrapperAlign="right"
-            feedbackLayout="none"
-          >
-            <SchemaField schema={node.designerProps.propsSchema as any} />
-          </Form>
-        </SettingsFormContext.Provider>
+      <div className={prefix + '-empty'}>
+        <Empty />
       </div>
     )
   }
-  return (
-    <div className={prefix + '-empty'}>
-      <Empty />
-    </div>
-  )
+
+  return <IconWidget.Provider tooltip>{render()}</IconWidget.Provider>
 })

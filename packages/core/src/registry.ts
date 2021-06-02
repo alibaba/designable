@@ -1,4 +1,6 @@
-import { each, isFn } from '@designable/shared'
+import { each, isFn, isPlainObj } from '@designable/shared'
+import { Path } from '@formily/path'
+import { define, observable } from '@formily/reactive'
 import { ITreeNode, GlobalDragSource } from './models'
 import {
   IDesignerControllerProps,
@@ -40,9 +42,24 @@ const DESINGER_PROPS_MAP: IDesignerControllerPropsMap = {
 
 const DESINGER_ICONS_MAP: Record<string, any> = {}
 
-const DESINGER_LOCALES: IDesignerLocales = {
-  messages: {},
-  language: getBrowserlanguage(),
+const DESINGER_LOCALES: IDesignerLocales = define(
+  {
+    messages: {},
+    language: getBrowserlanguage(),
+  },
+  {
+    language: observable.ref,
+  }
+)
+
+const mergeLocales = (target: any, source: any) => {
+  if (isPlainObj(target) && isPlainObj(source)) {
+    each(source, (value, key) => {
+      target[key] = mergeLocales(target[key], value)
+    })
+    return target
+  }
+  return source
 }
 
 const DESIGNER_REGISTRY = {
@@ -97,20 +114,26 @@ const DESIGNER_REGISTRY = {
   },
 
   getDesignerMessage(token: string) {
-    const locale =
-      DESINGER_LOCALES.messages[getISOCode(DESINGER_LOCALES.language)]
-    return locale?.[token]
+    const lang = getISOCode(DESINGER_LOCALES.language)
+    const locale = DESINGER_LOCALES.messages[lang]
+    if (!locale) {
+      for (let key in DESINGER_LOCALES.messages) {
+        const message = Path.getIn(DESINGER_LOCALES.messages[key], token)
+        if (message) return message
+      }
+      return
+    }
+    return Path.getIn(locale, token)
   },
 
-  registerDesignerLocales(locales: IDesignerLocales['messages']) {
-    each(locales, (locale, isoCode) => {
-      DESINGER_LOCALES.messages[isoCode] = {
-        ...DESINGER_LOCALES.messages[isoCode],
-        ...locale,
-      }
+  registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {
+    packages.forEach((locales) => {
+      mergeLocales(DESINGER_LOCALES.messages, locales)
     })
   },
 }
 
-export const registry: typeof DESIGNER_REGISTRY =
+export type IDesignerRegistry = typeof DESIGNER_REGISTRY
+
+export const registry: IDesignerRegistry =
   window['__DESIGNER_REGISTRY__'] || DESIGNER_REGISTRY

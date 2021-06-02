@@ -81,7 +81,7 @@ export type IDesignerControllerPropsMap = Record<
 export interface IDesignerLocales {
   messages: {
     [ISOCode: string]: {
-      [key: string]: string
+      [key: string]: any
     }
   }
   language: string
