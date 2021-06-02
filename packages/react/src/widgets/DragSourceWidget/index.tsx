@@ -4,6 +4,7 @@ import { observer } from '@formily/reactive-react'
 import cls from 'classnames'
 import { useDesigner, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
+import { TextWidget } from '../TextWidget'
 import './styles.less'
 
 export type SourceMapper = (node: TreeNode) => React.ReactChild
@@ -35,7 +36,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
               style={{ marginRight: 3 }}
             />
           )}
-          {node?.props?.title || node?.designerProps?.title}
+          <TextWidget>{node?.designerProps?.title}</TextWidget>
         </div>
       )
     }
@@ -57,7 +58,9 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
           <div className={prefix + '-header-expand'}>
             <IconWidget infer="Expand" />
           </div>
-          <div className={prefix + '-header-content'}>{props.title}</div>
+          <div className={prefix + '-header-content'}>
+            <TextWidget>{props.title}</TextWidget>
+          </div>
         </div>
         <div className={prefix + '-content'}>
           {designer.source.mapSourcesByGroup(

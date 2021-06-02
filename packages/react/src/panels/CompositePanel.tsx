@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import cls from 'classnames'
-import { IconWidget } from '../widgets'
+import { IconWidget, TextWidget } from '../widgets'
 import { usePrefix } from '../hooks'
 
 export interface ICompositePanelItemProps {
@@ -39,7 +39,7 @@ export const CompositePanel: React.FC & {
       <div className={cls(prefix + '-tabs-content', { pinning })}>
         <div className={prefix + '-tabs-header'}>
           <div className={prefix + '-tabs-header-title'}>
-            {currentItem.title}
+            <TextWidget>{currentItem.title}</TextWidget>
           </div>
           <div className={prefix + '-tabs-header-actions'}>
             <div className={prefix + '-tabs-header-extra'}>

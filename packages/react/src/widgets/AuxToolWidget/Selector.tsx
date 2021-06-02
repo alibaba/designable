@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { TreeNode } from '@designable/core'
 import { useHover, useSelection, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
+import { TextWidget } from '../TextWidget'
 import { Button } from 'antd'
 
 const useMouseHover = <T extends { current: HTMLElement }>(
@@ -79,7 +80,9 @@ export const Selector: React.FC<ISelectorProps> = ({ node }) => {
             >
               {renderIcon(parent)}
               <span style={{ transform: 'scale(0.85)', marginLeft: 2 }}>
-                {parent?.designerProps?.title || parent?.componentName}
+                <TextWidget>
+                  {parent?.designerProps?.title || parent?.componentName}
+                </TextWidget>
               </span>
             </Button>
           )
@@ -108,7 +111,11 @@ export const Selector: React.FC<ISelectorProps> = ({ node }) => {
         }}
       >
         {renderIcon(node)}
-        {node?.designerProps?.title || node?.componentName}
+        <span>
+          <TextWidget>
+            {node?.designerProps?.title || node?.componentName}
+          </TextWidget>
+        </span>
       </Button>
       {expand && renderMenu()}
     </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { TextWidget } from '../widgets'
 import { usePrefix } from '../hooks'
 export interface ISettingPanelProps {
   title?: React.ReactNode
@@ -11,7 +12,9 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = (props) => {
   return (
     <div className={prefix}>
       <div className={prefix + '-header'}>
-        <div className={prefix + '-header-title'}>{props.title}</div>
+        <div className={prefix + '-header-title'}>
+          <TextWidget>{props.title}</TextWidget>
+        </div>
         <div className={prefix + '-header-actions'}>
           <div className={prefix + '-header-extra'}>{props.extra}</div>
         </div>

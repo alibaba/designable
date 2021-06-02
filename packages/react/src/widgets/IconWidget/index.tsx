@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import { registry, IDesignerRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
+import { observer } from '@formily/react'
 import { Tooltip } from 'antd'
 import { usePrefix, useRegistry, useTheme } from '../../hooks'
 import cls from 'classnames'
@@ -23,8 +24,8 @@ export interface IIconWidgetProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export const IconWidget: React.FC<IIconWidgetProps> & {
-  Provider: React.FC<IconProviderProps>
-} = (props) => {
+  Provider?: React.FC<IconProviderProps>
+} = observer((props: React.PropsWithChildren<IIconWidgetProps>) => {
   const theme = useTheme()
   const context = useContext(IconContext)
   const registry = useRegistry()
@@ -96,7 +97,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
       {renderTooltips(takeIcon(props.infer))}
     </span>
   )
-}
+})
 
 IconWidget.Provider = (props) => {
   return (

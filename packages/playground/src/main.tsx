@@ -16,9 +16,10 @@ import {
   SettingsPanel,
 } from '@designable/react'
 import { SettingsForm } from '@designable/react-settings-form'
+import { observer } from '@formily/react'
 import { createDesigner, registry } from '@designable/core'
 import { Content } from './content'
-import { Space, Button } from 'antd'
+import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 //import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
@@ -26,9 +27,10 @@ import './theme.less'
 
 registry.registerDesignerProps({
   Root: {
-    title: '表单',
+    title: 'components.Root',
   },
-  Field: {
+  Field: (node) => ({
+    title: `components.${node.props['x-component']}`,
     draggable: true,
     inlineLayout: true,
     propsSchema: {
@@ -36,70 +38,57 @@ registry.registerDesignerProps({
       properties: {
         title: {
           type: 'string',
-          title: '标题',
           'x-decorator': 'FormItem',
           'x-component': 'Input',
         },
         'style.width': {
           type: 'string',
-          title: '宽度',
           'x-decorator': 'FormItem',
           'x-component': 'SizeInput',
         },
         'style.height': {
           type: 'string',
-          title: '高度',
           'x-decorator': 'FormItem',
           'x-component': 'SizeInput',
         },
         hidden: {
           type: 'string',
-          title: '是否隐藏',
           'x-decorator': 'FormItem',
           'x-component': 'Switch',
         },
         default: {
-          title: '默认值',
           'x-decorator': 'FormItem',
           'x-component': 'ValueInput',
         },
         'style.display': {
-          title: '展示',
           'x-component': 'DisplayStyleSetter',
         },
         'style.background': {
-          title: '背景',
           'x-component': 'BackgroundStyleSetter',
         },
         'style.boxShadow': {
-          title: '阴影',
           'x-component': 'BoxShadowStyleSetter',
         },
         'style.font': {
-          title: '字体',
           'x-component': 'FontStyleSetter',
         },
         'style.margin': {
-          title: '外边距',
           'x-component': 'BoxStyleSetter',
         },
         'style.padding': {
-          title: '内边距',
           'x-component': 'BoxStyleSetter',
         },
         'style.borderRadius': {
-          title: '圆角',
           'x-component': 'BorderRadiusStyleSetter',
         },
         'style.border': {
-          title: '边框',
           'x-component': 'BorderStyleSetter',
         },
       },
     },
-  },
+  }),
   Card: {
-    title: '卡片',
+    title: 'components.Card',
     droppable: true,
     inlineChildrenLayout: true,
     allowAppend: (target, sources) =>
@@ -128,6 +117,67 @@ registry.registerSourcesByGroup('form', [
   },
 ])
 
+registry.registerDesignerLocales({
+  'zh-CN': {
+    sources: {
+      Inputs: '输入控件',
+      Displays: '展示控件',
+      Feedbacks: '反馈控件',
+    },
+    components: {
+      Root: '表单',
+      Input: '输入框',
+      Card: '卡片',
+    },
+    settings: {
+      title: '标题',
+      hidden: '是否隐藏',
+      default: '默认值',
+      style: {
+        width: '宽度',
+        height: '高度',
+        display: '展示',
+        background: '背景',
+        boxShadow: '阴影',
+        font: '字体',
+        margin: '外边距',
+        padding: '内边距',
+        borderRadius: '圆角',
+        border: '边框',
+      },
+    },
+  },
+  'en-US': {
+    sources: {
+      Inputs: 'Inputs',
+      Displays: 'Displays',
+      Feedbacks: 'Feedbacks',
+    },
+    components: {
+      Root: 'Form',
+      Input: 'Input',
+      Card: 'Card',
+    },
+    settings: {
+      title: 'Title',
+      hidden: 'Hidden',
+      default: 'Default Value',
+      style: {
+        width: 'Width',
+        height: 'Height',
+        display: 'Display',
+        background: 'Background',
+        boxShadow: 'Box Shadow',
+        font: 'Font',
+        margin: 'Margin',
+        padding: 'Padding',
+        borderRadius: 'Border Radius',
+        border: 'Border',
+      },
+    },
+  },
+})
+
 const Logo: React.FC = () => (
   <div style={{ display: 'flex', alignItems: 'center', fontSize: 14 }}>
     <IconWidget
@@ -137,8 +187,19 @@ const Logo: React.FC = () => (
   </div>
 )
 
-const Actions = () => (
+const Actions = observer(() => (
   <Space style={{ marginRight: 10 }}>
+    <Radio.Group
+      value={registry.getDesignerLanguage()}
+      optionType="button"
+      options={[
+        { label: 'Engligh', value: 'en-US' },
+        { label: '简体中文', value: 'zh-CN' },
+      ]}
+      onChange={(e) => {
+        registry.setDesignerLanguage(e.target.value)
+      }}
+    />
     <Button href="https://github.com/alibaba/designable" target="_blank">
       <GithubOutlined />
       Github
@@ -146,7 +207,7 @@ const Actions = () => (
     <Button>保存</Button>
     <Button type="primary">发布</Button>
   </Space>
-)
+))
 
 const App = () => {
   const [view, setView] = useState('design')
@@ -157,15 +218,15 @@ const App = () => {
       <MainPanel logo={<Logo />} actions={<Actions />}>
         <CompositePanel>
           <CompositePanel.Item
-            title="组件"
+            title="panels.Component"
             icon={<IconWidget infer="Component" />}
           >
-            <DragSourceWidget title="输入控件" name="form" />
-            <DragSourceWidget title="展示控件" name="form" />
-            <DragSourceWidget title="反馈控件" name="form" />
+            <DragSourceWidget title="sources.Inputs" name="form" />
+            <DragSourceWidget title="sources.Displays" name="form" />
+            <DragSourceWidget title="sources.Feedbacks" name="form" />
           </CompositePanel.Item>
           <CompositePanel.Item
-            title="大纲树"
+            title="panels.OutlinedTree"
             icon={<IconWidget infer="Outline" />}
           >
             <OutlineTreeWidget />
@@ -218,7 +279,7 @@ const App = () => {
             </ViewportPanel>
           </WorkspacePanel>
         </Workspace>
-        <SettingsPanel title="属性配置">
+        <SettingsPanel title="panels.PropertySettings">
           <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
         </SettingsPanel>
       </MainPanel>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { usePrefix, IconWidget } from '@designable/react'
-import { useField, Field } from '@formily/react'
+import { useField, Field, observer } from '@formily/react'
 import { Select, Radio, NumberPicker } from '@formily/antd'
 import { FoldItem } from '../FoldItem'
 import { InputItems } from '../InpuItems'
@@ -46,121 +46,123 @@ const FontFamilyOptions = createFontFamilyOptions([
   'Verdana=verdana,geneva,sans-serif',
 ])
 
-export const FontStyleSetter: React.FC<IFontStyleSetterProps> = (props) => {
-  const field = useField()
-  const prefix = usePrefix('font-style-setter')
-  return (
-    <FoldItem
-      label={field.title}
-      className={cls(prefix, props.className)}
-      style={props.style}
-    >
-      <FoldItem.Base>
-        <Field
-          name="fontFamily"
-          basePath={field.address.parent()}
-          component={[
-            Select,
-            { style: { width: '100%' }, placeholder: 'Helvetica Neue' },
-          ]}
-          dataSource={FontFamilyOptions}
-        />
-      </FoldItem.Base>
-      <FoldItem.Extra>
-        <InputItems>
-          <InputItems.Item icon="FontWeight" width="50%">
-            <Field
-              name="fontWeight"
-              basePath={field.address.parent()}
-              component={[NumberPicker, { placeholder: '400' }]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="FontStyle" width="50%">
-            <Field
-              name="fontStyle"
-              basePath={field.address.parent()}
-              dataSource={[
-                {
-                  label: <IconWidget infer="NormalFontStyle" />,
-                  value: 'normal',
-                },
-                {
-                  label: <IconWidget infer="ItalicFontStyle" />,
-                  value: 'italic',
-                },
-              ]}
-              component={[Radio.Group, { optionType: 'button' }]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="FontColor" width="100%">
-            <Field
-              name="color"
-              basePath={field.address.parent()}
-              component={[ColorInput]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="FontSize" width="50%">
-            <Field
-              name="fontSize"
-              basePath={field.address.parent()}
-              component={[SizeInput, { exclude: ['auto'] }]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="LineHeight" width="50%">
-            <Field
-              name="lineHeight"
-              basePath={field.address.parent()}
-              component={[SizeInput, { exclude: ['auto'] }]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="TextAlign">
-            <Field
-              name="textAlign"
-              basePath={field.address.parent()}
-              dataSource={[
-                {
-                  label: <IconWidget infer="TextAlignLeft" />,
-                  value: 'left',
-                },
-                {
-                  label: <IconWidget infer="TextAlignCenter" />,
-                  value: 'center',
-                },
-                {
-                  label: <IconWidget infer="TextAlignRight" />,
-                  value: 'right',
-                },
-                {
-                  label: <IconWidget infer="TextAlignJustify" />,
-                  value: 'justify',
-                },
-              ]}
-              component={[Radio.Group, { optionType: 'button' }]}
-            />
-          </InputItems.Item>
-          <InputItems.Item icon="TextDecoration">
-            <Field
-              name="textDecoration"
-              basePath={field.address.parent()}
-              dataSource={[
-                {
-                  label: '--',
-                  value: 'none',
-                },
-                {
-                  label: <IconWidget infer="TextUnderline" />,
-                  value: 'underline',
-                },
-                {
-                  label: <IconWidget infer="TextLineThrough" />,
-                  value: 'line-through',
-                },
-              ]}
-              component={[Radio.Group, { optionType: 'button' }]}
-            />
-          </InputItems.Item>
-        </InputItems>
-      </FoldItem.Extra>
-    </FoldItem>
-  )
-}
+export const FontStyleSetter: React.FC<IFontStyleSetterProps> = observer(
+  (props) => {
+    const field = useField()
+    const prefix = usePrefix('font-style-setter')
+    return (
+      <FoldItem
+        label={field.title}
+        className={cls(prefix, props.className)}
+        style={props.style}
+      >
+        <FoldItem.Base>
+          <Field
+            name="fontFamily"
+            basePath={field.address.parent()}
+            component={[
+              Select,
+              { style: { width: '100%' }, placeholder: 'Helvetica Neue' },
+            ]}
+            dataSource={FontFamilyOptions}
+          />
+        </FoldItem.Base>
+        <FoldItem.Extra>
+          <InputItems>
+            <InputItems.Item icon="FontWeight" width="50%">
+              <Field
+                name="fontWeight"
+                basePath={field.address.parent()}
+                component={[NumberPicker, { placeholder: '400' }]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="FontStyle" width="50%">
+              <Field
+                name="fontStyle"
+                basePath={field.address.parent()}
+                dataSource={[
+                  {
+                    label: <IconWidget infer="NormalFontStyle" />,
+                    value: 'normal',
+                  },
+                  {
+                    label: <IconWidget infer="ItalicFontStyle" />,
+                    value: 'italic',
+                  },
+                ]}
+                component={[Radio.Group, { optionType: 'button' }]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="FontColor" width="100%">
+              <Field
+                name="color"
+                basePath={field.address.parent()}
+                component={[ColorInput]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="FontSize" width="50%">
+              <Field
+                name="fontSize"
+                basePath={field.address.parent()}
+                component={[SizeInput, { exclude: ['auto'] }]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="LineHeight" width="50%">
+              <Field
+                name="lineHeight"
+                basePath={field.address.parent()}
+                component={[SizeInput, { exclude: ['auto'] }]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="TextAlign">
+              <Field
+                name="textAlign"
+                basePath={field.address.parent()}
+                dataSource={[
+                  {
+                    label: <IconWidget infer="TextAlignLeft" />,
+                    value: 'left',
+                  },
+                  {
+                    label: <IconWidget infer="TextAlignCenter" />,
+                    value: 'center',
+                  },
+                  {
+                    label: <IconWidget infer="TextAlignRight" />,
+                    value: 'right',
+                  },
+                  {
+                    label: <IconWidget infer="TextAlignJustify" />,
+                    value: 'justify',
+                  },
+                ]}
+                component={[Radio.Group, { optionType: 'button' }]}
+              />
+            </InputItems.Item>
+            <InputItems.Item icon="TextDecoration">
+              <Field
+                name="textDecoration"
+                basePath={field.address.parent()}
+                dataSource={[
+                  {
+                    label: '--',
+                    value: 'none',
+                  },
+                  {
+                    label: <IconWidget infer="TextUnderline" />,
+                    value: 'underline',
+                  },
+                  {
+                    label: <IconWidget infer="TextLineThrough" />,
+                    value: 'line-through',
+                  },
+                ]}
+                component={[Radio.Group, { optionType: 'button' }]}
+              />
+            </InputItems.Item>
+          </InputItems>
+        </FoldItem.Extra>
+      </FoldItem>
+    )
+  }
+)

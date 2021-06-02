@@ -7,6 +7,7 @@ import { useSelection, useTree, usePrefix, IconWidget } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './context'
+import { useLocales } from './effects'
 import cls from 'classnames'
 import './styles.less'
 
@@ -28,6 +29,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer((props) => {
   const form = useMemo(() => {
     return createForm({
       values: node?.props,
+      effects() {
+        useLocales()
+      },
     })
   }, [node])
 
