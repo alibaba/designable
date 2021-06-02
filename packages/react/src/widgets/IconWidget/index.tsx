@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import { registry, IDesignerRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
-import { observer } from '@formily/react'
+import { observer } from '@formily/reactive-react'
 import { Tooltip } from 'antd'
 import { usePrefix, useRegistry, useTheme } from '../../hooks'
 import cls from 'classnames'
