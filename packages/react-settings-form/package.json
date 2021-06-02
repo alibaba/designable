@@ -1,6 +1,6 @@
 {
   "name": "@designable/react-settings-form",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -21,8 +21,8 @@
     "antd": "^4.15.5"
   },
   "dependencies": {
-    "@designable/core": "0.1.4",
-    "@designable/react": "0.1.4",
+    "@designable/core": "0.1.5",
+    "@designable/react": "0.1.5",
     "@formily/antd": "^2.0.0-beta.57",
     "@formily/core": "^2.0.0-beta.57",
     "@formily/react": "^2.0.0-beta.57",

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.4(2021-06-02)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix functional designerProps is not work](https://github.com/alibaba/designable/commit/8d0ad12) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.3(2021-06-02)
 
 ### :rose: Improve code quality

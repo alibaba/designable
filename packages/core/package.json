@@ -1,6 +1,6 @@
 {
   "name": "@designable/core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -15,11 +15,11 @@
     "build:umd": "rollup --config"
   },
   "peerDependencies": {
-    "@formily/reactive": "^2.0.0-beta.62",
-    "@formily/path": "^2.0.0-beta.62"
+    "@formily/path": "^2.0.0-beta.62",
+    "@formily/reactive": "^2.0.0-beta.62"
   },
   "dependencies": {
-    "@designable/shared": "0.1.4",
+    "@designable/shared": "0.1.5",
     "@juggle/resize-observer": "^3.3.1"
   },
   "publishConfig": {
