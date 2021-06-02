@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.7(2021-06-03)
+
+### :rocket: Improve Performance
+
+1. [perf(react): improve performance](https://github.com/alibaba/designable/commit/04a340b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.6(2021-06-02)
 
 ### :blush: Other Changes
