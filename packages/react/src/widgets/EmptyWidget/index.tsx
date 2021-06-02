@@ -18,7 +18,7 @@ const Empty = () => {
           + A
         </div>
         <div>
-          Copy <IconWidget infer="Command" /> + C / Past{' '}
+          Copy <IconWidget infer="Command" /> + C / Paste{' '}
           <IconWidget infer="Command" /> + V
         </div>
         <div>
