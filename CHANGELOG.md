@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.6(2021-06-02)
+
+### :blush: Other Changes
+
+1. [chore(project): update dependencies](https://github.com/alibaba/designable/commit/a1eabe5) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.5(2021-06-02)
 
 ### :tada: Enhancements
