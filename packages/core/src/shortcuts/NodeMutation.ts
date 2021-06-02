@@ -32,7 +32,7 @@ export const CopyNodes = new Shortcut({
   },
 })
 
-export const PastNodes = new Shortcut({
+export const PasteNodes = new Shortcut({
   codes: [KeyCode.Meta, KeyCode.V],
   handler(context) {
     const operation = context?.workspace.operation
