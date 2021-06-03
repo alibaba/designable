@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { registry, IDesignerRegistry } from '@designable/core'
+import { GlobalRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
 import { Tooltip } from 'antd'
@@ -7,9 +7,6 @@ import { usePrefix, useRegistry, useTheme } from '../../hooks'
 import cls from 'classnames'
 import * as icons from '../../icons'
 import './styles.less'
-
-const GlobalRegistry: IDesignerRegistry =
-  window['__DESIGNER_REGISTRY__'] || registry
 
 GlobalRegistry.registerDesignerIcons(icons)
 

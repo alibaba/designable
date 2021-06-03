@@ -1,10 +1,7 @@
 import React, { Fragment } from 'react'
 import { isStr } from '@designable/shared'
-import { registry, IDesignerRegistry } from '@designable/core'
+import { GlobalRegistry } from '@designable/core'
 import { observer } from '@formily/reactive-react'
-
-const GlobalRegistry: IDesignerRegistry =
-  window['__DESIGNER_REGISTRY__'] || registry
 
 export interface ITextWidgetProps {
   token?: string

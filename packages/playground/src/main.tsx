@@ -17,7 +17,11 @@ import {
 } from '@designable/react'
 import { SettingsForm } from '@designable/react-settings-form'
 import { observer } from '@formily/react'
-import { createDesigner, registry } from '@designable/core'
+import {
+  createDesigner,
+  GlobalRegistry,
+  GlobalDragSource,
+} from '@designable/core'
 import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
@@ -25,7 +29,7 @@ import { GithubOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.less'
 import './theme.less'
 
-registry.registerDesignerProps({
+GlobalRegistry.registerDesignerProps({
   Root: {
     title: 'components.Root',
   },
@@ -96,7 +100,7 @@ registry.registerDesignerProps({
   },
 })
 
-registry.registerSourcesByGroup('form', [
+GlobalDragSource.setSourcesByGroup('form', [
   {
     componentName: 'Field',
     props: {
@@ -117,7 +121,7 @@ registry.registerSourcesByGroup('form', [
   },
 ])
 
-registry.registerDesignerLocales({
+GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
     sources: {
       Inputs: '输入控件',
@@ -190,14 +194,14 @@ const Logo: React.FC = () => (
 const Actions = observer(() => (
   <Space style={{ marginRight: 10 }}>
     <Radio.Group
-      value={registry.getDesignerLanguage()}
+      value={GlobalRegistry.getDesignerLanguage()}
       optionType="button"
       options={[
         { label: 'Engligh', value: 'en-US' },
         { label: '简体中文', value: 'zh-CN' },
       ]}
       onChange={(e) => {
-        registry.setDesignerLanguage(e.target.value)
+        GlobalRegistry.setDesignerLanguage(e.target.value)
       }}
     />
     <Button href="https://github.com/alibaba/designable" target="_blank">

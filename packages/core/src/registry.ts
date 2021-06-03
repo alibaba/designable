@@ -1,7 +1,6 @@
 import { each, isFn, isPlainObj } from '@designable/shared'
 import { Path } from '@formily/path'
 import { define, observable } from '@formily/reactive'
-import { ITreeNode, GlobalDragSource } from './models'
 import {
   IDesignerControllerProps,
   IDesignerControllerPropsMap,
@@ -62,12 +61,12 @@ const mergeLocales = (target: any, source: any) => {
   return source
 }
 
-const DESIGNER_REGISTRY = {
+const DESIGNER_GlobalRegistry = {
   setComponentDesignerProps: (
     componentName: string,
     props: IDesignerControllerProps
   ) => {
-    const originProps = registry.getComponentDesignerProps(componentName)
+    const originProps = GlobalRegistry.getComponentDesignerProps(componentName)
     DESINGER_PROPS_MAP[componentName] = (node) => {
       if (isFn(originProps)) {
         if (isFn(props)) {
@@ -89,7 +88,7 @@ const DESIGNER_REGISTRY = {
 
   registerDesignerProps: (map: IDesignerControllerPropsMap) => {
     each(map, (props, componentName) => {
-      registry.setComponentDesignerProps(componentName, props)
+      GlobalRegistry.setComponentDesignerProps(componentName, props)
     })
   },
 
@@ -99,10 +98,6 @@ const DESIGNER_REGISTRY = {
 
   getDesignerIcon: (name: string) => {
     return DESINGER_ICONS_MAP[name]
-  },
-
-  registerSourcesByGroup(group: string, sources: ITreeNode[]) {
-    GlobalDragSource.setSourcesByGroup(group, sources)
   },
 
   setDesignerLanguage(lang: string) {
@@ -133,7 +128,7 @@ const DESIGNER_REGISTRY = {
   },
 }
 
-export type IDesignerRegistry = typeof DESIGNER_REGISTRY
+export type IDesignerRegistry = typeof DESIGNER_GlobalRegistry
 
-export const registry: IDesignerRegistry =
-  window['__DESIGNER_REGISTRY__'] || DESIGNER_REGISTRY
+export const GlobalRegistry: IDesignerRegistry =
+  window['__DESIGNER_GlobalRegistry__'] || DESIGNER_GlobalRegistry

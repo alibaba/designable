@@ -1,5 +1,5 @@
-import { registry } from '@designable/core'
+import { GlobalRegistry, IDesignerRegistry } from '@designable/core'
 
-export const useRegistry = (): typeof registry => {
-  return window['__DESIGNER_REGISTRY__'] || registry
+export const useRegistry = (): IDesignerRegistry => {
+  return window['__DESIGNER_REGISTRY__'] || GlobalRegistry
 }

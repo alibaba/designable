@@ -17,7 +17,7 @@ import {
   IDesignerProps,
   IControlNodeMetaType,
 } from '../types'
-import { registry } from '../registry'
+import { GlobalRegistry } from '../registry'
 
 export interface ITreeNode {
   componentName?: string
@@ -137,7 +137,9 @@ export class TreeNode {
   }
 
   get designerProps(): IDesignerProps {
-    const designerProps = registry.getComponentDesignerProps(this.componentName)
+    const designerProps = GlobalRegistry.getComponentDesignerProps(
+      this.componentName
+    )
     const finallyDesignerProps: IDesignerProps = {}
     if (isFn(designerProps)) {
       Object.assign(

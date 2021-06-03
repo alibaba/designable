@@ -23,6 +23,21 @@ export class DragSource {
     }
   }
 
+  appendSourcesByGroup(group: string, sources: ITreeNode[]) {
+    const parent = this.tree.findById(group)
+    const nodes = sources.map((node) => new TreeNode(node))
+    if (parent) {
+      parent.appendNode(...nodes)
+    } else {
+      const newParent = new TreeNode({
+        componentName: 'SourceGroup',
+        id: group,
+      })
+      newParent.setNodeChildren(...nodes)
+      this.tree.appendNode(newParent)
+    }
+  }
+
   getSourcesByGroup(group: string) {
     const parent = this.tree.findById(group)
     return parent?.children

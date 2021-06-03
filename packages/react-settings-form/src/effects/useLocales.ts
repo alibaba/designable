@@ -1,9 +1,9 @@
 import { isVoidField, onFieldReact } from '@formily/core'
-import { registry } from '@designable/core'
+import { GlobalRegistry } from '@designable/core'
 import { isPlainObj, isStr } from '@designable/shared'
 
 const takeLocales = (token: string): any => {
-  const message = registry.getDesignerMessage(token)
+  const message = GlobalRegistry.getDesignerMessage(token)
   if (isStr(message))
     return {
       title: message,
