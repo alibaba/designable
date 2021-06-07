@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.10(2021-06-03)
+
+### :rose: Improve code quality
+
+1. [refactor(core): registry -> GlobalRegistry](https://github.com/alibaba/designable/commit/19dfaf9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(project): update dependencies](https://github.com/alibaba/designable/commit/9bd894f) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.9(2021-06-03)
 
 ### :tada: Enhancements
