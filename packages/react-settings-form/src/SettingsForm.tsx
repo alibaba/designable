@@ -33,7 +33,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer((props) => {
         useLocales()
       },
     })
-  }, [node])
+  }, [node, node?.designerProps?.propsSchema])
 
   const render = () => {
     if (node && node.designerProps?.propsSchema && selected.length === 1) {
