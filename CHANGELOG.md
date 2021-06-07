@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.11(2021-06-07)
+
+### :tada: Enhancements
+
+1. [feat(core): add setSources to DragSource](https://github.com/alibaba/designable/commit/5dc81b5) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.10(2021-06-03)
 
 ### :rose: Improve code quality
