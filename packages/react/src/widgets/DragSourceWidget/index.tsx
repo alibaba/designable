@@ -59,7 +59,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
             <IconWidget infer="Expand" />
           </div>
           <div className={prefix + '-header-content'}>
-            <TextWidget>{props.title}</TextWidget>
+            <TextWidget>{props.title || `sources.${props.name}`}</TextWidget>
           </div>
         </div>
         <div className={prefix + '-content'}>

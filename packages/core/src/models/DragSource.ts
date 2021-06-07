@@ -1,10 +1,19 @@
+import { each, uid } from '@designable/shared'
 import { TreeNode, ITreeNode } from './TreeNode'
 
 export class DragSource {
   tree: TreeNode
+  prefix: string
   constructor() {
     this.tree = new TreeNode({
       componentName: 'SourceRoot',
+    })
+    this.prefix = uid()
+  }
+
+  setSources(sources: Record<string, ITreeNode[]>) {
+    each(sources, (data, group) => {
+      this.setSourcesByGroup(group, data)
     })
   }
 
@@ -16,7 +25,7 @@ export class DragSource {
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
-        id: group,
+        id: `${this.prefix}_${group}`,
       })
       newParent.setNodeChildren(...nodes)
       this.tree.appendNode(newParent)
@@ -31,7 +40,7 @@ export class DragSource {
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
-        id: group,
+        id: `${this.prefix}_${group}`,
       })
       newParent.setNodeChildren(...nodes)
       this.tree.appendNode(newParent)
@@ -39,7 +48,7 @@ export class DragSource {
   }
 
   getSourcesByGroup(group: string) {
-    const parent = this.tree.findById(group)
+    const parent = this.tree.findById(`${this.prefix}_${group}`)
     return parent?.children
   }
 
@@ -54,7 +63,7 @@ export class DragSource {
   }
 
   reduceSourcesByGroup<T>(
-    id: string,
+    group: string,
     callback?: (
       previousValue: T,
       currentValue: TreeNode,
@@ -63,7 +72,7 @@ export class DragSource {
     ) => T,
     init?: T
   ) {
-    const sources = this.getSourcesByGroup(id)
+    const sources = this.getSourcesByGroup(group)
     return sources?.reduce?.(callback, init)
   }
 }
