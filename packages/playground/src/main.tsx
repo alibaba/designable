@@ -45,6 +45,16 @@ GlobalRegistry.registerDesignerProps({
           'x-decorator': 'FormItem',
           'x-component': 'Input',
         },
+
+        hidden: {
+          type: 'string',
+          'x-decorator': 'FormItem',
+          'x-component': 'Switch',
+        },
+        default: {
+          'x-decorator': 'FormItem',
+          'x-component': 'ValueInput',
+        },
         'style.width': {
           type: 'string',
           'x-decorator': 'FormItem',
@@ -54,15 +64,6 @@ GlobalRegistry.registerDesignerProps({
           type: 'string',
           'x-decorator': 'FormItem',
           'x-component': 'SizeInput',
-        },
-        hidden: {
-          type: 'string',
-          'x-decorator': 'FormItem',
-          'x-component': 'Switch',
-        },
-        default: {
-          'x-decorator': 'FormItem',
-          'x-component': 'ValueInput',
         },
         'style.display': {
           'x-component': 'DisplayStyleSetter',
