@@ -1,4 +1,5 @@
 import { IEventProps, Event } from '@designable/shared'
+import { ISchema } from '@formily/json-schema'
 import {
   Engine,
   ITreeNode,
@@ -8,7 +9,6 @@ import {
   Workbench,
   Workspace,
   TreeNode,
-  JSONSchema7,
 } from './models'
 
 export type IEngineProps<T = Event> = IEventProps<T> & {
@@ -59,13 +59,14 @@ export interface IDesignerProps {
   inlineLayout?: boolean //是否是内联布局
   inlineChildrenLayout?: boolean //子节点是否内联
   selfRenderChildren?: boolean //是否自己渲染子节点
-  propsSchema?: JSONSchema7 //标准JSON Schema
+  propsSchema?: ISchema //Formily JSON Schema
   defaultProps?: any //默认属性
   effects?: (engine: Engine) => void
   getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截拖拽节点
   getComponentProps?: (node: TreeNode) => any //拦截属性
   allowAppend?: (target: TreeNode, sources?: TreeNode[]) => boolean
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean
+  [key: string]: any
 }
 
 export type IDesignerPropsMap = Record<string, IDesignerProps>
