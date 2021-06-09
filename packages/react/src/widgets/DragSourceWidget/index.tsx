@@ -62,11 +62,13 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
             <TextWidget>{props.title || `sources.${props.name}`}</TextWidget>
           </div>
         </div>
-        <div className={prefix + '-content'}>
-          {designer.source.mapSourcesByGroup(
-            props.name,
-            isFn(props.children) ? props.children : renderNode
-          )}
+        <div className={prefix + '-content-wrapper'}>
+          <div className={prefix + '-content'}>
+            {designer.source.mapSourcesByGroup(
+              props.name,
+              isFn(props.children) ? props.children : renderNode
+            )}
+          </div>
         </div>
       </div>
     )

@@ -42,8 +42,12 @@ const createTypes = (
   include: string[]
 ) => {
   return types.filter(({ type }) => {
-    if (include?.includes?.(type)) return true
-    if (exclude?.includes?.(type)) return false
+    if (Array.isArray(include) && include.length) {
+      return include.includes(type)
+    }
+    if (Array.isArray(exclude) && exclude.length) {
+      return !exclude.includes(type)
+    }
     return true
   })
 }

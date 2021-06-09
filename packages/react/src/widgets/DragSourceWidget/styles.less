@@ -2,6 +2,7 @@
 
 .@{prefix-cls}-drag-source {
   flex-wrap: wrap;
+
   &-header {
     display: flex;
     align-items: center;
@@ -27,12 +28,17 @@
     }
   }
 
+  &-content-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   &-content {
-    padding: 10px;
+    margin: 10px;
+    width: 260px;
     display: flex;
     flex-wrap: wrap;
     display: none;
-    justify-content: center;
   }
 
   &.expand {
@@ -60,6 +66,7 @@
     display: flex;
     align-items: center;
     font-size: 12px;
+
     &:hover {
       border: 1px dashed var(--dn-drag-source-item-hover-border-color);
       color: var(--dn-drag-source-item-hover-color);
