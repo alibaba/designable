@@ -5,7 +5,7 @@ import {
   DragStopEvent,
   ViewportScrollEvent,
 } from '../events'
-import { Point } from '@designable/shared'
+import { Point, requestIdle } from '@designable/shared'
 
 export const useDragDropEffect = (engine: Engine) => {
   engine.subscribeTo(DragStartEvent, (event) => {
@@ -106,44 +106,46 @@ export const useDragDropEffect = (engine: Engine) => {
 
   engine.subscribeTo(DragStopEvent, () => {
     if (engine.cursor.type !== CursorType.Move) return
-    engine.workbench.eachWorkspace((currentWorkspace) => {
-      const operation = currentWorkspace.operation
-      const dragNodes = operation.getDragNodes()
-      const closestNode = operation.getClosestNode()
-      const closestDirection = operation.getClosestDirection()
-      const selection = operation.selection
-      if (!dragNodes.length) return
-      if (dragNodes.length && closestNode && closestDirection) {
-        if (
-          closestDirection === ClosestDirection.After ||
-          closestDirection === ClosestDirection.Under
-        ) {
-          if (closestNode.allowSibling(dragNodes)) {
-            selection.batchSafeSelect(closestNode.insertAfter(...dragNodes))
-          }
-        } else if (
-          closestDirection === ClosestDirection.Before ||
-          closestDirection === ClosestDirection.Upper
-        ) {
-          if (closestNode.allowSibling(dragNodes)) {
-            selection.batchSafeSelect(closestNode.insertBefore(...dragNodes))
-          }
-        } else if (
-          closestDirection === ClosestDirection.Inner ||
-          closestDirection === ClosestDirection.InnerAfter
-        ) {
-          if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.appendNode(...dragNodes))
-            operation.setDropNode(closestNode)
-          }
-        } else if (closestDirection === ClosestDirection.InnerBefore) {
-          if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.prependNode(...dragNodes))
-            operation.setDropNode(closestNode)
+    requestIdle(() => {
+      engine.workbench.eachWorkspace((currentWorkspace) => {
+        const operation = currentWorkspace.operation
+        const dragNodes = operation.getDragNodes()
+        const closestNode = operation.getClosestNode()
+        const closestDirection = operation.getClosestDirection()
+        const selection = operation.selection
+        if (!dragNodes.length) return
+        if (dragNodes.length && closestNode && closestDirection) {
+          if (
+            closestDirection === ClosestDirection.After ||
+            closestDirection === ClosestDirection.Under
+          ) {
+            if (closestNode.allowSibling(dragNodes)) {
+              selection.batchSafeSelect(closestNode.insertAfter(...dragNodes))
+            }
+          } else if (
+            closestDirection === ClosestDirection.Before ||
+            closestDirection === ClosestDirection.Upper
+          ) {
+            if (closestNode.allowSibling(dragNodes)) {
+              selection.batchSafeSelect(closestNode.insertBefore(...dragNodes))
+            }
+          } else if (
+            closestDirection === ClosestDirection.Inner ||
+            closestDirection === ClosestDirection.InnerAfter
+          ) {
+            if (closestNode.allowAppend(dragNodes)) {
+              selection.batchSafeSelect(closestNode.appendNode(...dragNodes))
+              operation.setDropNode(closestNode)
+            }
+          } else if (closestDirection === ClosestDirection.InnerBefore) {
+            if (closestNode.allowAppend(dragNodes)) {
+              selection.batchSafeSelect(closestNode.prependNode(...dragNodes))
+              operation.setDropNode(closestNode)
+            }
           }
         }
-      }
-      operation.dragClean()
+        operation.dragClean()
+      })
     })
   })
 }
