@@ -120,31 +120,26 @@ export const useDragDropEffect = (engine: Engine) => {
           closestDirection === ClosestDirection.Under
         ) {
           if (closestNode.allowSibling(dragNodes)) {
-            requestIdle(() => {
-              selection.batchSafeSelect(closestNode.insertAfter(...dragNodes))
-            })
+            selection.batchSafeSelect(closestNode.insertAfter(...dragNodes))
           }
         } else if (
           closestDirection === ClosestDirection.Before ||
           closestDirection === ClosestDirection.Upper
         ) {
           if (closestNode.allowSibling(dragNodes)) {
-            const newNodes = closestNode.insertBefore(...dragNodes)
-            selection.batchSafeSelect(newNodes)
+            selection.batchSafeSelect(closestNode.insertBefore(...dragNodes))
           }
         } else if (
           closestDirection === ClosestDirection.Inner ||
           closestDirection === ClosestDirection.InnerAfter
         ) {
           if (closestNode.allowAppend(dragNodes)) {
-            const newNodes = closestNode.appendNode(...dragNodes)
-            selection.batchSafeSelect(newNodes)
+            selection.batchSafeSelect(closestNode.appendNode(...dragNodes))
             operation.setDropNode(closestNode)
           }
         } else if (closestDirection === ClosestDirection.InnerBefore) {
           if (closestNode.allowAppend(dragNodes)) {
-            const newNodes = closestNode.prependNode(...dragNodes)
-            selection.batchSafeSelect(newNodes)
+            selection.batchSafeSelect(closestNode.prependNode(...dragNodes))
             operation.setDropNode(closestNode)
           }
         }
