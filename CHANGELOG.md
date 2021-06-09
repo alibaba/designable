@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.14(2021-06-09)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix multi language](https://github.com/alibaba/designable/commit/156ecba) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.13(2021-06-09)
 
 ### :tada: Enhancements
