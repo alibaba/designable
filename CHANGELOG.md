@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.17(2021-06-09)
+
+### :rocket: Improve Performance
+
+1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/a900b91) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.16(2021-06-09)
 
 ### No Change Log
