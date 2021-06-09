@@ -109,21 +109,16 @@ const DESIGNER_GlobalRegistry = {
   },
 
   getDesignerMessage(token: string) {
-    const getMessage = () => {
-      const lang = getISOCode(DESINGER_LOCALES.language)
-      const locale = DESINGER_LOCALES.messages[lang]
-      if (!locale) {
-        for (let key in DESINGER_LOCALES.messages) {
-          const message = Path.getIn(DESINGER_LOCALES.messages[key], token)
-          if (message) return message
-        }
-        return
+    const lang = getISOCode(DESINGER_LOCALES.language)
+    const locale = DESINGER_LOCALES.messages[lang]
+    if (!locale) {
+      for (let key in DESINGER_LOCALES.messages) {
+        const message = Path.getIn(DESINGER_LOCALES.messages[key], token)
+        if (message) return message
       }
-      return Path.getIn(locale, token)
+      return
     }
-    const message = getMessage()
-    if (isStr(message)) return message
-    return message?.title || message?.self
+    return Path.getIn(locale, token)
   },
 
   registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {

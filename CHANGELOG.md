@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.15(2021-06-09)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix settings dataSource locales](https://github.com/alibaba/designable/commit/30ce798) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.14(2021-06-09)
 
 ### :beetle: Bug Fixes
