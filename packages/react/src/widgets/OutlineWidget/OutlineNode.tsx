@@ -114,9 +114,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
       return (
         <span>
           <TextWidget>
-            {node?.props?.title ||
-              node?.designerProps?.title ||
-              node.componentName}
+            {node?.designerProps?.title || node.componentName}
           </TextWidget>
         </span>
       )

@@ -5,6 +5,7 @@ import {
   useValidNodeOffsetRect,
   useSelection,
 } from '../../hooks'
+import { TextWidget } from '../TextWidget'
 import { observer } from '@formily/reactive-react'
 
 export const DashedBox = observer(() => {
@@ -46,7 +47,7 @@ export const DashedBox = observer(() => {
           whiteSpace: 'nowrap',
         }}
       >
-        {hover?.node?.props?.title || hover?.node?.designerProps?.title}
+        <TextWidget>{hover?.node?.designerProps?.title}</TextWidget>
       </span>
     </div>
   )
