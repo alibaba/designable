@@ -1,5 +1,4 @@
 import { IEventProps, Event } from '@designable/shared'
-import { ISchema } from '@formily/json-schema'
 import {
   Engine,
   ITreeNode,
@@ -9,6 +8,7 @@ import {
   Workbench,
   Workspace,
   TreeNode,
+  ISchema,
 } from './models'
 
 export type IEngineProps<T = Event> = IEventProps<T> & {

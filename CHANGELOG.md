@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.12(2021-06-07)
+
+### :tada: Enhancements
+
+1. [feat(settings): support dynamic prop schema](https://github.com/alibaba/designable/commit/ca9d41f) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.11(2021-06-07)
 
 ### :tada: Enhancements
