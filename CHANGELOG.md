@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.13(2021-06-09)
+
+### :tada: Enhancements
+
+1. [feat(core): add @formily/json-schema dependencies](https://github.com/alibaba/designable/commit/29ba736) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.12(2021-06-07)
 
 ### :tada: Enhancements
