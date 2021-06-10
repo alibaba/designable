@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.25(2021-06-10)
+
+### :tada: Enhancements
+
+1. [feat(settings): add slider component to SchemaField](https://github.com/alibaba/designable/commit/af6269f) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.24(2021-06-10)
 
 ### :beetle: Bug Fixes
