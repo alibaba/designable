@@ -29,6 +29,7 @@
       &>.@{ant-prefix}-radio-group {
         display: flex !important;
         width: 100%;
+
         .@{ant-prefix}-radio-button-wrapper {
           display: flex;
           justify-content: center;
@@ -36,6 +37,12 @@
           align-items: center;
           flex-grow: 2;
         }
+      }
+
+      &>.@{ant-prefix}-slider {
+        flex-shrink: 0;
+        min-width: 0;
+        width: 100%;
       }
     }
   }
