@@ -110,6 +110,7 @@ export function createPolyInput(polyTypes: PolyTypes = []): React.FC<IInput> {
           block
           onClick={() => {
             const nextType = getNextType()
+            if (nextType === type) return
             setCurrent(nextType?.type)
             onChange?.(
               transformOnChangeValue(
