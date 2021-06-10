@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.22(2021-06-10)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve radio.group ui](https://github.com/alibaba/designable/commit/00bc7e6) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.21(2021-06-09)
 
 ### No Change Log
