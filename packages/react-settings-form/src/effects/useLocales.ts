@@ -35,7 +35,10 @@ export const useLocales = () => {
         field.dataSource = field.dataSource.map((item, index) => {
           return {
             ...item,
-            label: locales.dataSource[index] || item.label,
+            label:
+              locales.dataSource[index] ||
+              locales.dataSource[item.value] ||
+              item.label,
           }
         })
       }
