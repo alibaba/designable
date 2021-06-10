@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.24(2021-06-10)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix hover logic](https://github.com/alibaba/designable/commit/414a723) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.23(2021-06-10)
 
 ### :beetle: Bug Fixes
