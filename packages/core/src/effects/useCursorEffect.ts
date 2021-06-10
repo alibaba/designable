@@ -34,28 +34,17 @@ export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(MouseMoveEvent, (event) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
-    const viewport = currentWorkspace.viewport
-    const outline = currentWorkspace.outline
     const operation = currentWorkspace.operation
     if (engine.cursor.status !== CursorStatus.Normal) {
       operation.hover.clear()
       return
     }
     const target = event.data.target as HTMLElement
-    const point = new Point(event.data.topPageX, event.data.topPageY)
     const el = target?.closest?.(`
       *[${engine.props.nodeIdAttrName}],
       *[${engine.props.outlineNodeIdAttrName}]
     `)
     if (!el?.getAttribute) {
-      if (
-        viewport.isPointInViewportArea(point, false) ||
-        outline.isPointInViewportArea(point, false)
-      ) {
-        operation.hover.setHover(operation.tree)
-      } else {
-        operation.hover.clear()
-      }
       return
     }
     const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
