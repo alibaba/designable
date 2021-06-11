@@ -46,6 +46,7 @@ export class Selection {
 
   select(id: string | TreeNode) {
     if (isStr(id)) {
+      if (this.selected.includes(id)) return
       this.selected = [id]
       this.trigger()
     } else {
