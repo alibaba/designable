@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.26(2021-06-10)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix slider style](https://github.com/alibaba/designable/commit/343f921) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.25(2021-06-10)
 
 ### :tada: Enhancements
