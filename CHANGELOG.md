@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.28(2021-06-11)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix locales](https://github.com/alibaba/designable/commit/aeaffbe) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.27(2021-06-11)
 
 ### :beetle: Bug Fixes
