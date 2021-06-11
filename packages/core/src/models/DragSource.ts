@@ -47,6 +47,19 @@ export class DragSource {
     }
   }
 
+  getAllGroup() {
+    const nodes = this.tree.findAll(
+      (node) => node.componentName === 'SourceGroup'
+    )
+    return nodes
+  }
+
+  getAllSources(): TreeNode[] {
+    return this.getAllGroup().reduce((buf, groupNode) => {
+      return buf.concat(this.getSourcesByGroup(groupNode.id))
+    }, [])
+  }
+
   getSourcesByGroup(group: string) {
     const parent = this.tree.findById(`${this.prefix}_${group}`)
     return parent?.children

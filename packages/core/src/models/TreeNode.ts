@@ -230,17 +230,32 @@ export class TreeNode {
     }
   }
 
-  find(finder: INodeFinder) {
+  find(finder: INodeFinder): TreeNode {
     if (finder(this)) {
       return this
     } else {
-      for (let i = 0; i < this.children.length; i++) {
-        const finded = this.children[i].find(finder)
-        if (finded) {
-          return finded
+      let finded = undefined
+      this.eachChildren((node) => {
+        if (finder(node)) {
+          finded = node
+          return false
         }
-      }
+      })
+      return finded
     }
+  }
+
+  findAll(finder: INodeFinder): TreeNode[] {
+    const results = []
+    if (finder(this)) {
+      results.push(this)
+    }
+    this.eachChildren((node) => {
+      if (finder(node)) {
+        results.push(node)
+      }
+    })
+    return results
   }
 
   distanceTo(node: TreeNode) {
@@ -318,12 +333,13 @@ export class TreeNode {
     })
   }
 
-  eachChildren(callback?: (node: TreeNode) => void) {
+  eachChildren(callback?: (node: TreeNode) => void | boolean) {
     if (isFn(callback)) {
-      this.children.map((node) => {
-        callback(node)
+      for (let i = 0; i < this.children.length; i++) {
+        const node = this.children[i]
+        if (callback(node) === false) return
         node.eachChildren(callback)
-      })
+      }
     }
   }
 
