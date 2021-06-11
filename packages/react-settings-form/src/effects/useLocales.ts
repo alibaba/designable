@@ -31,7 +31,7 @@ export const useLocales = () => {
       field.component[1].placeholder = locales.placeholder
     }
     if (!isVoidField(field)) {
-      if (locales.dataSource?.length) {
+      if (locales.dataSource?.length && field.dataSource?.length) {
         field.dataSource = field.dataSource.map((item, index) => {
           return {
             ...item,
