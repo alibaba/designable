@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useContext, createContext } from 'react'
 import { useTree, useDesigner, useRegistry } from '../../hooks'
 import { TreeNodeContext } from '../../context'
 import { TreeNode } from '@designable/core'
 import { observer } from '@formily/reactive-react'
+
+const ComponentsContext = createContext<IComponents>({})
 export interface IComponents {
   [key: string]: React.JSXElementConstructor<any>
 }
@@ -14,7 +16,6 @@ export interface IComponentTreeWidgetProps {
 }
 
 export interface ITreeNodeWidgetProps {
-  components: IComponents
   node: TreeNode
   children?: React.ReactChild
 }
@@ -22,14 +23,12 @@ export interface ITreeNodeWidgetProps {
 export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
   (props: ITreeNodeWidgetProps) => {
     const designer = useDesigner(props.node?.designerProps?.effects)
-    const components = props.components
+    const components = useContext(ComponentsContext)
     const node = props.node
     const renderChildren = () => {
       if (node?.designerProps?.selfRenderChildren) return []
       return node?.children?.map((child) => {
-        return (
-          <TreeNodeWidget key={child.id} node={child} components={components} />
-        )
+        return <TreeNodeWidget key={child.id} node={child} />
       })
     }
     const renderProps = (extendsProps: any = {}) => {
@@ -96,7 +95,9 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
     }
     return (
       <div style={props.style} className={props.className} {...dataId}>
-        <TreeNodeWidget node={tree} components={props.components} />
+        <ComponentsContext.Provider value={props.components}>
+          <TreeNodeWidget node={tree} />
+        </ComponentsContext.Provider>
       </div>
     )
   })
