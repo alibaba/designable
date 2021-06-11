@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.29(2021-06-11)
+
+### :rose: Improve code quality
+
+1. [refactor(react): update components getter for TreeNodeWidget](https://github.com/alibaba/designable/commit/ad9f1a1) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.28(2021-06-11)
 
 ### :beetle: Bug Fixes
