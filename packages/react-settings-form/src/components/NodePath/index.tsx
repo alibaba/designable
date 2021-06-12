@@ -8,9 +8,10 @@ import {
   usePrefix,
   useHover,
 } from '@designable/react'
+import { observer } from '@formily/react'
 import './styles.less'
 
-export const NodePath: React.FC = () => {
+export const NodePath: React.FC = observer(() => {
   const selected = useCurrentNode()
   const selection = useSelection()
   const hover = useHover()
@@ -43,4 +44,4 @@ export const NodePath: React.FC = () => {
       })}
     </Breadcrumb>
   )
-}
+})
