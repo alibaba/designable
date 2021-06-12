@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.31(2021-06-12)
+
+### :tada: Enhancements
+
+1. [feat(react): support useNodeIdProps](https://github.com/alibaba/designable/commit/3a11f73) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.30(2021-06-11)
 
 ### :rose: Improve code quality
