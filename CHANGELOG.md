@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.33(2021-06-12)
+
+### :blush: Other Changes
+
+1. [chore(settings): sticky NodePath](https://github.com/alibaba/designable/commit/83ca82d) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.32(2021-06-12)
 
 ### :tada: Enhancements
