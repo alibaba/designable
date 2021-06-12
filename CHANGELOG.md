@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.32(2021-06-12)
+
+### :tada: Enhancements
+
+1. [feat(settings): support NodePath](https://github.com/alibaba/designable/commit/c3f1ebe) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.31(2021-06-12)
 
 ### :tada: Enhancements
