@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.1.36(2021-06-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix useDesigner effects memo leak](https://github.com/alibaba/designable/commit/1c83818) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :rocket: Improve Performance
+
+1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.1.35(2021-06-12)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve NodePath styles](https://github.com/alibaba/designable/commit/f757b9f) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.1.34(2021-06-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix can not cancel multi select](https://github.com/alibaba/designable/commit/8d9ba60) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.1.33(2021-06-12)
+
+### :blush: Other Changes
+
+1. [chore(settings): sticky NodePath](https://github.com/alibaba/designable/commit/83ca82d) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.1.32(2021-06-12)
+
+### :tada: Enhancements
+
+1. [feat(settings): support NodePath](https://github.com/alibaba/designable/commit/c3f1ebe) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.1.31(2021-06-12)
+
+### :tada: Enhancements
+
+1. [feat(react): support useNodeIdProps](https://github.com/alibaba/designable/commit/3a11f73) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.30(2021-06-11)
 
 ### :rose: Improve code quality

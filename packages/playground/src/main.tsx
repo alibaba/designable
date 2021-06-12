@@ -96,8 +96,8 @@ GlobalRegistry.registerDesignerProps({
     title: 'components.Card',
     droppable: true,
     inlineChildrenLayout: true,
-    allowAppend: (target, sources) =>
-      sources.every((node) => node.componentName === 'Field'),
+    // allowAppend: (target, sources) =>
+    //   sources.every((node) => node.componentName === 'Field'),
   },
 })
 

@@ -61,6 +61,7 @@ export class Operation {
       operation: this,
       viewport: this.workspace.viewport,
     })
+    this.selection.select(this.tree)
     this.makeObservable()
   }
 
