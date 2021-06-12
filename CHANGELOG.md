@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.1.36(2021-06-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix useDesigner effects memo leak](https://github.com/alibaba/designable/commit/1c83818) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :rocket: Improve Performance
+
+1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.35(2021-06-12)
 
 ### :blush: Other Changes
