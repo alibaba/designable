@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.30(2021-06-11)
+
+### :rose: Improve code quality
+
+1. [refactor(core): improve selection performance](https://github.com/alibaba/designable/commit/973d69e) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :rocket: Improve Performance
+
+1. [refactor(core): improve selection performance](https://github.com/alibaba/designable/commit/973d69e) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.29(2021-06-11)
 
 ### :rose: Improve code quality

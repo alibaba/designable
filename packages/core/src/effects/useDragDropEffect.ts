@@ -5,7 +5,7 @@ import {
   DragStopEvent,
   ViewportScrollEvent,
 } from '../events'
-import { Point, requestIdle } from '@designable/shared'
+import { Point } from '@designable/shared'
 
 export const useDragDropEffect = (engine: Engine) => {
   engine.subscribeTo(DragStartEvent, (event) => {
