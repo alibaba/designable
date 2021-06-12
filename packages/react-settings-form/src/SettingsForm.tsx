@@ -32,8 +32,14 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
       })
     }, [node, node?.designerProps?.propsSchema])
 
+    const isEmpty = !(
+      node &&
+      node.designerProps?.propsSchema &&
+      selected.length === 1
+    )
+
     const render = () => {
-      if (node && node.designerProps?.propsSchema && selected.length === 1) {
+      if (!isEmpty) {
         return (
           <div className={cls(prefix, props.className)} style={props.style}>
             <SettingsFormContext.Provider value={props}>
@@ -62,7 +68,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     return (
       <IconWidget.Provider tooltip>
         <div className={prefix + '-wrapper'}>
-          <NodePath />
+          {!isEmpty && <NodePath />}
           <div className={prefix + '-content'}>{render()}</div>
         </div>
       </IconWidget.Provider>

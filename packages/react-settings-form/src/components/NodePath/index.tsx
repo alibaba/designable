@@ -19,12 +19,12 @@ export const NodePath: React.FC = () => {
   const nodes = selected.getParents().slice(0, 2).reverse().concat(selected)
   return (
     <Breadcrumb className={prefix}>
-      <Breadcrumb.Item>
-        <IconWidget infer="Position" />
-      </Breadcrumb.Item>
       {nodes.map((node, key) => {
         return (
           <Breadcrumb.Item key={key}>
+            {key === 0 && (
+              <IconWidget infer="Position" style={{ marginRight: 3 }} />
+            )}
             <a
               href=""
               onMouseEnter={() => {
