@@ -1,5 +1,20 @@
 @import '~antd/lib/style/themes/default.less';
 
+.dn-settings-form-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .dn-node-path {
+    flex-grow: 0;
+  }
+
+  .dn-settings-form-content {
+    flex-grow: 1;
+    overflow: overlay;
+  }
+}
+
 .dn-settings-form {
   padding: 10px 20px;
 
@@ -26,7 +41,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      &>.@{ant-prefix}-radio-group {
+      & > .@{ant-prefix}-radio-group {
         display: flex !important;
         width: 100%;
 
@@ -39,7 +54,7 @@
         }
       }
 
-      &>.@{ant-prefix}-slider {
+      & > .@{ant-prefix}-slider {
         flex-shrink: 0;
         min-width: 0;
         width: 100%;

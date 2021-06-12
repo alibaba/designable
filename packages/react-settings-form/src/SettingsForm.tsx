@@ -61,8 +61,10 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
 
     return (
       <IconWidget.Provider tooltip>
-        <NodePath />
-        {render()}
+        <div className={prefix + '-wrapper'}>
+          <NodePath />
+          <div className={prefix + '-content'}>{render()}</div>
+        </div>
       </IconWidget.Provider>
     )
   },
