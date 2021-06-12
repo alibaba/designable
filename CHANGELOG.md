@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.34(2021-06-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix can not cancel multi select](https://github.com/alibaba/designable/commit/8d9ba60) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.33(2021-06-12)
 
 ### :blush: Other Changes
