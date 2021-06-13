@@ -22,12 +22,13 @@ export const useDragDropEffect = (engine: Engine) => {
     const nodeId = el?.getAttribute(engine.props.nodeIdAttrName)
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
-      if (operation.focusNode) {
-        operation.setDragNodes([operation.focusNode])
-        return
-      }
+
       if (nodeId || outlineId) {
         const node = engine.findNodeById(outlineId || nodeId)
+        if (operation.focusNode && operation.focusNode.contains(node)) {
+          operation.setDragNodes([operation.focusNode])
+          return
+        }
         if (node) {
           if (node?.designerProps?.draggable === false) return
           if (node === node.root) return

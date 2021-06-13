@@ -1,6 +1,6 @@
 {
   "name": "@designable/react-settings-form",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -21,9 +21,9 @@
     "antd": "^4.15.5"
   },
   "dependencies": {
-    "@designable/core": "0.1.39",
-    "@designable/react": "0.1.39",
-    "@designable/shared": "0.1.39",
+    "@designable/core": "0.1.40",
+    "@designable/react": "0.1.40",
+    "@designable/shared": "0.1.40",
     "@formily/antd": "^2.0.0-beta.50",
     "@formily/core": "^2.0.0-beta.50",
     "@formily/react": "^2.0.0-beta.50",
@@ -34,5 +34,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "820790a9ae32c2348bb36b3de7ca5f1051ed392c"
+  "gitHead": "31cd10ed79e64da17c6aaf884b3d974de702d593"
 }

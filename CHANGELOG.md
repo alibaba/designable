@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.39(2021-06-13)
+
+### :tada: Enhancements
+
+1. [feat(core): support focus dnd](https://github.com/alibaba/designable/commit/363a8b9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.38(2021-06-13)
 
 ### :blush: Other Changes
