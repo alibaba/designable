@@ -12,10 +12,12 @@ const useMouseHover = <T extends { current: HTMLElement }>(
 ) => {
   useEffect(() => {
     let timer = null
+    let unmounted = false
     const onMouseOver = (e: MouseEvent) => {
       const target: HTMLElement = e.target as any
       clearTimeout(timer)
       timer = setTimeout(() => {
+        if (unmounted) return
         if (ref?.current?.contains(target)) {
           enter && enter()
         } else {
@@ -26,6 +28,7 @@ const useMouseHover = <T extends { current: HTMLElement }>(
 
     document.addEventListener('mouseover', onMouseOver)
     return () => {
+      unmounted = true
       document.removeEventListener('mouseover', onMouseOver)
     }
   }, [])
