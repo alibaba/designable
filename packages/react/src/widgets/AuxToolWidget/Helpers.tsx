@@ -6,6 +6,7 @@ import { useDesigner, usePrefix, useViewport } from '../../hooks'
 import { Selector } from './Selector'
 import { Copy } from './Copy'
 import { Delete } from './Delete'
+import { DragFocus } from './DragFocus'
 
 const HELPER_DEBOUNCE_TIMEOUT = 100
 
@@ -110,6 +111,9 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       <div className={cls(prefix + '-content')}>
         <Selector node={node} />
         {node?.designerProps?.cloneable === false ? null : <Copy node={node} />}
+        {node?.designerProps?.draggable === false ? null : (
+          <DragFocus node={node} />
+        )}
         {node?.designerProps?.deletable === false ? null : (
           <Delete node={node} />
         )}

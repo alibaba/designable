@@ -25,6 +25,8 @@ export class Operation {
 
   tree: TreeNode
 
+  focusNode: TreeNode
+
   selection: Selection
 
   viewportDragon: Dragon
@@ -71,6 +73,18 @@ export class Operation {
 
   getSelectedNodes() {
     return this.selection.selected.map((id) => this.tree.findById(id))
+  }
+
+  switchFocusNode(node: TreeNode) {
+    if (this.focusNode === node) {
+      this.focusNode = null
+    } else {
+      this.focusNode = node
+    }
+  }
+
+  focusClean() {
+    this.focusNode = null
   }
 
   setDragNodes(nodes: TreeNode[]) {
@@ -207,6 +221,7 @@ export class Operation {
 
   makeObservable() {
     define(this, {
+      focusNode: observable.ref,
       hover: observable.ref,
       removeNodes: action,
       cloneNodes: action,
