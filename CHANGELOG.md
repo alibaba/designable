@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.41(2021-06-13)
+
+### :tada: Enhancements
+
+1. [feat(core): improve focus dnd](https://github.com/alibaba/designable/commit/da7c8c6) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.40(2021-06-13)
 
 ### No Change Log
@@ -257,17 +263,3 @@
 ### :memo: Documents Changes
 
 1. [docs(readme): fix typo](https://github.com/alibaba/designable/commit/37178c9) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.1(2021-06-01)
-
-### :tada: Enhancements
-
-1. [feat(react): exports contexts](https://github.com/alibaba/designable/commit/c6ef149) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :memo: Documents Changes
-
-1. [docs(readme): update readme](https://github.com/alibaba/designable/commit/04a8722) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(playground): update playground](https://github.com/alibaba/designable/commit/e604283) :point_right: ( [janryWang](https://github.com/janryWang) )
