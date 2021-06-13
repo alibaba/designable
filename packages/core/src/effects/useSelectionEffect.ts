@@ -1,4 +1,4 @@
-import { Engine, CursorStatus } from '../models'
+import { Engine, CursorStatus, Operation } from '../models'
 import { MouseClickEvent } from '../events'
 import { KeyCode, Point } from '@designable/shared'
 
@@ -17,22 +17,24 @@ export const useSelectionEffect = (engine: Engine) => {
     if (!currentWorkspace) return
     if (!el?.getAttribute) {
       const point = new Point(event.data.topClientX, event.data.topClientY)
+      const operation = currentWorkspace.operation
       const viewport = currentWorkspace.viewport
       const outline = currentWorkspace.outline
       const isInViewport = viewport.isPointInViewport(point, false)
       const isInOutline = outline.isPointInViewport(point, false)
       if (isHelpers) return
       if (isInViewport || isInOutline) {
-        const selection = currentWorkspace.operation.selection
-        const tree = currentWorkspace.operation.tree
+        const selection = operation.selection
+        const tree = operation.tree
         selection.select(tree)
       }
       return
     }
     const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
     const structNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName)
-    const selection = currentWorkspace.operation.selection
-    const tree = currentWorkspace.operation.tree
+    const operation = currentWorkspace.operation
+    const selection = operation.selection
+    const tree = operation.tree
     const node = tree.findById(nodeId || structNodeId)
     if (node) {
       if (engine.keyboard.isKeyDown(KeyCode.Meta)) {
@@ -52,6 +54,9 @@ export const useSelectionEffect = (engine: Engine) => {
           selection.crossAddTo(node)
         }
       } else {
+        if (operation.focusNode !== node) {
+          operation.focusClean()
+        }
         selection.select(node)
       }
     } else {

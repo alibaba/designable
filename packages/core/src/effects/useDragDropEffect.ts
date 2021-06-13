@@ -28,6 +28,8 @@ export const useDragDropEffect = (engine: Engine) => {
         if (operation.focusNode && operation.focusNode.contains(node)) {
           operation.setDragNodes([operation.focusNode])
           return
+        } else {
+          operation.focusClean()
         }
         if (node) {
           if (node?.designerProps?.draggable === false) return
@@ -150,7 +152,6 @@ export const useDragDropEffect = (engine: Engine) => {
         }
       }
       operation.dragClean()
-      operation.focusClean()
     })
   })
 }
