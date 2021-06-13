@@ -41,7 +41,11 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const render = () => {
       if (!isEmpty) {
         return (
-          <div className={cls(prefix, props.className)} style={props.style}>
+          <div
+            className={cls(prefix, props.className)}
+            style={props.style}
+            key={node.id}
+          >
             <SettingsFormContext.Provider value={props}>
               <Form
                 form={form}
