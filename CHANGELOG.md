@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.42(2021-06-13)
+
+### :blush: Other Changes
+
+1. [chore(settings): add key to SettingsForm](https://github.com/alibaba/designable/commit/ddf6c9c) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.41(2021-06-13)
 
 ### :tada: Enhancements
@@ -249,17 +255,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(core): refactor designerProps api](https://github.com/alibaba/designable/commit/be3d7fd) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.2(2021-06-01)
-
-### :tada: Enhancements
-
-1. [feat(core): defaultRootProps ==> treeNode.designerProps.defaultProps](https://github.com/alibaba/designable/commit/1a5d729) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :beetle: Bug Fixes
-
-1. [docs(readme): fix typo](https://github.com/alibaba/designable/commit/37178c9) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :memo: Documents Changes
-
-1. [docs(readme): fix typo](https://github.com/alibaba/designable/commit/37178c9) :point_right: ( [janryWang](https://github.com/janryWang) )
