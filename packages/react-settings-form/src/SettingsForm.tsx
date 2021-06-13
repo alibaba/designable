@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { createForm } from '@formily/core'
 import { Form } from '@formily/antd'
 import { observer } from '@formily/react'
-import { requestIdle } from '@designable/shared'
+import { requestIdle, cancelIdle } from '@designable/shared'
 import {
   usePrefix,
   useSelected,
@@ -17,6 +17,10 @@ import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'
 import cls from 'classnames'
 import './styles.less'
+
+const GlobalState = {
+  idleReuqest: null,
+}
 
 export const SettingsForm: React.FC<ISettingFormProps> = observer(
   (props) => {
@@ -79,6 +83,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     )
   },
   {
-    scheduler: requestIdle,
+    scheduler: (update) => {
+      cancelIdle(GlobalState.idleReuqest)
+      GlobalState.idleReuqest = requestIdle(update)
+    },
   }
 )
