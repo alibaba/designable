@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.38(2021-06-13)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve NodePath styles](https://github.com/alibaba/designable/commit/298b377) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.37(2021-06-12)
 
 ### No Change Log
