@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.43(2021-06-13)
+
+### :rocket: Improve Performance
+
+1. [chore(settings): imporve SettingsForm render performance](https://github.com/alibaba/designable/commit/cefffb9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(settings): imporve SettingsForm render performance](https://github.com/alibaba/designable/commit/cefffb9) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.42(2021-06-13)
 
 ### :blush: Other Changes
@@ -249,9 +259,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix functional designerProps is not work](https://github.com/alibaba/designable/commit/8d0ad12) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.3(2021-06-02)
-
-### :rose: Improve code quality
-
-1. [refactor(core): refactor designerProps api](https://github.com/alibaba/designable/commit/be3d7fd) :point_right: ( [janryWang](https://github.com/janryWang) )
