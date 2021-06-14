@@ -53,13 +53,13 @@ const resetDepth = (node: TreeNode) => {
 
 const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   return nodes.map((node) => {
-    if (node?.root?.operation) {
-      node?.root?.operation?.selection.remove(node)
+    if (node.root?.operation) {
+      node.root.operation.selection.remove(node)
       removeNode(node)
       node.parent = parent
       node.root = parent.root
       resetDepth(node)
-    } else if (node.parent && node.root) {
+    } else if (!parent?.root?.operation) {
       node = node.clone(parent)
     } else {
       node.parent = parent
@@ -512,17 +512,18 @@ export class TreeNode {
   }
 
   clone(parent?: TreeNode) {
-    return new TreeNode(
+    const newNode = new TreeNode(
       {
         id: uid(),
         componentName: this.componentName,
         props: toJS(this.props),
         children: this.children.map((treeNode) => {
-          return treeNode.clone(this)
+          return treeNode.clone(newNode)
         }),
       },
       parent ? parent : this.parent
     )
+    return newNode
   }
 
   from(node?: ITreeNode) {

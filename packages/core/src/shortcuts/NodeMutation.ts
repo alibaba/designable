@@ -5,7 +5,7 @@ import { KeyCode, Shortcut, TreeNode } from '../models'
  */
 
 export const DeleteNodes = new Shortcut({
-  codes: [KeyCode.Backspace],
+  codes: [[KeyCode.Backspace], [KeyCode.Delete]],
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {
@@ -23,7 +23,10 @@ const Clipboard: IClipboard = {
 }
 
 export const CopyNodes = new Shortcut({
-  codes: [KeyCode.Meta, KeyCode.C],
+  codes: [
+    [KeyCode.Meta, KeyCode.C],
+    [KeyCode.Control, KeyCode.C],
+  ],
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {
@@ -33,7 +36,10 @@ export const CopyNodes = new Shortcut({
 })
 
 export const PasteNodes = new Shortcut({
-  codes: [KeyCode.Meta, KeyCode.V],
+  codes: [
+    [KeyCode.Meta, KeyCode.V],
+    [KeyCode.Control, KeyCode.V],
+  ],
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {

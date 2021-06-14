@@ -110,6 +110,7 @@
       flex-direction: column;
       height: 100%;
       box-sizing: content-box;
+
       &.pinning {
         position: absolute;
         z-index: 1;
@@ -133,6 +134,7 @@
       &-actions {
         display: flex;
         align-items: center;
+
         & > * {
           margin-right: 8px;
 
@@ -187,7 +189,7 @@
     position: relative;
   }
 
-  button[disabled]{
+  button[disabled] {
     pointer-events: none !important;
   }
 }
@@ -266,5 +268,31 @@
     flex-shrink: 2;
     overflow: overlay;
     height: 100%;
+  }
+
+  &-opener {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: var(--dn-composite-panel-tabs-content-bg-color);
+    border: 1px solid var(--dn-composite-panel-tabs-content-border-color);
+    box-shadow: 0 0 6px rgb(0 0 0 / 10%);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+
+    .dn-icon {
+      transition: all 0.15s ease-in-out;
+    }
+
+    &:hover .dn-icon {
+      transform: rotate(45deg);
+    }
   }
 }

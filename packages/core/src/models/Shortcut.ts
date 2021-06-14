@@ -4,26 +4,41 @@ import { IEngineContext } from '../types'
 export { KeyCode }
 
 export interface IShortcutProps {
-  codes?: KeyCode[]
+  codes?: KeyCode[] | KeyCode[][]
   matcher?: (codes: KeyCode[]) => boolean
   handler?: (context: IEngineContext) => void
 }
 
 export class Shortcut {
-  codes: KeyCode[]
+  codes: KeyCode[][]
   handler: (context: IEngineContext) => void
   matcher: (codes: KeyCode[]) => boolean
   constructor(props: IShortcutProps) {
-    this.codes = props.codes || []
+    this.codes = this.parseCodes(props.codes)
     this.handler = props.handler
     this.matcher = props.matcher
+  }
+
+  parseCodes(codes: Array<KeyCode | KeyCode[]>) {
+    const results: KeyCode[][] = []
+    codes.forEach((code) => {
+      if (Array.isArray(code)) {
+        results.push(code)
+      } else {
+        results.push([code])
+      }
+    })
+    return results
   }
 
   preventCodes(codes: KeyCode[]) {
     if (this.codes.length) {
       for (let i = 0; i < codes.length; i++) {
-        if (!Shortcut.matchCode(codes[i], this.codes[i])) {
-          return false
+        const sequence = this.codes[i]
+        for (let j = 0; j < sequence.length; j++) {
+          if (!Shortcut.matchCode(codes[j], sequence[j])) {
+            return false
+          }
         }
       }
       return true
@@ -39,19 +54,21 @@ export class Shortcut {
   }
 
   match(codes: KeyCode[], context: IEngineContext) {
-    const sortedSelf = Shortcut.sortCodes(this.codes)
-    const sortedTarget: KeyCode[] = Shortcut.sortCodes(codes)
-    if (isFn(this.matcher)) {
-      return this.matched(this.matcher(sortedTarget), context)
-    }
-    if (sortedTarget.length !== sortedSelf.length)
-      return this.matched(false, context)
-    for (let i = 0; i < sortedSelf.length; i++) {
-      if (!Shortcut.matchCode(sortedTarget[i], sortedSelf[i])) {
-        return this.matched(false, context)
+    return this.codes.some((sequence) => {
+      const sortedSelf = Shortcut.sortCodes(sequence)
+      const sortedTarget: KeyCode[] = Shortcut.sortCodes(codes)
+      if (isFn(this.matcher)) {
+        return this.matched(this.matcher(sortedTarget), context)
       }
-    }
-    return this.matched(true, context)
+      if (sortedTarget.length !== sortedSelf.length)
+        return this.matched(false, context)
+      for (let i = 0; i < sortedSelf.length; i++) {
+        if (!Shortcut.matchCode(sortedTarget[i], sortedSelf[i])) {
+          return this.matched(false, context)
+        }
+      }
+      return this.matched(true, context)
+    })
   }
 
   static matchCode = (code1: KeyCode, code2: KeyCode) => {
