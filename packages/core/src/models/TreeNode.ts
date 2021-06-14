@@ -47,26 +47,38 @@ const removeNode = (node: TreeNode) => {
   }
 }
 
-const resetDepth = (node: TreeNode) => {
-  node.depth = node.parent.depth + 1
-  node.children.forEach(resetDepth)
-}
-
 const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
+  const resetDepth = (node: TreeNode) => {
+    node.depth = node.parent.depth + 1
+    node.children.forEach(resetDepth)
+  }
+
+  const shallowReset = (node: TreeNode) => {
+    node.parent = parent
+    node.root = parent.root
+    resetDepth(node)
+  }
+
+  const deepReset = (node: TreeNode) => {
+    shallowReset(node)
+    resetNodesParent(node.children, node)
+  }
+
   return nodes.map((node) => {
     if (!parent.isSourceNode) {
       if (node.isSourceNode) {
         node = node.clone(parent)
+        deepReset(node)
       } else if (node.root !== node && node.root.operation) {
         node.root.operation.selection?.remove?.(node)
         removeNode(node)
+        shallowReset(node)
+      } else {
+        deepReset(node)
       }
+    } else {
+      deepReset(node)
     }
-    node.parent = parent
-    node.root = parent.root
-    resetDepth(node)
-    resetNodesParent(node.children, node)
-
     if (!TreeNodes.has(node.id)) {
       TreeNodes.set(node.id, node)
       CommonDesignerPropsMap.set(node.componentName, node.designerProps)
