@@ -6,6 +6,7 @@ export class DragSource {
   prefix: string
   constructor() {
     this.tree = new TreeNode({
+      isSourceNode: true,
       componentName: 'SourceRoot',
     })
     this.prefix = uid()

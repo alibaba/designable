@@ -23,6 +23,7 @@ export interface ITreeNode {
   componentName?: string
   operation?: Operation
   hidden?: boolean
+  isSourceNode?: boolean
   id?: string
   props?: {
     [key: string]: any
@@ -53,20 +54,19 @@ const resetDepth = (node: TreeNode) => {
 
 const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   return nodes.map((node) => {
-    if (node.root?.operation) {
-      node.root.operation.selection.remove(node)
-      removeNode(node)
-      node.parent = parent
-      node.root = parent.root
-      resetDepth(node)
-    } else if (!parent?.root?.operation) {
-      node = node.clone(parent)
-    } else {
-      node.parent = parent
-      node.root = parent.root
-      resetDepth(node)
-      resetNodesParent(node.children, node)
+    if (!parent.isSourceNode) {
+      if (node.isSourceNode) {
+        node = node.clone(parent)
+      } else if (node.root !== node && node.root.operation) {
+        node.root.operation.selection?.remove?.(node)
+        removeNode(node)
+      }
     }
+    node.parent = parent
+    node.root = parent.root
+    resetDepth(node)
+    resetNodesParent(node.children, node)
+
     if (!TreeNodes.has(node.id)) {
       TreeNodes.set(node.id, node)
       CommonDesignerPropsMap.set(node.componentName, node.designerProps)
@@ -94,6 +94,8 @@ export class TreeNode {
 
   children: TreeNode[] = []
 
+  isSelfSourceNode: boolean
+
   originDesignerProps: IDesignerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
@@ -106,6 +108,7 @@ export class TreeNode {
     } else {
       this.root = this
       this.operation = node.operation
+      this.isSelfSourceNode = node.isSourceNode || false
       TreeNodes.set(this.id, this)
     }
     if (node) {
@@ -221,6 +224,10 @@ export class TreeNode {
 
   isMyChildren(node: TreeNode) {
     return node.isMyParents(this)
+  }
+
+  get isSourceNode() {
+    return this.root.isSelfSourceNode
   }
 
   triggerMutation(event: any) {
