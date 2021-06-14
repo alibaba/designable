@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.45(2021-06-14)
+
+### :rose: Improve code quality
+
+1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/23084d5) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.44(2021-06-13)
 
 ### :beetle: Bug Fixes
@@ -253,15 +259,3 @@
 ### :blush: Other Changes
 
 1. [chore(project): update dependencies](https://github.com/alibaba/designable/commit/a1eabe5) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.5(2021-06-02)
-
-### :tada: Enhancements
-
-1. [feat(settings): support multi languange](https://github.com/alibaba/designable/commit/80963f3) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-1. [feat(core): support return single node for designerProps.getDragNodes](https://github.com/alibaba/designable/commit/acf0512) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(typo): rename Past -> Paste (#5)](https://github.com/alibaba/designable/commit/71d865e) :point_right: ( [nikaple](https://github.com/nikaple) )
