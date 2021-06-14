@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.44(2021-06-13)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix cloneNodes will trigger very much times events](https://github.com/alibaba/designable/commit/dbe09ab) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+1. [fix(react): fix selector unmount error](https://github.com/alibaba/designable/commit/76a64f1) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(react): add empty bg color](https://github.com/alibaba/designable/commit/96a4ac5) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.43(2021-06-13)
 
 ### :rocket: Improve Performance
@@ -253,9 +265,3 @@
 ### :blush: Other Changes
 
 1. [chore(typo): rename Past -> Paste (#5)](https://github.com/alibaba/designable/commit/71d865e) :point_right: ( [nikaple](https://github.com/nikaple) )
-
-## v0.1.4(2021-06-02)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix functional designerProps is not work](https://github.com/alibaba/designable/commit/8d0ad12) :point_right: ( [janryWang](https://github.com/janryWang) )
