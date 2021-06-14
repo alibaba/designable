@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.46(2021-06-14)
+
+### :rose: Improve code quality
+
+1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/ad9c7d6) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.45(2021-06-14)
 
 ### :rose: Improve code quality
@@ -253,9 +259,3 @@
 ### :rocket: Improve Performance
 
 1. [perf(react): improve performance](https://github.com/alibaba/designable/commit/04a340b) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.6(2021-06-02)
-
-### :blush: Other Changes
-
-1. [chore(project): update dependencies](https://github.com/alibaba/designable/commit/a1eabe5) :point_right: ( [janryWang](https://github.com/janryWang) )
