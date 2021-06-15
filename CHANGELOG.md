@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.48(2021-06-14)
+
+### :rose: Improve code quality
+
+1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/a2aa115) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.47(2021-06-14)
 
 ### :rose: Improve code quality
@@ -253,9 +259,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support dataSource i18n](https://github.com/alibaba/designable/commit/7a9aed6) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.8(2021-06-03)
-
-### :rocket: Improve Performance
-
-1. [perf(react): improve performance](https://github.com/alibaba/designable/commit/f18c825) :point_right: ( [janryWang](https://github.com/janryWang) )
