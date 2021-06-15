@@ -37,7 +37,10 @@ export const useSelectionEffect = (engine: Engine) => {
     const tree = operation.tree
     const node = tree.findById(nodeId || structNodeId)
     if (node) {
-      if (engine.keyboard.isKeyDown(KeyCode.Meta)) {
+      if (
+        engine.keyboard.isKeyDown(KeyCode.Meta) ||
+        engine.keyboard.isKeyDown(KeyCode.Control)
+      ) {
         if (selection.has(node)) {
           if (selection.selected.length > 1) {
             selection.remove(node)
