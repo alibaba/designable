@@ -8,6 +8,13 @@ export const SelectSameTypeNodes = new Shortcut({
   codes: [KeyCode.Shift],
 })
 
+export const PreventCommandX = new Shortcut({
+  codes: [
+    [KeyCode.Meta, KeyCode.X],
+    [KeyCode.Control, KeyCode.X],
+  ],
+})
+
 export const SelectAllNodes = new Shortcut({
   codes: [
     [KeyCode.Meta, KeyCode.A],

@@ -26,6 +26,7 @@ import {
   UndoMutation,
   RedoMutation,
   CursorSwitchSelection,
+  PreventCommandX,
 } from './shortcuts'
 
 export const DEFAULT_EFFECTS = [
@@ -49,6 +50,7 @@ export const DEFAULT_DRIVERS = [
 ]
 
 export const DEFAULT_SHORTCUTS = [
+  PreventCommandX,
   SelectNodes,
   SelectAllNodes,
   SelectSameTypeNodes,
