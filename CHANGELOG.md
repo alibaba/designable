@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.49(2021-06-15)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix hotkeys](https://github.com/alibaba/designable/commit/f0504d7) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(core): improve code](https://github.com/alibaba/designable/commit/19752de) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.48(2021-06-14)
 
 ### :rose: Improve code quality
@@ -253,9 +263,3 @@
 ### :blush: Other Changes
 
 1. [chore(project): update dependencies](https://github.com/alibaba/designable/commit/9bd894f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.9(2021-06-03)
-
-### :tada: Enhancements
-
-1. [feat(settings): support dataSource i18n](https://github.com/alibaba/designable/commit/7a9aed6) :point_right: ( [janryWang](https://github.com/janryWang) )
