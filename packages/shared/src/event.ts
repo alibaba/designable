@@ -33,7 +33,7 @@ export interface IEventDriver {
   contentWindow: Window
   attach(container: EventDriverContainer): void
   detach(container: EventDriverContainer): void
-  dispatch<T extends ICustomEvent<any> = any>(event: T): void
+  dispatch<T extends ICustomEvent<any> = any>(event: T): void | boolean
   subscribe<T extends ICustomEvent<any> = any>(subscriber: ISubscriber<T>): void
   addEventListener<K extends keyof HTMLElementEventMap>(
     type: K,
@@ -120,7 +120,7 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   }
 
   dispatch<T extends ICustomEvent<any> = any>(event: T) {
-    this.engine.dispatch(event, this.context)
+    return this.engine.dispatch(event, this.context)
   }
 
   subscribe<T extends ICustomEvent<any> = any>(subscriber: ISubscriber<T>) {
@@ -279,7 +279,7 @@ export class Event extends Subscrible<ICustomEvent<any>> {
   ) {
     return this.subscribe((event) => {
       if (type && event instanceof type) {
-        subscriber(event)
+        return subscriber(event)
       }
     })
   }
@@ -291,11 +291,11 @@ export class Event extends Subscrible<ICustomEvent<any>> {
     return this.subscribe((event) => {
       if (isArr(type)) {
         if (type.includes(event?.type)) {
-          subscriber(event)
+          return subscriber(event)
         }
       } else {
         if (type && event?.type === type) {
-          subscriber(event)
+          return subscriber(event)
         }
       }
     })

@@ -25,9 +25,7 @@ export interface ITreeNode {
   hidden?: boolean
   isSourceNode?: boolean
   id?: string
-  props?: {
-    [key: string]: any
-  }
+  props?: Record<string | number | symbol, any>
   children?: ITreeNode[]
 }
 
@@ -49,7 +47,7 @@ const removeNode = (node: TreeNode) => {
 
 const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   const resetDepth = (node: TreeNode) => {
-    node.depth = node.parent.depth + 1
+    node.depth = node.parent ? node.parent.depth + 1 : 0
     node.children.forEach(resetDepth)
   }
 
@@ -65,6 +63,7 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   }
 
   return nodes.map((node) => {
+    if (node === parent) return node
     if (!parent.isSourceNode) {
       if (node.isSourceNode) {
         node = node.clone(parent)
@@ -85,6 +84,10 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
     }
     return node
   })
+}
+
+const resetNodeParent = (node: TreeNode, parent: TreeNode) => {
+  return resetNodesParent([node], parent)[0]
 }
 
 export class TreeNode {
@@ -111,6 +114,9 @@ export class TreeNode {
   originDesignerProps: IDesignerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
+    if (node instanceof TreeNode) {
+      return resetNodeParent(node, parent)
+    }
     this.id = node.id || uid()
     if (parent) {
       this.parent = parent
@@ -250,10 +256,13 @@ export class TreeNode {
     return this.root.isSelfSourceNode
   }
 
-  triggerMutation(event: any) {
+  triggerMutation<T>(event: any, callback?: () => T, defaults?: T): T {
     if (this?.root?.operation) {
-      this.root.operation.dispatch(event)
+      const result = this.root.operation.dispatch(event, callback) || defaults
       this.root.operation.snapshot()
+      return result
+    } else if (isFn(callback)) {
+      return callback()
     }
   }
 
@@ -378,12 +387,14 @@ export class TreeNode {
   }
 
   setNodeProps(props?: any) {
-    Object.assign(this.props, props)
     this.triggerMutation(
       new UpdateNodePropsEvent({
         target: this,
         source: null,
-      })
+      }),
+      () => {
+        Object.assign(this.props, props)
+      }
     )
   }
 
@@ -395,54 +406,50 @@ export class TreeNode {
     if (nodes.some((node) => node.contains(this))) return []
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
-    this.children = newNodes.concat(this.children)
-    this.triggerMutation(
+    return this.triggerMutation(
       new PrependNodeEvent({
         target: this,
         source: newNodes,
-      })
+      }),
+      () => {
+        this.children = newNodes.concat(this.children)
+        return newNodes
+      },
+      []
     )
-    return newNodes
   }
 
   appendNode(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
-    this.children = this.children.concat(newNodes)
-    this.triggerMutation(
+    return this.triggerMutation(
       new AppendNodeEvent({
         target: this,
         source: newNodes,
-      })
+      }),
+      () => {
+        this.children = this.children.concat(newNodes)
+        return newNodes
+      },
+      []
     )
-    return newNodes
   }
 
   wrapNode(wrapper: TreeNode) {
     if (wrapper === this) return
-    wrapper.parent = this.parent
-    wrapper.root = this.root
-    if (this.parent) {
-      this.parent.children = this.parent.children.map((node) => {
-        if (node === this) {
-          return wrapper
-        }
-        return node
-      })
-      this.parent = wrapper
-      wrapper.children.push(this)
-    } else {
-      this.parent = wrapper
-      wrapper.children.push(this)
-    }
+    const parent = this.parent
     this.triggerMutation(
       new WrapNodeEvent({
         target: this,
         source: wrapper,
-      })
+      }),
+      () => {
+        resetNodeParent(this, wrapper)
+        resetNodeParent(wrapper, parent)
+        return wrapper
+      }
     )
-    return wrapper
   }
 
   insertAfter(...nodes: TreeNode[]) {
@@ -451,20 +458,24 @@ export class TreeNode {
     if (parent?.children?.length) {
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
-      parent.children = parent.children.reduce((buf, node) => {
-        if (node === this) {
-          return buf.concat([node]).concat(newNodes)
-        } else {
-          return buf.concat([node])
-        }
-      }, [])
+
       this.triggerMutation(
         new InsertAfterEvent({
           target: this,
           source: newNodes,
-        })
+        }),
+        () => {
+          parent.children = parent.children.reduce((buf, node) => {
+            if (node === this) {
+              return buf.concat([node]).concat(newNodes)
+            } else {
+              return buf.concat([node])
+            }
+          }, [])
+          return newNodes
+        },
+        []
       )
-      return newNodes
     }
     return []
   }
@@ -475,20 +486,23 @@ export class TreeNode {
     if (parent?.children?.length) {
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
-      parent.children = parent.children.reduce((buf, node) => {
-        if (node === this) {
-          return buf.concat(newNodes).concat([node])
-        } else {
-          return buf.concat([node])
-        }
-      }, [])
       this.triggerMutation(
         new InsertBeforeEvent({
           target: this,
           source: newNodes,
-        })
+        }),
+        () => {
+          parent.children = parent.children.reduce((buf, node) => {
+            if (node === this) {
+              return buf.concat(newNodes).concat([node])
+            } else {
+              return buf.concat([node])
+            }
+          }, [])
+          return newNodes
+        },
+        []
       )
-      return newNodes
     }
     return []
   }
@@ -498,43 +512,51 @@ export class TreeNode {
     if (this.children?.length) {
       const newNodes = this.resetNodesParent(nodes, this)
       if (!newNodes.length) return []
-      this.children = this.children.reduce((buf, node, index) => {
-        if (index === start) {
-          return buf.concat(newNodes).concat([node])
-        }
-        return buf.concat([node])
-      }, [])
       this.triggerMutation(
         new InsertChildrenEvent({
           target: this,
           source: newNodes,
-        })
+        }),
+        () => {
+          this.children = this.children.reduce((buf, node, index) => {
+            if (index === start) {
+              return buf.concat(newNodes).concat([node])
+            }
+            return buf.concat([node])
+          }, [])
+          return newNodes
+        },
+        []
       )
-      return newNodes
     }
     return []
   }
 
   setNodeChildren(...nodes: TreeNode[]) {
     const newNodes = this.resetNodesParent(nodes, this)
-    this.children = newNodes
     this.triggerMutation(
       new UpdateChildrenEvent({
         target: this,
         source: newNodes,
-      })
+      }),
+      () => {
+        this.children = newNodes
+        return newNodes
+      },
+      []
     )
-    return newNodes
   }
 
   remove() {
-    removeNode(this)
-    TreeNodes.delete(this.id)
     this.triggerMutation(
       new RemoveNodeEvent({
         target: this,
         source: null,
-      })
+      }),
+      () => {
+        removeNode(this)
+        TreeNodes.delete(this.id)
+      }
     )
   }
 

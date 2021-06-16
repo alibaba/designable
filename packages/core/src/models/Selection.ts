@@ -36,7 +36,7 @@ export class Selection {
   }
 
   trigger(type = SelectNodeEvent) {
-    this.operation.dispatch(
+    return this.operation.dispatch(
       new type({
         target: this.operation.tree,
         source: this.operation.getSelectedNodes(),

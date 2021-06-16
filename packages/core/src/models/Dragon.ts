@@ -285,7 +285,7 @@ export class Dragon {
 
   trigger(event: any) {
     if (this?.operation) {
-      this.operation.dispatch(event)
+      return this.operation.dispatch(event)
     }
   }
 

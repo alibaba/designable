@@ -214,9 +214,10 @@ const Actions = observer(() => (
   </Space>
 ))
 
+const engine = createDesigner()
+
 const App = () => {
   const [view, setView] = useState('design')
-  const engine = useMemo(() => createDesigner(), [])
 
   return (
     <Designer engine={engine}>

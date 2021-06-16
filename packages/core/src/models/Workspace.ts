@@ -93,7 +93,7 @@ export class Workspace {
   }
 
   dispatch(event: ICustomEvent) {
-    this.engine.dispatch(event, this.getEventContext())
+    return this.engine.dispatch(event, this.getEventContext())
   }
 
   serialize(): IWorkspace {

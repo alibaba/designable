@@ -37,6 +37,7 @@ export const useSelectionEffect = (engine: Engine) => {
     const tree = operation.tree
     const node = tree.findById(nodeId || structNodeId)
     if (node) {
+      engine.keyboard.requestClean()
       if (
         engine.keyboard.isKeyDown(KeyCode.Meta) ||
         engine.keyboard.isKeyDown(KeyCode.Control)

@@ -30,7 +30,7 @@ export class Hover {
 
   trigger() {
     if (this?.operation) {
-      this.operation.dispatch(
+      return this.operation.dispatch(
         new HoverNodeEvent({
           target: this.operation.tree,
           source: this.node,

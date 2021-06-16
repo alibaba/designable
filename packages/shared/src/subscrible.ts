@@ -3,7 +3,7 @@ import { isFn } from './types'
 const UNSUBSCRIBE_ID_SYMBOL = Symbol('UNSUBSCRIBE_ID_SYMBOL')
 
 export interface ISubscriber<Payload = any> {
-  (payload: Payload): void
+  (payload: Payload): void | boolean
 }
 
 export class Subscrible<ExtendsType = any> {
@@ -15,12 +15,16 @@ export class Subscrible<ExtendsType = any> {
   }
 
   dispatch<T extends ExtendsType = any>(event: T, context?: any) {
+    let interrupted = false
     for (const key in this.subscribers) {
       if (isFn(this.subscribers[key])) {
         event['context'] = context
-        this.subscribers[key](event)
+        if (this.subscribers[key](event) === false) {
+          interrupted = true
+        }
       }
     }
+    return interrupted ? false : true
   }
 
   subscribe(subscriber: ISubscriber) {

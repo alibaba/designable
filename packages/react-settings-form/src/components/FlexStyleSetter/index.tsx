@@ -18,7 +18,7 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
       <div className={cls(prefix, props.className)} style={props.style}>
         <InputItems vertical>
           <Field
-            name="flex-direction"
+            name="flexDirection"
             basePath={field.address.parent()}
             dataSource={[
               {
@@ -37,7 +37,7 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
             component={[Radio.Group, { optionType: 'button' }]}
           />
           <Field
-            name="flex-wrap"
+            name="flexWrap"
             basePath={field.address.parent()}
             dataSource={[
               {
@@ -56,7 +56,7 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
             component={[Radio.Group, { optionType: 'button' }]}
           />
           <Field
-            name="align-content"
+            name="alignContent"
             basePath={field.address.parent()}
             dataSource={[
               {
@@ -91,7 +91,7 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
             component={[Radio.Group, { optionType: 'button' }]}
           />
           <Field
-            name="justify-content"
+            name="justifyContent"
             basePath={field.address.parent()}
             dataSource={[
               {
@@ -128,7 +128,7 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
             component={[Radio.Group, { optionType: 'button' }]}
           />
           <Field
-            name="align-items"
+            name="alignItems"
             basePath={field.address.parent()}
             dataSource={[
               {
