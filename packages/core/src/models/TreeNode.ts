@@ -387,7 +387,7 @@ export class TreeNode {
   }
 
   setNodeProps(props?: any) {
-    this.triggerMutation(
+    return this.triggerMutation(
       new UpdateNodePropsEvent({
         target: this,
         source: null,
@@ -439,7 +439,7 @@ export class TreeNode {
   wrapNode(wrapper: TreeNode) {
     if (wrapper === this) return
     const parent = this.parent
-    this.triggerMutation(
+    return this.triggerMutation(
       new WrapNodeEvent({
         target: this,
         source: wrapper,
@@ -459,7 +459,7 @@ export class TreeNode {
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
 
-      this.triggerMutation(
+      return this.triggerMutation(
         new InsertAfterEvent({
           target: this,
           source: newNodes,
@@ -486,7 +486,7 @@ export class TreeNode {
     if (parent?.children?.length) {
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
-      this.triggerMutation(
+      return this.triggerMutation(
         new InsertBeforeEvent({
           target: this,
           source: newNodes,
@@ -512,7 +512,7 @@ export class TreeNode {
     if (this.children?.length) {
       const newNodes = this.resetNodesParent(nodes, this)
       if (!newNodes.length) return []
-      this.triggerMutation(
+      return this.triggerMutation(
         new InsertChildrenEvent({
           target: this,
           source: newNodes,
@@ -534,7 +534,7 @@ export class TreeNode {
 
   setNodeChildren(...nodes: TreeNode[]) {
     const newNodes = this.resetNodesParent(nodes, this)
-    this.triggerMutation(
+    return this.triggerMutation(
       new UpdateChildrenEvent({
         target: this,
         source: newNodes,
@@ -548,7 +548,7 @@ export class TreeNode {
   }
 
   remove() {
-    this.triggerMutation(
+    return this.triggerMutation(
       new RemoveNodeEvent({
         target: this,
         source: null,
