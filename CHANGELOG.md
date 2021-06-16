@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.51(2021-06-16)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix tree-node events](https://github.com/alibaba/designable/commit/90ac49c) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.1.50(2021-06-16)
 
 ### :tada: Enhancements
@@ -253,9 +259,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support dynamic prop schema](https://github.com/alibaba/designable/commit/ca9d41f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.11(2021-06-07)
-
-### :tada: Enhancements
-
-1. [feat(core): add setSources to DragSource](https://github.com/alibaba/designable/commit/5dc81b5) :point_right: ( [janryWang](https://github.com/janryWang) )
