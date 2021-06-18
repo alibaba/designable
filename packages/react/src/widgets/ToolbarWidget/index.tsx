@@ -2,7 +2,13 @@ import React, { Fragment, useRef } from 'react'
 import { Button, InputNumber } from 'antd'
 import { observer } from '@formily/reactive-react'
 import { CursorType, ScreenType } from '@designable/core'
-import { useCursor, useHistory, useScreen, usePrefix } from '../../hooks'
+import {
+  useCursor,
+  useHistory,
+  useScreen,
+  usePrefix,
+  useWorkbench,
+} from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import './styles.less'
 export type IToolbarWidgetProps = React.HTMLAttributes<HTMLDivElement>
@@ -11,6 +17,7 @@ export const ToolbarWidget: React.FC<IToolbarWidgetProps> = observer(
   (props: IToolbarWidgetProps) => {
     const screen = useScreen()
     const cursor = useCursor()
+    const workbench = useWorkbench()
     const history = useHistory()
     const sizeRef = useRef<{ width?: any; height?: any }>({})
     const prefix = usePrefix('toolbar')
@@ -168,6 +175,8 @@ export const ToolbarWidget: React.FC<IToolbarWidgetProps> = observer(
         </Button>
       )
     }
+
+    if (workbench.type !== 'DESIGNABLE') return null
 
     return (
       <div

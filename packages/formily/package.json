@@ -1,5 +1,5 @@
 {
-  "name": "@designable/core",
+  "name": "@designable/formily",
   "version": "0.2.0",
   "license": "MIT",
   "main": "lib",
@@ -14,15 +14,14 @@
     "build:esm": "tsc --declaration --module es2015 --outDir esm",
     "build:umd": "rollup --config"
   },
-  "dependencies": {
-    "@designable/shared": "0.2.0",
-    "@formily/json-schema": "^2.0.0-beta.68",
-    "@formily/path": "^2.0.0-beta.68",
-    "@formily/reactive": "^2.0.0-beta.68",
-    "@juggle/resize-observer": "^3.3.1"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@designable/core": "0.2.0",
+    "@designable/shared": "0.2.0",
+    "@formily/core": "^2.0.0-beta.68",
+    "@formily/json-schema": "^2.0.0-beta.68"
   },
   "gitHead": "31cd10ed79e64da17c6aaf884b3d974de702d593"
 }

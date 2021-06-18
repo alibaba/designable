@@ -1,8 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "paths": {
+      "@designable/*": ["../*"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
-  "exclude": ["./src/__tests__/*"]
+  "exclude": ["./src/__tests__/*", "./esm/*", "./lib/*"]
 }

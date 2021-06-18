@@ -49,11 +49,12 @@ export const AuxToolWidget = () => {
       } else {
         if (cursor.type === CursorType.Move) {
           if (operation.getDragNodes().length) {
-            if (viewportDragon.closestDirection === ClosestDirection.Inner) {
-              setCursorState(viewport.contentWindow, 'copy')
-            } else {
-              setCursorState(viewport.contentWindow, 'move')
-            }
+            // todo: update cusor will trigger document layout rerender https://bugs.chromium.org/p/chromium/issues/detail?id=664066
+            // if (viewportDragon.closestDirection === ClosestDirection.Inner) {
+            //   setCursorState(viewport.contentWindow, 'copy')
+            // } else {
+            setCursorState(viewport.contentWindow, 'move')
+            //}
           }
         } else {
           if (cursor.type === CursorType.ResizeWidth) {

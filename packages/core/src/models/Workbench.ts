@@ -6,7 +6,7 @@ import {
   RemoveWorkspaceEvent,
   SwitchWorkspaceEvent,
 } from '../events'
-import { IEngineContext } from '../types'
+import { IEngineContext, WorkbenchTypes } from '../types'
 export class Workbench {
   workspaces: Workspace[]
 
@@ -15,6 +15,8 @@ export class Workbench {
   activeWorkspace: Workspace
 
   engine: Engine
+
+  type: WorkbenchTypes = 'DESIGNABLE'
 
   constructor(engine: Engine) {
     this.engine = engine
@@ -29,10 +31,12 @@ export class Workbench {
       currentWorkspace: observable.ref,
       workspaces: observable.shallow,
       activeWorkspace: observable.ref,
+      type: observable.ref,
       switchWorkspace: action,
       addWorkspace: action,
       removeWorkspace: action,
       setActiveWorkspace: action,
+      setWorkbenchType: action,
     })
   }
 
@@ -55,6 +59,10 @@ export class Workbench {
 
   setActiveWorkspace(workspace: Workspace) {
     this.activeWorkspace = workspace
+  }
+
+  setWorkbenchType(type: WorkbenchTypes) {
+    this.type = type
   }
 
   addWorkspace(props: IWorkspaceProps) {

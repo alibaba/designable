@@ -87,3 +87,10 @@ export interface IDesignerLocales {
   }
   language: string
 }
+
+export type WorkbenchTypes =
+  | 'DESIGNABLE'
+  | 'PREVIEW'
+  | 'JSONTREE'
+  | 'MARKUPTREE'
+  | (string & {})

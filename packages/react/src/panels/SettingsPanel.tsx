@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
+import { observer } from '@formily/reactive-react'
 import { TextWidget, IconWidget } from '../widgets'
-import { usePrefix } from '../hooks'
+import { usePrefix, useWorkbench } from '../hooks'
 import cls from 'classnames'
 export interface ISettingPanelProps {
   title?: React.ReactNode
   extra?: React.ReactNode
 }
 
-export const SettingsPanel: React.FC<ISettingPanelProps> = (props) => {
+export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
   const prefix = usePrefix('settings-panel')
+  const workbench = useWorkbench()
   const [pinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(true)
-
+  if (workbench.type !== 'DESIGNABLE') return
   if (!visible)
     return (
       <div
@@ -61,4 +63,4 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = (props) => {
       <div className={prefix + '-body'}>{props.children}</div>
     </div>
   )
-}
+})

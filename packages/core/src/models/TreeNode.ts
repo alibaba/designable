@@ -256,10 +256,16 @@ export class TreeNode {
     return this.root.isSelfSourceNode
   }
 
-  triggerMutation<T>(event: any, callback?: () => T, defaults?: T): T {
-    if (this?.root?.operation) {
-      const result = this.root.operation.dispatch(event, callback) || defaults
+  takeSnapshot() {
+    if (this.root?.operation) {
       this.root.operation.snapshot()
+    }
+  }
+
+  triggerMutation<T>(event: any, callback?: () => T, defaults?: T): T {
+    if (this.root?.operation) {
+      const result = this.root.operation.dispatch(event, callback) || defaults
+      this.takeSnapshot()
       return result
     } else if (isFn(callback)) {
       return callback()
@@ -598,6 +604,7 @@ export class TreeNode {
           return new TreeNode(node, this)
         }) || []
     }
+    this.takeSnapshot()
   }
 
   serialize(): ITreeNode {
