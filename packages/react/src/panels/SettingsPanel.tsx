@@ -13,7 +13,7 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
   const workbench = useWorkbench()
   const [pinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(true)
-  if (workbench.type !== 'DESIGNABLE') return
+  if (workbench.type !== 'DESIGNABLE') return null
   if (!visible)
     return (
       <div
