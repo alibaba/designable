@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.0-beta.0(2021-06-18)
+
+### :tada: Enhancements
+
+1. [feat(project): add @designable/formily](https://github.com/alibaba/designable/commit/6f23759) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+## v0.2.0(2021-06-16)
+
+### No Change Log
+
 ## v0.1.51(2021-06-16)
 
 ### :beetle: Bug Fixes
@@ -247,15 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix multi language](https://github.com/alibaba/designable/commit/156ecba) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.13(2021-06-09)
-
-### :tada: Enhancements
-
-1. [feat(core): add @formily/json-schema dependencies](https://github.com/alibaba/designable/commit/29ba736) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.12(2021-06-07)
-
-### :tada: Enhancements
-
-1. [feat(settings): support dynamic prop schema](https://github.com/alibaba/designable/commit/ca9d41f) :point_right: ( [janryWang](https://github.com/janryWang) )
