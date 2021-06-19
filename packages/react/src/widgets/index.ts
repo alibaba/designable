@@ -1,6 +1,7 @@
 export * from './AuxToolWidget'
 export * from './ComponentTreeWidget'
 export * from './DesignerToolsWidget'
+export * from './ViewToolsWidget'
 export * from './DragSourceWidget'
 export * from './GhostWidget'
 export * from './EmptyWidget'
