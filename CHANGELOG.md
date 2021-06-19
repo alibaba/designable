@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.0-beta.1(2021-06-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix return undefined in render component](https://github.com/alibaba/designable/commit/bfd109b) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :rose: Improve code quality
+
+1. [refactor(react): rename ToolbarWidget to DesignerToolsWidget](https://github.com/alibaba/designable/commit/2b87005) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.0(2021-06-18)
 
 ### :tada: Enhancements
@@ -251,9 +261,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix settings dataSource locales](https://github.com/alibaba/designable/commit/30ce798) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.14(2021-06-09)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix multi language](https://github.com/alibaba/designable/commit/156ecba) :point_right: ( [janryWang](https://github.com/janryWang) )
