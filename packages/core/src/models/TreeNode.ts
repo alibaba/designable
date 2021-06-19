@@ -115,7 +115,7 @@ export class TreeNode {
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     if (node instanceof TreeNode) {
-      return resetNodeParent(node, parent)
+      return node
     }
     this.id = node.id || uid()
     if (parent) {
