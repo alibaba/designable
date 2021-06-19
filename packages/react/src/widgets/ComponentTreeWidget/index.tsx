@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useContext, createContext } from 'react'
-import { useTree, useDesigner, useRegistry } from '../../hooks'
+import { useTree, usePrefix, useDesigner, useRegistry } from '../../hooks'
 import { TreeNodeContext } from '../../context'
 import { TreeNode } from '@designable/core'
 import { observer } from '@formily/reactive-react'
+import cls from 'classnames'
 
 const ComponentsContext = createContext<IComponents>({})
 export interface IComponents {
@@ -73,6 +74,7 @@ export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
 export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
   observer((props: IComponentTreeWidgetProps) => {
     const tree = useTree()
+    const prefix = usePrefix('component-tree')
     const designer = useDesigner()
     const registry = useRegistry()
     const dataId = {}
@@ -94,7 +96,11 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
       dataId[designer?.props?.nodeIdAttrName] = tree.id
     }
     return (
-      <div style={props.style} className={props.className} {...dataId}>
+      <div
+        style={props.style}
+        className={cls(prefix, props.className)}
+        {...dataId}
+      >
         <ComponentsContext.Provider value={props.components}>
           <TreeNodeWidget node={tree} />
         </ComponentsContext.Provider>
