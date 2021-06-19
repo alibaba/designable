@@ -36,7 +36,9 @@ export const transformToSchema = (
   }
   if (!root) return { schema }
   const createSchema = (node: TreeNode, schema: ISchema = {}) => {
-    Object.assign(schema, clone(node.props))
+    if (node !== root) {
+      Object.assign(schema, clone(node.props))
+    }
     schema._designableId = node.id
     if (schema.type === 'array') {
       if (node.children[0]) {
