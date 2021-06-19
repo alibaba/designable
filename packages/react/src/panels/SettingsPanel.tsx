@@ -19,7 +19,9 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
     if (visible || workbench.type === 'DESIGNABLE') {
       if (!innerVisible) {
         requestIdle(() => {
-          setInnerVisible(true)
+          requestAnimationFrame(() => {
+            setInnerVisible(true)
+          })
         })
       }
     } else {
