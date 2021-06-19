@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { requestIdle } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
 import { TextWidget, IconWidget } from '../widgets'
 import { usePrefix, useWorkbench } from '../hooks'
@@ -11,8 +12,20 @@ export interface ISettingPanelProps {
 export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
   const prefix = usePrefix('settings-panel')
   const workbench = useWorkbench()
+  const [innerVisible, setInnerVisible] = useState(true)
   const [pinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(true)
+  useEffect(() => {
+    if (visible || workbench.type === 'DESIGNABLE') {
+      if (!innerVisible) {
+        requestIdle(() => {
+          setInnerVisible(true)
+        })
+      }
+    } else {
+      setInnerVisible(false)
+    }
+  }, [visible, workbench.type])
   if (workbench.type !== 'DESIGNABLE') return null
   if (!visible)
     return (
@@ -60,7 +73,7 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
           />
         </div>
       </div>
-      <div className={prefix + '-body'}>{props.children}</div>
+      <div className={prefix + '-body'}>{innerVisible && props.children}</div>
     </div>
   )
 })

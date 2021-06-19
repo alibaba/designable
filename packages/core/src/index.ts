@@ -1,7 +1,6 @@
 import { DEFAULT_DRIVERS, DEFAULT_EFFECTS, DEFAULT_SHORTCUTS } from './presets'
 import { Engine } from './models/Engine'
 import { IEngineProps } from './types'
-export * from '@designable/shared'
 export * from './registry'
 export * from './models'
 export * from './events'

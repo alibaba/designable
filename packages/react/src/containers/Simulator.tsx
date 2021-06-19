@@ -1,5 +1,6 @@
 import React from 'react'
 import { ScreenType } from '@designable/core'
+import { requestIdle } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
 import { useScreen } from '../hooks'
 import {
@@ -22,5 +23,8 @@ export const Simulator: React.FC<ISimulatorProps> = observer(
         <ResponsiveSimulator {...props}>{props.children}</ResponsiveSimulator>
       )
     return <PCSimulator {...props}>{props.children}</PCSimulator>
+  },
+  {
+    scheduler: requestIdle,
   }
 )
