@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.2(2021-06-19)
+
+### :tada: Enhancements
+
+1. [feat(react): add ViewToolsWidget](https://github.com/alibaba/designable/commit/8f23c92) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.1(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -255,9 +261,3 @@
 ## v0.1.16(2021-06-09)
 
 ### No Change Log
-
-## v0.1.15(2021-06-09)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix settings dataSource locales](https://github.com/alibaba/designable/commit/30ce798) :point_right: ( [janryWang](https://github.com/janryWang) )
