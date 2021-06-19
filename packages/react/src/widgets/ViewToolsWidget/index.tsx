@@ -44,7 +44,7 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
           <Button
             disabled={workbench.type === 'MARKUP'}
             onClick={() => {
-              workbench.type === 'MARKUP'
+              workbench.type = 'MARKUP'
             }}
             size="small"
           >
