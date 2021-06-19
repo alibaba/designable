@@ -39,7 +39,7 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
     <div
       style={{
         overflow: 'overlay',
-        minHeight: '100%',
+        height: '100%',
         cursor: 'auto',
         userSelect: 'text',
       }}
