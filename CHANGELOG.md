@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.0-beta.4(2021-06-19)
+
+### No Change Log
+
 ## v0.3.0-beta.3(2021-06-19)
 
 ### :tada: Enhancements
@@ -257,9 +261,3 @@
 ### :rocket: Improve Performance
 
 1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/15dea64) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.17(2021-06-09)
-
-### :rocket: Improve Performance
-
-1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/a900b91) :point_right: ( [janryWang](https://github.com/janryWang) )
