@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.12(2021-06-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix typings](https://github.com/alibaba/designable/commit/fd7b8ee) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.11(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -257,9 +263,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix slider style](https://github.com/alibaba/designable/commit/343f921) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.25(2021-06-10)
-
-### :tada: Enhancements
-
-1. [feat(settings): add slider component to SchemaField](https://github.com/alibaba/designable/commit/af6269f) :point_right: ( [janryWang](https://github.com/janryWang) )
