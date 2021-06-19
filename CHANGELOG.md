@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.3(2021-06-19)
+
+### :tada: Enhancements
+
+1. [feat(react): add ViewPanel](https://github.com/alibaba/designable/commit/7cafe99) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.2(2021-06-19)
 
 ### :tada: Enhancements
@@ -257,7 +263,3 @@
 ### :rocket: Improve Performance
 
 1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/a900b91) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.16(2021-06-09)
-
-### No Change Log

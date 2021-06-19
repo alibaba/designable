@@ -203,5 +203,5 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
   })
 
 DesignerToolsWidget.defaultProps = {
-  use: [],
+  use: ['HISTORY', 'CURSOR', 'SCREEN_TYPE'],
 }
