@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.10(2021-06-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/adcbacf) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.9(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -257,9 +263,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix hover logic](https://github.com/alibaba/designable/commit/414a723) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.23(2021-06-10)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix PolyInput](https://github.com/alibaba/designable/commit/411c9d8) :point_right: ( [janryWang](https://github.com/janryWang) )
