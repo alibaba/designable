@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.0(2021-06-19)
+
+### No Change Log
+
 ## v0.3.0-beta.12(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -257,9 +261,3 @@
 1. [fix(core): support more api for DragSource](https://github.com/alibaba/designable/commit/c23b800) :point_right: ( [janryWang](https://github.com/janryWang) )
 
 1. [fix(settings): change tooltipLayout](https://github.com/alibaba/designable/commit/85f2464) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.26(2021-06-10)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix slider style](https://github.com/alibaba/designable/commit/343f921) :point_right: ( [janryWang](https://github.com/janryWang) )
