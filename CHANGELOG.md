@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.6(2021-06-19)
+
+### :tada: Enhancements
+
+1. [feat(react): add Play Button to ViewToolsWidget](https://github.com/alibaba/designable/commit/c6efcae) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.5(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -255,9 +261,3 @@
 ### :rocket: Improve Performance
 
 1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/326067f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.19(2021-06-09)
-
-### :rocket: Improve Performance
-
-1. [perf(core): improve performance](https://github.com/alibaba/designable/commit/305da1a) :point_right: ( [janryWang](https://github.com/janryWang) )

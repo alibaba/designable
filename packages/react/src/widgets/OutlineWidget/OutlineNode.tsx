@@ -1,11 +1,11 @@
 import React, { useRef, useContext, useEffect } from 'react'
 import {
-  isFn,
   TreeNode,
   ClosestDirection,
   CursorStatus,
   DragMoveEvent,
 } from '@designable/core'
+import { isFn } from '@designable/shared'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-react'
 import {
