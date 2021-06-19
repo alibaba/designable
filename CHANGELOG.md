@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0-beta.9(2021-06-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/0587c40) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0-beta.8(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -257,9 +263,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix PolyInput](https://github.com/alibaba/designable/commit/411c9d8) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.22(2021-06-10)
-
-### :tada: Enhancements
-
-1. [feat(settings): improve radio.group ui](https://github.com/alibaba/designable/commit/00bc7e6) :point_right: ( [janryWang](https://github.com/janryWang) )

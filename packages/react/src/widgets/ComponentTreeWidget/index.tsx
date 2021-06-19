@@ -4,7 +4,7 @@ import { TreeNodeContext } from '../../context'
 import { TreeNode } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 import cls from 'classnames'
-import './styles'
+import './styles.less'
 
 const ComponentsContext = createContext<IComponents>({})
 export interface IComponents {
