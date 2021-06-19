@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TreeNode, WorkbenchTypes } from '@designable/core'
+import { TreeNode, ITreeNode, WorkbenchTypes } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 import { useTree, useWorkbench } from '../hooks'
 import { Viewport } from '../containers'
@@ -9,7 +9,7 @@ export interface IViewPanelProps {
   type: WorkbenchTypes
   children: (
     tree: TreeNode,
-    onChange: (tree: TreeNode) => void
+    onChange: (tree: ITreeNode) => void
   ) => React.ReactElement
 }
 
