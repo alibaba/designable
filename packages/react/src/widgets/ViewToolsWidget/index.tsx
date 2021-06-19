@@ -51,11 +51,22 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
             <IconWidget infer="Code" />
           </Button>
         )}
+        {use.includes('PREVIEW') && (
+          <Button
+            disabled={workbench.type === 'PREVIEW'}
+            onClick={() => {
+              workbench.type = 'PREVIEW'
+            }}
+            size="small"
+          >
+            <IconWidget infer="Play" />
+          </Button>
+        )}
       </Button.Group>
     )
   }
 )
 
 ViewToolsWidget.defaultProps = {
-  use: ['DESIGNABLE', 'JSONTREE', 'MARKUP'],
+  use: ['DESIGNABLE', 'JSONTREE', 'PREVIEW'],
 }
