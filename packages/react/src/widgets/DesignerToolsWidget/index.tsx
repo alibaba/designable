@@ -13,14 +13,14 @@ import { IconWidget } from '../IconWidget'
 import './styles.less'
 export type IToolbarWidgetProps = React.HTMLAttributes<HTMLDivElement>
 
-export const ToolbarWidget: React.FC<IToolbarWidgetProps> = observer(
+export const DesignerToolsWidget: React.FC<IToolbarWidgetProps> = observer(
   (props: IToolbarWidgetProps) => {
     const screen = useScreen()
     const cursor = useCursor()
     const workbench = useWorkbench()
     const history = useHistory()
     const sizeRef = useRef<{ width?: any; height?: any }>({})
-    const prefix = usePrefix('toolbar')
+    const prefix = usePrefix('designer-tools')
     const renderHistoryController = () => {
       return (
         <Button.Group size="small" style={{ marginRight: 20 }}>

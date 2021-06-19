@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import {
   Designer,
   IconWidget,
-  ToolbarWidget,
   Workspace,
   Viewport,
+  DesignerToolsWidget,
   OutlineTreeWidget,
   DragSourceWidget,
   MainPanel,
@@ -241,7 +241,7 @@ const App = () => {
         <Workspace id="form">
           <WorkspacePanel>
             <ToolbarPanel>
-              <ToolbarWidget />
+              <DesignerToolsWidget />
               <Button.Group>
                 <Button
                   disabled={view === 'design'}
