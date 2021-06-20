@@ -4,6 +4,7 @@ import { useHover, useSelection, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { TextWidget } from '../TextWidget'
 import { Button } from 'antd'
+import { observer } from '@formily/reactive-react'
 
 const useMouseHover = <T extends { current: HTMLElement }>(
   ref: T,
@@ -39,7 +40,7 @@ export interface ISelectorProps {
   style?: React.CSSProperties
 }
 
-export const Selector: React.FC<ISelectorProps> = ({ node }) => {
+export const Selector: React.FC<ISelectorProps> = observer(({ node }) => {
   const hover = useHover()
   const [expand, setExpand] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -116,13 +117,13 @@ export const Selector: React.FC<ISelectorProps> = ({ node }) => {
         {renderIcon(node)}
         <span>
           <TextWidget>
-            {node?.designerProps?.title || node?.componentName}
+            {node.designerProps?.title || node?.componentName}
           </TextWidget>
         </span>
       </Button>
       {expand && renderMenu()}
     </div>
   )
-}
+})
 
 Selector.displayName = 'Selector'
