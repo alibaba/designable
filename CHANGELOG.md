@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.6(2021-06-20)
+
+### No Change Log
+
 ## v0.3.5(2021-06-20)
 
 ### :beetle: Bug Fixes
@@ -253,9 +257,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): sticky NodePath](https://github.com/alibaba/designable/commit/83ca82d) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.32(2021-06-12)
-
-### :tada: Enhancements
-
-1. [feat(settings): support NodePath](https://github.com/alibaba/designable/commit/c3f1ebe) :point_right: ( [janryWang](https://github.com/janryWang) )
