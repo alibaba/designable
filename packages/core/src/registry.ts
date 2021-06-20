@@ -1,4 +1,4 @@
-import { each, isFn, isPlainObj, isStr } from '@designable/shared'
+import { each, isFn, isPlainObj } from '@designable/shared'
 import { Path } from '@formily/path'
 import { define, observable } from '@formily/reactive'
 import {
@@ -51,10 +51,14 @@ const DESINGER_LOCALES: IDesignerLocales = define(
   }
 )
 
+const cleanSpace = (str: string) => {
+  return String(str).replace(/\s+/g, '_')
+}
+
 const mergeLocales = (target: any, source: any) => {
   if (isPlainObj(target) && isPlainObj(source)) {
     each(source, (value, key) => {
-      target[key] = mergeLocales(target[key], value)
+      target[cleanSpace(key)] = mergeLocales(target[key], value)
     })
     return target
   }
@@ -113,12 +117,15 @@ const DESIGNER_GlobalRegistry = {
     const locale = DESINGER_LOCALES.messages[lang]
     if (!locale) {
       for (let key in DESINGER_LOCALES.messages) {
-        const message = Path.getIn(DESINGER_LOCALES.messages[key], token)
+        const message = Path.getIn(
+          DESINGER_LOCALES.messages[key],
+          cleanSpace(token)
+        )
         if (message) return message
       }
       return
     }
-    return Path.getIn(locale, token)
+    return Path.getIn(locale, cleanSpace(token))
   },
 
   registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {
