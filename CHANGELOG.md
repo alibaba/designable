@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.7(2021-06-20)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/6506df8) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.6(2021-06-20)
 
 ### No Change Log
@@ -251,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix can not cancel multi select](https://github.com/alibaba/designable/commit/8d9ba60) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.33(2021-06-12)
-
-### :blush: Other Changes
-
-1. [chore(settings): sticky NodePath](https://github.com/alibaba/designable/commit/83ca82d) :point_right: ( [janryWang](https://github.com/janryWang) )
