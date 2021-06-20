@@ -24,12 +24,14 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
           })
         })
       }
-    } else {
-      setInnerVisible(false)
     }
   }, [visible, workbench.type])
-  if (workbench.type !== 'DESIGNABLE') return null
-  if (!visible)
+  if (workbench.type !== 'DESIGNABLE') {
+    if (innerVisible) setInnerVisible(false)
+    return null
+  }
+  if (!visible) {
+    if (innerVisible) setInnerVisible(false)
     return (
       <div
         className={prefix + '-opener'}
@@ -40,6 +42,7 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
         <IconWidget infer="Setting" size={20} />
       </div>
     )
+  }
   return (
     <div className={cls(prefix, { pinning })}>
       <div className={prefix + '-header'}>
