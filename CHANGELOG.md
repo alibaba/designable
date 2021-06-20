@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.3(2021-06-20)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/00da372) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.2(2021-06-20)
 
 ### :rocket: Improve Performance
@@ -257,9 +263,3 @@
 ### :rocket: Improve Performance
 
 1. [refactor(core): improve selection performance](https://github.com/alibaba/designable/commit/973d69e) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.29(2021-06-11)
-
-### :rose: Improve code quality
-
-1. [refactor(react): update components getter for TreeNodeWidget](https://github.com/alibaba/designable/commit/ad9f1a1) :point_right: ( [janryWang](https://github.com/janryWang) )
