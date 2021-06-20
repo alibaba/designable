@@ -59,16 +59,18 @@ const cleanSpace = (str: string) => {
 const mergeLocales = (target: any, source: any) => {
   if (isPlainObj(target) && isPlainObj(source)) {
     each(source, function (value, key) {
-      target[cleanSpace(key)] = mergeLocales(
-        target[key] || target[cleanSpace(key)],
-        value
-      )
+      const token = cleanSpace(key)
+      const messages = mergeLocales(target[key] || target[token], value)
+      target[token] = messages
+      target[key] = messages
     })
     return target
   } else if (isPlainObj(source)) {
-    const result = {}
+    const result = Array.isArray(source) ? [] : {}
     each(source, function (value, key) {
-      result[cleanSpace(key)] = mergeLocales(undefined, value)
+      const messages = mergeLocales(undefined, value)
+      result[cleanSpace(key)] = messages
+      result[key] = messages
     })
     return result
   }
