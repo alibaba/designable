@@ -186,10 +186,12 @@ export class TreeNode {
   }
 
   get previous() {
+    if (this.parent === this || !this.parent) return
     return this.parent.children[this.index - 1]
   }
 
-  get after() {
+  get next() {
+    if (this.parent === this || !this.parent) return
     return this.parent.children[this.index + 1]
   }
 
@@ -201,7 +203,8 @@ export class TreeNode {
   }
 
   get index() {
-    return this.parent?.children?.indexOf(this) || -1
+    if (this.parent === this || !this.parent) return 0
+    return this.parent.children.indexOf(this)
   }
 
   get childrens(): TreeNode[] {
@@ -216,6 +219,14 @@ export class TreeNode {
 
   get isInOperation() {
     return !!this.root?.operation
+  }
+
+  get lastChild() {
+    return this.children[this.children.length - 1]
+  }
+
+  get firstChild() {
+    return this.children[0]
   }
 
   getPrevious(step = 1) {

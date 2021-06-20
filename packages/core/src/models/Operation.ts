@@ -216,7 +216,7 @@ export class Operation {
           insertPoint.parent.allowAppend([cloned])
         ) {
           insertPoint.insertAfter(cloned)
-          insertPoint = insertPoint.after
+          insertPoint = insertPoint.next
         } else if (this.selection.length === 1) {
           const targetNode = this.tree.findById(this.selection.first)
           let cloneNodes = parents.get(targetNode)

@@ -27,6 +27,8 @@ import {
   RedoMutation,
   CursorSwitchSelection,
   PreventCommandX,
+  SelectPrevNode,
+  SelectNextNode,
 } from './shortcuts'
 
 export const DEFAULT_EFFECTS = [
@@ -57,6 +59,8 @@ export const DEFAULT_SHORTCUTS = [
   DeleteNodes,
   CopyNodes,
   PasteNodes,
+  SelectPrevNode,
+  SelectNextNode,
   UndoMutation,
   RedoMutation,
   CursorSwitchSelection,
