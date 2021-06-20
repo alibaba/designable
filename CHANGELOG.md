@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.2(2021-06-20)
+
+### :rocket: Improve Performance
+
+1. [chore(react): improve SettingPanel opern performance](https://github.com/alibaba/designable/commit/f2b3c23) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :blush: Other Changes
+
+1. [chore(react): improve SettingPanel opern performance](https://github.com/alibaba/designable/commit/f2b3c23) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.1(2021-06-19)
 
 ### :beetle: Bug Fixes
@@ -253,9 +263,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(react): update components getter for TreeNodeWidget](https://github.com/alibaba/designable/commit/ad9f1a1) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.28(2021-06-11)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix locales](https://github.com/alibaba/designable/commit/aeaffbe) :point_right: ( [janryWang](https://github.com/janryWang) )
