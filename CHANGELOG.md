@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.12(2021-06-21)
+
+### :tada: Enhancements
+
+1. [feat(core): support keyboard quick selection](https://github.com/alibaba/designable/commit/c1487c1) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.11(2021-06-20)
 
 ### No Change Log
@@ -243,9 +249,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support focus dnd](https://github.com/alibaba/designable/commit/363a8b9) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.38(2021-06-13)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve NodePath styles](https://github.com/alibaba/designable/commit/298b377) :point_right: ( [janryWang](https://github.com/janryWang) )
