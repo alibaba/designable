@@ -1,6 +1,6 @@
 {
   "name": "@designable/react",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -19,8 +19,8 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@designable/core": "0.3.10",
-    "@designable/shared": "0.3.10",
+    "@designable/core": "0.3.11",
+    "@designable/shared": "0.3.11",
     "@formily/reactive": "^2.0.0-beta.68",
     "@formily/reactive-react": "^2.0.0-beta.68",
     "@juggle/resize-observer": "^3.3.1"
@@ -28,5 +28,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b05fbe0063a9852e71a6bb3f7045f48f20a0b96f"
+  "gitHead": "8a284e352ec303b8dab76760e524afcbbdacdf56"
 }

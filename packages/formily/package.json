@@ -1,6 +1,6 @@
 {
   "name": "@designable/formily",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -18,10 +18,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@designable/core": "0.3.10",
-    "@designable/shared": "0.3.10",
+    "@designable/core": "0.3.11",
+    "@designable/shared": "0.3.11",
     "@formily/core": "^2.0.0-beta.68",
     "@formily/json-schema": "^2.0.0-beta.68"
   },
-  "gitHead": "b05fbe0063a9852e71a6bb3f7045f48f20a0b96f"
+  "gitHead": "8a284e352ec303b8dab76760e524afcbbdacdf56"
 }

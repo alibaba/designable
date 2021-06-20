@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.10(2021-06-20)
+
+### :tada: Enhancements
+
+1. [feat(react): improve ui](https://github.com/alibaba/designable/commit/017fdbc) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.9(2021-06-20)
 
 ### :beetle: Bug Fixes
@@ -243,17 +249,3 @@
 ## v0.1.37(2021-06-12)
 
 ### No Change Log
-
-## v0.1.36(2021-06-12)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix useDesigner effects memo leak](https://github.com/alibaba/designable/commit/1c83818) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :rocket: Improve Performance
-
-1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
