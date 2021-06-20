@@ -57,10 +57,19 @@ const cleanSpace = (str: string) => {
 
 const mergeLocales = (target: any, source: any) => {
   if (isPlainObj(target) && isPlainObj(source)) {
-    each(source, (value, key) => {
-      target[cleanSpace(key)] = mergeLocales(target[key], value)
+    each(source, function (value, key) {
+      target[cleanSpace(key)] = mergeLocales(
+        target[key] || target[cleanSpace(key)],
+        value
+      )
     })
     return target
+  } else if (isPlainObj(source)) {
+    const result = {}
+    each(source, function (value, key) {
+      result[cleanSpace(key)] = mergeLocales(undefined, value)
+    })
+    return result
   }
   return source
 }
