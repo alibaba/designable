@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.9(2021-06-20)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix treenode clone mutation](https://github.com/alibaba/designable/commit/94bcbe7) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.8(2021-06-20)
 
 ### :beetle: Bug Fixes
@@ -251,9 +257,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve NodePath click performance](https://github.com/alibaba/designable/commit/f92f71b) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.35(2021-06-12)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve NodePath styles](https://github.com/alibaba/designable/commit/f757b9f) :point_right: ( [janryWang](https://github.com/janryWang) )
