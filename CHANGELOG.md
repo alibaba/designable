@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.4(2021-06-20)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/173fc9e) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.3(2021-06-20)
 
 ### :beetle: Bug Fixes
@@ -253,13 +259,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): support useNodeIdProps](https://github.com/alibaba/designable/commit/3a11f73) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.30(2021-06-11)
-
-### :rose: Improve code quality
-
-1. [refactor(core): improve selection performance](https://github.com/alibaba/designable/commit/973d69e) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :rocket: Improve Performance
-
-1. [refactor(core): improve selection performance](https://github.com/alibaba/designable/commit/973d69e) :point_right: ( [janryWang](https://github.com/janryWang) )
