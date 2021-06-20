@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.1(2021-06-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix TreeNode append lose children](https://github.com/alibaba/designable/commit/d1b2fd8) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.0(2021-06-19)
 
 ### No Change Log
@@ -253,11 +259,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix locales](https://github.com/alibaba/designable/commit/aeaffbe) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.27(2021-06-11)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): support more api for DragSource](https://github.com/alibaba/designable/commit/c23b800) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-1. [fix(settings): change tooltipLayout](https://github.com/alibaba/designable/commit/85f2464) :point_right: ( [janryWang](https://github.com/janryWang) )
