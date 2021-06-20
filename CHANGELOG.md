@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.5(2021-06-20)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/1790e0c) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.4(2021-06-20)
 
 ### :beetle: Bug Fixes
@@ -253,9 +259,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support NodePath](https://github.com/alibaba/designable/commit/c3f1ebe) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.31(2021-06-12)
-
-### :tada: Enhancements
-
-1. [feat(react): support useNodeIdProps](https://github.com/alibaba/designable/commit/3a11f73) :point_right: ( [janryWang](https://github.com/janryWang) )

@@ -1,6 +1,6 @@
 {
   "name": "@designable/core",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -15,7 +15,7 @@
     "build:umd": "rollup --config"
   },
   "dependencies": {
-    "@designable/shared": "0.3.5",
+    "@designable/shared": "0.3.6",
     "@formily/json-schema": "^2.0.0-beta.68",
     "@formily/path": "^2.0.0-beta.68",
     "@formily/reactive": "^2.0.0-beta.68",
@@ -24,5 +24,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "31cd10ed79e64da17c6aaf884b3d974de702d593"
+  "gitHead": "b05fbe0063a9852e71a6bb3f7045f48f20a0b96f"
 }
