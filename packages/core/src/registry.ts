@@ -52,7 +52,7 @@ const DESINGER_LOCALES: IDesignerLocales = define(
 )
 
 const cleanSpace = (str: string) => {
-  return String(str).replace(/\s+/g, '_')
+  return String(str).replace(/\s+/g, '_').toLocaleLowerCase()
 }
 
 const mergeLocales = (target: any, source: any) => {
