@@ -19,11 +19,12 @@ const getBrowserlanguage = () => {
 
 const getISOCode = (language: string) => {
   let isoCode = DESINGER_LOCALES.language
-  if (DESINGER_LOCALES.messages[language]) {
-    return language
+  let lang = cleanSpace(language)
+  if (DESINGER_LOCALES.messages[lang]) {
+    return lang
   }
   each(DESINGER_LOCALES.messages, (_, key: string) => {
-    if (key.indexOf(language) > -1 || String(language).indexOf(key) > -1) {
+    if (key.indexOf(lang) > -1 || String(lang).indexOf(key) > -1) {
       isoCode = key
       return false
     }
