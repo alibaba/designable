@@ -572,11 +572,15 @@ export class TreeNode {
         id: uid(),
         componentName: this.componentName,
         props: toJS(this.props),
-        children: this.children.map((treeNode) => {
-          return treeNode.clone(newNode)
-        }),
+        children: [],
       },
       parent ? parent : this.parent
+    )
+    newNode.children = resetNodesParent(
+      this.children.map((treeNode) => {
+        return treeNode.clone(newNode)
+      }),
+      newNode
     )
     return newNode
   }
