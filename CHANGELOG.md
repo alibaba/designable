@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.11(2021-06-20)
+
+### No Change Log
+
 ## v0.3.10(2021-06-20)
 
 ### :tada: Enhancements
@@ -245,7 +249,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve NodePath styles](https://github.com/alibaba/designable/commit/298b377) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.37(2021-06-12)
-
-### No Change Log
