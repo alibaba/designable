@@ -2,7 +2,7 @@ import { ISchema, Schema } from '@formily/json-schema'
 import { ITreeNode, TreeNode } from '@designable/core'
 import { clone } from '@designable/shared'
 
-export interface ITranformerOptions {
+export interface ITransformerOptions {
   designableFieldName?: string
   designableFormName?: string
   schemaFieldName?: string
@@ -14,7 +14,7 @@ export interface IFormilySchema {
   form?: Record<string, any>
 }
 
-const createOptions = (options: ITranformerOptions): ITranformerOptions => {
+const createOptions = (options: ITransformerOptions): ITransformerOptions => {
   return {
     designableFieldName: 'DesignableField',
     designableFormName: 'DesignableForm',
@@ -24,7 +24,7 @@ const createOptions = (options: ITranformerOptions): ITranformerOptions => {
 
 export const transformToSchema = (
   node: TreeNode,
-  options?: ITranformerOptions
+  options?: ITransformerOptions
 ): IFormilySchema => {
   const realOptions = createOptions(options)
   const root = node.find((child) => {
@@ -72,7 +72,7 @@ export const transformToSchema = (
 
 export const transformToTreeNode = (
   formily: IFormilySchema = {},
-  options?: ITranformerOptions
+  options?: ITransformerOptions
 ) => {
   const realOptions = createOptions(options)
   const root: ITreeNode = {

@@ -18,12 +18,12 @@ const getBrowserlanguage = () => {
 }
 
 const getISOCode = (language: string) => {
-  let isoCode = DESINGER_LOCALES.language
+  let isoCode = DESIGNER_LOCALES.language
   let lang = cleanSpace(language)
-  if (DESINGER_LOCALES.messages[lang]) {
+  if (DESIGNER_LOCALES.messages[lang]) {
     return lang
   }
-  each(DESINGER_LOCALES.messages, (_, key: string) => {
+  each(DESIGNER_LOCALES.messages, (_, key: string) => {
     if (key.indexOf(lang) > -1 || String(lang).indexOf(key) > -1) {
       isoCode = key
       return false
@@ -32,7 +32,7 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const DESINGER_PROPS_MAP: IDesignerControllerPropsMap = {
+const DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {
   Root: {
     droppable: true,
     cloneable: false,
@@ -40,9 +40,9 @@ const DESINGER_PROPS_MAP: IDesignerControllerPropsMap = {
   },
 }
 
-const DESINGER_ICONS_MAP: Record<string, any> = {}
+const DESIGNER_ICONS_MAP: Record<string, any> = {}
 
-const DESINGER_LOCALES: IDesignerLocales = define(
+const DESIGNER_LOCALES: IDesignerLocales = define(
   {
     messages: {},
     language: getBrowserlanguage(),
@@ -83,7 +83,7 @@ const DESIGNER_GlobalRegistry = {
     props: IDesignerControllerProps
   ) => {
     const originProps = GlobalRegistry.getComponentDesignerProps(componentName)
-    DESINGER_PROPS_MAP[componentName] = (node) => {
+    DESIGNER_PROPS_MAP[componentName] = (node) => {
       if (isFn(originProps)) {
         if (isFn(props)) {
           return { ...originProps(node), ...props(node) }
@@ -99,7 +99,7 @@ const DESIGNER_GlobalRegistry = {
   },
 
   getComponentDesignerProps: (componentName: string) => {
-    return DESINGER_PROPS_MAP[componentName] || {}
+    return DESIGNER_PROPS_MAP[componentName] || {}
   },
 
   registerDesignerProps: (map: IDesignerControllerPropsMap) => {
@@ -109,28 +109,28 @@ const DESIGNER_GlobalRegistry = {
   },
 
   registerDesignerIcons: (map: Record<string, any>) => {
-    Object.assign(DESINGER_ICONS_MAP, map)
+    Object.assign(DESIGNER_ICONS_MAP, map)
   },
 
   getDesignerIcon: (name: string) => {
-    return DESINGER_ICONS_MAP[name]
+    return DESIGNER_ICONS_MAP[name]
   },
 
   setDesignerLanguage(lang: string) {
-    DESINGER_LOCALES.language = lang
+    DESIGNER_LOCALES.language = lang
   },
 
   getDesignerLanguage() {
-    return DESINGER_LOCALES.language
+    return DESIGNER_LOCALES.language
   },
 
   getDesignerMessage(token: string) {
-    const lang = getISOCode(DESINGER_LOCALES.language)
-    const locale = DESINGER_LOCALES.messages[lang]
+    const lang = getISOCode(DESIGNER_LOCALES.language)
+    const locale = DESIGNER_LOCALES.messages[lang]
     if (!locale) {
-      for (let key in DESINGER_LOCALES.messages) {
+      for (let key in DESIGNER_LOCALES.messages) {
         const message = Path.getIn(
-          DESINGER_LOCALES.messages[key],
+          DESIGNER_LOCALES.messages[key],
           cleanSpace(token)
         )
         if (message) return message
@@ -142,7 +142,7 @@ const DESIGNER_GlobalRegistry = {
 
   registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {
     packages.forEach((locales) => {
-      mergeLocales(DESINGER_LOCALES.messages, locales)
+      mergeLocales(DESIGNER_LOCALES.messages, locales)
     })
   },
 }
