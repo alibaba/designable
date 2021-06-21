@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.13(2021-06-21)
+
+### :tada: Enhancements
+
+1. [feat(react): fix viewport styles](https://github.com/alibaba/designable/commit/1fe10b3) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+### :beetle: Bug Fixes
+
+1. [feat(react): fix viewport styles](https://github.com/alibaba/designable/commit/1fe10b3) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.12(2021-06-21)
 
 ### :tada: Enhancements
@@ -243,9 +253,3 @@
 ## v0.1.40(2021-06-13)
 
 ### No Change Log
-
-## v0.1.39(2021-06-13)
-
-### :tada: Enhancements
-
-1. [feat(core): support focus dnd](https://github.com/alibaba/designable/commit/363a8b9) :point_right: ( [janryWang](https://github.com/janryWang) )
