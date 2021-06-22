@@ -49,6 +49,7 @@ export const useLocales = () => {
           const icon = takeIcon(label)
           return {
             ...item,
+            value: item?.value ?? null,
             label: icon ? (
               <IconWidget infer={icon[0]} tooltip={icon[1]} />
             ) : (
