@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.3.14(2021-06-21)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix selection throw error when node can not found](https://github.com/alibaba/designable/commit/690bc1f) :point_right: ( [janryWang](https://github.com/janryWang) )
+
+1. [fix(project): fix typo](https://github.com/alibaba/designable/commit/47dc790) :point_right: ( [janryWang](https://github.com/janryWang) )
+
 ## v0.3.13(2021-06-21)
 
 ### :tada: Enhancements
@@ -249,7 +257,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): improve focus dnd](https://github.com/alibaba/designable/commit/da7c8c6) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.40(2021-06-13)
-
-### No Change Log
