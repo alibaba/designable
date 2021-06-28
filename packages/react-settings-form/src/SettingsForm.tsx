@@ -19,7 +19,7 @@ import cls from 'classnames'
 import './styles.less'
 
 const GlobalState = {
-  idleReuqest: null,
+  idleRequest: null,
 }
 
 export const SettingsForm: React.FC<ISettingFormProps> = observer(
@@ -84,8 +84,8 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
   },
   {
     scheduler: (update) => {
-      cancelIdle(GlobalState.idleReuqest)
-      GlobalState.idleReuqest = requestIdle(update)
+      cancelIdle(GlobalState.idleRequest)
+      GlobalState.idleRequest = requestIdle(update)
     },
   }
 )
