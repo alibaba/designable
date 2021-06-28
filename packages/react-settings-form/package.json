@@ -29,7 +29,11 @@
     "@formily/react": "^2.0.0-beta.68",
     "@formily/reactive": "^2.0.0-beta.68",
     "@formily/reactive-react": "^2.0.0-beta.68",
-    "react-color": "^2.19.3"
+    "react-color": "^2.19.3",
+    "@monaco-editor/react": "^4.2.1",
+    "@babel/parser": "^7.14.7",
+    "prettier": "^2.3.2",
+    "monaco-editor": "^0.25.2"
   },
   "publishConfig": {
     "access": "public"

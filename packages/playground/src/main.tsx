@@ -16,7 +16,7 @@ import {
   ViewportPanel,
   SettingsPanel,
 } from '@designable/react'
-import { SettingsForm } from '@designable/react-settings-form'
+import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
@@ -250,8 +250,11 @@ const App = () => {
               <ViewPanel type="JSONTREE">
                 {(tree) => {
                   return (
-                    <div style={{ overflow: 'overlay', height: '100%' }}>
-                      JSON TREE
+                    <div style={{ overflow: 'hidden', height: '100%' }}>
+                      <MonacoInput
+                        language="javascript.expression"
+                        defaultValue='{"aa":{"bb":123}}'
+                      />
                     </div>
                   )
                 }}
