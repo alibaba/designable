@@ -199,7 +199,7 @@ const Actions = observer(() => (
       value={GlobalRegistry.getDesignerLanguage()}
       optionType="button"
       options={[
-        { label: 'Engligh', value: 'en-US' },
+        { label: 'English', value: 'en-US' },
         { label: '简体中文', value: 'zh-CN' },
       ]}
       onChange={(e) => {
