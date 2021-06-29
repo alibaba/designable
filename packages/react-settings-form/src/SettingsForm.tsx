@@ -60,7 +60,10 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
                 feedbackLayout="none"
                 tooltipLayout="text"
               >
-                <SchemaField schema={node.designerProps.propsSchema as any} />
+                <SchemaField
+                  schema={node.designerProps.propsSchema as any}
+                  components={props.components}
+                />
               </Form>
             </SettingsFormContext.Provider>
           </div>

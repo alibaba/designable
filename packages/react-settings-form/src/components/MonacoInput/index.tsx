@@ -59,7 +59,12 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         onMount={(editor, monaco) => {
           editorRef.current = editor
           onMount?.(editor, monaco)
-          registerExpression(editor, monaco)
+          if (
+            language === 'javascript.expression' ||
+            language === 'typescript.expression'
+          ) {
+            registerExpression(language, editor, monaco)
+          }
         }}
         onValidate={(markers) => {
           if (markers.length) {
