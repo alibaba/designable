@@ -7,15 +7,15 @@ export const registerExpression = (
   editor: Monaco.editor.IStandaloneCodeEditor,
   monaco: typeof Monaco
 ) => {
-  const languangeId = 'javascript.expression'
+  const languageId = 'javascript.expression'
 
-  monaco.languages.register({ id: languangeId })
+  monaco.languages.register({ id: languageId })
   monaco.languages.setMonarchTokensProvider(
-    languangeId,
+    languageId,
     language as Monaco.languages.IMonarchLanguage
   )
 
-  monaco.languages.registerDocumentFormattingEditProvider(languangeId, {
+  monaco.languages.registerDocumentFormattingEditProvider(languageId, {
     provideDocumentFormattingEdits(model) {
       return [
         {
@@ -32,15 +32,15 @@ export const registerExpression = (
   })
 
   const validate = () => {
-    const currentLangunage = editor.getModel()['_languageIdentifier'].language
-    if (currentLangunage !== languangeId) return
+    const currentLanguage = editor.getModel()['_languageIdentifier'].language
+    if (currentLanguage !== languageId) return
     try {
       parseExpression(editor.getValue(), {
         plugins: ['typescript'],
       })
-      monaco.editor.setModelMarkers(editor.getModel(), languangeId, [])
+      monaco.editor.setModelMarkers(editor.getModel(), languageId, [])
     } catch (e) {
-      monaco.editor.setModelMarkers(editor.getModel(), languangeId, [
+      monaco.editor.setModelMarkers(editor.getModel(), languageId, [
         {
           code: '1003',
           severity: 8,

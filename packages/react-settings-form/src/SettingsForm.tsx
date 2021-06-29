@@ -9,7 +9,7 @@ import {
   useCurrentNode,
   IconWidget,
 } from '@designable/react'
-import { SchemaField } from './SchemaField'
+import { composeSchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './context'
 import { useLocales } from './effects'
@@ -42,6 +42,11 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
       selected.length === 1
     )
 
+    const ComposeSchemaField = useMemo(
+      () => composeSchemaField(props.extraComponents),
+      [props.extraComponents]
+    )
+
     const render = () => {
       if (!isEmpty) {
         return (
@@ -60,7 +65,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
                 feedbackLayout="none"
                 tooltipLayout="text"
               >
-                <SchemaField schema={node.designerProps.propsSchema as any} />
+                <ComposeSchemaField
+                  schema={node.designerProps.propsSchema as any}
+                />
               </Form>
             </SettingsFormContext.Provider>
           </div>
