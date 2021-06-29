@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.15(2021-06-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix dataSource value can not to be null](https://github.com/alibaba/designable/commit/4a66ab0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.14(2021-06-21)
 
 ### :beetle: Bug Fixes
@@ -251,9 +257,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): add key to SettingsForm](https://github.com/alibaba/designable/commit/ddf6c9c) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.41(2021-06-13)
-
-### :tada: Enhancements
-
-1. [feat(core): improve focus dnd](https://github.com/alibaba/designable/commit/da7c8c6) :point_right: ( [janryWang](https://github.com/janryWang) )
