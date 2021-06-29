@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { InputProps } from 'antd/lib/input'
 import { Input, Upload } from 'antd'
 import { usePrefix, IconWidget } from '@designable/react'
-import { SettingsFormContext } from '../../context'
+import { SettingsFormContext } from '../../shared/context'
 import cls from 'classnames'
 import './styles.less'
 export interface ImageInputProps extends Omit<InputProps, 'onChange'> {

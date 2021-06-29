@@ -11,7 +11,7 @@ import {
 } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
-import { SettingsFormContext } from './context'
+import { SettingsFormContext } from './shared/context'
 import { useLocales } from './effects'
 import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'

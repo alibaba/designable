@@ -1,6 +1,6 @@
 import * as Monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { parseExpression } from '@babel/parser'
-import { format } from 'prettier/standalone'
+import { loadScript } from '../../shared/loadScript'
 import { language } from './highlight'
 
 export const registerExpression = (
@@ -14,20 +14,26 @@ export const registerExpression = (
     language as Monaco.languages.IMonarchLanguage
   )
 
-  monaco.languages.registerDocumentFormattingEditProvider(languageId, {
-    provideDocumentFormattingEdits(model) {
-      return [
-        {
-          text: format(model.getValue(), {
-            semi: false,
-            parser(text) {
-              return parseExpression(text)
-            },
-          }),
-          range: model.getFullModelRange(),
-        },
-      ]
-    },
+  loadScript({
+    package: 'prettier@2.3.2',
+    entry: 'standalone.min.js',
+    root: 'prettier',
+  }).then(({ format }) => {
+    monaco.languages.registerDocumentFormattingEditProvider(languageId, {
+      provideDocumentFormattingEdits(model) {
+        return [
+          {
+            text: format?.(model.getValue(), {
+              semi: false,
+              parser(text) {
+                return parseExpression(text)
+              },
+            }),
+            range: model.getFullModelRange(),
+          },
+        ]
+      },
+    })
   })
 
   const validate = () => {
