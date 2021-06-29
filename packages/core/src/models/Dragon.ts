@@ -22,7 +22,7 @@ export enum ClosestDirection {
   Under = 'UNDER',
   ForbidUnder = 'FORBID_UNDER',
   Inner = 'INNER',
-  ForbidInnder = 'FORBID_INNER',
+  ForbidInner = 'FORBID_INNER',
   InnerAfter = 'INNER_AFTER',
   ForbidInnerAfter = 'FORBID_INNER_AFTER',
   InnerBefore = 'INNER_BEFORE',

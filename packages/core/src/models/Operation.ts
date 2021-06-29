@@ -171,10 +171,10 @@ export class Operation {
         const afterIndex = node.index + 1
         const parent = node.parent
         node.remove()
-        const previus = previousIndex > -1 && parent.children[previousIndex]
+        const previous = previousIndex > -1 && parent.children[previousIndex]
         const after =
           afterIndex < parent.children.length && parent.children[afterIndex]
-        this.selection.select(previus ? previus : after ? after : node.parent)
+        this.selection.select(previous ? previous : after ? after : node.parent)
         this.hover.clear()
       }
     }
