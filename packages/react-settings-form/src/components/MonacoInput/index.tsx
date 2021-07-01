@@ -40,7 +40,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           setValue(prettyCode)
         },
         (e) => {
-          console.error(e)
+          setErrors(e?.message)
         }
       )
     }
@@ -107,7 +107,13 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           valueRef.current = value
         }}
       />
-      {errors && <div className={prefix + '-errors'}>{errors}</div>}
+      {errors && (
+        <div className={prefix + '-errors'}>
+          <code>
+            <pre>{errors}</pre>
+          </code>
+        </div>
+      )}
     </div>
   )
 }
