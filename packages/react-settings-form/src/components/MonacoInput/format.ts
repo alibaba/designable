@@ -25,6 +25,7 @@ export const format = async (code: string, language: string) => {
         semi: false,
         parser(text) {
           return parse(text, {
+            sourceType: 'module',
             plugins: ['jsx'],
           })
         },
