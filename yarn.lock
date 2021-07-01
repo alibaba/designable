@@ -1156,6 +1156,11 @@
   resolved "https://registry.yarnpkg.com/@formily/path/-/path-2.0.0-beta.68.tgz#faa0caf731e76c2f13091437eebebabeac009872"
   integrity sha512-8Y1tBJ1FNHF/O5axRQApFJZqlUzL6quIZsEzxA4Z3tW9VbCqhbuXjPlkEb5IrtAGayMqPbc721VgD3fbLZSbxA==
 
+"@formily/path@2.0.0-beta.72":
+  version "2.0.0-beta.72"
+  resolved "https://registry.yarnpkg.com/@formily/path/-/path-2.0.0-beta.72.tgz#13690f3b28ee530fe6773a99acf8f8094c25a007"
+  integrity sha512-Pr9UG+R+EIjFKJ5XJVjQ8J2y8rqx6e0V/yqrF0siA3hPeJp3GiOy7HlUnPmrfo8VANwm4RSR9b3+QZpsPO40Gg==
+
 "@formily/react@2.0.0-beta.68", "@formily/react@^2.0.0-beta.68":
   version "2.0.0-beta.68"
   resolved "https://registry.yarnpkg.com/@formily/react/-/react-2.0.0-beta.68.tgz#2c6bf32d5eb9a13010c191d9a143877439548e24"
@@ -1188,6 +1193,19 @@
   integrity sha512-XuU3MxiOlormTIiZlbYBBPH/wyY6B8B1Wki3/q+u4DQG8nV/mzBvjpBVgdIZgBXSm8b2gArL7KHQix4L0WJibw==
   dependencies:
     "@formily/path" "2.0.0-beta.68"
+    camel-case "^4.1.1"
+    lower-case "^2.0.1"
+    no-case "^3.0.4"
+    param-case "^3.0.4"
+    pascal-case "^3.1.1"
+    upper-case "^2.0.1"
+
+"@formily/shared@^2.0.0-beta.68":
+  version "2.0.0-beta.72"
+  resolved "https://registry.yarnpkg.com/@formily/shared/-/shared-2.0.0-beta.72.tgz#b65875cddf2c87f77b5310d41f2a1555a61a955f"
+  integrity sha512-mHu2Q/gjJlNG3CH8nnQ62ojuIugSY9znZXakQppICP5H+8MDYvk4aRJm/e7M7Gv8Y0QQ+5+expnX5vR0AeeUXQ==
+  dependencies:
+    "@formily/path" "2.0.0-beta.72"
     camel-case "^4.1.1"
     lower-case "^2.0.1"
     no-case "^3.0.4"

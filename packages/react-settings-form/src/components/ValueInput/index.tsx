@@ -4,7 +4,8 @@
  */
 import React from 'react'
 import { createPolyInput } from '../PolyInput'
-import { Input, InputNumber, Select } from 'antd'
+import { Input, Button, Popover, InputNumber, Select } from 'antd'
+import { MonacoInput } from '../MonacoInput'
 
 const STARTTAG_REX =
   /^<([-A-Za-z0-9_]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/
@@ -44,7 +45,27 @@ export const ValueInput = createPolyInput([
     type: 'EXPRESSION',
     icon: 'Expression',
     component: (props: any) => {
-      return <Input {...props} prefix="{{" suffix="}}" />
+      return (
+        <Popover
+          placement="left"
+          content={
+            <div
+              style={{
+                width: 400,
+                height: 200,
+                marginLeft: -16,
+                marginRight: -16,
+                marginBottom: -12,
+              }}
+            >
+              <MonacoInput {...props} language="javascript.expression" />
+            </div>
+          }
+          trigger="click"
+        >
+          <Button block>Expression</Button>
+        </Popover>
+      )
     },
     checker: isExpression,
     toInputValue: (value) => {
