@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.18(2021-07-01)
+
+### :tada: Enhancements
+
+1. [feat(react): support scrollable for ViewPanel](https://github.com/alibaba/designable/commit/5584e15) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.17(2021-07-01)
 
 ### :tada: Enhancements
@@ -259,15 +265,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/23084d5) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.44(2021-06-13)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix cloneNodes will trigger very much times events](https://github.com/alibaba/designable/commit/dbe09ab) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-1. [fix(react): fix selector unmount error](https://github.com/alibaba/designable/commit/76a64f1) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(react): add empty bg color](https://github.com/alibaba/designable/commit/96a4ac5) :point_right: ( [janryWang](https://github.com/janryWang) )

@@ -39,7 +39,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           setValue(prettyCode)
         },
         (e) => {
-          setErrors(e?.message)
+          console.error(e)
         }
       )
     }
