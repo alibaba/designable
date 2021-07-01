@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.19(2021-07-01)
+
+### :tada: Enhancements
+
+1. [feat(core): update WorkbenchTypes](https://github.com/alibaba/designable/commit/f3b27f5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(settings): update monaco input](https://github.com/alibaba/designable/commit/cea7bb1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.18(2021-07-01)
 
 ### :tada: Enhancements
@@ -259,9 +269,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/ad9c7d6) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.45(2021-06-14)
-
-### :rose: Improve code quality
-
-1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/23084d5) :point_right: ( [janryWang](https://github.com/janryWang) )
