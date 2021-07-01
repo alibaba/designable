@@ -43,7 +43,7 @@ export const useDragDropEffect = (engine: Engine) => {
             return false
           })
           if (validSelected.some((selectNode) => selectNode === node)) {
-            operation.setDragNodes(validSelected)
+            operation.setDragNodes(operation.sortNodes(validSelected))
           } else {
             operation.setDragNodes([node])
           }

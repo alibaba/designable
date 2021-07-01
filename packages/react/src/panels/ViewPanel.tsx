@@ -33,6 +33,7 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
   const render = () => {
     return props.children(tree, (payload) => {
       tree.from(payload)
+      tree.takeSnapshot()
     })
   }
   if (workbench.type === 'DESIGNABLE') return <Viewport>{render()}</Viewport>

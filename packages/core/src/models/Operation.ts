@@ -180,19 +180,21 @@ export class Operation {
     }
   }
 
+  sortNodes(nodes: TreeNode[]) {
+    return nodes.sort((before, after) => {
+      if (before.depth !== after.depth) return 0
+      return before.index - after.index >= 0 ? 1 : -1
+    })
+  }
+
   cloneNodes(nodes: TreeNode[]) {
     const groups: { [parentId: string]: TreeNode[] } = {}
     const lastGroupNode: { [parentId: string]: TreeNode } = {}
-    const filterNestedNode = nodes
-      .sort((before, after) => {
-        if (before.depth !== after.depth) return 0
-        return before.index - after.index >= 0 ? 1 : -1
+    const filterNestedNode = this.sortNodes(nodes).filter((node) => {
+      return !nodes.some((parent) => {
+        return node.isMyParents(parent)
       })
-      .filter((node) => {
-        return !nodes.some((parent) => {
-          return node.isMyParents(parent)
-        })
-      })
+    })
     each(filterNestedNode, (node) => {
       if (node?.designerProps?.cloneable === false) return
       groups[node?.parent?.id] = groups[node?.parent?.id] || []

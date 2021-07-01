@@ -619,7 +619,6 @@ export class TreeNode {
           return new TreeNode(node, this)
         }) || []
     }
-    this.takeSnapshot()
   }
 
   serialize(): ITreeNode {
