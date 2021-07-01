@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.20(2021-07-01)
+
+### :tada: Enhancements
+
+1. [feat(settings): support jsx to MonacoInput](https://github.com/alibaba/designable/commit/b54ab4e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.19(2021-07-01)
 
 ### :tada: Enhancements
@@ -263,9 +269,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/f58c251) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.46(2021-06-14)
-
-### :rose: Improve code quality
-
-1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/ad9c7d6) :point_right: ( [janryWang](https://github.com/janryWang) )
