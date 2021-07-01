@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.3.16(2021-06-29)
+
+### :tada: Enhancements
+
+1. [feat(settings): add loadScript for prettier](https://github.com/alibaba/designable/commit/c538ecd) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(settings): support custom components and fix typo](https://github.com/alibaba/designable/commit/2b9f38a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix typo (#12)](https://github.com/alibaba/designable/commit/a336836) :point_right: ( [Dark](https://github.com/Dark) )
+
+1. [feat(settings): support custom components and fix typo](https://github.com/alibaba/designable/commit/2b9f38a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(settings): rename idleReuqest to idleRequest (#9)](https://github.com/alibaba/designable/commit/9afbd79) :point_right: ( [Dark](https://github.com/Dark) )
+
 ## v0.3.15(2021-06-22)
 
 ### :beetle: Bug Fixes
@@ -251,9 +269,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): imporve SettingsForm render performance](https://github.com/alibaba/designable/commit/cefffb9) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.42(2021-06-13)
-
-### :blush: Other Changes
-
-1. [chore(settings): add key to SettingsForm](https://github.com/alibaba/designable/commit/ddf6c9c) :point_right: ( [janryWang](https://github.com/janryWang) )
