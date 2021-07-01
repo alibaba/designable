@@ -69,8 +69,8 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           editorRef.current = editor
           onMount?.(editor, monaco)
           registerExpression(language, editor, monaco)
-          monaco.editor.defineTheme('monokai', monokaiTheme)
-          monaco.editor.defineTheme('chrome-devtools', chromeTheme)
+          monaco.editor.defineTheme('monokai', monokaiTheme as any)
+          monaco.editor.defineTheme('chrome-devtools', chromeTheme as any)
           setMounted(true)
         }}
         onValidate={(markers) => {
