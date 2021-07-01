@@ -28,6 +28,6 @@ export const loadScript = async (props: ILoadScriptProps) => {
     }
     const define = window['define']
     window['define'] = undefined
-    document.head.appendChild(script)
+    document.body.appendChild(script)
   })
 }

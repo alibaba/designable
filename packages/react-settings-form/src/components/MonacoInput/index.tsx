@@ -4,6 +4,7 @@ import { usePrefix, useTheme } from '@designable/react'
 import { registerExpression } from './expression'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import cls from 'classnames'
+import { format } from './format'
 import './styles.less'
 
 export interface MonacoInputProps extends EditorProps {
@@ -21,30 +22,25 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   ...props
 }) => {
   const [errors, setErrors] = useState('')
-  const [value, setValue] = useState(props.value || props.defaultValue)
+  const input = props.value || props.defaultValue
+  const [value, setValue] = useState(input)
   const theme = useTheme()
   const valueRef = useRef('')
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
   const prefix = usePrefix('monaco-input')
   useEffect(() => {
-    if (props.value !== undefined) {
-      setValue(props.value)
+    if (input !== undefined) {
+      format(input, language || defaultLanguage).then(
+        (prettyCode) => {
+          setValue(prettyCode)
+        },
+        (e) => {
+          setErrors(e?.message)
+        }
+      )
     }
-  }, [props.value])
+  }, [input])
   valueRef.current = value
-
-  const getValue = (value: any) => {
-    const lang = language || defaultLanguage
-    if (lang === 'json' || lang === 'JSON') {
-      try {
-        return JSON.stringify(JSON.parse(value), null, 2)
-      } catch (e) {
-        setErrors(e?.message)
-      }
-    } else {
-      return value
-    }
-  }
 
   return (
     <div className={cls(prefix, className)} style={{ width, height }}>
@@ -53,18 +49,13 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         defaultLanguage={defaultLanguage}
         language={language}
         theme={theme === 'dark' ? 'vs-dark' : 'vs'}
-        value={getValue(value)}
+        value={value}
         width="100%"
         height="100%"
         onMount={(editor, monaco) => {
           editorRef.current = editor
           onMount?.(editor, monaco)
-          if (
-            language === 'javascript.expression' ||
-            language === 'typescript.expression'
-          ) {
-            registerExpression(language, editor, monaco)
-          }
+          registerExpression(language, editor, monaco)
         }}
         onValidate={(markers) => {
           if (markers.length) {

@@ -252,8 +252,8 @@ const App = () => {
                   return (
                     <div style={{ overflow: 'hidden', height: '100%' }}>
                       <MonacoInput
-                        language="javascript.expression"
-                        defaultValue='{"aa":{"bb":123}}'
+                        language="javascript"
+                        defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
                       />
                     </div>
                   )
