@@ -92,5 +92,5 @@ export type WorkbenchTypes =
   | 'DESIGNABLE'
   | 'PREVIEW'
   | 'JSONTREE'
-  | 'MARKUPTREE'
+  | 'MARKUP'
   | (string & {})
