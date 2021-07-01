@@ -11,6 +11,7 @@ export interface IViewPanelProps {
     tree: TreeNode,
     onChange: (tree: ITreeNode) => void
   ) => React.ReactElement
+  scrollable?: boolean
 }
 
 export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
@@ -38,7 +39,7 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
   return (
     <div
       style={{
-        overflow: 'overlay',
+        overflow: props.scrollable ? 'overlay' : 'hidden',
         height: '100%',
         cursor: 'auto',
         userSelect: 'text',
@@ -48,3 +49,7 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
     </div>
   )
 })
+
+ViewPanel.defaultProps = {
+  scrollable: true,
+}
