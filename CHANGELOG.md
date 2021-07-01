@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.21(2021-07-01)
+
+### :beetle: Bug Fixes
+
+1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/512457d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.20(2021-07-01)
 
 ### :tada: Enhancements
@@ -263,9 +269,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/a2aa115) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.47(2021-06-14)
-
-### :rose: Improve code quality
-
-1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/f58c251) :point_right: ( [janryWang](https://github.com/janryWang) )
