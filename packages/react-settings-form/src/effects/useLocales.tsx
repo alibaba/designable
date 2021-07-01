@@ -1,5 +1,6 @@
 import React from 'react'
 import { isVoidField, onFieldReact } from '@formily/core'
+import { isEqual } from '@formily/shared'
 import { GlobalRegistry } from '@designable/core'
 import { isPlainObj, isStr } from '@designable/shared'
 import { IconWidget } from '@designable/react'
@@ -41,7 +42,7 @@ export const useLocales = () => {
     }
     if (!isVoidField(field)) {
       if (locales.dataSource?.length && field.dataSource?.length) {
-        field.dataSource = field.dataSource.map((item, index) => {
+        const newDataSource = field.dataSource.map((item, index) => {
           const label =
             locales.dataSource[index] ||
             locales.dataSource[item.value] ||
@@ -57,6 +58,9 @@ export const useLocales = () => {
             ),
           }
         })
+        if (!isEqual(newDataSource, field.dataSource)) {
+          field.dataSource = newDataSource
+        }
       }
     }
   })
