@@ -81,12 +81,17 @@ export const transformToTreeNode = (
     children: [],
   }
   const schema = new Schema(formily.schema)
+  const cleanProps = (props: any) => {
+    delete props['version']
+    delete props['_isJSONSchemaObject']
+    return props
+  }
   const appendTreeNode = (parent: ITreeNode, schema: Schema) => {
     if (!schema) return
     const current = {
       id: schema['_designableId'],
       componentName: realOptions.designableFieldName,
-      props: schema.toJSON(false),
+      props: cleanProps(schema.toJSON(false)),
       children: [],
     }
     parent.children.push(current)
