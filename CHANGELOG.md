@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.3.17(2021-07-01)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve ValueInput](https://github.com/alibaba/designable/commit/3311fb7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(settings): support format](https://github.com/alibaba/designable/commit/0087592) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): add dirty check to mutate dataSource](https://github.com/alibaba/designable/commit/db6a0fb) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.16(2021-06-29)
 
 ### :tada: Enhancements
@@ -259,13 +271,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): add empty bg color](https://github.com/alibaba/designable/commit/96a4ac5) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.43(2021-06-13)
-
-### :rocket: Improve Performance
-
-1. [chore(settings): imporve SettingsForm render performance](https://github.com/alibaba/designable/commit/cefffb9) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(settings): imporve SettingsForm render performance](https://github.com/alibaba/designable/commit/cefffb9) :point_right: ( [janryWang](https://github.com/janryWang) )
