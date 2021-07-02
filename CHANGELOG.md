@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.22(2021-07-01)
+
+### :blush: Other Changes
+
+1. [chore(react): improve ui](https://github.com/alibaba/designable/commit/d8b957c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.21(2021-07-01)
 
 ### :beetle: Bug Fixes
@@ -263,9 +269,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve code](https://github.com/alibaba/designable/commit/19752de) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.48(2021-06-14)
-
-### :rose: Improve code quality
-
-1. [refactor(source): improve ui](https://github.com/alibaba/designable/commit/a2aa115) :point_right: ( [janryWang](https://github.com/janryWang) )
