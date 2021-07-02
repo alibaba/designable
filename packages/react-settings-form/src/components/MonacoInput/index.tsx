@@ -30,6 +30,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const theme = useTheme()
   const valueRef = useRef('')
   const monacoRef = useRef<typeof monaco>()
+  const unmountedRef = useRef(false)
   const changedRef = useRef(false)
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
   const prefix = usePrefix('monaco-input')
@@ -51,6 +52,10 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       monacoRef.current.editor.setTheme(
         theme === 'dark' ? 'monokai' : 'chrome-devtools'
       )
+    }
+    unmountedRef.current = false
+    return () => {
+      unmountedRef.current = true
     }
   }, [theme, mounted])
 
@@ -97,7 +102,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             setErrors(
               `[${marker.code}]: ${marker.message}  ${marker.startLineNumber}:${marker.startColumn}`
             )
-          } else if (changedRef.current) {
+          } else if (changedRef.current && !unmountedRef.current) {
             onChange?.(valueRef.current)
             setErrors('')
           }
