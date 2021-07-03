@@ -8,7 +8,7 @@ import { Input, Button, Popover, InputNumber, Select } from 'antd'
 import { MonacoInput } from '../MonacoInput'
 
 const STARTTAG_REX =
-  /^<([-A-Za-z0-9_]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/
+  /<([-A-Za-z0-9_]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/
 
 const EXPRESSION_REX = /^\{\{([\s\S]*)\}\}$/
 
