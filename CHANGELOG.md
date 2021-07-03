@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.23(2021-07-02)
+
+### :beetle: Bug Fixes
+
+1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/aeecb40) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.22(2021-07-01)
 
 ### :blush: Other Changes
@@ -259,13 +265,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support interrupt events](https://github.com/alibaba/designable/commit/01808b6) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.49(2021-06-15)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix hotkeys](https://github.com/alibaba/designable/commit/f0504d7) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(core): improve code](https://github.com/alibaba/designable/commit/19752de) :point_right: ( [janryWang](https://github.com/janryWang) )
