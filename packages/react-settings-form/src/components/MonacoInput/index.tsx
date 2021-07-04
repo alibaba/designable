@@ -35,7 +35,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
   const prefix = usePrefix('monaco-input')
   useEffect(() => {
-    if (input !== undefined) {
+    if (input !== undefined && changedRef.current) {
       format(input, language || defaultLanguage).then(
         (prettyCode) => {
           setValue(prettyCode)
