@@ -6,6 +6,7 @@ import React from 'react'
 import { createPolyInput } from '../PolyInput'
 import { Input, Button, Popover, InputNumber, Select } from 'antd'
 import { MonacoInput } from '../MonacoInput'
+import { TextWidget } from '@designable/react'
 
 const STARTTAG_REX =
   /<([-A-Za-z0-9_]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/
@@ -51,8 +52,8 @@ export const ValueInput = createPolyInput([
           content={
             <div
               style={{
-                width: 400,
-                height: 200,
+                width: 600,
+                height: 400,
                 marginLeft: -16,
                 marginRight: -16,
                 marginBottom: -12,
@@ -63,7 +64,9 @@ export const ValueInput = createPolyInput([
           }
           trigger="click"
         >
-          <Button block>Expression</Button>
+          <Button block>
+            <TextWidget token="SettingComponents.ValueInput.expression" />
+          </Button>
         </Popover>
       )
     },

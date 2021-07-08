@@ -15,10 +15,12 @@
     "build:umd": "rollup --config"
   },
   "peerDependencies": {
-    "antd": "^4.15.5"
+    "antd": "^4.0.0",
+    "@ant-design/icons": "^4.0.0"
   },
   "devDependencies": {
-    "antd": "^4.15.5"
+    "antd": "^4.15.5",
+    "@ant-design/icons": "^4.6.2"
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",

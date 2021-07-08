@@ -24,6 +24,7 @@ export class DragDropDriver extends EventDriver<Engine> {
     ) {
       return true
     }
+    if (e.target?.['closest']?.('.monaco-editor')) return
     GlobalState.startEvent = e
     GlobalState.dragging = false
     GlobalState.onMouseDownAt = Date.now()

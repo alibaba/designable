@@ -1,48 +1,49 @@
 import { parseExpression, parse } from '@babel/parser'
-import { loadScript } from '../../shared/loadScript'
 
-loadScript({
-  package: 'prettier@2.3.2',
-  entry: 'standalone.min.js',
-  root: 'prettier',
-})
-
-export const loadPrettier = () =>
-  loadScript({
-    package: 'prettier@2.3.2',
-    entry: 'standalone.min.js',
-    root: 'prettier',
-  })
-
-export const format = async (code: string, language: string) => {
-  const lang = String(language).toLocaleLowerCase()
-  if (lang === 'json') {
-    return JSON.stringify(JSON.parse(code), null, 2)
+interface IPrettierModule {
+  default: {
+    format(
+      source: string,
+      options: {
+        semi?: boolean
+        parser?: (code: string) => any
+      }
+    ): string
   }
-  if (lang === 'javascript' || lang === 'typescript') {
-    return loadPrettier().then(({ format }) => {
-      return format(code, {
-        semi: false,
-        parser(text) {
-          return parse(text, {
-            sourceType: 'module',
-            plugins: ['jsx'],
-          })
-        },
-      })
-    })
-  }
-  if (lang === 'javascript.expression' || lang === 'typescript.expression') {
-    return loadPrettier().then(({ format }) => {
-      return format(code, {
+}
+
+const prettier: Promise<IPrettierModule> = new Function(
+  'return import("https://cdn.jsdelivr.net/npm/prettier@2.3.2/esm/standalone.mjs")'
+)()
+
+export const format = async (language: string, source: string) => {
+  return prettier.then((module) => {
+    if (
+      language === 'javascript.expression' ||
+      language === 'typescript.expression'
+    ) {
+      return module.default.format(source, {
         semi: false,
         parser(text) {
           return parseExpression(text, {
-            plugins: ['jsx'],
+            plugins: ['typescript', 'jsx'],
           })
         },
       })
-    })
-  }
-  return code
+    }
+    if (/(?:javascript|typescript)/gi.test(language)) {
+      return module.default.format(source, {
+        semi: false,
+        parser(text) {
+          return parse(text, {
+            plugins: ['typescript', 'jsx'],
+          })
+        },
+      })
+    }
+    if (language === 'json') {
+      return JSON.stringify(source, null, 2)
+    }
+    return source
+  })
 }
