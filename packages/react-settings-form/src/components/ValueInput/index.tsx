@@ -52,8 +52,8 @@ export const ValueInput = createPolyInput([
           content={
             <div
               style={{
-                width: 600,
-                height: 400,
+                width: 400,
+                height: 200,
                 marginLeft: -16,
                 marginRight: -16,
                 marginBottom: -12,
