@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.24(2021-07-03)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve ui](https://github.com/alibaba/designable/commit/9255dbf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.23(2021-07-02)
 
 ### :beetle: Bug Fixes
@@ -259,9 +265,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix tree-node events](https://github.com/alibaba/designable/commit/90ac49c) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.1.50(2021-06-16)
-
-### :tada: Enhancements
-
-1. [feat(core): support interrupt events](https://github.com/alibaba/designable/commit/01808b6) :point_right: ( [janryWang](https://github.com/janryWang) )

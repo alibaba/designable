@@ -93,10 +93,13 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     monacoRef.current = monaco
     onMount?.(editor, monaco)
     const model = editor.getModel()
+    const currentValue = editor.getValue()
     model['getLanguage'] = () => computedLanguage.current
-    format(computedLanguage.current, editor.getValue()).then((content) => {
-      editor.setValue(content)
-    })
+    if (currentValue) {
+      format(computedLanguage.current, currentValue).then((content) => {
+        editor.setValue(content)
+      })
+    }
     if (props.extraLib) {
       monaco.languages.typescript.typescriptDefaults.addExtraLib(
         props.extraLib,
