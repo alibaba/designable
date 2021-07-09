@@ -27,6 +27,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   ...props
 }) => {
   const [errors, setErrors] = useState('')
+  const [loaded, setLoaded] = useState(false)
   const theme = useTheme()
   const valueRef = useRef('')
   const validateRef = useRef(null)
@@ -97,7 +98,10 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     if (currentValue) {
       format(computedLanguage.current, currentValue).then((content) => {
         editor.setValue(content)
+        setLoaded(true)
       })
+    } else {
+      setLoaded(true)
     }
     if (props.extraLib) {
       monaco.languages.typescript.typescriptDefaults.addExtraLib(
@@ -174,7 +178,12 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     : computedLanguage.current
 
   return (
-    <div className={cls(prefix, className)} style={{ width, height }}>
+    <div
+      className={cls(prefix, className, {
+        loaded,
+      })}
+      style={{ width, height }}
+    >
       {renderHelper()}
       <Editor
         {...props}

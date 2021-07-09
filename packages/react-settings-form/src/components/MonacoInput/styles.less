@@ -30,8 +30,14 @@
 
 .dn-monaco-input {
   position: relative;
+  transition: all 0.15s ease-in-out;
   width: 100%;
   height: 100%;
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+  }
 
   &-helper {
     position: absolute;

@@ -42,7 +42,7 @@ export const format = async (language: string, source: string) => {
       })
     }
     if (language === 'json') {
-      return JSON.stringify(source, null, 2)
+      return JSON.stringify(JSON.parse(source), null, 2)
     }
     return source
   })
