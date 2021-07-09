@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.30(2021-07-10)
+
+### :tada: Enhancements
+
+1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/dccc6e2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.29(2021-07-09)
 
 ### :beetle: Bug Fixes
@@ -257,9 +263,3 @@
 ## v0.3.0-beta.4(2021-06-19)
 
 ### No Change Log
-
-## v0.3.0-beta.3(2021-06-19)
-
-### :tada: Enhancements
-
-1. [feat(react): add ViewPanel](https://github.com/alibaba/designable/commit/7cafe99) :point_right: ( [janryWang](https://github.com/janryWang) )

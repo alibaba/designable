@@ -1,6 +1,6 @@
 {
   "name": "@designable/shared",
-  "version": "0.3.30",
+  "version": "0.3.31",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -20,5 +20,5 @@
   "dependencies": {
     "requestidlecallback": "^0.3.0"
   },
-  "gitHead": "8a284e352ec303b8dab76760e524afcbbdacdf56"
+  "gitHead": "381f0e1f44bca68888d35e17aa462d37e695b081"
 }
