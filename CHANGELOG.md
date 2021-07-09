@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.27(2021-07-09)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/15dd87a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.26(2021-07-09)
 
 ### :tada: Enhancements
@@ -261,9 +267,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(react): rename ToolbarWidget to DesignerToolsWidget](https://github.com/alibaba/designable/commit/2b87005) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.0(2021-06-18)
-
-### :tada: Enhancements
-
-1. [feat(project): add @designable/formily](https://github.com/alibaba/designable/commit/6f23759) :point_right: ( [janryWang](https://github.com/janryWang) )
