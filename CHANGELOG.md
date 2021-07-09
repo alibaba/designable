@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.31(2021-07-10)
+
+### No Change Log
+
 ## v0.3.30(2021-07-10)
 
 ### :tada: Enhancements
@@ -259,7 +263,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix ViewToolsWidget switch](https://github.com/alibaba/designable/commit/7b54839) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.4(2021-06-19)
-
-### No Change Log

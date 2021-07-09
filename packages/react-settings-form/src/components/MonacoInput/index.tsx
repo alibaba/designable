@@ -52,6 +52,20 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     }
   }, [])
 
+  useEffect(() => {
+    if (monacoRef.current && props.extraLib) {
+      updateExtraLib()
+    }
+  }, [props.extraLib])
+
+  const updateExtraLib = () => {
+    extraLibRef.current =
+      monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
+        props.extraLib,
+        `${uidRef.current}.d.ts`
+      )
+  }
+
   const isFileLanguage = () => {
     const lang = computedLanguage.current
     return lang === 'javascript' || lang === 'typescript'
@@ -108,11 +122,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       setLoaded(true)
     }
     if (props.extraLib) {
-      extraLibRef.current =
-        monaco.languages.typescript.typescriptDefaults.addExtraLib(
-          props.extraLib,
-          `${uidRef.current}.d.ts`
-        )
+      updateExtraLib()
     }
   }
 
