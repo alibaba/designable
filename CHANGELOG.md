@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.25(2021-07-08)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve MonacoInput](https://github.com/alibaba/designable/commit/0216815) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.24(2021-07-03)
 
 ### :blush: Other Changes
@@ -259,9 +265,3 @@
 ## v0.2.0(2021-06-16)
 
 ### No Change Log
-
-## v0.1.51(2021-06-16)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix tree-node events](https://github.com/alibaba/designable/commit/90ac49c) :point_right: ( [janryWang](https://github.com/janryWang) )

@@ -48,7 +48,6 @@ export const ValueInput = createPolyInput([
     component: (props: any) => {
       return (
         <Popover
-          placement="left"
           content={
             <div
               style={{

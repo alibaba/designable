@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Editor, { EditorProps } from '@monaco-editor/react'
-import { TextWidget, usePrefix, useTheme } from '@designable/react'
+import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { Tooltip } from 'antd'
-import { QuestionCircleOutlined } from '@ant-design/icons'
 import { parseExpression, parse } from '@babel/parser'
 import { uid } from '@designable/shared'
 import { format } from './format'
@@ -77,7 +76,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         >
           <div className={prefix + '-helper'}>
             <a target="_blank" href={href} rel="noreferrer">
-              <QuestionCircleOutlined />
+              <IconWidget infer="Help" />
             </a>
           </div>
         </Tooltip>
