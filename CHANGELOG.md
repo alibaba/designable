@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.29(2021-07-09)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix the drag event is easy to be disturbed](https://github.com/alibaba/designable/commit/d045764) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.28(2021-07-09)
 
 ### :tada: Enhancements
@@ -257,9 +263,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): add ViewPanel](https://github.com/alibaba/designable/commit/7cafe99) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.2(2021-06-19)
-
-### :tada: Enhancements
-
-1. [feat(react): add ViewToolsWidget](https://github.com/alibaba/designable/commit/8f23c92) :point_right: ( [janryWang](https://github.com/janryWang) )
