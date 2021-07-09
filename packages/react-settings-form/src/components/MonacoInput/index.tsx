@@ -31,6 +31,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const theme = useTheme()
   const valueRef = useRef('')
   const validateRef = useRef(null)
+  const extraLibRef = useRef<monaco.IDisposable>(null)
   const monacoRef = useRef<Monaco>()
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
   const computedLanguage = useRef<string>(language || defaultLanguage)
@@ -44,6 +45,9 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   useEffect(() => {
     unmountedRef.current = false
     return () => {
+      if (extraLibRef.current) {
+        extraLibRef.current.dispose()
+      }
       unmountedRef.current = true
     }
   }, [])
@@ -104,10 +108,11 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       setLoaded(true)
     }
     if (props.extraLib) {
-      monaco.languages.typescript.typescriptDefaults.addExtraLib(
-        props.extraLib,
-        `${uidRef.current}.d.ts`
-      )
+      extraLibRef.current =
+        monaco.languages.typescript.typescriptDefaults.addExtraLib(
+          props.extraLib,
+          `${uidRef.current}.d.ts`
+        )
     }
   }
 
