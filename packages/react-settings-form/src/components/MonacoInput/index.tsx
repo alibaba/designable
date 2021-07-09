@@ -118,6 +118,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         try {
           if (isFileLanguage()) {
             parse(valueRef.current, {
+              sourceType: 'module',
               plugins: ['typescript', 'jsx'],
             })
           } else if (isExpLanguage()) {

@@ -36,6 +36,7 @@ export const format = async (language: string, source: string) => {
         semi: false,
         parser(text) {
           return parse(text, {
+            sourceType: 'module',
             plugins: ['typescript', 'jsx'],
           })
         },
