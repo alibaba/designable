@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.28(2021-07-09)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/29033f6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.27(2021-07-09)
 
 ### :tada: Enhancements
@@ -257,13 +263,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): add ViewToolsWidget](https://github.com/alibaba/designable/commit/8f23c92) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.1(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix return undefined in render component](https://github.com/alibaba/designable/commit/bfd109b) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :rose: Improve code quality
-
-1. [refactor(react): rename ToolbarWidget to DesignerToolsWidget](https://github.com/alibaba/designable/commit/2b87005) :point_right: ( [janryWang](https://github.com/janryWang) )
