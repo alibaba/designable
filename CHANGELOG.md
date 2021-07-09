@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.26(2021-07-09)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve MonacoInput](https://github.com/alibaba/designable/commit/5549029) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.25(2021-07-08)
 
 ### :tada: Enhancements
@@ -261,7 +267,3 @@
 ### :tada: Enhancements
 
 1. [feat(project): add @designable/formily](https://github.com/alibaba/designable/commit/6f23759) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.2.0(2021-06-16)
-
-### No Change Log
