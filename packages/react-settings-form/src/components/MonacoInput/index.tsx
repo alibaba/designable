@@ -31,6 +31,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const theme = useTheme()
   const valueRef = useRef('')
   const validateRef = useRef(null)
+  const submitRef = useRef(null)
   const extraLibRef = useRef<monaco.IDisposable>(null)
   const monacoRef = useRef<Monaco>()
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
@@ -117,16 +118,27 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     const currentValue = editor.getValue()
     model['getLanguage'] = () => computedLanguage.current
     if (currentValue) {
-      format(computedLanguage.current, currentValue).then((content) => {
-        editor.setValue(content)
-        setLoaded(true)
-      })
+      format(computedLanguage.current, currentValue)
+        .then((content) => {
+          editor.setValue(content)
+          setLoaded(true)
+        })
+        .catch(() => {
+          setLoaded(true)
+        })
     } else {
       setLoaded(true)
     }
     if (props.extraLib) {
       updateExtraLib()
     }
+  }
+
+  const submit = () => {
+    clearTimeout(submitRef.current)
+    submitRef.current = setTimeout(() => {
+      onChange?.(valueRef.current)
+    }, 1000)
   }
 
   const validate = () => {
@@ -150,9 +162,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             []
           )
           setErrors('')
-          try {
-            onChange?.(valueRef.current)
-          } catch {}
+          submit()
         } catch (e) {
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
@@ -172,7 +182,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         }
       }, 200)
     } else {
-      onChange?.(valueRef.current)
+      submit()
       setErrors('')
     }
   }
