@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.32(2021-07-10)
+
+### No Change Log
+
 ## v0.3.31(2021-07-10)
 
 ### No Change Log
@@ -257,9 +261,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): add Play Button to ViewToolsWidget](https://github.com/alibaba/designable/commit/c6efcae) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.5(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix ViewToolsWidget switch](https://github.com/alibaba/designable/commit/7b54839) :point_right: ( [janryWang](https://github.com/janryWang) )
