@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.33(2021-07-10)
+
+### :tada: Enhancements
+
+1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/a1e8c6f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.32(2021-07-10)
 
 ### No Change Log
@@ -255,9 +261,3 @@
 ### :rocket: Improve Performance
 
 1. [perf(react): improve performance](https://github.com/alibaba/designable/commit/a586b5f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.6(2021-06-19)
-
-### :tada: Enhancements
-
-1. [feat(react): add Play Button to ViewToolsWidget](https://github.com/alibaba/designable/commit/c6efcae) :point_right: ( [janryWang](https://github.com/janryWang) )
