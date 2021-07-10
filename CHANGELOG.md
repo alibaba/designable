@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.34(2021-07-10)
+
+### No Change Log
+
 ## v0.3.33(2021-07-10)
 
 ### :tada: Enhancements
@@ -255,9 +259,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/1740b0b) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.7(2021-06-19)
-
-### :rocket: Improve Performance
-
-1. [perf(react): improve performance](https://github.com/alibaba/designable/commit/a586b5f) :point_right: ( [janryWang](https://github.com/janryWang) )
