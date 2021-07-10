@@ -59,6 +59,9 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   }, [props.extraLib])
 
   const updateExtraLib = () => {
+    if (extraLibRef.current) {
+      extraLibRef.current.dispose()
+    }
     extraLibRef.current =
       monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
         props.extraLib,
