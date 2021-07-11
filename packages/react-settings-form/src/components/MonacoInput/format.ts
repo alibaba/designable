@@ -1,4 +1,4 @@
-import { parseExpression, parse } from '@babel/parser'
+import { parse } from '@babel/parser'
 
 interface IPrettierModule {
   default: {
@@ -22,14 +22,7 @@ export const format = async (language: string, source: string) => {
       language === 'javascript.expression' ||
       language === 'typescript.expression'
     ) {
-      return module.default.format(source, {
-        semi: false,
-        parser(text) {
-          return parseExpression(text, {
-            plugins: ['typescript', 'jsx'],
-          })
-        },
-      })
+      return source
     }
     if (/(?:javascript|typescript)/gi.test(language)) {
       return module.default.format(source, {

@@ -146,15 +146,17 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       clearTimeout(validateRef.current)
       validateRef.current = setTimeout(() => {
         try {
-          if (isFileLanguage()) {
-            parse(valueRef.current, {
-              sourceType: 'module',
-              plugins: ['typescript', 'jsx'],
-            })
-          } else if (isExpLanguage()) {
-            parseExpression(valueRef.current, {
-              plugins: ['typescript', 'jsx'],
-            })
+          if (valueRef.current) {
+            if (isFileLanguage()) {
+              parse(valueRef.current, {
+                sourceType: 'module',
+                plugins: ['typescript', 'jsx'],
+              })
+            } else if (isExpLanguage()) {
+              parseExpression(valueRef.current, {
+                plugins: ['typescript', 'jsx'],
+              })
+            }
           }
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
@@ -222,11 +224,13 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         options={{
           ...props.options,
           tabSize: 2,
+          smoothScrolling: true,
+          formatOnType: true,
           scrollbar: {
             verticalScrollbarSize: 5,
             horizontalScrollbarSize: 5,
+            alwaysConsumeMouseWheel: false,
           },
-          formatOnType: true,
         }}
         value={input}
         width="100%"
