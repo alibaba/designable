@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.36(2021-07-11)
+
+### No Change Log
+
 ## v0.3.35(2021-07-10)
 
 ### :tada: Enhancements
@@ -253,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/adcbacf) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.9(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/0587c40) :point_right: ( [janryWang](https://github.com/janryWang) )
