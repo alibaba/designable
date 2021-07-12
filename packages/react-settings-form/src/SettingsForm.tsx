@@ -63,6 +63,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
                 <SchemaField
                   schema={node.designerProps.propsSchema as any}
                   components={props.components}
+                  scope={props.scope}
                 />
               </Form>
             </SettingsFormContext.Provider>
