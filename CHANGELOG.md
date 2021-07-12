@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.0(2021-07-12)
+
+### No Change Log
+
 ## v0.3.37(2021-07-12)
 
 ### :tada: Enhancements
@@ -251,9 +255,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix typings](https://github.com/alibaba/designable/commit/fd7b8ee) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.11(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/8d1cb7f) :point_right: ( [janryWang](https://github.com/janryWang) )
