@@ -39,7 +39,7 @@ export const transformToSchema = (
     if (node !== root) {
       Object.assign(schema, clone(node.props))
     }
-    schema._designableId = node.id
+    schema['_designableId'] = node.id
     if (schema.type === 'array') {
       if (node.children[0]) {
         if (

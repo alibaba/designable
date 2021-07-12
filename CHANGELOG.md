@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.1(2021-07-12)
+
+### :blush: Other Changes
+
+1. [chore(core): update json-schema typings](https://github.com/alibaba/designable/commit/52b065c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.0(2021-07-12)
 
 ### No Change Log
@@ -249,9 +255,3 @@
 ## v0.3.0(2021-06-19)
 
 ### No Change Log
-
-## v0.3.0-beta.12(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix typings](https://github.com/alibaba/designable/commit/fd7b8ee) :point_right: ( [janryWang](https://github.com/janryWang) )
