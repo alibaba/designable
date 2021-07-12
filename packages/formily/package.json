@@ -20,8 +20,8 @@
   "dependencies": {
     "@designable/core": "0.4.1",
     "@designable/shared": "0.4.1",
-    "@formily/core": "^2.0.0-beta.68",
-    "@formily/json-schema": "^2.0.0-beta.68"
+    "@formily/core": "^2.0.0-beta.76",
+    "@formily/json-schema": "^2.0.0-beta.76"
   },
   "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
 }

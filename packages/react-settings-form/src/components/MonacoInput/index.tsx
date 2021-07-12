@@ -3,7 +3,7 @@ import Editor, { EditorProps } from '@monaco-editor/react'
 import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { observable } from '@formily/reactive'
-import { FormConsumer } from '@formily/react'
+import { Observer } from '@formily/reactive-react'
 import { Tooltip } from 'antd'
 import { parseExpression, parse } from '@babel/parser'
 import { uid } from '@designable/shared'
@@ -234,7 +234,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         onMount={onMountHandler}
         onChange={onChangeHandler}
       />
-      <FormConsumer>
+      <Observer>
         {() =>
           errors.value && (
             <div className={prefix + '-errors'}>
@@ -244,7 +244,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             </div>
           )
         }
-      </FormConsumer>
+      </Observer>
     </div>
   )
 }
