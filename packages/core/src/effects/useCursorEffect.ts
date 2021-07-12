@@ -1,12 +1,11 @@
 import { Engine, CursorStatus } from '../models'
 import {
-  MouseClickEvent,
   MouseMoveEvent,
   DragStartEvent,
   DragMoveEvent,
   DragStopEvent,
 } from '../events'
-import { Point, requestIdle } from '@designable/shared'
+import { requestIdle } from '@designable/shared'
 
 export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(MouseMoveEvent, (event) => {
