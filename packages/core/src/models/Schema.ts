@@ -58,17 +58,19 @@ export type SchemaEffectTypes =
 
 export type SchemaReaction<Field = any> =
   | {
-      dependencies?: string[] | Record<string, string>
+      dependencies?:
+        | Array<string | { name?: string; source?: string }>
+        | Record<string, string>
       when?: string | boolean
       target?: string
       effects?: SchemaEffectTypes[]
       fulfill?: {
-        state?: any
+        state?: Stringify<Formily.Core.Types.IGeneralFieldState>
         schema?: ISchema
         run?: string
       }
       otherwise?: {
-        state?: any
+        state?: Stringify<Formily.Core.Types.IGeneralFieldState>
         schema?: ISchema
         run?: string
       }
