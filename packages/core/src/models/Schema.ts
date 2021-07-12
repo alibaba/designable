@@ -65,12 +65,12 @@ export type SchemaReaction<Field = any> =
       target?: string
       effects?: SchemaEffectTypes[]
       fulfill?: {
-        state?: Stringify<Formily.Core.Types.IGeneralFieldState>
+        state?: any
         schema?: ISchema
         run?: string
       }
       otherwise?: {
-        state?: Stringify<Formily.Core.Types.IGeneralFieldState>
+        state?: any
         schema?: ISchema
         run?: string
       }
