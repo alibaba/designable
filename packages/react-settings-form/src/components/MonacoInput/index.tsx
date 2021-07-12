@@ -1,7 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import Editor, { EditorProps } from '@monaco-editor/react'
 import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import { observable } from '@formily/reactive'
+import { FormConsumer } from '@formily/react'
 import { Tooltip } from 'antd'
 import { parseExpression, parse } from '@babel/parser'
 import { uid } from '@designable/shared'
@@ -26,7 +28,6 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   onChange,
   ...props
 }) => {
-  const [errors, setErrors] = useState('')
   const [loaded, setLoaded] = useState(false)
   const theme = useTheme()
   const valueRef = useRef('')
@@ -42,6 +43,8 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const uidRef = useRef(uid())
   const prefix = usePrefix('monaco-input')
   const input = props.value || props.defaultValue
+
+  const errors = useMemo(() => observable.ref(''), [])
 
   useEffect(() => {
     unmountedRef.current = false
@@ -163,9 +166,10 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             computedLanguage.current,
             []
           )
-          setErrors('')
+          errors.value = ''
           submit()
         } catch (e) {
+          errors.value = e.message
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
             computedLanguage.current,
@@ -182,17 +186,10 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             ]
           )
         }
-      }, 200)
+      }, 240)
     } else {
       submit()
-      setErrors('')
-    }
-  }
-
-  const onValidateHandler = (markers: monaco.editor.IMarker[]) => {
-    if (markers.length) {
-      const marker = markers[0]
-      setErrors(`[${marker.code}]: ${marker.message}`)
+      errors.value = ''
     }
   }
 
@@ -225,7 +222,6 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           ...props.options,
           tabSize: 2,
           smoothScrolling: true,
-          formatOnType: true,
           scrollbar: {
             verticalScrollbarSize: 5,
             horizontalScrollbarSize: 5,
@@ -236,16 +232,19 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         width="100%"
         height="100%"
         onMount={onMountHandler}
-        onValidate={onValidateHandler}
         onChange={onChangeHandler}
       />
-      {errors && (
-        <div className={prefix + '-errors'}>
-          <code>
-            <pre>{errors}</pre>
-          </code>
-        </div>
-      )}
+      <FormConsumer>
+        {() =>
+          errors.value && (
+            <div className={prefix + '-errors'}>
+              <code>
+                <pre>{errors.value}</pre>
+              </code>
+            </div>
+          )
+        }
+      </FormConsumer>
     </div>
   )
 }

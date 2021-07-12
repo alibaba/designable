@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.37(2021-07-12)
+
+### :tada: Enhancements
+
+1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/34412f5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.3.36(2021-07-11)
 
 ### No Change Log
@@ -251,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/8d1cb7f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0-beta.10(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/adcbacf) :point_right: ( [janryWang](https://github.com/janryWang) )
