@@ -5,4 +5,5 @@ export interface ISettingFormProps {
   style?: React.CSSProperties
   uploadAction?: string
   components?: Record<string, React.FC<any>>
+  scope?: any
 }
