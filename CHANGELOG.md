@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.2(2021-07-12)
+
+### :tada: Enhancements
+
+1. [feat(project): update formily](https://github.com/alibaba/designable/commit/cc563f2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.1(2021-07-12)
 
 ### :blush: Other Changes
@@ -251,7 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix TreeNode append lose children](https://github.com/alibaba/designable/commit/d1b2fd8) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0(2021-06-19)
-
-### No Change Log
