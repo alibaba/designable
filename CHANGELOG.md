@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.3(2021-07-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix FoldItem](https://github.com/alibaba/designable/commit/b0be03c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(settings): expose setting form's scope property (#20)](https://github.com/alibaba/designable/commit/1d1404f) :point_right: ( [nekic](https://github.com/nekic) )
+
 ## v0.4.2(2021-07-12)
 
 ### :tada: Enhancements
@@ -251,9 +261,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve SettingPanel opern performance](https://github.com/alibaba/designable/commit/f2b3c23) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.1(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix TreeNode append lose children](https://github.com/alibaba/designable/commit/d1b2fd8) :point_right: ( [janryWang](https://github.com/janryWang) )
