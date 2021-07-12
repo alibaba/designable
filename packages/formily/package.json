@@ -1,6 +1,6 @@
 {
   "name": "@designable/formily",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -18,8 +18,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@designable/core": "0.4.5",
-    "@designable/shared": "0.4.5",
+    "@designable/core": "0.4.6",
+    "@designable/shared": "0.4.6",
     "@formily/core": "^2.0.0-beta.76",
     "@formily/json-schema": "^2.0.0-beta.76"
   },

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.5(2021-07-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/791c27a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.4(2021-07-12)
 
 ### :beetle: Bug Fixes
@@ -251,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/173fc9e) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.3(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/00da372) :point_right: ( [janryWang](https://github.com/janryWang) )
