@@ -6,13 +6,14 @@ import { requestIdle, cancelIdle } from '@designable/shared'
 import {
   usePrefix,
   useSelected,
+  useOperation,
   useCurrentNode,
   IconWidget,
 } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './shared/context'
-import { useLocales } from './effects'
+import { useLocales, useSnapshot } from './effects'
 import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'
 import cls from 'classnames'
@@ -24,6 +25,7 @@ const GlobalState = {
 
 export const SettingsForm: React.FC<ISettingFormProps> = observer(
   (props) => {
+    const operation = useOperation()
     const node = useCurrentNode()
     const selected = useSelected()
     const prefix = usePrefix('settings-form')
@@ -32,9 +34,10 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
         values: node?.props,
         effects() {
           useLocales()
+          useSnapshot(operation)
         },
       })
-    }, [node, node?.designerProps?.propsSchema])
+    }, [node, node?.designerProps?.propsSchema, operation])
 
     const isEmpty = !(
       node &&

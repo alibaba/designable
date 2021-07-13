@@ -1,5 +1,39 @@
 # Changelog
 
+## v0.4.6(2021-07-13)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/27265dd) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v0.4.5(2021-07-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/791c27a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v0.4.4(2021-07-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix timing of cursor status clean](https://github.com/alibaba/designable/commit/e0bd17e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v0.4.3(2021-07-12)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix FoldItem](https://github.com/alibaba/designable/commit/b0be03c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(settings): expose setting form's scope property (#20)](https://github.com/alibaba/designable/commit/1d1404f) :point_right: ( [nekic](https://github.com/nekic) )
+
+## v0.4.2(2021-07-12)
+
+### :tada: Enhancements
+
+1. [feat(project): update formily](https://github.com/alibaba/designable/commit/cc563f2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.1(2021-07-12)
 
 ### :blush: Other Changes
@@ -223,35 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/1790e0c) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.4(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/173fc9e) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.3(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/00da372) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.2(2021-06-20)
-
-### :rocket: Improve Performance
-
-1. [chore(react): improve SettingPanel opern performance](https://github.com/alibaba/designable/commit/f2b3c23) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :blush: Other Changes
-
-1. [chore(react): improve SettingPanel opern performance](https://github.com/alibaba/designable/commit/f2b3c23) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.1(2021-06-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix TreeNode append lose children](https://github.com/alibaba/designable/commit/d1b2fd8) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.0(2021-06-19)
-
-### No Change Log

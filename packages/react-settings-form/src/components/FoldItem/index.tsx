@@ -1,22 +1,22 @@
-import React, { Fragment, useState, useRef } from 'react'
+import React, { Fragment, useRef, useMemo } from 'react'
 import { FormItem, IFormItemProps } from '@formily/antd'
-import { useField } from '@formily/react'
+import { useField, observer } from '@formily/react'
+import { observable } from '@formily/reactive'
 import { IconWidget, usePrefix } from '@designable/react'
 import cls from 'classnames'
 import './styles.less'
 
 const ExpandedMap = new Map<string, boolean>()
 
-export const FoldItem = ({
-  className,
-  style,
-  children,
-  ...props
-}: React.PropsWithChildren<IFormItemProps>) => {
+export const FoldItem: React.FC<IFormItemProps> & {
+  Base?: React.FC
+  Extra?: React.FC
+} = observer(({ className, style, children, ...props }) => {
   const prefix = usePrefix('fold-item')
   const field = useField()
-  const [expand, setExpand] = useState(
-    ExpandedMap.get(field.address.toString())
+  const expand = useMemo(
+    () => observable.ref(ExpandedMap.get(field.address.toString())),
+    []
   )
   const slots = useRef({ base: null, extra: null })
   React.Children.forEach(children, (node) => {
@@ -34,9 +34,8 @@ export const FoldItem = ({
       <div
         className={prefix + '-base'}
         onClick={() => {
-          const newExpaned = !expand
-          setExpand(newExpaned)
-          ExpandedMap.set(field.address.toString(), newExpaned)
+          expand.value = !expand.value
+          ExpandedMap.set(field.address.toString(), expand.value)
         }}
       >
         <FormItem.BaseItem
@@ -44,7 +43,7 @@ export const FoldItem = ({
           label={
             <span
               className={cls(prefix + '-title', {
-                expand,
+                expand: expand.value,
               })}
             >
               {slots.current.extra && <IconWidget infer="Expand" size={10} />}
@@ -62,12 +61,12 @@ export const FoldItem = ({
           </div>
         </FormItem.BaseItem>
       </div>
-      {expand && slots.current.extra && (
+      {expand.value && slots.current.extra && (
         <div className={prefix + '-extra'}>{slots.current.extra}</div>
       )}
     </div>
   )
-}
+})
 
 const Base: React.FC = () => {
   return <Fragment />

@@ -1,12 +1,11 @@
 import { Engine, CursorStatus } from '../models'
 import {
-  MouseClickEvent,
   MouseMoveEvent,
   DragStartEvent,
   DragMoveEvent,
   DragStopEvent,
 } from '../events'
-import { Point, requestIdle } from '@designable/shared'
+import { requestIdle } from '@designable/shared'
 
 export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(MouseMoveEvent, (event) => {
@@ -22,13 +21,16 @@ export const useCursorEffect = (engine: Engine) => {
     engine.cursor.setStatus(CursorStatus.DragStart)
     engine.cursor.setDragStartPosition(event.data)
   })
+  let cleanStatusRequest = null
   engine.subscribeTo(DragMoveEvent, () => {
     engine.cursor.setStatus(CursorStatus.Dragging)
-  })
-  engine.subscribeTo(MouseClickEvent, () => {
-    engine.cursor.setStatus(CursorStatus.Normal)
+    clearTimeout(cleanStatusRequest)
+    cleanStatusRequest = setTimeout(() => {
+      engine.cursor.setStatus(CursorStatus.Normal)
+    }, 1000)
   })
   engine.subscribeTo(DragStopEvent, (event) => {
+    clearTimeout(cleanStatusRequest)
     engine.cursor.setStatus(CursorStatus.DragStop)
     engine.cursor.setDragEndPosition(event.data)
     requestIdle(() => {

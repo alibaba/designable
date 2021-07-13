@@ -1,9 +1,7 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Editor, { EditorProps } from '@monaco-editor/react'
 import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
-import { observable } from '@formily/reactive'
-import { Observer } from '@formily/reactive-react'
 import { Tooltip } from 'antd'
 import { parseExpression, parse } from '@babel/parser'
 import { uid } from '@designable/shared'
@@ -33,6 +31,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const valueRef = useRef('')
   const validateRef = useRef(null)
   const submitRef = useRef(null)
+  const declarationRef = useRef<string[]>([])
   const extraLibRef = useRef<monaco.IDisposable>(null)
   const monacoRef = useRef<Monaco>()
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
@@ -43,8 +42,6 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
   const uidRef = useRef(uid())
   const prefix = usePrefix('monaco-input')
   const input = props.value || props.defaultValue
-
-  const errors = useMemo(() => observable.ref(''), [])
 
   useEffect(() => {
     unmountedRef.current = false
@@ -166,10 +163,34 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
             computedLanguage.current,
             []
           )
-          errors.value = ''
+          declarationRef.current = editorRef.current.deltaDecorations(
+            declarationRef.current,
+            [
+              {
+                range: new monacoRef.current.Range(1, 1, 1, 1),
+                options: {},
+              },
+            ]
+          )
           submit()
         } catch (e) {
-          errors.value = e.message
+          declarationRef.current = editorRef.current.deltaDecorations(
+            declarationRef.current,
+            [
+              {
+                range: new monacoRef.current.Range(
+                  e.loc.line,
+                  e.loc.column,
+                  e.loc.line,
+                  e.loc.column
+                ),
+                options: {
+                  isWholeLine: true,
+                  glyphMarginClassName: 'monaco-error-highline',
+                },
+              },
+            ]
+          )
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
             computedLanguage.current,
@@ -189,7 +210,15 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       }, 240)
     } else {
       submit()
-      errors.value = ''
+      declarationRef.current = editorRef.current.deltaDecorations(
+        declarationRef.current,
+        [
+          {
+            range: new monacoRef.current.Range(1, 1, 1, 1),
+            options: {},
+          },
+        ]
+      )
     }
   }
 
@@ -222,6 +251,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
           ...props.options,
           tabSize: 2,
           smoothScrolling: true,
+          glyphMargin: true,
           scrollbar: {
             verticalScrollbarSize: 5,
             horizontalScrollbarSize: 5,
@@ -234,17 +264,6 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         onMount={onMountHandler}
         onChange={onChangeHandler}
       />
-      <Observer>
-        {() =>
-          errors.value && (
-            <div className={prefix + '-errors'}>
-              <code>
-                <pre>{errors.value}</pre>
-              </code>
-            </div>
-          )
-        }
-      </Observer>
     </div>
   )
 }
