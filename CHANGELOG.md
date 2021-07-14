@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.7(2021-07-13)
+
+### :tada: Enhancements
+
+1. [feat(settings): support history to settings](https://github.com/alibaba/designable/commit/dc21861) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.6(2021-07-13)
 
 ### :beetle: Bug Fixes
@@ -251,9 +257,3 @@
 ## v0.3.6(2021-06-20)
 
 ### No Change Log
-
-## v0.3.5(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/1790e0c) :point_right: ( [janryWang](https://github.com/janryWang) )
