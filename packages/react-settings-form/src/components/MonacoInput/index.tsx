@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Editor, { EditorProps } from '@monaco-editor/react'
+import Editor, { EditorProps, loader } from '@monaco-editor/react'
 import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { Tooltip } from 'antd'
@@ -10,13 +10,15 @@ import cls from 'classnames'
 import './styles.less'
 import './config'
 
-type Monaco = typeof monaco
+export type Monaco = typeof monaco
 export interface MonacoInputProps extends EditorProps {
   extraLib?: string
   onChange?: (value: string) => void
 }
 
-export const MonacoInput: React.FC<MonacoInputProps> = ({
+export const MonacoInput: React.FC<MonacoInputProps> & {
+  loader?: typeof loader
+} = ({
   className,
   language,
   defaultLanguage,
@@ -267,3 +269,5 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     </div>
   )
 }
+
+MonacoInput.loader = loader
