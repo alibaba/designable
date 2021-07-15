@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.8(2021-07-14)
+
+### :tada: Enhancements
+
+1. [feat(settings): support loader to MonacoInput](https://github.com/alibaba/designable/commit/ee4caad) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.7(2021-07-13)
 
 ### :tada: Enhancements
@@ -253,7 +259,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/6506df8) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.6(2021-06-20)
-
-### No Change Log
