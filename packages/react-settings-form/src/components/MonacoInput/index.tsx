@@ -14,6 +14,7 @@ export type Monaco = typeof monaco
 export interface MonacoInputProps extends EditorProps {
   helpLink?: string | boolean
   helpCode?: string
+  helpCodeViewWidth?: number | string
   extraLib?: string
   onChange?: (value: string) => void
 }
@@ -27,6 +28,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
   width,
   helpLink,
   helpCode,
+  helpCodeViewWidth,
   height,
   onMount,
   onChange,
@@ -245,7 +247,10 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
   const renderHelpCode = () => {
     if (!helpCode) return null
     return (
-      <div className={prefix + '-view'} style={{ width: '40%' }}>
+      <div
+        className={prefix + '-view'}
+        style={{ width: helpCodeViewWidth || '50%' }}
+      >
         <Editor
           value={helpCode}
           theme={theme === 'dark' ? 'monokai' : 'chrome-devtools'}
@@ -285,10 +290,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
       style={{ width, height }}
     >
       {renderHelper()}
-      <div
-        className={prefix + '-view'}
-        style={{ width: helpCode ? '60%' : '' }}
-      >
+      <div className={prefix + '-view'}>
         <Editor
           {...props}
           theme={theme === 'dark' ? 'monokai' : 'chrome-devtools'}
