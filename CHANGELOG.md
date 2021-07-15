@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.9(2021-07-15)
+
+### :tada: Enhancements
+
+1. [feat(setters): support helpCode attribute to MonacoInput](https://github.com/alibaba/designable/commit/75566e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.8(2021-07-14)
 
 ### :tada: Enhancements
@@ -253,9 +259,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/e9a9740) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.7(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix locales registry](https://github.com/alibaba/designable/commit/6506df8) :point_right: ( [janryWang](https://github.com/janryWang) )
