@@ -253,6 +253,7 @@ const App = () => {
                     <div style={{ overflow: 'hidden', height: '100%' }}>
                       <MonacoInput
                         language="javascript"
+                        helpCode="//hello world"
                         defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
                       />
                     </div>
