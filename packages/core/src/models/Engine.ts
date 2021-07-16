@@ -1,7 +1,7 @@
 import { IEngineProps } from '../types'
 import { ITreeNode, TreeNode } from './TreeNode'
 import { Workbench } from './Workbench'
-import { Cursor } from './Cusor'
+import { Cursor } from './Cursor'
 import { DragSource, GlobalDragSource } from './DragSource'
 import { Keyboard } from './Keyboard'
 import { Screen, ScreenType } from './Screen'
