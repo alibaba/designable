@@ -20,7 +20,7 @@ Designable is your perfect choice.
 - 🎨 Support Low Code and No Code
 - 🏅 Strong scalability
 
-## WebSite
+## Website
 
 [playground](https://designable.netlify.app)
 
