@@ -121,7 +121,7 @@ const DESIGNER_GlobalRegistry = {
   },
 
   getDesignerLanguage() {
-    return DESIGNER_LOCALES.language
+    return getISOCode(DESIGNER_LOCALES.language)
   },
 
   getDesignerMessage(token: string) {

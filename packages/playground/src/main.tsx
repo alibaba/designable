@@ -90,6 +90,23 @@ GlobalRegistry.registerDesignerProps({
         'style.border': {
           'x-component': 'BorderStyleSetter',
         },
+        test: {
+          type: 'void',
+          title: '测试',
+          'x-decorator': 'FormItem',
+          'x-component': 'DrawerSetter',
+          'x-component-props': {
+            text: '打开抽屉',
+          },
+          properties: {
+            test: {
+              type: 'string',
+              title: '测试输入',
+              'x-decorator': 'FormItem',
+              'x-component': 'Input',
+            },
+          },
+        },
       },
     },
   }),
@@ -199,8 +216,8 @@ const Actions = observer(() => (
       value={GlobalRegistry.getDesignerLanguage()}
       optionType="button"
       options={[
-        { label: 'English', value: 'en-US' },
-        { label: '简体中文', value: 'zh-CN' },
+        { label: 'English', value: 'en-us' },
+        { label: '简体中文', value: 'zh-cn' },
       ]}
       onChange={(e) => {
         GlobalRegistry.setDesignerLanguage(e.target.value)
