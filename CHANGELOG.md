@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.4.11(2021-07-16)
+
+### :beetle: Bug Fixes
+
+1. [chore(project): fix typo](https://github.com/alibaba/designable/commit/a959611) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(project): fix typo](https://github.com/alibaba/designable/commit/a959611) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore(core): use @formily/json-schema typings](https://github.com/alibaba/designable/commit/ab16026) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.10(2021-07-15)
 
 ### :tada: Enhancements
@@ -253,9 +265,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): improve ui](https://github.com/alibaba/designable/commit/017fdbc) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.9(2021-06-20)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix treenode clone mutation](https://github.com/alibaba/designable/commit/94bcbe7) :point_right: ( [janryWang](https://github.com/janryWang) )
