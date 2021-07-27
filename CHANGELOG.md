@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.14(2021-07-27)
+
+### :blush: Other Changes
+
+1. [chore(settings): export SchemaField component](https://github.com/alibaba/designable/commit/66cc0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.13(2021-07-27)
 
 ### :blush: Other Changes
@@ -273,9 +279,3 @@
 ### :beetle: Bug Fixes
 
 1. [feat(react): fix viewport styles](https://github.com/alibaba/designable/commit/1fe10b3) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.12(2021-06-21)
-
-### :tada: Enhancements
-
-1. [feat(core): support keyboard quick selection](https://github.com/alibaba/designable/commit/c1487c1) :point_right: ( [janryWang](https://github.com/janryWang) )
