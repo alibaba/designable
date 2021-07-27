@@ -4,7 +4,7 @@ import { useField, observer } from '@formily/react'
 import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
 import { SizeInput } from '../SizeInput'
-import { InputItems } from '../InpuItems'
+import { InputItems } from '../InputItems'
 import cls from 'classnames'
 
 export interface IBoxShadowStyleSetterProps {

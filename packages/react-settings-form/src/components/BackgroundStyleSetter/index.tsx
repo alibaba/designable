@@ -6,7 +6,7 @@ import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
 import { BackgroundSizeInput } from '../SizeInput'
 import { BackgroundImageInput } from '../ImageInput'
-import { InputItems } from '../InpuItems'
+import { InputItems } from '../InputItems'
 import cls from 'classnames'
 
 export interface IBackgroundStyleSetterProps {

@@ -3,7 +3,7 @@ import { useField, observer } from '@formily/react'
 import { usePrefix, IconWidget } from '@designable/react'
 import { FoldItem } from '../FoldItem'
 import { SizeInput } from '../SizeInput'
-import { InputItems } from '../InpuItems'
+import { InputItems } from '../InputItems'
 import cls from 'classnames'
 
 type Position = 'top' | 'right' | 'left' | 'bottom' | 'all'
