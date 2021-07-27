@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { observer } from '@formily/react'
+import { observer, useField } from '@formily/react'
 import { FormLayout } from '@formily/antd'
 import { IconWidget, usePrefix, useTreeNode } from '@designable/react'
 import { Button } from 'antd'
@@ -13,6 +13,7 @@ export interface IDrawerSetterProps {
 
 export const DrawerSetter: React.FC<IDrawerSetterProps> = observer((props) => {
   const node = useTreeNode()
+  const field = useField()
   const [visible, setVisible] = useState(false)
   const [remove, setRemove] = useState(false)
   const [root, setRoot] = useState<Element>()
@@ -35,7 +36,9 @@ export const DrawerSetter: React.FC<IDrawerSetterProps> = observer((props) => {
         >
           <div className={prefix + '-header'}>
             <IconWidget infer="Return" size={18} onClick={handleClose} />
-            <span className={prefix + '-header-text'}>{props.text}</span>
+            <span className={prefix + '-header-text'}>
+              {props.text || field.title}
+            </span>
           </div>
           <div className={prefix + '-body'}>
             <FormLayout
@@ -71,7 +74,7 @@ export const DrawerSetter: React.FC<IDrawerSetterProps> = observer((props) => {
   return (
     <Fragment>
       <Button block onClick={handleOpen}>
-        {props.text}
+        {props.text || field.title}
       </Button>
       {renderDrawer()}
     </Fragment>
