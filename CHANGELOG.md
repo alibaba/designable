@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.13(2021-07-27)
+
+### :blush: Other Changes
+
+1. [chore(settings): export more components](https://github.com/alibaba/designable/commit/5325182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.12(2021-07-26)
 
 ### :tada: Enhancements
@@ -273,7 +279,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support keyboard quick selection](https://github.com/alibaba/designable/commit/c1487c1) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.11(2021-06-20)
-
-### No Change Log
