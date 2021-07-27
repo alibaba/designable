@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.15(2021-07-27)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve DrawerSetter component](https://github.com/alibaba/designable/commit/cea0690) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.14(2021-07-27)
 
 ### :blush: Other Changes
@@ -269,13 +275,3 @@
 1. [fix(react): fix selection throw error when node can not found](https://github.com/alibaba/designable/commit/690bc1f) :point_right: ( [janryWang](https://github.com/janryWang) )
 
 1. [fix(project): fix typo](https://github.com/alibaba/designable/commit/47dc790) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-## v0.3.13(2021-06-21)
-
-### :tada: Enhancements
-
-1. [feat(react): fix viewport styles](https://github.com/alibaba/designable/commit/1fe10b3) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-### :beetle: Bug Fixes
-
-1. [feat(react): fix viewport styles](https://github.com/alibaba/designable/commit/1fe10b3) :point_right: ( [janryWang](https://github.com/janryWang) )
