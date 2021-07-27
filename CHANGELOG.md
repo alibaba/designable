@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.4.12(2021-07-26)
+
+### :tada: Enhancements
+
+1. [feat(settings): support DrawerSetter component](https://github.com/alibaba/designable/commit/c747274) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [docs(readme): fix typo (#23)](https://github.com/alibaba/designable/commit/30dc8e1) :point_right: ( [李文富](https://github.com/李文富) )
+
+### :memo: Documents Changes
+
+1. [docs(readme): fix typo (#23)](https://github.com/alibaba/designable/commit/30dc8e1) :point_right: ( [李文富](https://github.com/李文富) )
+
+### :blush: Other Changes
+
+1. [chore(ts): map @designable/\* to src folder during development (#26)](https://github.com/alibaba/designable/commit/77c0d74) :point_right: ( [JuFeng Zhang](https://github.com/JuFeng Zhang) )
+
 ## v0.4.11(2021-07-16)
 
 ### :beetle: Bug Fixes
@@ -259,9 +277,3 @@
 ## v0.3.11(2021-06-20)
 
 ### No Change Log
-
-## v0.3.10(2021-06-20)
-
-### :tada: Enhancements
-
-1. [feat(react): improve ui](https://github.com/alibaba/designable/commit/017fdbc) :point_right: ( [janryWang](https://github.com/janryWang) )
