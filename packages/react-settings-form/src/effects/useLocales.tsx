@@ -40,23 +40,27 @@ export const useLocales = () => {
       field.component[1].placeholder = locales.placeholder
     }
     if (!isVoidField(field)) {
-      if (locales.dataSource?.length && field.dataSource?.length) {
-        field.dataSource = field.dataSource.map((item, index) => {
-          const label =
-            locales.dataSource[index] ||
-            locales.dataSource[item.value] ||
-            item.label
-          const icon = takeIcon(label)
-          return {
-            ...item,
-            value: item?.value ?? null,
-            label: icon ? (
-              <IconWidget infer={icon[0]} tooltip={icon[1]} />
-            ) : (
-              label
-            ),
-          }
-        })
+      if (locales.dataSource?.length) {
+        if (field.dataSource?.length) {
+          field.dataSource = field.dataSource.map((item, index) => {
+            const label =
+              locales.dataSource[index] ||
+              locales.dataSource[item.value] ||
+              item.label
+            const icon = takeIcon(label)
+            return {
+              ...item,
+              value: item?.value ?? null,
+              label: icon ? (
+                <IconWidget infer={icon[0]} tooltip={icon[1]} />
+              ) : (
+                label?.label ?? label
+              ),
+            }
+          })
+        } else {
+          field.dataSource = locales.dataSource.slice()
+        }
       }
     }
   })
