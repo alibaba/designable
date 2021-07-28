@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.16(2021-07-27)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve useLocales](https://github.com/alibaba/designable/commit/5a3feb2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.15(2021-07-27)
 
 ### :blush: Other Changes
@@ -267,11 +273,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix dataSource value can not to be null](https://github.com/alibaba/designable/commit/4a66ab0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.14(2021-06-21)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix selection throw error when node can not found](https://github.com/alibaba/designable/commit/690bc1f) :point_right: ( [janryWang](https://github.com/janryWang) )
-
-1. [fix(project): fix typo](https://github.com/alibaba/designable/commit/47dc790) :point_right: ( [janryWang](https://github.com/janryWang) )
