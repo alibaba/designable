@@ -34,8 +34,8 @@ export const DrawerSetter: React.FC<IDrawerSetterProps> = observer((props) => {
             animate__slideOutRight: remove,
           })}
         >
-          <div className={prefix + '-header'}>
-            <IconWidget infer="Return" size={18} onClick={handleClose} />
+          <div className={prefix + '-header'} onClick={handleClose}>
+            <IconWidget infer="Return" size={18} />
             <span className={prefix + '-header-text'}>
               {props.text || field.title}
             </span>
