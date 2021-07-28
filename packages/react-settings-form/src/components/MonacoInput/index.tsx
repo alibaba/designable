@@ -142,6 +142,9 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
     if (props.extraLib) {
       updateExtraLib()
     }
+    editor.onDidChangeModelContent(() => {
+      onChangeHandler(editor.getValue())
+    })
   }
 
   const submit = () => {
@@ -311,7 +314,6 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
           width="100%"
           height="100%"
           onMount={onMountHandler}
-          onChange={onChangeHandler}
         />
       </div>
       {renderHelpCode()}
