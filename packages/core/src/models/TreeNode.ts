@@ -421,10 +421,12 @@ export class TreeNode {
 
   prependNode(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
     return this.triggerMutation(
       new PrependNodeEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
@@ -438,10 +440,12 @@ export class TreeNode {
 
   appendNode(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
     return this.triggerMutation(
       new AppendNodeEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
@@ -473,11 +477,13 @@ export class TreeNode {
     const parent = this.parent
     if (nodes.some((node) => node.contains(this))) return []
     if (parent?.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
 
       return this.triggerMutation(
         new InsertAfterEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -501,10 +507,12 @@ export class TreeNode {
     const parent = this.parent
     if (nodes.some((node) => node.contains(this))) return []
     if (parent?.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
       return this.triggerMutation(
         new InsertBeforeEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -527,10 +535,12 @@ export class TreeNode {
   insertChildren(start: number, ...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
     if (this.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, this)
       if (!newNodes.length) return []
       return this.triggerMutation(
         new InsertChildrenEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -550,9 +560,11 @@ export class TreeNode {
   }
 
   setNodeChildren(...nodes: TreeNode[]) {
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     return this.triggerMutation(
       new UpdateChildrenEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
