@@ -40,7 +40,6 @@ export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
     }
   }
 
-  const image
   return (
     <div
       className={prefix}

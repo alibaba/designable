@@ -238,7 +238,7 @@ const App = () => {
   const [view, setView] = useState('design')
 
   return (
-    <Designer engine={engine} theme="dark">
+    <Designer engine={engine}>
       <MainPanel logo={<Logo />} actions={<Actions />}>
         <CompositePanel>
           <CompositePanel.Item

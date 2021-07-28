@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.18(2021-07-28)
+
+### :beetle: Bug Fixes
+
+1. [chore(settings): fix MonacoInput onChangeHandler](https://github.com/alibaba/designable/commit/29c89e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(settings): fix MonacoInput onChangeHandler](https://github.com/alibaba/designable/commit/29c89e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.17(2021-07-28)
 
 ### :blush: Other Changes
@@ -255,21 +265,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): add dirty check to mutate dataSource](https://github.com/alibaba/designable/commit/db6a0fb) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.16(2021-06-29)
-
-### :tada: Enhancements
-
-1. [feat(settings): add loadScript for prettier](https://github.com/alibaba/designable/commit/c538ecd) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(settings): support custom components and fix typo](https://github.com/alibaba/designable/commit/2b9f38a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix typo (#12)](https://github.com/alibaba/designable/commit/a336836) :point_right: ( [Dark](https://github.com/Dark) )
-
-1. [feat(settings): support custom components and fix typo](https://github.com/alibaba/designable/commit/2b9f38a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(settings): rename idleReuqest to idleRequest (#9)](https://github.com/alibaba/designable/commit/9afbd79) :point_right: ( [Dark](https://github.com/Dark) )
