@@ -6,6 +6,8 @@ export interface IMutationNodeEventData {
   source: TreeNode | TreeNode[]
   //事件发生的目标对象
   target: TreeNode | TreeNode[]
+  // 事件发生的来源对象
+  originSourceParents?: TreeNode | TreeNode[]
 }
 
 export class AbstractMutationNodeEvent {
