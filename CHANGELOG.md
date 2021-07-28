@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.17(2021-07-28)
+
+### :blush: Other Changes
+
+1. [chore(settings): improve DrawerSetter ui](https://github.com/alibaba/designable/commit/c2387a6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.16(2021-07-27)
 
 ### :blush: Other Changes
@@ -267,9 +273,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(settings): rename idleReuqest to idleRequest (#9)](https://github.com/alibaba/designable/commit/9afbd79) :point_right: ( [Dark](https://github.com/Dark) )
-
-## v0.3.15(2021-06-22)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix dataSource value can not to be null](https://github.com/alibaba/designable/commit/4a66ab0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
