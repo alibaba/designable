@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.20(2021-07-30)
+
+### :blush: Other Changes
+
+1. [chore(ui): improve dark ui](https://github.com/alibaba/designable/commit/80b0ebc) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.19(2021-07-28)
 
 ### :tada: Enhancements
@@ -255,9 +261,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): update monaco input](https://github.com/alibaba/designable/commit/cea7bb1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.18(2021-07-01)
-
-### :tada: Enhancements
-
-1. [feat(react): support scrollable for ViewPanel](https://github.com/alibaba/designable/commit/5584e15) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
