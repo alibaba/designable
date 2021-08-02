@@ -83,7 +83,6 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
     }
 
     const renderResponsiveController = () => {
-      if (workbench.type !== 'DESIGNABLE') return null
       if (!props.use.includes('SCREEN_TYPE')) return null
       if (screen.type !== ScreenType.Responsive) return null
       return (
