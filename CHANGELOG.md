@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.22(2021-08-03)
+
+### :tada: Enhancements
+
+1. [feat(react): improve DesignerToolsWidget](https://github.com/alibaba/designable/commit/e57a398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.21(2021-07-30)
 
 ### :blush: Other Changes
@@ -251,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/512457d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.20(2021-07-01)
-
-### :tada: Enhancements
-
-1. [feat(settings): support jsx to MonacoInput](https://github.com/alibaba/designable/commit/b54ab4e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
