@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.21(2021-07-30)
+
+### :blush: Other Changes
+
+1. [chore(ui): improve dark ui](https://github.com/alibaba/designable/commit/7039db4) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.20(2021-07-30)
 
 ### :blush: Other Changes
@@ -251,13 +257,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support jsx to MonacoInput](https://github.com/alibaba/designable/commit/b54ab4e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.19(2021-07-01)
-
-### :tada: Enhancements
-
-1. [feat(core): update WorkbenchTypes](https://github.com/alibaba/designable/commit/f3b27f5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(settings): update monaco input](https://github.com/alibaba/designable/commit/cea7bb1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
