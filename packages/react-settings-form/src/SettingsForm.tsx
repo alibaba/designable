@@ -29,15 +29,16 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const node = useCurrentNode()
     const selected = useSelected()
     const prefix = usePrefix('settings-form')
+    const schema = node?.designerProps?.propsSchema
     const form = useMemo(() => {
       return createForm({
         values: node?.props,
         effects() {
-          useLocales()
+          useLocales(schema?.['$namespace'])
           useSnapshot(operation)
         },
       })
-    }, [node, node?.designerProps?.propsSchema, operation])
+    }, [node, schema, operation])
 
     const isEmpty = !(
       node &&
@@ -64,7 +65,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
                 tooltipLayout="text"
               >
                 <SchemaField
-                  schema={node.designerProps.propsSchema as any}
+                  schema={schema}
                   components={props.components}
                   scope={props.scope}
                 />

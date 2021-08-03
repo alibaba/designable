@@ -4,8 +4,7 @@ import { GlobalRegistry } from '@designable/core'
 import { isPlainObj, isStr } from '@designable/shared'
 import { IconWidget } from '@designable/react'
 
-const takeLocales = (token: string): any => {
-  const message = GlobalRegistry.getDesignerMessage(token)
+const takeLocales = (message: any): any => {
   if (isStr(message))
     return {
       title: message,
@@ -21,10 +20,16 @@ const takeIcon = (message: string) => {
   return
 }
 
-export const useLocales = () => {
+export const useLocales = (namespace?: string) => {
   onFieldReact('*', (field) => {
     const token = field.path.toString().replace(/\.[\d+]/g, '')
-    const locales = takeLocales(`settings.${token}`)
+    const commonMessage = GlobalRegistry.getDesignerMessage(`settings.${token}`)
+    const namespaceMessage = GlobalRegistry.getDesignerMessage(
+      `settings.${namespace}.${token}`
+    )
+    const locales = namespaceMessage
+      ? takeLocales(namespaceMessage)
+      : takeLocales(commonMessage)
     if (locales.title) {
       field.title = locales.title
     }

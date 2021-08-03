@@ -40,6 +40,7 @@ GlobalRegistry.registerDesignerProps({
     inlineLayout: true,
     propsSchema: {
       type: 'object',
+      $namespace: 'Field',
       properties: {
         title: {
           type: 'string',
@@ -156,17 +157,19 @@ GlobalRegistry.registerDesignerLocales({
       title: '标题',
       hidden: '是否隐藏',
       default: '默认值',
-      style: {
-        width: '宽度',
-        height: '高度',
-        display: '展示',
-        background: '背景',
-        boxShadow: '阴影',
-        font: '字体',
-        margin: '外边距',
-        padding: '内边距',
-        borderRadius: '圆角',
-        border: '边框',
+      Field: {
+        style: {
+          width: '宽度',
+          height: '高度',
+          display: '展示',
+          background: '背景',
+          boxShadow: '阴影',
+          font: '字体',
+          margin: '外边距',
+          padding: '内边距',
+          borderRadius: '圆角',
+          border: '边框',
+        },
       },
     },
   },
