@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.24(2021-08-04)
+
+### :rose: Improve code quality
+
+1. [refactor(settings-form): improve namespace locale](https://github.com/alibaba/designable/commit/e0d014d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.23(2021-08-04)
 
 ### :tada: Enhancements
@@ -251,9 +257,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/aeecb40) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.22(2021-07-01)
-
-### :blush: Other Changes
-
-1. [chore(react): improve ui](https://github.com/alibaba/designable/commit/d8b957c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
