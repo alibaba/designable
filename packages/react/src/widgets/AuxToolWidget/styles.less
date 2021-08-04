@@ -132,7 +132,7 @@
       height: 20px;
     }
 
-    & > * {
+    &>* {
       margin-top: 4px;
       margin-bottom: 4px;
       margin-left: 2px;
@@ -150,6 +150,10 @@
 
 .@{prefix-cls}-aux-dashed-box {
   border: 1px dashed var(--dn-aux-dashed-box-color);
+
+  &-title {
+    color: var(--dn-aux-dashed-box-title-color);
+  }
 }
 
 .@{prefix-cls}-aux-selection-box {
@@ -189,6 +193,7 @@
     margin-top: -4px;
     animation: dn-animate-slide-to-top 0.2s;
     opacity: 0.8;
+
     button {
       font-size: 12px !important;
       display: flex;
