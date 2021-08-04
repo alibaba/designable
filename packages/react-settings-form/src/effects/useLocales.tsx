@@ -22,8 +22,9 @@ const takeIcon = (message: string) => {
 
 export const useLocales = (namespace?: string) => {
   onFieldReact('*', (field) => {
-    const token = field.path.toString().replace(/\.[\d+]/g, '')
-    const commonMessage = GlobalRegistry.getDesignerMessage(`settings.${token}`)
+    const path = field.path.toString().replace(/\.[\d+]/g, '')
+    const token = field.path.segments[field.path.segments.length - 1]
+    const commonMessage = GlobalRegistry.getDesignerMessage(`settings.${path}`)
     const namespaceMessage = GlobalRegistry.getDesignerMessage(
       `settings.${namespace}.${token}`
     )
