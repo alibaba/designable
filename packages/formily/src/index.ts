@@ -5,8 +5,6 @@ import { clone, uid } from '@designable/shared'
 export interface ITransformerOptions {
   designableFieldName?: string
   designableFormName?: string
-  schemaFieldName?: string
-  schemaFormName?: string
 }
 
 export interface IFormilySchema {
