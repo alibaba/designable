@@ -11,6 +11,7 @@ import {
   UpdateChildrenEvent,
   RemoveNodeEvent,
   UpdateNodePropsEvent,
+  CloneNodeEvent,
 } from '../events'
 import {
   IDesignerControllerProps,
@@ -605,7 +606,13 @@ export class TreeNode {
       }),
       newNode
     )
-    return newNode
+    return this.triggerMutation(
+      new CloneNodeEvent({
+        target: this,
+        source: newNode,
+      }),
+      () => newNode
+    )
   }
 
   from(node?: ITreeNode) {

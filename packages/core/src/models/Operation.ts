@@ -213,6 +213,7 @@ export class Operation {
       let insertPoint = lastNode
       each(nodes, (node) => {
         const cloned = node.clone()
+        if (!cloned) return
         if (
           this.selection.has(node) &&
           insertPoint.parent.allowAppend([cloned])
