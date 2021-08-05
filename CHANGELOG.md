@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.4.25(2021-08-04)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix shortcut can not get context](https://github.com/alibaba/designable/commit/8263c49) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(formily): fix typings](https://github.com/alibaba/designable/commit/664c53f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.24(2021-08-04)
 
 ### :rose: Improve code quality
@@ -251,9 +259,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve ui](https://github.com/alibaba/designable/commit/9255dbf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.23(2021-07-02)
-
-### :beetle: Bug Fixes
-
-1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/aeecb40) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
