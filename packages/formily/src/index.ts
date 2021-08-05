@@ -80,6 +80,9 @@ export const transformToTreeNode = (
   }
   const schema = new Schema(formily.schema)
   const cleanProps = (props: any) => {
+    if (props['name'] === props['_designableId']) {
+      delete props.name
+    }
     delete props['version']
     delete props['_isJSONSchemaObject']
     return props
