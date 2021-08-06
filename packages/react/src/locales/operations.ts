@@ -12,6 +12,7 @@ export default {
       update_children: '覆盖子节点',
       remove_node: '删除节点',
       wrap_node: '包装节点',
+      from_node: '子树更新',
     },
   },
   'en-US': {
@@ -27,6 +28,7 @@ export default {
       update_children: 'Update Children',
       remove_node: 'Remove Node',
       wrap_node: 'Wrap Node',
+      from_node: 'Update Child Tree',
     },
   },
 }
