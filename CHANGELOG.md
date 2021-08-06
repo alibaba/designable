@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.4.26(2021-08-05)
+
+### :tada: Enhancements
+
+1. [feat(core): support CloneNodeEvent](https://github.com/alibaba/designable/commit/c19e402) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(react): support dark theme for dash box title](https://github.com/alibaba/designable/commit/d7bfd60) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/3b2041e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.25(2021-08-04)
 
 ### :beetle: Bug Fixes
@@ -253,9 +265,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): improve MonacoInput](https://github.com/alibaba/designable/commit/0216815) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.24(2021-07-03)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve ui](https://github.com/alibaba/designable/commit/9255dbf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
