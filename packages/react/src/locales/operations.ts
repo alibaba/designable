@@ -12,9 +12,6 @@ export default {
       update_children: '覆盖子节点',
       remove_node: '删除节点',
       wrap_node: '包装节点',
-      select_all: '全选节点',
-      select_prev: '前置选择',
-      select_next: '后置选择',
     },
   },
   'en-US': {
@@ -30,9 +27,6 @@ export default {
       update_children: 'Update Children',
       remove_node: 'Remove Node',
       wrap_node: 'Wrap Node',
-      select_all: 'Select All Nodes',
-      select_prev: 'Select Prev Node',
-      select_next: 'Select Next Node',
     },
   },
 }
