@@ -24,6 +24,7 @@ export class History<T extends ISerializable = any> {
   history: HistoryItem<T>[] = []
   updateTimer = null
   maxSize = 100
+  locking = false
   constructor(context: T, props?: IHistoryProps<HistoryItem<T>>) {
     this.context = context
     this.props = props
@@ -48,6 +49,7 @@ export class History<T extends ISerializable = any> {
   }
 
   push(type?: string) {
+    if (this.locking) return
     if (this.current < this.history.length - 1) {
       this.history = this.history.slice(0, this.current + 1)
     }
@@ -75,7 +77,9 @@ export class History<T extends ISerializable = any> {
   redo() {
     if (this.allowRedo) {
       const item = this.history[this.current + 1]
+      this.locking = true
       this.context.from(item.data)
+      this.locking = false
       this.current++
       if (this.props?.onRedo) {
         this.props.onRedo(item)
@@ -86,7 +90,9 @@ export class History<T extends ISerializable = any> {
   undo() {
     if (this.allowUndo) {
       const item = this.history[this.current - 1]
+      this.locking = true
       this.context.from(item.data)
+      this.locking = false
       this.current--
       if (this.props?.onUndo) {
         this.props.onUndo(item)
@@ -97,7 +103,9 @@ export class History<T extends ISerializable = any> {
   goTo(index: number) {
     const item = this.history[index]
     if (item) {
+      this.locking = true
       this.context.from(item.data)
+      this.locking = false
       this.current = index
       if (this.props?.onGoto) {
         this.props.onGoto(item)

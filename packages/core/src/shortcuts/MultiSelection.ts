@@ -25,7 +25,7 @@ export const SelectAllNodes = new Shortcut({
     if (operation) {
       const tree = operation.tree
       const selection = operation.selection
-      selection.batchSelect(tree.children)
+      selection.batchSelect(tree.childrens)
     }
   },
 })

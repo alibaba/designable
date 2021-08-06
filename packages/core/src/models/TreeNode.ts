@@ -12,6 +12,7 @@ import {
   RemoveNodeEvent,
   UpdateNodePropsEvent,
   CloneNodeEvent,
+  FromNodeEvent,
 } from '../events'
 import {
   IDesignerControllerProps,
@@ -657,27 +658,35 @@ export class TreeNode {
 
   from(node?: ITreeNode) {
     if (!node) return
-    if (node.id && node.id !== this.id) {
-      TreeNodes.delete(this.id)
-      TreeNodes.set(node.id, this)
-      this.id = node.id
-    }
-    if (node.componentName) {
-      this.componentName = node.componentName
-    }
-    this.props = {
-      ...this.designerProps?.defaultProps,
-      ...node.props,
-    }
-    if (node.hidden) {
-      this.hidden = node.hidden
-    }
-    if (node.children) {
-      this.children =
-        node.children?.map?.((node) => {
-          return new TreeNode(node, this)
-        }) || []
-    }
+    return this.triggerMutation(
+      new FromNodeEvent({
+        target: this,
+        source: node,
+      }),
+      () => {
+        if (node.id && node.id !== this.id) {
+          TreeNodes.delete(this.id)
+          TreeNodes.set(node.id, this)
+          this.id = node.id
+        }
+        if (node.componentName) {
+          this.componentName = node.componentName
+        }
+        this.props = {
+          ...this.designerProps?.defaultProps,
+          ...node.props,
+        }
+        if (node.hidden) {
+          this.hidden = node.hidden
+        }
+        if (node.children) {
+          this.children =
+            node.children?.map?.((node) => {
+              return new TreeNode(node, this)
+            }) || []
+        }
+      }
+    )
   }
 
   serialize(): ITreeNode {

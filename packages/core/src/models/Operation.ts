@@ -250,6 +250,12 @@ export class Operation {
 
   snapshot(type?: string) {
     cancelIdle(this.requests.snapshot)
+    if (
+      !this.workspace ||
+      !this.workspace.history ||
+      this.workspace.history.locking
+    )
+      return
     this.requests.snapshot = requestIdle(() => {
       this.workspace.history.push(type)
     })
