@@ -235,7 +235,7 @@ export class Operation {
     })
     parents.forEach((nodes, target) => {
       if (!nodes.length) return
-      target.appendNode(...nodes)
+      target.append(...nodes)
     })
   }
 
@@ -248,10 +248,10 @@ export class Operation {
     })
   }
 
-  snapshot() {
+  snapshot(type?: string) {
     cancelIdle(this.requests.snapshot)
     this.requests.snapshot = requestIdle(() => {
-      this.workspace.history.push()
+      this.workspace.history.push(type)
     })
   }
 

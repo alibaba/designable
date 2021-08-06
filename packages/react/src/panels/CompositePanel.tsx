@@ -85,7 +85,7 @@ export const CompositePanel: React.FC & {
             if (item.href) {
               return <a href={item.href}>{item.icon}</a>
             }
-            return item.icon
+            return <IconWidget infer={item.icon} />
           }
           return (
             <div

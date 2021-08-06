@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, Fragment, useContext } from 'react'
 import { GlobalRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
@@ -75,14 +75,15 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
       }
     }
   }
-  const renderTooltips = (children: React.ReactNode): React.ReactElement => {
+  const renderTooltips = (children: React.ReactElement): React.ReactElement => {
+    if (!context) return children
     if (!isStr(props.infer) && context.tooltip) return children as any
     const tooltip =
       props.tooltip || registry.getDesignerMessage(`icons.${props.infer}`)
     if (tooltip) {
       return <Tooltip title={tooltip}>{children}</Tooltip>
     }
-    return children as any
+    return children
   }
   return renderTooltips(
     <span

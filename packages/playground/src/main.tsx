@@ -15,6 +15,7 @@ import {
   ToolbarPanel,
   ViewportPanel,
   SettingsPanel,
+  HistoryWidget,
 } from '@designable/react'
 import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
 import { observer } from '@formily/react'
@@ -157,19 +158,17 @@ GlobalRegistry.registerDesignerLocales({
       title: '标题',
       hidden: '是否隐藏',
       default: '默认值',
-      Field: {
-        style: {
-          width: '宽度',
-          height: '高度',
-          display: '展示',
-          background: '背景',
-          boxShadow: '阴影',
-          font: '字体',
-          margin: '外边距',
-          padding: '内边距',
-          borderRadius: '圆角',
-          border: '边框',
-        },
+      style: {
+        width: '宽度',
+        height: '高度',
+        display: '展示',
+        background: '背景',
+        boxShadow: '阴影',
+        font: '字体',
+        margin: '外边距',
+        padding: '内边距',
+        borderRadius: '圆角',
+        border: '边框',
       },
     },
   },
@@ -257,6 +256,9 @@ const App = () => {
             icon={<IconWidget infer="Outline" />}
           >
             <OutlineTreeWidget />
+          </CompositePanel.Item>
+          <CompositePanel.Item title="历史记录" icon="History">
+            <HistoryWidget />
           </CompositePanel.Item>
         </CompositePanel>
         <Workspace id="form">

@@ -1,12 +1,14 @@
 import { define, observable, action } from '@formily/reactive'
 
 export interface IHistoryProps<T> {
-  onRedo(item: T): void
-  onUndo(item: T): void
+  onRedo?: (item: T) => void
+  onUndo?: (item: T) => void
+  onGoto?: (item: T) => void
 }
 
 export interface HistoryItem<T> {
   data: T
+  type?: string
   timestamp: number
 }
 
@@ -45,12 +47,16 @@ export class History<T extends ISerializable = any> {
     return this.history
   }
 
-  push() {
+  push(type?: string) {
     if (this.current < this.history.length - 1) {
       this.history = this.history.slice(0, this.current + 1)
     }
     this.current = this.history.length
-    this.history.push(this.context.serialize())
+    this.history.push({
+      data: this.context.serialize(),
+      timestamp: Date.now(),
+      type,
+    })
     const overSizeCount = this.history.length - this.maxSize
     if (overSizeCount > 0) {
       this.history.splice(0, overSizeCount)
@@ -69,7 +75,7 @@ export class History<T extends ISerializable = any> {
   redo() {
     if (this.allowRedo) {
       const item = this.history[this.current + 1]
-      this.context.from(item)
+      this.context.from(item.data)
       this.current++
       if (this.props?.onRedo) {
         this.props.onRedo(item)
@@ -80,7 +86,7 @@ export class History<T extends ISerializable = any> {
   undo() {
     if (this.allowUndo) {
       const item = this.history[this.current - 1]
-      this.context.from(item)
+      this.context.from(item.data)
       this.current--
       if (this.props?.onUndo) {
         this.props.onUndo(item)
@@ -89,9 +95,13 @@ export class History<T extends ISerializable = any> {
   }
 
   goTo(index: number) {
-    if (this.history[index]) {
-      this.context.from(this.history[index])
+    const item = this.history[index]
+    if (item) {
+      this.context.from(item.data)
       this.current = index
+      if (this.props?.onGoto) {
+        this.props.onGoto(item)
+      }
     }
   }
 

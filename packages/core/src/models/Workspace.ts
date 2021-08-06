@@ -3,7 +3,7 @@ import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
 import { uid, ICustomEvent, EventContainer } from '@designable/shared'
-import { HistoryRedoEvent, HistoryUndoEvent } from '../events'
+import { HistoryGotoEvent, HistoryRedoEvent, HistoryUndoEvent } from '../events'
 import { IEngineContext } from '../types'
 export interface IViewportMatcher {
   contentWindow?: Window
@@ -71,6 +71,10 @@ export class Workspace {
       onUndo: (item) => {
         this.operation.hover.clear()
         this.operation.dispatch(new HistoryUndoEvent(item))
+      },
+      onGoto: (item) => {
+        this.operation.hover.clear()
+        this.operation.dispatch(new HistoryGotoEvent(item))
       },
     })
   }

@@ -49,6 +49,7 @@
     "@types/node": "^12.6.8",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/dateformat": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.8.2",
     "@umijs/plugin-sass": "^1.1.1",

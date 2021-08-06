@@ -22,14 +22,14 @@ export class DragSource {
     const parent = this.tree.findById(group)
     const nodes = sources.map((node) => new TreeNode(node))
     if (parent) {
-      parent.setNodeChildren(...nodes)
+      parent.setChildren(...nodes)
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
         id: `${this.prefix}_${group}`,
       })
-      newParent.setNodeChildren(...nodes)
-      this.tree.appendNode(newParent)
+      newParent.setChildren(...nodes)
+      this.tree.append(newParent)
     }
   }
 
@@ -37,14 +37,14 @@ export class DragSource {
     const parent = this.tree.findById(group)
     const nodes = sources.map((node) => new TreeNode(node))
     if (parent) {
-      parent.appendNode(...nodes)
+      parent.append(...nodes)
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
         id: `${this.prefix}_${group}`,
       })
-      newParent.setNodeChildren(...nodes)
-      this.tree.appendNode(newParent)
+      newParent.setChildren(...nodes)
+      this.tree.append(newParent)
     }
   }
 

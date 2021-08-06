@@ -19,13 +19,13 @@ export const SelectPrevNode = new Shortcut({
         const previousNode = lastNode.previous
         if (previousNode) {
           selection.select(previousNode)
-          operation.snapshot()
+          operation.snapshot('select:prev')
         } else if (lastNode.parent) {
           selection.select(lastNode.parent)
-          operation.snapshot()
+          operation.snapshot('select:prev')
         } else {
           selection.select(lastNode.lastChild)
-          operation.snapshot()
+          operation.snapshot('select:prev')
         }
       }
     }
@@ -51,13 +51,13 @@ export const SelectNextNode = new Shortcut({
         const nextNode = lastNode.next
         if (nextNode) {
           selection.select(nextNode)
-          operation.snapshot()
+          operation.snapshot('select:next')
         } else if (lastNode.parent) {
           selection.select(lastNode.parent)
-          operation.snapshot()
+          operation.snapshot('select:next')
         } else {
           selection.select(lastNode.firstChild)
-          operation.snapshot()
+          operation.snapshot('select:next')
         }
       }
     }

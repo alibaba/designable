@@ -141,12 +141,12 @@ export const useDragDropEffect = (engine: Engine) => {
           closestDirection === ClosestDirection.InnerAfter
         ) {
           if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.appendNode(...dragNodes))
+            selection.batchSafeSelect(closestNode.append(...dragNodes))
             operation.setDropNode(closestNode)
           }
         } else if (closestDirection === ClosestDirection.InnerBefore) {
           if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.prependNode(...dragNodes))
+            selection.batchSafeSelect(closestNode.prepend(...dragNodes))
             operation.setDropNode(closestNode)
           }
         }
