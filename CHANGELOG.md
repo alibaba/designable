@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.27(2021-08-06)
+
+### :tada: Enhancements
+
+1. [feat(react): add HistoryWidget](https://github.com/alibaba/designable/commit/21498a1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.26(2021-08-05)
 
 ### :tada: Enhancements
@@ -259,9 +265,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): improve MonacoInput](https://github.com/alibaba/designable/commit/5549029) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.25(2021-07-08)
-
-### :tada: Enhancements
-
-1. [feat(settings): improve MonacoInput](https://github.com/alibaba/designable/commit/0216815) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
