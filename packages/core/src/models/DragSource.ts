@@ -12,6 +12,10 @@ export class DragSource {
     this.prefix = uid()
   }
 
+  get size() {
+    return this.getAllSources().length
+  }
+
   setSources(sources: Record<string, ITreeNode[]>) {
     each(sources, (data, group) => {
       this.setSourcesByGroup(group, data)

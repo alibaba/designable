@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import {
   Designer,
@@ -237,31 +237,23 @@ const Actions = observer(() => (
 const engine = createDesigner()
 
 const App = () => {
-  const [view, setView] = useState('design')
-
   return (
     <Designer engine={engine}>
-      <MainPanel logo={<Logo />} actions={<Actions />}>
-        <CompositePanel>
-          <CompositePanel.Item
-            title="panels.Component"
-            icon={<IconWidget infer="Component" />}
-          >
-            <DragSourceWidget title="sources.Inputs" name="form" />
-            <DragSourceWidget title="sources.Displays" name="form" />
-            <DragSourceWidget title="sources.Feedbacks" name="form" />
-          </CompositePanel.Item>
-          <CompositePanel.Item
-            title="panels.OutlinedTree"
-            icon={<IconWidget infer="Outline" />}
-          >
-            <OutlineTreeWidget />
-          </CompositePanel.Item>
-          <CompositePanel.Item title="历史记录" icon="History">
-            <HistoryWidget />
-          </CompositePanel.Item>
-        </CompositePanel>
-        <Workbench>
+      <Workbench>
+        <MainPanel logo={<Logo />} actions={<Actions />}>
+          <CompositePanel>
+            <CompositePanel.Item title="panels.Component" icon="Component">
+              <DragSourceWidget title="sources.Inputs" name="form" />
+              <DragSourceWidget title="sources.Displays" name="form" />
+              <DragSourceWidget title="sources.Feedbacks" name="form" />
+            </CompositePanel.Item>
+            <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
+              <OutlineTreeWidget />
+            </CompositePanel.Item>
+            <CompositePanel.Item title="panels.History" icon="History">
+              <HistoryWidget />
+            </CompositePanel.Item>
+          </CompositePanel>
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
@@ -284,11 +276,11 @@ const App = () => {
               </ViewPanel>
             </ViewportPanel>
           </WorkspacePanel>
-        </Workbench>
-        <SettingsPanel title="panels.PropertySettings">
-          <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
-        </SettingsPanel>
-      </MainPanel>
+          <SettingsPanel title="panels.PropertySettings">
+            <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+          </SettingsPanel>
+        </MainPanel>
+      </Workbench>
     </Designer>
   )
 }

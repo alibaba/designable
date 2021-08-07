@@ -3,7 +3,7 @@ import { TreeNode } from '@designable/core'
 import { isFn } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
 import cls from 'classnames'
-import { useDesigner, usePrefix } from '../../hooks'
+import { useDesigner, usePrefix, useWorkspace } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { TextWidget } from '../TextWidget'
 import './styles.less'
@@ -22,6 +22,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
   (props) => {
     const prefix = usePrefix('drag-source')
     const designer = useDesigner()
+    const workspace = useWorkspace()
     const [expand, setExpand] = useState(props.defaultExpand)
     const renderNode = (node: TreeNode) => {
       return (
@@ -41,6 +42,9 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
         </div>
       )
     }
+
+    const source =
+      workspace.source.size > 0 ? workspace.source : designer.source
 
     return (
       <div
@@ -65,7 +69,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
         </div>
         <div className={prefix + '-content-wrapper'}>
           <div className={prefix + '-content'}>
-            {designer.source.mapSourcesByGroup(
+            {source.mapSourcesByGroup(
               props.name,
               isFn(props.children) ? props.children : renderNode
             )}
