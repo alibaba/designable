@@ -25,13 +25,14 @@ export const OutlineTreeWidget: React.FC<IOutlineTreeWidgetProps> = observer(
     const outline = useOutline(workspaceId)
 
     useLayoutEffect(() => {
+      if (!workspaceId) return
       if (ref.current && outline) {
         outline.onMount(ref.current, window)
       }
       return () => {
         outline.onUnmount()
       }
-    }, [])
+    }, [workspaceId])
 
     if (!outline || !workspaceId) return null
     return (

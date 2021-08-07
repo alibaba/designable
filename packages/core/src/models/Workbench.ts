@@ -55,10 +55,12 @@ export class Workbench {
       this.currentWorkspace = finded
       this.engine.dispatch(new SwitchWorkspaceEvent(finded))
     }
+    return this.currentWorkspace
   }
 
   setActiveWorkspace(workspace: Workspace) {
     this.activeWorkspace = workspace
+    return workspace
   }
 
   setWorkbenchType(type: WorkbenchTypes) {
@@ -66,11 +68,14 @@ export class Workbench {
   }
 
   addWorkspace(props: IWorkspaceProps) {
-    if (!this.findWorkspaceById(props.id)) {
+    const finded = this.findWorkspaceById(props.id)
+    if (!finded) {
       this.currentWorkspace = new Workspace(this.engine, props)
       this.workspaces.push(this.currentWorkspace)
       this.engine.dispatch(new AddWorkspaceEvent(this.currentWorkspace))
+      return this.currentWorkspace
     }
+    return finded
   }
 
   removeWorkspace(id: string) {

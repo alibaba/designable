@@ -22,7 +22,7 @@ export const Workspace: React.FC<IWorkspaceProps> = ({
       old.viewport.detachEvents()
     }
     const workspace = {
-      id: id || uid(),
+      id: id || 'index',
       title,
       description,
     }

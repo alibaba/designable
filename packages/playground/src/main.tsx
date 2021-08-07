@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {
   Designer,
   IconWidget,
-  Workspace,
+  Workbench,
   ViewPanel,
   DesignerToolsWidget,
   ViewToolsWidget,
@@ -261,7 +261,7 @@ const App = () => {
             <HistoryWidget />
           </CompositePanel.Item>
         </CompositePanel>
-        <Workspace id="form">
+        <Workbench>
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
@@ -284,7 +284,7 @@ const App = () => {
               </ViewPanel>
             </ViewportPanel>
           </WorkspacePanel>
-        </Workspace>
+        </Workbench>
         <SettingsPanel title="panels.PropertySettings">
           <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
         </SettingsPanel>
