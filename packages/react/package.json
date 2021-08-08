@@ -21,8 +21,8 @@
   "dependencies": {
     "@designable/core": "0.4.31",
     "@designable/shared": "0.4.31",
-    "@formily/reactive": "^2.0.0-beta.76",
-    "@formily/reactive-react": "^2.0.0-beta.76",
+    "@formily/reactive": "^2.0.0-beta.84",
+    "@formily/reactive-react": "^2.0.0-beta.84",
     "@juggle/resize-observer": "^3.3.1",
     "dateformat": "^4.5.1"
   },
