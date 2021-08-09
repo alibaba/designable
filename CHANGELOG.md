@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.31(2021-08-06)
+
+### :blush: Other Changes
+
+1. [chore(react): add from node locale](https://github.com/alibaba/designable/commit/0e7d99b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.30(2021-08-06)
 
 ### :tada: Enhancements
@@ -255,9 +261,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/dccc6e2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.29(2021-07-09)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix the drag event is easy to be disturbed](https://github.com/alibaba/designable/commit/d045764) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
