@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.4.32(2021-08-09)
+
+### :tada: Enhancements
+
+1. [feat(settings): add dirty check to SettingsForm](https://github.com/alibaba/designable/commit/7ce5757) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(core): support workspace drag source](https://github.com/alibaba/designable/commit/4f2a586) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(react): support Workbench component](https://github.com/alibaba/designable/commit/bfbb71a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(react): improve mobile styles](https://github.com/alibaba/designable/commit/57588ca) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.31(2021-08-06)
 
 ### :blush: Other Changes
@@ -255,9 +269,3 @@
 ## v0.3.31(2021-07-10)
 
 ### No Change Log
-
-## v0.3.30(2021-07-10)
-
-### :tada: Enhancements
-
-1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/dccc6e2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
