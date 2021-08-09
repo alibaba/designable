@@ -44,7 +44,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
     }
 
     const source =
-      workspace.source.size > 0 ? workspace.source : designer.source
+      workspace?.source?.size > 0 ? workspace.source : designer.source
 
     return (
       <div
