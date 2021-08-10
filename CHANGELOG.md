@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.33(2021-08-09)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix DragSourceWidget](https://github.com/alibaba/designable/commit/894fe58) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.32(2021-08-09)
 
 ### :tada: Enhancements
@@ -263,9 +269,5 @@
 1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/a1e8c6f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 ## v0.3.32(2021-07-10)
-
-### No Change Log
-
-## v0.3.31(2021-07-10)
 
 ### No Change Log
