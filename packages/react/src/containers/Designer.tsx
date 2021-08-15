@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { Engine } from '@designable/core'
 import cls from 'classnames'
 import { DesignerContext } from '../context'
 import { IDesignerProps } from '../types'
@@ -7,10 +8,16 @@ import { useDesigner } from '../hooks'
 
 export const Designer: React.FC<IDesignerProps> = (props) => {
   const engine = useDesigner()
-
+  const ref = useRef<Engine>()
   useEffect(() => {
     if (props.engine) {
+      if (props.engine && ref.current) {
+        if (props.engine !== ref.current) {
+          ref.current.unmount()
+        }
+      }
       props.engine.mount()
+      ref.current = props.engine
     }
     return () => {
       if (props.engine) {
