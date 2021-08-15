@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.34(2021-08-10)
+
+### :rose: Improve code quality
+
+1. [refactor(settings): remove stringify to check schema](https://github.com/alibaba/designable/commit/89c7299) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.33(2021-08-09)
 
 ### :beetle: Bug Fixes
@@ -267,7 +273,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/a1e8c6f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.32(2021-07-10)
-
-### No Change Log
