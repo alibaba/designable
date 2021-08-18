@@ -93,7 +93,7 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
         )
       }
     }, [])
-    if (designer) {
+    if (designer && tree) {
       dataId[designer?.props?.nodeIdAttrName] = tree.id
     }
     return (
