@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.4.37(2021-08-20)
+
+### :tada: Enhancements
+
+1. [feat(react): improve panels styles](https://github.com/alibaba/designable/commit/f78898e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(react): remove duplicate css properties (#41)](https://github.com/alibaba/designable/commit/49f2239) :point_right: ( [Jingsong Gao](https://github.com/Jingsong Gao) )
+
+1. [fix(react): tree maybe undefined (#42)](https://github.com/alibaba/designable/commit/0c09ff4) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
+
+### :blush: Other Changes
+
+1. [chore(react): merge styles](https://github.com/alibaba/designable/commit/83374f6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.36(2021-08-19)
 
 ### :beetle: Bug Fixes
@@ -277,9 +293,3 @@
 ## v0.3.36(2021-07-11)
 
 ### No Change Log
-
-## v0.3.35(2021-07-10)
-
-### :tada: Enhancements
-
-1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/25a51d7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
