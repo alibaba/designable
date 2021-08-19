@@ -154,7 +154,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
                     }
                   }}
                 >
-                  <IconWidget infer="Expand" />
+                  <IconWidget infer="Expand" size={12} />
                 </div>
               )}
               <div className={prefix + '-icon'}>{renderIcon(node)}</div>
