@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.36(2021-08-19)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings-form): fix ui can not reactive with node.props changed](https://github.com/alibaba/designable/commit/7aebb2e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.35(2021-08-15)
 
 ### :tada: Enhancements
@@ -277,7 +283,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/25a51d7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.3.34(2021-07-10)
-
-### No Change Log
