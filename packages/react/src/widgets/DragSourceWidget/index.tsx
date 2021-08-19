@@ -31,11 +31,11 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
           key={node.id}
           data-designer-source-id={node.id}
         >
-          {node?.designerProps?.icon && (
+          {node?.designerProps?.sourceIcon && (
             <IconWidget
-              infer={node?.designerProps?.icon}
-              size={12}
-              style={{ marginRight: 3 }}
+              infer={node.designerProps.sourceIcon}
+              size={28}
+              style={{ margin: '10px 0' }}
             />
           )}
           <TextWidget>{node?.designerProps?.title}</TextWidget>

@@ -50,6 +50,7 @@ export interface IDesignerProps {
   title?: string //标题
   description?: string //描述
   icon?: string //icon
+  sourceIcon?: string //source icon
   group?: string //分类
   droppable?: boolean //是否可作为拖拽容器，默认为true
   draggable?: boolean //是否可拖拽，默认为true
