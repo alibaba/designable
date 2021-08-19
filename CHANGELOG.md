@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.4.35(2021-08-15)
+
+### :tada: Enhancements
+
+1. [feat(react): support auto clean instance](https://github.com/alibaba/designable/commit/4da8293) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
+
+### :memo: Documents Changes
+
+1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
+
 ## v0.4.34(2021-08-10)
 
 ### :rose: Improve code quality
@@ -267,9 +281,3 @@
 ## v0.3.34(2021-07-10)
 
 ### No Change Log
-
-## v0.3.33(2021-07-10)
-
-### :tada: Enhancements
-
-1. [feat(settings): add dispose for MonacoInput](https://github.com/alibaba/designable/commit/a1e8c6f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
