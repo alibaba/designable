@@ -38,7 +38,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
           useSnapshot(operation)
         },
       })
-    }, [node, node.props, schema, operation])
+    }, [node, node?.props, schema, operation])
 
     const isEmpty = !(
       node &&
