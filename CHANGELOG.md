@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.39(2021-08-20)
+
+### :tada: Enhancements
+
+1. [feat(react): support sourceIcon for DragSource](https://github.com/alibaba/designable/commit/fcb3a5e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.38(2021-08-20)
 
 ### :blush: Other Changes
@@ -289,9 +295,3 @@
 ## v0.4.0(2021-07-12)
 
 ### No Change Log
-
-## v0.3.37(2021-07-12)
-
-### :tada: Enhancements
-
-1. [feat(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/34412f5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
