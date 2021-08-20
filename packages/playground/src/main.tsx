@@ -140,6 +140,15 @@ GlobalDragSource.setSourcesByGroup('form', [
       'x-component': 'Card',
     },
   },
+  {
+    componentName: 'Card',
+    props: {
+      title: '卡片',
+      type: 'void',
+      'x-decorator': 'FormItem',
+      'x-component': 'Card',
+    },
+  },
 ])
 
 GlobalRegistry.registerDesignerLocales({

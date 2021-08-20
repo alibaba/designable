@@ -56,7 +56,7 @@
   &-item {
     user-select: none;
     padding: 8px 10px;
-    width: calc(50% + 2px);
+    width: calc(50% + 1px);
     min-height: 40px;
     margin: -1px;
     margin-bottom: 0;
@@ -68,14 +68,15 @@
     flex-direction: column;
     font-size: 13px;
     cursor: grab;
-    transition: all 0.1s ease-out;
+    transition: color 0.1s ease-out;
 
     &:hover {
       color: var(--dn-drag-source-item-hover-color);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     &:nth-child(2n) {
-      border-left: none;
+      margin-left: 0;
     }
   }
 }
