@@ -8,17 +8,17 @@ import {
   useSelected,
   useOperation,
   useCurrentNode,
+  useWorkbench,
   IconWidget,
+  NodePathWidget,
 } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './shared/context'
 import { useLocales, useSnapshot } from './effects'
-import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'
 import cls from 'classnames'
 import './styles.less'
-import { useWorkbench } from 'packages/react/lib'
 
 const GlobalState = {
   idleRequest: null,
@@ -89,7 +89,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     return (
       <IconWidget.Provider tooltip>
         <div className={prefix + '-wrapper'}>
-          {!isEmpty && <NodePath />}
+          {!isEmpty && <NodePathWidget workspaceId={currentWorkspaceId} />}
           <div className={prefix + '-content'}>{render()}</div>
         </div>
       </IconWidget.Provider>

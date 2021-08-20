@@ -1,4 +1,4 @@
-import React, { createContext, Fragment, useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { GlobalRegistry } from '@designable/core'
 import { isStr, isFn, isPlainObj } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
