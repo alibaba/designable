@@ -20,7 +20,8 @@ export const OutlineTreeWidget: React.FC<IOutlineTreeWidgetProps> = observer(
     const ref = useRef<HTMLDivElement>()
     const prefix = usePrefix('outline-tree')
     const workbench = useWorkbench()
-    const workspaceId = workbench.currentWorkspace?.id
+    const current = workbench?.activeWorkspace || workbench?.currentWorkspace
+    const workspaceId = current?.id
     const tree = useTree(workspaceId)
     const outline = useOutline(workspaceId)
 
