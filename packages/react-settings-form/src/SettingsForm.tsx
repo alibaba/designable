@@ -18,6 +18,7 @@ import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'
 import cls from 'classnames'
 import './styles.less'
+import { useWorkbench } from 'packages/react/lib'
 
 const GlobalState = {
   idleRequest: null,
@@ -25,9 +26,13 @@ const GlobalState = {
 
 export const SettingsForm: React.FC<ISettingFormProps> = observer(
   (props) => {
-    const operation = useOperation()
-    const node = useCurrentNode()
-    const selected = useSelected()
+    const workbench = useWorkbench()
+    const currentWorkspace =
+      workbench?.activeWorkspace || workbench?.currentWorkspace
+    const currentWorkspaceId = currentWorkspace?.id
+    const operation = useOperation(currentWorkspaceId)
+    const node = useCurrentNode(currentWorkspaceId)
+    const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
     const schema = node?.designerProps?.propsSchema
     const form = useMemo(() => {
