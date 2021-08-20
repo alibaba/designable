@@ -34,8 +34,12 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
           {node?.designerProps?.sourceIcon && (
             <IconWidget
               infer={node.designerProps.sourceIcon}
-              size={28}
-              style={{ margin: '10px 0' }}
+              style={{
+                width: 'auto',
+                minWidth: 28,
+                height: 'auto',
+                margin: '10px 0',
+              }}
             />
           )}
           <TextWidget>{node?.designerProps?.title}</TextWidget>
