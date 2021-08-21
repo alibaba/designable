@@ -15,6 +15,7 @@ import {
   useAutoScrollEffect,
   useWorkspaceEffect,
   useFreeSelectionEffect,
+  useContentEditableEffect,
 } from './effects'
 import {
   SelectNodes,
@@ -40,6 +41,7 @@ export const DEFAULT_EFFECTS = [
   useAutoScrollEffect,
   useWorkspaceEffect,
   useFreeSelectionEffect,
+  useContentEditableEffect,
 ]
 
 export const DEFAULT_DRIVERS = [

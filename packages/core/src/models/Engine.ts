@@ -106,6 +106,7 @@ export class Engine extends Event {
     drivers: [],
     sourceIdAttrName: 'data-designer-source-id',
     nodeIdAttrName: 'data-designer-node-id',
+    contentEditableAttrName: 'data-content-editable',
     nodeHelpersIdAttrName: 'data-designer-node-helpers-id',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
     defaultScreenType: ScreenType.PC,

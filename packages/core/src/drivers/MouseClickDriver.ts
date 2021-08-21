@@ -1,6 +1,6 @@
 import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
-import { MouseClickEvent } from '../events'
+import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
 
 export class MouseClickDriver extends EventDriver<Engine> {
   onMouseClick = (e: MouseEvent) => {
@@ -20,14 +20,37 @@ export class MouseClickDriver extends EventDriver<Engine> {
     )
   }
 
+  onMouseDoubleClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement
+    if (target?.closest('*[data-click-stop-propagation]')) {
+      return
+    }
+    this.dispatch(
+      new MouseDoubleClickEvent({
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pageX: e.pageX,
+        pageY: e.pageY,
+        target: e.target,
+        view: e.view,
+      })
+    )
+  }
+
   attach() {
     this.addEventListener('click', this.onMouseClick, {
+      once: true, //防止对同一个container注册多次click
+    })
+    this.addEventListener('dblclick', this.onMouseDoubleClick, {
       once: true, //防止对同一个container注册多次click
     })
   }
 
   detach() {
     this.removeEventListener('click', this.onMouseClick, {
+      once: true,
+    })
+    this.removeEventListener('dblclick', this.onMouseDoubleClick, {
       once: true,
     })
   }

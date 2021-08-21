@@ -14,6 +14,7 @@ import {
 export type IEngineProps<T = Event> = IEventProps<T> & {
   sourceIdAttrName?: string //拖拽源Id的dom属性名
   nodeIdAttrName?: string //节点Id的dom属性名
+  contentEditableAttrName?: string //原地编辑属性名
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
   defaultComponentTree?: ITreeNode[] //默认组件树
@@ -56,6 +57,7 @@ export interface IDesignerProps {
   draggable?: boolean //是否可拖拽，默认为true
   deletable?: boolean //是否可删除，默认为true
   cloneable?: boolean //是否可拷贝，默认为true
+  contentEditable?: Record<string, string> //属性文案原地编辑{"title":"css selector"}
   resizable?: boolean //是否可修改尺寸，默认为false
   inlineLayout?: boolean //是否是内联布局
   inlineChildrenLayout?: boolean //子节点是否内联
