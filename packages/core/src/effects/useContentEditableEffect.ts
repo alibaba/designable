@@ -8,11 +8,13 @@ type GlobalState = {
 }
 
 function placeCaretAtEnd(el: HTMLInputElement) {
+  const currentSelection = window.getSelection()
+  if (currentSelection.containsNode(el)) return
   el.focus()
-  let range = document.createRange()
+  const range = document.createRange()
   range.selectNodeContents(el)
   range.collapse(false)
-  let sel = window.getSelection()
+  const sel = window.getSelection()
   sel.removeAllRanges()
   sel.addRange(range)
 }
@@ -46,7 +48,7 @@ export const useContentEditableEffect = (engine: Engine) => {
         setTimeout(() => {
           placeCaretAtEnd(this)
         }, 16)
-      }, 1000)
+      }, 300)
     }
   }
 
