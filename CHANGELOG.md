@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.4.40(2021-08-20)
+
+### :tada: Enhancements
+
+1. [feat(settings): support multi workspace for SettingsForm](https://github.com/alibaba/designable/commit/0ab144f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(settings): move NodePath to NodePathWidget](https://github.com/alibaba/designable/commit/2fc9c1d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/354a7b5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore(settings): improve code](https://github.com/alibaba/designable/commit/40c0dd1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.39(2021-08-20)
 
 ### :tada: Enhancements
@@ -291,7 +307,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): update json-schema typings](https://github.com/alibaba/designable/commit/52b065c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.0(2021-07-12)
-
-### No Change Log
