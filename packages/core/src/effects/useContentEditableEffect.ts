@@ -23,8 +23,17 @@ export const useContentEditableEffect = (engine: Engine) => {
     requestTimer: null,
   }
 
+  function onKeyDownHandler(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.stopPropagation()
+      event.preventDefault()
+    }
+  }
+
   function onInputHandler(event: InputEvent) {
     const node = globalState.activeElements.get(this)
+    event.stopPropagation()
+    event.preventDefault()
     if (node) {
       const target = event.target as Element
       clearTimeout(globalState.requestTimer)
@@ -81,6 +90,7 @@ export const useContentEditableEffect = (engine: Engine) => {
             editableElement.setAttribute('contenteditable', 'true')
             editableElement.focus()
             editableElement.addEventListener('input', onInputHandler)
+            editableElement.addEventListener('keydown', onKeyDownHandler)
             placeCaretAtEnd(editableElement)
           }
         }
