@@ -107,6 +107,8 @@ export class Engine extends Event {
     sourceIdAttrName: 'data-designer-source-id',
     nodeIdAttrName: 'data-designer-node-id',
     contentEditableAttrName: 'data-content-editable',
+    contentEditableNodeIdAttrName: 'data-content-editable-node-id',
+    clickStopPropagationAttrName: 'data-click-stop-propagation',
     nodeHelpersIdAttrName: 'data-designer-node-helpers-id',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
     defaultScreenType: ScreenType.PC,

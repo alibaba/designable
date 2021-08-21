@@ -5,7 +5,9 @@ import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
 export class MouseClickDriver extends EventDriver<Engine> {
   onMouseClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement
-    if (target?.closest('*[data-click-stop-propagation]')) {
+    if (
+      target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)
+    ) {
       return
     }
     this.dispatch(
@@ -22,7 +24,9 @@ export class MouseClickDriver extends EventDriver<Engine> {
 
   onMouseDoubleClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement
-    if (target?.closest('*[data-click-stop-propagation]')) {
+    if (
+      target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)
+    ) {
       return
     }
     this.dispatch(

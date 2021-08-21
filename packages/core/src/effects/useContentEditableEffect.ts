@@ -50,6 +50,16 @@ export const useContentEditableEffect = (engine: Engine) => {
     }
   }
 
+  function findTargetNodeId(element: Element) {
+    if (!element) return
+    const nodeId = element.getAttribute(
+      engine.props.contentEditableNodeIdAttrName
+    )
+    if (nodeId) return nodeId
+    const parent = element.closest(`*[${engine.props.nodeIdAttrName}]`)
+    if (parent) return parent.getAttribute(engine.props.nodeIdAttrName)
+  }
+
   engine.subscribeTo(MouseClickEvent, (event) => {
     const target = event.data.target as Element
     const editableElement = target?.closest?.(
@@ -77,13 +87,8 @@ export const useContentEditableEffect = (engine: Engine) => {
     if (editableElement) {
       const editable = editableElement.getAttribute('contenteditable')
       if (editable === 'false' || !editable) {
-        const parentNodeElement = editableElement.closest(
-          `*[${engine.props.nodeIdAttrName}]`
-        )
-        if (parentNodeElement) {
-          const nodeId = parentNodeElement.getAttribute(
-            engine.props.nodeIdAttrName
-          )
+        const nodeId = findTargetNodeId(editableElement)
+        if (nodeId) {
           const targetNode = tree.findById(nodeId)
           if (targetNode) {
             globalState.activeElements.set(editableElement, targetNode)
