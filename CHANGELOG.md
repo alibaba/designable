@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.0(2021-08-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(settings): fix BorderStyleSetter](https://github.com/alibaba/designable/commit/008bd1c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.42(2021-08-21)
 
 ### :tada: Enhancements
@@ -297,13 +303,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix timing of cursor status clean](https://github.com/alibaba/designable/commit/e0bd17e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.3(2021-07-12)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix FoldItem](https://github.com/alibaba/designable/commit/b0be03c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(settings): expose setting form's scope property (#20)](https://github.com/alibaba/designable/commit/1d1404f) :point_right: ( [nekic](https://github.com/nekic) )
