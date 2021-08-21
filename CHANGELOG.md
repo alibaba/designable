@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.41(2021-08-21)
+
+### :tada: Enhancements
+
+1. [feat(core): support content-editable](https://github.com/alibaba/designable/commit/2b9c46c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.40(2021-08-20)
 
 ### :tada: Enhancements
@@ -301,9 +307,3 @@
 ### :tada: Enhancements
 
 1. [feat(project): update formily](https://github.com/alibaba/designable/commit/cc563f2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.1(2021-07-12)
-
-### :blush: Other Changes
-
-1. [chore(core): update json-schema typings](https://github.com/alibaba/designable/commit/52b065c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
