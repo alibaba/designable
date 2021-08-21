@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.42(2021-08-21)
+
+### :tada: Enhancements
+
+1. [feat(core): support data-content-editable-node-id](https://github.com/alibaba/designable/commit/ad7790d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.4.41(2021-08-21)
 
 ### :tada: Enhancements
@@ -301,9 +307,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(settings): expose setting form's scope property (#20)](https://github.com/alibaba/designable/commit/1d1404f) :point_right: ( [nekic](https://github.com/nekic) )
-
-## v0.4.2(2021-07-12)
-
-### :tada: Enhancements
-
-1. [feat(project): update formily](https://github.com/alibaba/designable/commit/cc563f2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
