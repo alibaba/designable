@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.2(2021-08-23)
+
+### :blush: Other Changes
+
+1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/8de6be8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.1(2021-08-22)
 
 ### :tada: Enhancements
@@ -297,9 +303,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/27265dd) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.5(2021-07-12)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): improve MonacoInput ui](https://github.com/alibaba/designable/commit/791c27a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
