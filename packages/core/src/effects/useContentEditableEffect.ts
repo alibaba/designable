@@ -5,15 +5,18 @@ import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 type GlobalState = {
   activeElements: Map<HTMLInputElement, TreeNode>
   requestTimer: any
+  isComposition: boolean
 }
 
-function placeCaretAtEnd(el: HTMLInputElement) {
+function placeCaretAtEnd(el: HTMLInputElement, isCollapse: boolean) {
   const currentSelection = window.getSelection()
   if (currentSelection.containsNode(el)) return
   el.focus()
   const range = document.createRange()
   range.selectNodeContents(el)
-  range.collapse(false)
+  if (!isCollapse) {
+    range.collapse(false)
+  }
   const sel = window.getSelection()
   sel.removeAllRanges()
   sel.addRange(range)
@@ -23,6 +26,7 @@ export const useContentEditableEffect = (engine: Engine) => {
   const globalState: GlobalState = {
     activeElements: new Map(),
     requestTimer: null,
+    isComposition: false,
   }
 
   function onKeyDownHandler(event: KeyboardEvent) {
@@ -40,16 +44,33 @@ export const useContentEditableEffect = (engine: Engine) => {
       const target = event.target as Element
       clearTimeout(globalState.requestTimer)
       globalState.requestTimer = setTimeout(() => {
+        if (globalState.isComposition) return
         Path.setIn(
           node.props,
           this.getAttribute(engine.props.contentEditableAttrName),
           target?.textContent
         )
         setTimeout(() => {
-          placeCaretAtEnd(this)
+          placeCaretAtEnd(this, window.getSelection().isCollapsed)
         }, 16)
-      }, 300)
+      }, 1000)
     }
+  }
+
+  function onCompositionHandler(event: CompositionEvent) {
+    if (event.type === 'compositionend') {
+      globalState.isComposition = false
+      onInputHandler(event as any)
+    } else {
+      clearTimeout(globalState.requestTimer)
+      globalState.isComposition = true
+    }
+  }
+
+  function onPastHandler(event: ClipboardEvent) {
+    event.preventDefault()
+    const text = event.clipboardData.getData('text')
+    this.textContent = text
   }
 
   function findTargetNodeId(element: Element) {
@@ -76,6 +97,10 @@ export const useContentEditableEffect = (engine: Engine) => {
       globalState.activeElements.delete(element)
       element.setAttribute('contenteditable', 'false')
       element.removeEventListener('input', onInputHandler)
+      element.removeEventListener('compositionstart', onCompositionHandler)
+      element.removeEventListener('compositionupdate', onCompositionHandler)
+      element.removeEventListener('compositionend', onCompositionHandler)
+      element.removeEventListener('past', onPastHandler)
     })
   })
 
@@ -97,8 +122,21 @@ export const useContentEditableEffect = (engine: Engine) => {
             editableElement.setAttribute('contenteditable', 'true')
             editableElement.focus()
             editableElement.addEventListener('input', onInputHandler)
+            editableElement.addEventListener(
+              'compositionstart',
+              onCompositionHandler
+            )
+            editableElement.addEventListener(
+              'compositionupdate',
+              onCompositionHandler
+            )
+            editableElement.addEventListener(
+              'compositionend',
+              onCompositionHandler
+            )
             editableElement.addEventListener('keydown', onKeyDownHandler)
-            placeCaretAtEnd(editableElement)
+            editableElement.addEventListener('paste', onPastHandler)
+            placeCaretAtEnd(editableElement, false)
           }
         }
       }
