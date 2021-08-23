@@ -14,7 +14,7 @@ function placeCaretAtEnd(el: HTMLInputElement, isCollapse: boolean) {
   el.focus()
   const range = document.createRange()
   range.selectNodeContents(el)
-  if (!isCollapse) {
+  if (isCollapse) {
     range.collapse(false)
   }
   const sel = window.getSelection()
@@ -45,13 +45,14 @@ export const useContentEditableEffect = (engine: Engine) => {
       clearTimeout(globalState.requestTimer)
       globalState.requestTimer = setTimeout(() => {
         if (globalState.isComposition) return
+        const isCollapsed = window.getSelection().isCollapsed
         Path.setIn(
           node.props,
           this.getAttribute(engine.props.contentEditableAttrName),
           target?.textContent
         )
         setTimeout(() => {
-          placeCaretAtEnd(this, window.getSelection().isCollapsed)
+          placeCaretAtEnd(this, isCollapsed)
         }, 16)
       }, 1000)
     }
