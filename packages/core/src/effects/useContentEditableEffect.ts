@@ -54,7 +54,7 @@ export const useContentEditableEffect = (engine: Engine) => {
         setTimeout(() => {
           placeCaretAtEnd(this, isCollapsed)
         }, 16)
-      }, 1000)
+      }, 600)
     }
   }
 
