@@ -69,9 +69,9 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
     if (!parent.isSourceNode) {
       if (node.isSourceNode) {
         node = node.clone(parent)
-        deepReset(node)
+        resetDepth(node)
       } else if (!node.isRoot && node.isInOperation) {
-        node.root.operation.selection?.remove?.(node)
+        node.root.operation.selection.remove(node)
         removeNode(node)
         shallowReset(node)
       } else {
@@ -642,8 +642,8 @@ export class TreeNode {
       parent ? parent : this.parent
     )
     newNode.children = resetNodesParent(
-      this.children.map((treeNode) => {
-        return treeNode.clone(newNode)
+      this.children.map((child) => {
+        return child.clone(newNode)
       }),
       newNode
     )

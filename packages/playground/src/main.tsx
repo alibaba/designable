@@ -148,6 +148,17 @@ GlobalDragSource.setSourcesByGroup('form', [
       'x-decorator': 'FormItem',
       'x-component': 'Card',
     },
+    children: [
+      {
+        componentName: 'Field',
+        props: {
+          title: '输入框',
+          type: 'string',
+          'x-decorator': 'FormItem',
+          'x-component': 'Input',
+        },
+      },
+    ],
   },
 ])
 
