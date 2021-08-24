@@ -38,9 +38,10 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const form = useMemo(() => {
       return createForm({
         values: node?.props,
-        effects() {
+        effects(form) {
           useLocales(schema?.['$namespace'])
           useSnapshot(operation)
+          props.effects?.(form)
         },
       })
     }, [node, node?.props, schema, operation])
