@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.5.5(2021-08-24)
+
+### :tada: Enhancements
+
+1. [feat(react): support source icons](https://github.com/alibaba/designable/commit/1023ae8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(settings): support effects props](https://github.com/alibaba/designable/commit/e221142) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.4(2021-08-23)
 
 ### :beetle: Bug Fixes
@@ -297,9 +305,3 @@
 ### :tada: Enhancements
 
 1. [feat(setters): support helpCode attribute to MonacoInput](https://github.com/alibaba/designable/commit/75566e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.8(2021-07-14)
-
-### :tada: Enhancements
-
-1. [feat(settings): support loader to MonacoInput](https://github.com/alibaba/designable/commit/ee4caad) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
