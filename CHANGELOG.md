@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.4(2021-08-23)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix drag source childtree is not work](https://github.com/alibaba/designable/commit/7ac1d84) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.3(2021-08-23)
 
 ### :blush: Other Changes
@@ -297,9 +303,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support loader to MonacoInput](https://github.com/alibaba/designable/commit/ee4caad) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.7(2021-07-13)
-
-### :tada: Enhancements
-
-1. [feat(settings): support history to settings](https://github.com/alibaba/designable/commit/dc21861) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
