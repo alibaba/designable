@@ -39,6 +39,7 @@ GlobalRegistry.registerDesignerProps({
     title: `components.${node.props['x-component']}`,
     draggable: true,
     inlineLayout: true,
+    sourceIcon: 'InputSource',
     propsSchema: {
       type: 'object',
       $namespace: 'Field',
@@ -115,6 +116,7 @@ GlobalRegistry.registerDesignerProps({
   Card: {
     title: 'components.Card',
     droppable: true,
+    sourceIcon: 'CardSource',
     inlineChildrenLayout: true,
     // allowAppend: (target, sources) =>
     //   sources.every((node) => node.componentName === 'Field'),

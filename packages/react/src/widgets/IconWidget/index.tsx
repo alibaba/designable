@@ -54,7 +54,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
           focusable: 'false',
           'aria-hidden': 'true',
         })
-      } else if (infer.type === 'path') {
+      } else if (infer.type === 'path' || infer.type === 'g') {
         return (
           <svg
             viewBox="0 0 1024 1024"
