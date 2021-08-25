@@ -37,7 +37,9 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
               style={{ margin: '10px 0', width: 150, height: 40 }}
             />
           )}
-          <TextWidget>{node?.designerProps?.title}</TextWidget>
+          <span className={prefix + '-item-text'}>
+            <TextWidget>{node?.designerProps?.title}</TextWidget>
+          </span>
         </div>
       )
     }
