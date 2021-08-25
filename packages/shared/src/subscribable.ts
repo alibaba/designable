@@ -6,7 +6,7 @@ export interface ISubscriber<Payload = any> {
   (payload: Payload): void | boolean
 }
 
-export class Subscrible<ExtendsType = any> {
+export class Subscribable<ExtendsType = any> {
   private subscribers: {
     index?: number
     [key: number]: ISubscriber
