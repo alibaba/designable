@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.7(2021-08-25)
+
+### :blush: Other Changes
+
+1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/bf6466a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.6(2021-08-24)
 
 ### :blush: Other Changes
@@ -299,9 +305,3 @@
 1. [chore(project): fix typo](https://github.com/alibaba/designable/commit/a959611) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [chore(core): use @formily/json-schema typings](https://github.com/alibaba/designable/commit/ab16026) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.10(2021-07-15)
-
-### :tada: Enhancements
-
-1. [feat(setters): support helpCodeViewWidth attribute to MonacoInput](https://github.com/alibaba/designable/commit/14ca860) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
