@@ -1,5 +1,5 @@
 import { isArr, isWindow } from './types'
-import { Subscrible, ISubscriber } from './subscrible'
+import { Subscribable, ISubscriber } from './subscribable'
 
 const ATTACHED_SYMBOL = Symbol('ATTACHED_SYMBOL')
 
@@ -258,7 +258,7 @@ export class EventDriver<Engine extends Event = Event, Context = any>
 /**
  * 事件引擎
  */
-export class Event extends Subscrible<ICustomEvent<any>> {
+export class Event extends Subscribable<ICustomEvent<any>> {
   private drivers: IEventDriverClass<any>[] = []
   private containers: EventContainer[] = []
   constructor(props?: IEventProps) {

@@ -1,6 +1,6 @@
 export * from './event'
 export * from './scroller'
-export * from './subscrible'
+export * from './subscribable'
 export * from './coordinate'
 export * from './types'
 export * from './uid'
