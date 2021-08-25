@@ -46,7 +46,8 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
 
     const source =
       workspace?.source?.size > 0 ? workspace.source : designer.source
-
+    const sources = source.getSourcesByGroup(props.name)
+    const remainItems = sources.length % 3
     return (
       <div
         className={cls(prefix, props.className, {
@@ -70,10 +71,8 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
         </div>
         <div className={prefix + '-content-wrapper'}>
           <div className={prefix + '-content'}>
-            {source.mapSourcesByGroup(
-              props.name,
-              isFn(props.children) ? props.children : renderNode
-            )}
+            {sources.map(isFn(props.children) ? props.children : renderNode)}
+            {remainItems && <div className={prefix + '-item-remain'}></div>}
           </div>
         </div>
       </div>

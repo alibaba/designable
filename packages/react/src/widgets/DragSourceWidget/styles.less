@@ -61,7 +61,7 @@
     position: relative;
     user-select: none;
     padding: 8px 10px;
-    background: #fff;
+    background: var(--dn-drag-source-content-bg-color);
     min-height: 40px;
     color: var(--dn-drag-source-item-color);
     display: flex;
@@ -76,9 +76,13 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       z-index: 1;
     }
+
     &-text {
       text-align: center;
       font-size: 12px;
+    }
+    &-remain {
+      background: var(--dn-drag-source-content-bg-color);
     }
   }
 }
