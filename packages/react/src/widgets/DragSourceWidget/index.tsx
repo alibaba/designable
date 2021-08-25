@@ -73,7 +73,10 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
           <div className={prefix + '-content'}>
             {sources.map(isFn(props.children) ? props.children : renderNode)}
             {remainItems ? (
-              <div className={prefix + '-item-remain'}></div>
+              <div
+                className={prefix + '-item-remain'}
+                style={{ gridColumnStart: `span ${3 - remainItems}` }}
+              ></div>
             ) : null}
           </div>
         </div>
