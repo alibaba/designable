@@ -72,7 +72,9 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
         <div className={prefix + '-content-wrapper'}>
           <div className={prefix + '-content'}>
             {sources.map(isFn(props.children) ? props.children : renderNode)}
-            {remainItems && <div className={prefix + '-item-remain'}></div>}
+            {remainItems ? (
+              <div className={prefix + '-item-remain'}></div>
+            ) : null}
           </div>
         </div>
       </div>
