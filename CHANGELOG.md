@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.6(2021-08-24)
+
+### :blush: Other Changes
+
+1. [chore(react): update icons](https://github.com/alibaba/designable/commit/56f2686) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.5(2021-08-24)
 
 ### :tada: Enhancements
@@ -299,9 +305,3 @@
 ### :tada: Enhancements
 
 1. [feat(setters): support helpCodeViewWidth attribute to MonacoInput](https://github.com/alibaba/designable/commit/14ca860) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.9(2021-07-15)
-
-### :tada: Enhancements
-
-1. [feat(setters): support helpCode attribute to MonacoInput](https://github.com/alibaba/designable/commit/75566e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
