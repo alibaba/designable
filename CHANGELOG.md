@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.8(2021-08-25)
+
+### :blush: Other Changes
+
+1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/11c6397) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.7(2021-08-25)
 
 ### :blush: Other Changes
@@ -293,15 +299,3 @@
 ### :blush: Other Changes
 
 1. [chore(ts): map @designable/\* to src folder during development (#26)](https://github.com/alibaba/designable/commit/77c0d74) :point_right: ( [JuFeng Zhang](https://github.com/JuFeng Zhang) )
-
-## v0.4.11(2021-07-16)
-
-### :beetle: Bug Fixes
-
-1. [chore(project): fix typo](https://github.com/alibaba/designable/commit/a959611) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(project): fix typo](https://github.com/alibaba/designable/commit/a959611) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [chore(core): use @formily/json-schema typings](https://github.com/alibaba/designable/commit/ab16026) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
