@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.10(2021-08-25)
+
+### :blush: Other Changes
+
+1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/639a78f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.9(2021-08-25)
 
 ### :blush: Other Changes
@@ -281,9 +287,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): export SchemaField component](https://github.com/alibaba/designable/commit/66cc0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.13(2021-07-27)
-
-### :blush: Other Changes
-
-1. [chore(settings): export more components](https://github.com/alibaba/designable/commit/5325182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
