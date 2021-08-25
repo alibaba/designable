@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.9(2021-08-25)
+
+### :blush: Other Changes
+
+1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/3cc1996) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.8(2021-08-25)
 
 ### :blush: Other Changes
@@ -281,21 +287,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): export more components](https://github.com/alibaba/designable/commit/5325182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.12(2021-07-26)
-
-### :tada: Enhancements
-
-1. [feat(settings): support DrawerSetter component](https://github.com/alibaba/designable/commit/c747274) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [docs(readme): fix typo (#23)](https://github.com/alibaba/designable/commit/30dc8e1) :point_right: ( [李文富](https://github.com/李文富) )
-
-### :memo: Documents Changes
-
-1. [docs(readme): fix typo (#23)](https://github.com/alibaba/designable/commit/30dc8e1) :point_right: ( [李文富](https://github.com/李文富) )
-
-### :blush: Other Changes
-
-1. [chore(ts): map @designable/\* to src folder during development (#26)](https://github.com/alibaba/designable/commit/77c0d74) :point_right: ( [JuFeng Zhang](https://github.com/JuFeng Zhang) )
