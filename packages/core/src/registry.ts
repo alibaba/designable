@@ -1,6 +1,7 @@
 import { each, isFn, isPlainObj } from '@designable/shared'
 import { Path } from '@formily/path'
 import { define, observable } from '@formily/reactive'
+import { LocaleMessages } from './types'
 import { TreeNode } from './models'
 import {
   IDesignerControllerProps,
@@ -18,13 +19,13 @@ const getBrowserLanguage = () => {
   )
 }
 
-const getISOCode = (language: string) => {
+const getISOCode = (language: string, type = 'global') => {
   let isoCode = DESIGNER_LOCALES.language
   let lang = cleanSpace(language)
-  if (DESIGNER_LOCALES.messages[lang]) {
+  if (DESIGNER_LOCALES[type][lang]) {
     return lang
   }
-  each(DESIGNER_LOCALES.messages, (_, key: string) => {
+  each(DESIGNER_LOCALES[type], (_, key: string) => {
     if (key.indexOf(lang) > -1 || String(lang).indexOf(key) > -1) {
       isoCode = key
       return false
@@ -47,7 +48,9 @@ const DESIGNER_ICONS_MAP: Record<string, any> = {}
 
 const DESIGNER_LOCALES: IDesignerLocales = define(
   {
-    messages: {},
+    global: {},
+    components: {},
+    sources: {},
     language: getBrowserLanguage(),
   },
   {
@@ -114,22 +117,72 @@ const DESIGNER_GlobalRegistry = {
     }
   },
 
+  setComponentDesignerLocales: (
+    componentName: string,
+    locales: LocaleMessages
+  ) => {
+    const isoCodes = Object.keys(locales || {})
+    isoCodes.forEach((key) => {
+      const isoCode = cleanSpace(key)
+      const name = cleanSpace(componentName)
+      DESIGNER_LOCALES.components[isoCode] =
+        DESIGNER_LOCALES.components[isoCode] || {}
+      DESIGNER_LOCALES.components[isoCode][name] = mergeLocales(
+        {},
+        locales[key]
+      )
+    })
+  },
+
+  setSourceDesignerLocales: (sourceName: string, locales: LocaleMessages) => {
+    const isoCodes = Object.keys(locales || {})
+    isoCodes.forEach((key) => {
+      const isoCode = cleanSpace(key)
+      const name = cleanSpace(sourceName)
+      DESIGNER_LOCALES.sources[isoCode] =
+        DESIGNER_LOCALES.sources[isoCode] || {}
+      DESIGNER_LOCALES.sources[isoCode][name] = mergeLocales({}, locales[key])
+    })
+  },
+
   getComponentDesignerProps: (componentName: string) => {
     return COMPONENT_DESIGNER_PROPS_MAP[componentName] || {}
   },
 
+  getComponentDesignerMessage: (componentName: string, token: string) => {
+    const lang = getISOCode(DESIGNER_LOCALES.language)
+    const locale = DESIGNER_LOCALES.components?.[lang]?.[componentName]
+    if (!locale) {
+      for (let key in DESIGNER_LOCALES.components) {
+        const message = Path.getIn(
+          DESIGNER_LOCALES.components[key],
+          cleanSpace(token)
+        )
+        if (message) return message
+      }
+      return
+    }
+    return Path.getIn(locale, cleanSpace(token))
+  },
+
+  getSourceDesignerMessage: (sourceName: string, token: string) => {
+    const lang = getISOCode(DESIGNER_LOCALES.language)
+    const locale = DESIGNER_LOCALES.sources?.[lang]?.[sourceName]
+    if (!locale) {
+      for (let key in DESIGNER_LOCALES.sources) {
+        const message = Path.getIn(
+          DESIGNER_LOCALES.sources[key],
+          cleanSpace(token)
+        )
+        if (message) return message
+      }
+      return
+    }
+    return Path.getIn(locale, cleanSpace(token))
+  },
+
   getSourceDesignerProps: (nodeName: string) => {
     return NODE_DESIGNER_PROPS_MAP[nodeName] || {}
-  },
-
-  registerDesignerProps: (map: IDesignerControllerPropsMap) => {
-    each(map, (props, name) => {
-      GlobalRegistry.setComponentDesignerProps(name, props)
-    })
-  },
-
-  registerDesignerIcons: (map: Record<string, any>) => {
-    Object.assign(DESIGNER_ICONS_MAP, map)
   },
 
   getDesignerIcon: (name: string) => {
@@ -146,11 +199,11 @@ const DESIGNER_GlobalRegistry = {
 
   getDesignerMessage(token: string) {
     const lang = getISOCode(DESIGNER_LOCALES.language)
-    const locale = DESIGNER_LOCALES.messages[lang]
+    const locale = DESIGNER_LOCALES.global[lang]
     if (!locale) {
-      for (let key in DESIGNER_LOCALES.messages) {
+      for (let key in DESIGNER_LOCALES.global) {
         const message = Path.getIn(
-          DESIGNER_LOCALES.messages[key],
+          DESIGNER_LOCALES.global[key],
           cleanSpace(token)
         )
         if (message) return message
@@ -160,9 +213,19 @@ const DESIGNER_GlobalRegistry = {
     return Path.getIn(locale, cleanSpace(token))
   },
 
-  registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {
+  registerDesignerProps: (map: IDesignerControllerPropsMap) => {
+    each(map, (props, name) => {
+      GlobalRegistry.setComponentDesignerProps(name, props)
+    })
+  },
+
+  registerDesignerIcons: (map: Record<string, any>) => {
+    Object.assign(DESIGNER_ICONS_MAP, map)
+  },
+
+  registerDesignerLocales(...packages: LocaleMessages[]) {
     packages.forEach((locales) => {
-      mergeLocales(DESIGNER_LOCALES.messages, locales)
+      mergeLocales(DESIGNER_LOCALES.global, locales)
     })
   },
 }

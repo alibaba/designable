@@ -1,11 +1,12 @@
 import { each, uid } from '@designable/shared'
-import { GlobalRegistry } from '..'
-import { IDesignerControllerProps } from '../types'
+import { GlobalRegistry } from '../registry'
+import { IDesignerControllerProps, LocaleMessages } from '../types'
 import { TreeNode, ITreeNode } from './TreeNode'
 
 export interface ISourceNode
   extends Omit<ITreeNode, 'sourceName' | 'isSourceNode'> {
   designerProps?: IDesignerControllerProps
+  designerLocales?: LocaleMessages
 }
 
 const createNodesBySources = (
@@ -15,10 +16,16 @@ const createNodesBySources = (
 ) => {
   return sources.map((node) => {
     const designerProps = node.designerProps
+    const designerLocales = node.designerLocales
     const newNode = new TreeNode(node)
-    newNode.sourceName = `${prefix}-${group}-${newNode.id}`
+    newNode.sourceName = `${group}-${newNode.id}`
     if (designerProps)
       GlobalRegistry.setSourceDesignerProps(newNode.sourceName, designerProps)
+    if (designerLocales)
+      GlobalRegistry.setSourceDesignerLocales(
+        newNode.sourceName,
+        designerLocales
+      )
     return newNode
   })
 }

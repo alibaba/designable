@@ -126,6 +126,29 @@ GlobalRegistry.registerDesignerProps({
 GlobalDragSource.setSourcesByGroup('form', [
   {
     componentName: 'Field',
+    designerLocales: {
+      'zh-CN': {
+        settings: {
+          default: '默认值1',
+        },
+      },
+    },
+    props: {
+      title: '输入框',
+      type: 'string',
+      'x-decorator': 'FormItem',
+      'x-component': 'Input',
+    },
+  },
+  {
+    componentName: 'Field',
+    designerLocales: {
+      'zh-CN': {
+        settings: {
+          default: '默认值2',
+        },
+      },
+    },
     props: {
       title: '输入框',
       type: 'string',
@@ -151,7 +174,15 @@ GlobalDragSource.setSourcesByGroup('form', [
       'x-component': 'Card',
     },
     designerProps: {
-      title: 'Card2',
+      title: 'title',
+    },
+    designerLocales: {
+      'zh-CN': {
+        title: '卡片2',
+      },
+      'en-US': {
+        title: 'Card2',
+      },
     },
     children: [
       {

@@ -39,7 +39,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
       return createForm({
         values: node?.props,
         effects(form) {
-          useLocales(schema?.['$namespace'])
+          useLocales(node)
           useSnapshot(operation)
           props.effects?.(form)
         },

@@ -83,12 +83,16 @@ export type IDesignerControllerPropsMap = Record<
   string,
   IDesignerControllerProps
 >
-export interface IDesignerLocales {
-  messages: {
-    [ISOCode: string]: {
-      [key: string]: any
-    }
+
+export type LocaleMessages = {
+  [ISOCode: string]: {
+    [key: string]: any
   }
+}
+export interface IDesignerLocales {
+  global: LocaleMessages
+  components: LocaleMessages
+  sources: LocaleMessages
   language: string
 }
 

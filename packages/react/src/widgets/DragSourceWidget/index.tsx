@@ -38,7 +38,11 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
             />
           )}
           <span className={prefix + '-item-text'}>
-            <TextWidget>{node?.designerProps?.title}</TextWidget>
+            {
+              <TextWidget sourceName={node.sourceName} token="title">
+                {node?.designerProps?.title}
+              </TextWidget>
+            }
           </span>
         </div>
       )
