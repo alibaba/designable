@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.14(2021-08-27)
+
+### :rose: Improve code quality
+
+1. [refactor(core): support drag source designerProps](https://github.com/alibaba/designable/commit/82ee47f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(core): improve node quick selection](https://github.com/alibaba/designable/commit/fc8e6c3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.13(2021-08-27)
 
 ### :beetle: Bug Fixes
@@ -285,9 +295,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): fix MonacoInput onChangeHandler](https://github.com/alibaba/designable/commit/29c89e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.17(2021-07-28)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve DrawerSetter ui](https://github.com/alibaba/designable/commit/c2387a6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
