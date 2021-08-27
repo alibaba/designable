@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.17(2021-08-27)
+
+### :blush: Other Changes
+
+1. [chore(core): improve drag source name value format](https://github.com/alibaba/designable/commit/ea4aea5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.16(2021-08-27)
 
 ### :blush: Other Changes
@@ -281,9 +287,3 @@
 ### :blush: Other Changes
 
 1. [chore(ui): improve dark ui](https://github.com/alibaba/designable/commit/7039db4) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.20(2021-07-30)
-
-### :blush: Other Changes
-
-1. [chore(ui): improve dark ui](https://github.com/alibaba/designable/commit/80b0ebc) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
