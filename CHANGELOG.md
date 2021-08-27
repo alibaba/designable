@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.15(2021-08-27)
+
+### No Change Log
+
 ## v0.5.14(2021-08-27)
 
 ### :rose: Improve code quality
@@ -285,13 +289,3 @@
 1. [feat(project): improve dark mode](https://github.com/alibaba/designable/commit/3e6a0a5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [feat(core): add originSourceParents to MutationNodeEvent data (#30)](https://github.com/alibaba/designable/commit/1a573f4) :point_right: ( [atzcl](https://github.com/atzcl) )
-
-## v0.4.18(2021-07-28)
-
-### :beetle: Bug Fixes
-
-1. [chore(settings): fix MonacoInput onChangeHandler](https://github.com/alibaba/designable/commit/29c89e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(settings): fix MonacoInput onChangeHandler](https://github.com/alibaba/designable/commit/29c89e7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
