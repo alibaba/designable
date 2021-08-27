@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.11(2021-08-25)
+
+### :tada: Enhancements
+
+1. [feat(react): add source icons](https://github.com/alibaba/designable/commit/97f7182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(shared): misspell for subscribable (#49)](https://github.com/alibaba/designable/commit/8491f77) :point_right: ( [Rihua](https://github.com/Rihua) )
+
 ## v0.5.10(2021-08-25)
 
 ### :blush: Other Changes
@@ -281,9 +291,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve DrawerSetter component](https://github.com/alibaba/designable/commit/cea0690) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.14(2021-07-27)
-
-### :blush: Other Changes
-
-1. [chore(settings): export SchemaField component](https://github.com/alibaba/designable/commit/66cc0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
