@@ -88,7 +88,7 @@ export class DragSource {
   }
 
   getSourcesByGroup(group: string) {
-    const parent = this.tree.findById(`${this.prefix}_${group}`)
+    const parent = this.tree.findById(`${this.prefix}-${group}`)
     return parent?.children
   }
 

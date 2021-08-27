@@ -47,7 +47,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
     const source =
       workspace?.source?.size > 0 ? workspace.source : designer.source
     const sources = source.getSourcesByGroup(props.name)
-    const remainItems = sources.length % 3
+    const remainItems = sources?.length % 3
     return (
       <div
         className={cls(prefix, props.className, {
