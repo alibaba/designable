@@ -38,7 +38,7 @@ export const transformToSchema = (
       Object.assign(schema, clone(node.props))
     }
     schema['_designableId'] = node.id
-    schema['_sourceName'] = node.sourceName
+    schema['_designableSourceName'] = node.sourceName
     if (schema.type === 'array') {
       if (node.children[0]) {
         if (
@@ -92,7 +92,7 @@ export const transformToTreeNode = (
     if (!schema) return
     const current = {
       id: schema['_designableId'] || uid(),
-      sourceName: schema['_sourceName'],
+      sourceName: schema['_designableSourceName'],
       componentName: realOptions.designableFieldName,
       props: cleanProps(schema.toJSON(false)),
       children: [],
