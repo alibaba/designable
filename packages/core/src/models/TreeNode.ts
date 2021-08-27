@@ -23,6 +23,7 @@ import { GlobalRegistry } from '../registry'
 
 export interface ITreeNode {
   componentName?: string
+  designerProps?: IDesignerControllerProps
   operation?: Operation
   hidden?: boolean
   isSourceNode?: boolean
@@ -113,7 +114,7 @@ export class TreeNode {
 
   isSelfSourceNode: boolean
 
-  originDesignerProps: IDesignerProps
+  selfDesignerProps: IDesignerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     if (node instanceof TreeNode) {
@@ -156,25 +157,25 @@ export class TreeNode {
   }
 
   set designerProps(props: IDesignerProps) {
-    this.originDesignerProps = props || {}
+    this.selfDesignerProps = props || {}
   }
 
   get designerProps(): IDesignerProps {
-    const designerProps = GlobalRegistry.getComponentDesignerProps(
+    const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
       this.componentName
     )
     const finallyDesignerProps: IDesignerProps = {}
-    if (isFn(designerProps)) {
+    if (isFn(commonDesignerProps)) {
       Object.assign(
         finallyDesignerProps,
-        designerProps(this),
-        this.originDesignerProps
+        commonDesignerProps(this),
+        this.selfDesignerProps
       )
     } else {
       Object.assign(
         finallyDesignerProps,
-        designerProps,
-        this.originDesignerProps
+        commonDesignerProps,
+        this.selfDesignerProps
       )
     }
     const display = this.props?.style?.display
@@ -671,6 +672,9 @@ export class TreeNode {
         }
         if (node.componentName) {
           this.componentName = node.componentName
+        }
+        if (node.designerProps) {
+          this.designerProps = node.designerProps
         }
         this.props = {
           ...this.designerProps?.defaultProps,

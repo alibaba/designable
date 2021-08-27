@@ -144,6 +144,9 @@ GlobalDragSource.setSourcesByGroup('form', [
   },
   {
     componentName: 'Card',
+    designerProps: {
+      title: '卡片123',
+    },
     props: {
       title: '卡片',
       type: 'void',
