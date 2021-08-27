@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.13(2021-08-27)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix the name property is not lost when cloning and serializing node](https://github.com/alibaba/designable/commit/e11fecf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.12(2021-08-27)
 
 ### :tada: Enhancements
@@ -285,9 +291,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve DrawerSetter ui](https://github.com/alibaba/designable/commit/c2387a6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.16(2021-07-27)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve useLocales](https://github.com/alibaba/designable/commit/5a3feb2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
