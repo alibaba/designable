@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.18(2021-08-27)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix drag source component](https://github.com/alibaba/designable/commit/6784528) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.17(2021-08-27)
 
 ### :blush: Other Changes
@@ -281,9 +287,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): improve DesignerToolsWidget](https://github.com/alibaba/designable/commit/e57a398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.21(2021-07-30)
-
-### :blush: Other Changes
-
-1. [chore(ui): improve dark ui](https://github.com/alibaba/designable/commit/7039db4) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
