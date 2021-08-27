@@ -16,7 +16,7 @@ const createNodesBySources = (
   return sources.map((node) => {
     const designerProps = node.designerProps
     const newNode = new TreeNode(node)
-    newNode.sourceName = `${prefix}_${group}_${newNode.id}`
+    newNode.sourceName = `${prefix}-${group}-${newNode.id}`
     if (designerProps)
       GlobalRegistry.setSourceDesignerProps(newNode.sourceName, designerProps)
     return newNode
@@ -52,7 +52,7 @@ export class DragSource {
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
-        id: `${this.prefix}_${group}`,
+        id: `${this.prefix}-${group}`,
       })
       newParent.setChildren(...nodes)
       this.tree.append(newParent)
@@ -67,7 +67,7 @@ export class DragSource {
     } else {
       const newParent = new TreeNode({
         componentName: 'SourceGroup',
-        id: `${this.prefix}_${group}`,
+        id: `${this.prefix}-${group}`,
       })
       newParent.setChildren(...nodes)
       this.tree.append(newParent)
