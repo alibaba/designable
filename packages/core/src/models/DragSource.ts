@@ -1,5 +1,27 @@
 import { each, uid } from '@designable/shared'
+import { GlobalRegistry } from '..'
+import { IDesignerControllerProps } from '../types'
 import { TreeNode, ITreeNode } from './TreeNode'
+
+export interface ISourceNode
+  extends Omit<ITreeNode, 'sourceName' | 'isSourceNode'> {
+  designerProps?: IDesignerControllerProps
+}
+
+const createNodesBySources = (
+  prefix: string,
+  group: string,
+  sources: ISourceNode[]
+) => {
+  return sources.map((node) => {
+    const designerProps = node.designerProps
+    const newNode = new TreeNode(node)
+    newNode.sourceName = `${prefix}_${group}_${newNode.id}`
+    if (designerProps)
+      GlobalRegistry.setSourceDesignerProps(newNode.sourceName, designerProps)
+    return newNode
+  })
+}
 
 export class DragSource {
   tree: TreeNode
@@ -16,15 +38,15 @@ export class DragSource {
     return this.getAllSources().length
   }
 
-  setSources(sources: Record<string, ITreeNode[]>) {
+  setSources(sources: Record<string, ISourceNode[]>) {
     each(sources, (data, group) => {
       this.setSourcesByGroup(group, data)
     })
   }
 
-  setSourcesByGroup(group: string, sources: ITreeNode[]) {
+  setSourcesByGroup(group: string, sources: ISourceNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = sources.map((node) => new TreeNode(node))
+    const nodes = createNodesBySources(this.prefix, group, sources)
     if (parent) {
       parent.setChildren(...nodes)
     } else {
@@ -37,9 +59,9 @@ export class DragSource {
     }
   }
 
-  appendSourcesByGroup(group: string, sources: ITreeNode[]) {
+  appendSourcesByGroup(group: string, sources: ISourceNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = sources.map((node) => new TreeNode(node))
+    const nodes = createNodesBySources(this.prefix, group, sources)
     if (parent) {
       parent.append(...nodes)
     } else {

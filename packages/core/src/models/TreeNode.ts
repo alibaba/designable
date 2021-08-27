@@ -23,11 +23,11 @@ import { GlobalRegistry } from '../registry'
 
 export interface ITreeNode {
   componentName?: string
+  sourceName?: string
   operation?: Operation
   hidden?: boolean
   isSourceNode?: boolean
   id?: string
-  name?: string
   props?: Record<string | number | symbol, any>
   children?: ITreeNode[]
 }
@@ -116,7 +116,7 @@ export class TreeNode {
 
   componentName = 'NO_NAME_COMPONENT'
 
-  name = ''
+  sourceName = ''
 
   props: ITreeNode['props'] = {}
 
@@ -168,10 +168,12 @@ export class TreeNode {
     const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
       this.componentName
     )
-    const nodeDesignerProps = GlobalRegistry.getNodeDesignerProps(this.name)
+    const sourceDesignerProps = GlobalRegistry.getSourceDesignerProps(
+      this.sourceName
+    )
     const finallyDesignerProps: IDesignerProps = {
       ...resolveDesignerProps(this, commonDesignerProps),
-      ...resolveDesignerProps(this, nodeDesignerProps),
+      ...resolveDesignerProps(this, sourceDesignerProps),
     }
     const display = this.props?.style?.display
     if (display) {
@@ -419,8 +421,8 @@ export class TreeNode {
     return this.setProps(...nodes)
   }
 
-  setComponentName(name: string) {
-    this.componentName = name
+  setComponentName(componentName: string) {
+    this.componentName = componentName
   }
 
   prepend(...nodes: TreeNode[]) {
@@ -630,8 +632,8 @@ export class TreeNode {
       {
         id: uid(),
         componentName: this.componentName,
+        sourceName: this.sourceName,
         props: toJS(this.props),
-        name: this.name,
         children: [],
       },
       parent ? parent : this.parent
@@ -667,8 +669,8 @@ export class TreeNode {
         if (node.componentName) {
           this.componentName = node.componentName
         }
-        if (node.name) {
-          this.name = node.name
+        if (node.sourceName) {
+          this.sourceName = node.sourceName
         }
         this.props = {
           ...this.designerProps?.defaultProps,
@@ -691,9 +693,9 @@ export class TreeNode {
     return {
       id: this.id,
       componentName: this.componentName,
+      sourceName: this.sourceName,
       props: toJS(this.props),
       hidden: this.hidden,
-      name: this.name,
       children: this.children.map((treeNode) => {
         return treeNode.serialize()
       }),

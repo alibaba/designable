@@ -101,9 +101,12 @@ const DESIGNER_GlobalRegistry = {
     }
   },
 
-  setNodeDesignerProps: (nodeName: string, props: IDesignerControllerProps) => {
-    const originProps = GlobalRegistry.getNodeDesignerProps(nodeName)
-    NODE_DESIGNER_PROPS_MAP[nodeName] = (node) => {
+  setSourceDesignerProps: (
+    sourceName: string,
+    props: IDesignerControllerProps
+  ) => {
+    const originProps = GlobalRegistry.getSourceDesignerProps(sourceName)
+    NODE_DESIGNER_PROPS_MAP[sourceName] = (node) => {
       return {
         ...resolveDesignerProps(node, originProps),
         ...resolveDesignerProps(node, props),
@@ -115,20 +118,13 @@ const DESIGNER_GlobalRegistry = {
     return COMPONENT_DESIGNER_PROPS_MAP[componentName] || {}
   },
 
-  getNodeDesignerProps: (nodeName: string) => {
+  getSourceDesignerProps: (nodeName: string) => {
     return NODE_DESIGNER_PROPS_MAP[nodeName] || {}
   },
 
-  registerDesignerProps: (
-    map: IDesignerControllerPropsMap,
-    type: 'component' | 'node' = 'component'
-  ) => {
+  registerDesignerProps: (map: IDesignerControllerPropsMap) => {
     each(map, (props, name) => {
-      if (type === 'component') {
-        GlobalRegistry.setComponentDesignerProps(name, props)
-      } else {
-        GlobalRegistry.setNodeDesignerProps(name, props)
-      }
+      GlobalRegistry.setComponentDesignerProps(name, props)
     })
   },
 

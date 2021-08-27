@@ -123,10 +123,6 @@ GlobalRegistry.registerDesignerProps({
   },
 })
 
-GlobalRegistry.setNodeDesignerProps('Card2', {
-  title: 'Card2',
-})
-
 GlobalDragSource.setSourcesByGroup('form', [
   {
     componentName: 'Field',
@@ -148,12 +144,14 @@ GlobalDragSource.setSourcesByGroup('form', [
   },
   {
     componentName: 'Card',
-    name: 'Card2',
     props: {
       title: '卡片',
       type: 'void',
       'x-decorator': 'FormItem',
       'x-component': 'Card',
+    },
+    designerProps: {
+      title: 'Card2',
     },
     children: [
       {
