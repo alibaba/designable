@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.12(2021-08-27)
+
+### :tada: Enhancements
+
+1. [feat(core): support node designerProps with nodeName](https://github.com/alibaba/designable/commit/864ae0f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.11(2021-08-25)
 
 ### :tada: Enhancements
@@ -285,9 +291,3 @@
 ### :blush: Other Changes
 
 1. [chore(settings): improve useLocales](https://github.com/alibaba/designable/commit/5a3feb2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.15(2021-07-27)
-
-### :blush: Other Changes
-
-1. [chore(settings): improve DrawerSetter component](https://github.com/alibaba/designable/commit/cea0690) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
