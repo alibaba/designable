@@ -631,6 +631,7 @@ export class TreeNode {
         id: uid(),
         componentName: this.componentName,
         props: toJS(this.props),
+        name: this.name,
         children: [],
       },
       parent ? parent : this.parent
@@ -692,6 +693,7 @@ export class TreeNode {
       componentName: this.componentName,
       props: toJS(this.props),
       hidden: this.hidden,
+      name: this.name,
       children: this.children.map((treeNode) => {
         return treeNode.serialize()
       }),
