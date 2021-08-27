@@ -93,6 +93,14 @@ const resetParent = (node: TreeNode, parent: TreeNode) => {
   return resetNodesParent([node], parent)[0]
 }
 
+const resolveDesignerProps = (
+  node: TreeNode,
+  props: IDesignerControllerProps
+) => {
+  if (isFn(props)) return props(node)
+  return props
+}
+
 export class TreeNode {
   parent: TreeNode
 
@@ -114,7 +122,7 @@ export class TreeNode {
 
   isSelfSourceNode: boolean
 
-  selfDesignerProps: IDesignerProps
+  selfDesignerProps: IDesignerControllerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     if (node instanceof TreeNode) {
@@ -156,7 +164,7 @@ export class TreeNode {
     })
   }
 
-  set designerProps(props: IDesignerProps) {
+  set designerProps(props: IDesignerControllerProps) {
     this.selfDesignerProps = props || {}
   }
 
@@ -164,27 +172,15 @@ export class TreeNode {
     const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
       this.componentName
     )
-    const finallyDesignerProps: IDesignerProps = {}
-    if (isFn(commonDesignerProps)) {
-      Object.assign(
-        finallyDesignerProps,
-        commonDesignerProps(this),
-        this.selfDesignerProps
-      )
-    } else {
-      Object.assign(
-        finallyDesignerProps,
-        commonDesignerProps,
-        this.selfDesignerProps
-      )
+    const finallyDesignerProps: IDesignerProps = {
+      ...resolveDesignerProps(this, commonDesignerProps),
+      ...resolveDesignerProps(this, this.selfDesignerProps),
     }
     const display = this.props?.style?.display
-
     if (display) {
       finallyDesignerProps.inlineLayout =
         display === 'inline' || display === 'inline-block'
     }
-
     return finallyDesignerProps
   }
 
