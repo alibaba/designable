@@ -1,13 +1,14 @@
 import { each, isFn, isPlainObj } from '@designable/shared'
 import { Path } from '@formily/path'
 import { define, observable } from '@formily/reactive'
+import { TreeNode } from './models'
 import {
   IDesignerControllerProps,
   IDesignerControllerPropsMap,
   IDesignerLocales,
 } from './types'
 
-const getBrowserlanguage = () => {
+const getBrowserLanguage = () => {
   /* istanbul ignore next */
   if (!window.navigator) {
     return 'en'
@@ -32,7 +33,7 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {
+const COMPONENT_DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {
   Root: {
     droppable: true,
     cloneable: false,
@@ -40,12 +41,14 @@ const DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {
   },
 }
 
+const NODE_DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {}
+
 const DESIGNER_ICONS_MAP: Record<string, any> = {}
 
 const DESIGNER_LOCALES: IDesignerLocales = define(
   {
     messages: {},
-    language: getBrowserlanguage(),
+    language: getBrowserLanguage(),
   },
   {
     language: observable.ref,
@@ -77,34 +80,55 @@ const mergeLocales = (target: any, source: any) => {
   return source
 }
 
+const resolveDesignerProps = (
+  node: TreeNode,
+  props: IDesignerControllerProps
+) => {
+  return isFn(props) ? props(node) : props
+}
+
 const DESIGNER_GlobalRegistry = {
   setComponentDesignerProps: (
     componentName: string,
     props: IDesignerControllerProps
   ) => {
     const originProps = GlobalRegistry.getComponentDesignerProps(componentName)
-    DESIGNER_PROPS_MAP[componentName] = (node) => {
-      if (isFn(originProps)) {
-        if (isFn(props)) {
-          return { ...originProps(node), ...props(node) }
-        } else {
-          return { ...originProps(node), ...props }
-        }
-      } else if (isFn(props)) {
-        return { ...originProps, ...props(node) }
-      } else {
-        return { ...originProps, ...props }
+    COMPONENT_DESIGNER_PROPS_MAP[componentName] = (node) => {
+      return {
+        ...resolveDesignerProps(node, originProps),
+        ...resolveDesignerProps(node, props),
+      }
+    }
+  },
+
+  setNodeDesignerProps: (nodeName: string, props: IDesignerControllerProps) => {
+    const originProps = GlobalRegistry.getNodeDesignerProps(nodeName)
+    NODE_DESIGNER_PROPS_MAP[nodeName] = (node) => {
+      return {
+        ...resolveDesignerProps(node, originProps),
+        ...resolveDesignerProps(node, props),
       }
     }
   },
 
   getComponentDesignerProps: (componentName: string) => {
-    return DESIGNER_PROPS_MAP[componentName] || {}
+    return COMPONENT_DESIGNER_PROPS_MAP[componentName] || {}
   },
 
-  registerDesignerProps: (map: IDesignerControllerPropsMap) => {
-    each(map, (props, componentName) => {
-      GlobalRegistry.setComponentDesignerProps(componentName, props)
+  getNodeDesignerProps: (nodeName: string) => {
+    return NODE_DESIGNER_PROPS_MAP[nodeName] || {}
+  },
+
+  registerDesignerProps: (
+    map: IDesignerControllerPropsMap,
+    type: 'component' | 'node' = 'component'
+  ) => {
+    each(map, (props, name) => {
+      if (type === 'component') {
+        GlobalRegistry.setComponentDesignerProps(name, props)
+      } else {
+        GlobalRegistry.setNodeDesignerProps(name, props)
+      }
     })
   },
 

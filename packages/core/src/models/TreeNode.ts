@@ -23,11 +23,11 @@ import { GlobalRegistry } from '../registry'
 
 export interface ITreeNode {
   componentName?: string
-  designerProps?: IDesignerControllerProps
   operation?: Operation
   hidden?: boolean
   isSourceNode?: boolean
   id?: string
+  name?: string
   props?: Record<string | number | symbol, any>
   children?: ITreeNode[]
 }
@@ -116,13 +116,13 @@ export class TreeNode {
 
   componentName = 'NO_NAME_COMPONENT'
 
+  name = ''
+
   props: ITreeNode['props'] = {}
 
   children: TreeNode[] = []
 
   isSelfSourceNode: boolean
-
-  selfDesignerProps: IDesignerControllerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     if (node instanceof TreeNode) {
@@ -164,17 +164,14 @@ export class TreeNode {
     })
   }
 
-  set designerProps(props: IDesignerControllerProps) {
-    this.selfDesignerProps = props || {}
-  }
-
   get designerProps(): IDesignerProps {
     const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
       this.componentName
     )
+    const nodeDesignerProps = GlobalRegistry.getNodeDesignerProps(this.name)
     const finallyDesignerProps: IDesignerProps = {
       ...resolveDesignerProps(this, commonDesignerProps),
-      ...resolveDesignerProps(this, this.selfDesignerProps),
+      ...resolveDesignerProps(this, nodeDesignerProps),
     }
     const display = this.props?.style?.display
     if (display) {
@@ -206,9 +203,9 @@ export class TreeNode {
     return this.parent.children.indexOf(this)
   }
 
-  get childrens(): TreeNode[] {
+  get descendants(): TreeNode[] {
     return this.children.reduce((buf, node) => {
-      return buf.concat(node).concat(node.childrens)
+      return buf.concat(node).concat(node.descendants)
     }, [])
   }
 
@@ -669,8 +666,8 @@ export class TreeNode {
         if (node.componentName) {
           this.componentName = node.componentName
         }
-        if (node.designerProps) {
-          this.designerProps = node.designerProps
+        if (node.name) {
+          this.name = node.name
         }
         this.props = {
           ...this.designerProps?.defaultProps,
