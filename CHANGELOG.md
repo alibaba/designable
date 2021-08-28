@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.19(2021-08-28)
+
+### :tada: Enhancements
+
+1. [feat(core): support designerLocales for Drag Source](https://github.com/alibaba/designable/commit/19d894f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.18(2021-08-27)
 
 ### :beetle: Bug Fixes
@@ -281,9 +287,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support namespace locales](https://github.com/alibaba/designable/commit/d8e5949) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.22(2021-08-03)
-
-### :tada: Enhancements
-
-1. [feat(react): improve DesignerToolsWidget](https://github.com/alibaba/designable/commit/e57a398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

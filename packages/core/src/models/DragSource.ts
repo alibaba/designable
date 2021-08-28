@@ -66,7 +66,7 @@ export class DragSource {
 
   appendSourcesByGroup(group: string, sources: ISourceNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = createNodesBySources(this.prefix, group, sources)
+    const nodes = createNodesBySources(group, sources)
     if (parent) {
       parent.append(...nodes)
     } else {
