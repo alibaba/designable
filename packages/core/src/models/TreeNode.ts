@@ -341,9 +341,15 @@ export class TreeNode {
     return this.parent?.allowAppend(nodes)
   }
 
+  allowDrop(parent: TreeNode) {
+    if (!isFn(this.designerProps.allowDrop)) return true
+    return this.designerProps.allowDrop(parent)
+  }
+
   allowAppend(nodes: TreeNode[]) {
     if (!this.designerProps?.droppable) return false
     if (this.designerProps?.allowAppend?.(this, nodes) === false) return false
+    if (nodes.some((node) => !node.allowDrop(this))) return false
     return true
   }
 

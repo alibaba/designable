@@ -70,6 +70,7 @@ export interface IDesignerProps {
   getComponentProps?: (node: TreeNode) => any //拦截属性
   allowAppend?: (target: TreeNode, sources?: TreeNode[]) => boolean
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean
+  allowDrop?: (target: TreeNode) => boolean
   [key: string]: any
 }
 

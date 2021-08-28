@@ -4,30 +4,28 @@ import { IDesignerControllerProps, LocaleMessages } from '../types'
 import { TreeNode, ITreeNode } from './TreeNode'
 
 export interface ISourceNode
-  extends Omit<ITreeNode, 'sourceName' | 'isSourceNode'> {
+  extends Omit<ITreeNode, 'sourceName' | 'isSourceNode' | 'children'> {
   designerProps?: IDesignerControllerProps
   designerLocales?: LocaleMessages
+  children?: ISourceNode[]
 }
 
-const createNodesBySources = (
-  prefix: string,
-  group: string,
-  sources: ISourceNode[]
-) => {
-  return sources.map((node) => {
-    const designerProps = node.designerProps
-    const designerLocales = node.designerLocales
-    const newNode = new TreeNode(node)
-    newNode.sourceName = `${group}-${newNode.id}`
+const createNodesBySources = (group: string, sources: ISourceNode[]) => {
+  const register = (child: ISourceNode) => {
+    const designerProps = child.designerProps
+    const designerLocales = child.designerLocales
+    if (child.children) {
+      child.children = child.children.map(register)
+    }
+    const node = new TreeNode(child)
+    node.sourceName = `${group}-${node.id}`
     if (designerProps)
-      GlobalRegistry.setSourceDesignerProps(newNode.sourceName, designerProps)
+      GlobalRegistry.setSourceDesignerProps(node.sourceName, designerProps)
     if (designerLocales)
-      GlobalRegistry.setSourceDesignerLocales(
-        newNode.sourceName,
-        designerLocales
-      )
-    return newNode
-  })
+      GlobalRegistry.setSourceDesignerLocales(node.sourceName, designerLocales)
+    return node
+  }
+  return sources.map(register)
 }
 
 export class DragSource {
@@ -53,7 +51,7 @@ export class DragSource {
 
   setSourcesByGroup(group: string, sources: ISourceNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = createNodesBySources(this.prefix, group, sources)
+    const nodes = createNodesBySources(group, sources)
     if (parent) {
       parent.setChildren(...nodes)
     } else {

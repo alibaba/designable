@@ -126,6 +126,11 @@ GlobalRegistry.registerDesignerProps({
 GlobalDragSource.setSourcesByGroup('form', [
   {
     componentName: 'Field',
+    designerProps: {
+      allowDrop(parent) {
+        return parent.componentName === 'Card'
+      },
+    },
     designerLocales: {
       'zh-CN': {
         settings: {
@@ -187,6 +192,11 @@ GlobalDragSource.setSourcesByGroup('form', [
     children: [
       {
         componentName: 'Field',
+        designerProps: {
+          allowDrop(parent) {
+            return parent.componentName === 'Card'
+          },
+        },
         props: {
           title: '输入框',
           type: 'string',
