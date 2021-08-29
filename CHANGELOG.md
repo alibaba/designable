@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.21(2021-08-29)
+
+### :tada: Enhancements
+
+1. [feat(settings): support CollapseItem](https://github.com/alibaba/designable/commit/de01a25) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.20(2021-08-28)
 
 ### :tada: Enhancements
@@ -281,9 +287,3 @@
 1. [fix(core): fix shortcut can not get context](https://github.com/alibaba/designable/commit/8263c49) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [fix(formily): fix typings](https://github.com/alibaba/designable/commit/664c53f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.24(2021-08-04)
-
-### :rose: Improve code quality
-
-1. [refactor(settings-form): improve namespace locale](https://github.com/alibaba/designable/commit/e0d014d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
