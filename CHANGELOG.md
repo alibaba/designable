@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.20(2021-08-28)
+
+### :tada: Enhancements
+
+1. [feat(core): support allowDrop for designerProps](https://github.com/alibaba/designable/commit/6200ab1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.19(2021-08-28)
 
 ### :tada: Enhancements
@@ -281,9 +287,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(settings-form): improve namespace locale](https://github.com/alibaba/designable/commit/e0d014d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.23(2021-08-04)
-
-### :tada: Enhancements
-
-1. [feat(settings): support namespace locales](https://github.com/alibaba/designable/commit/d8e5949) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
