@@ -99,7 +99,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
   {
     scheduler: (update) => {
       cancelIdle(GlobalState.idleRequest)
-      GlobalState.idleRequest = requestIdle(update)
+      GlobalState.idleRequest = requestIdle(update, {
+        timeout: 500,
+      })
     },
   }
 )

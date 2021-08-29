@@ -135,8 +135,8 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
           <div
             className={prefix + '-header-head'}
             style={{
-              left: -node.depth * 22,
-              width: node.depth * 22,
+              left: -node.depth * 16,
+              width: node.depth * 16,
             }}
           ></div>
           <div className={prefix + '-header-content'}>
@@ -154,7 +154,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
                     }
                   }}
                 >
-                  <IconWidget infer="Expand" size={12} />
+                  <IconWidget infer="Expand" size={10} />
                 </div>
               )}
               <div className={prefix + '-icon'}>{renderIcon(node)}</div>

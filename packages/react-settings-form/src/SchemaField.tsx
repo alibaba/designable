@@ -35,11 +35,13 @@ import {
   DisplayStyleSetter,
   FlexStyleSetter,
   DrawerSetter,
+  CollapseItem,
 } from './components'
 
 export const SchemaField = createSchemaField({
   components: {
     FormItem,
+    CollapseItem,
     Input,
     ValueInput,
     SizeInput,

@@ -18,6 +18,7 @@ import {
   IDesignerControllerProps,
   IDesignerProps,
   IControlNodeMetaType,
+  LocaleMessages,
 } from '../types'
 import { GlobalRegistry } from '../registry'
 
@@ -25,6 +26,8 @@ export interface ITreeNode {
   componentName?: string
   sourceName?: string
   operation?: Operation
+  designerProps?: IDesignerControllerProps
+  designerLocales?: LocaleMessages
   hidden?: boolean
   isSourceNode?: boolean
   id?: string
@@ -661,6 +664,8 @@ export class TreeNode {
 
   from(node?: ITreeNode) {
     if (!node) return
+    const designerProps = node.designerProps
+    const designerLocales = node.designerLocales
     return this.triggerMutation(
       new FromNodeEvent({
         target: this,
@@ -675,9 +680,14 @@ export class TreeNode {
         if (node.componentName) {
           this.componentName = node.componentName
         }
-        if (node.sourceName) {
-          this.sourceName = node.sourceName
-        }
+        this.sourceName = node.sourceName || this.id
+        if (designerProps)
+          GlobalRegistry.setSourceDesignerProps(this.sourceName, designerProps)
+        if (designerLocales)
+          GlobalRegistry.setSourceDesignerLocales(
+            this.sourceName,
+            designerLocales
+          )
         this.props = {
           ...this.designerProps?.defaultProps,
           ...node.props,

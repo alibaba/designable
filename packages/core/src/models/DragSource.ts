@@ -1,33 +1,5 @@
 import { each, uid } from '@designable/shared'
-import { GlobalRegistry } from '../registry'
-import { IDesignerControllerProps, LocaleMessages } from '../types'
 import { TreeNode, ITreeNode } from './TreeNode'
-
-export interface ISourceNode
-  extends Omit<ITreeNode, 'sourceName' | 'isSourceNode' | 'children'> {
-  designerProps?: IDesignerControllerProps
-  designerLocales?: LocaleMessages
-  children?: ISourceNode[]
-}
-
-const createNodesBySources = (group: string, sources: ISourceNode[]) => {
-  const register = (child: ISourceNode) => {
-    const designerProps = child.designerProps
-    const designerLocales = child.designerLocales
-    if (child.children) {
-      child.children = child.children.map(register)
-    }
-    const node = new TreeNode(child)
-    node.sourceName = `${group}-${node.id}`
-    if (designerProps)
-      GlobalRegistry.setSourceDesignerProps(node.sourceName, designerProps)
-    if (designerLocales)
-      GlobalRegistry.setSourceDesignerLocales(node.sourceName, designerLocales)
-    return node
-  }
-  return sources.map(register)
-}
-
 export class DragSource {
   tree: TreeNode
   prefix: string
@@ -43,15 +15,15 @@ export class DragSource {
     return this.getAllSources().length
   }
 
-  setSources(sources: Record<string, ISourceNode[]>) {
+  setSources(sources: Record<string, ITreeNode[]>) {
     each(sources, (data, group) => {
       this.setSourcesByGroup(group, data)
     })
   }
 
-  setSourcesByGroup(group: string, sources: ISourceNode[]) {
+  setSourcesByGroup(group: string, sources: ITreeNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = createNodesBySources(group, sources)
+    const nodes = sources.map((node) => new TreeNode(node))
     if (parent) {
       parent.setChildren(...nodes)
     } else {
@@ -64,9 +36,9 @@ export class DragSource {
     }
   }
 
-  appendSourcesByGroup(group: string, sources: ISourceNode[]) {
+  appendSourcesByGroup(group: string, sources: ITreeNode[]) {
     const parent = this.tree.findById(group)
-    const nodes = createNodesBySources(group, sources)
+    const nodes = sources.map((node) => new TreeNode(node))
     if (parent) {
       parent.append(...nodes)
     } else {
