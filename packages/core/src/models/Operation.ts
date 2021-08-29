@@ -101,6 +101,18 @@ export class Operation {
     return this.viewportDragon.dragNodes
   }
 
+  getDropNodes(parent: TreeNode) {
+    const dragNodes = this.getDragNodes()
+    return dragNodes.reduce((buf, node) => {
+      if (isFn(node.designerProps?.getDropNodes)) {
+        const cloned = node.isSourceNode ? node.clone(node.parent) : node
+        const transformed = node.designerProps.getDropNodes(cloned, parent)
+        return transformed ? buf.concat(transformed) : buf
+      }
+      return buf.concat([node])
+    }, [])
+  }
+
   getClosestNode() {
     return this.viewportDragon.closestNode || this.outlineDragon.closestNode
   }

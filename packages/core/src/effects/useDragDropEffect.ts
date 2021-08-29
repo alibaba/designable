@@ -127,26 +127,38 @@ export const useDragDropEffect = (engine: Engine) => {
           closestDirection === ClosestDirection.Under
         ) {
           if (closestNode.allowSibling(dragNodes)) {
-            selection.batchSafeSelect(closestNode.insertAfter(...dragNodes))
+            selection.batchSafeSelect(
+              closestNode.insertAfter(
+                ...operation.getDropNodes(closestNode.parent)
+              )
+            )
           }
         } else if (
           closestDirection === ClosestDirection.Before ||
           closestDirection === ClosestDirection.Upper
         ) {
           if (closestNode.allowSibling(dragNodes)) {
-            selection.batchSafeSelect(closestNode.insertBefore(...dragNodes))
+            selection.batchSafeSelect(
+              closestNode.insertBefore(
+                ...operation.getDropNodes(closestNode.parent)
+              )
+            )
           }
         } else if (
           closestDirection === ClosestDirection.Inner ||
           closestDirection === ClosestDirection.InnerAfter
         ) {
           if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.append(...dragNodes))
+            selection.batchSafeSelect(
+              closestNode.append(...operation.getDropNodes(closestNode))
+            )
             operation.setDropNode(closestNode)
           }
         } else if (closestDirection === ClosestDirection.InnerBefore) {
           if (closestNode.allowAppend(dragNodes)) {
-            selection.batchSafeSelect(closestNode.prepend(...dragNodes))
+            selection.batchSafeSelect(
+              closestNode.prepend(...operation.getDropNodes(closestNode))
+            )
             operation.setDropNode(closestNode)
           }
         }

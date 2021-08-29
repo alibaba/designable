@@ -65,8 +65,8 @@ export interface IDesignerProps {
   selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: ISchema //Formily JSON Schema
   defaultProps?: any //默认属性
-  effects?: (engine: Engine) => void
-  getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截拖拽节点
+  getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截转换Drag节点
+  getDropNodes?: (node: TreeNode, parent: TreeNode) => TreeNode | TreeNode[] //拦截转换Drop节点
   getComponentProps?: (node: TreeNode) => any //拦截属性
   allowAppend?: (target: TreeNode, sources?: TreeNode[]) => boolean
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean
