@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.23(2021-08-31)
+
+### :tada: Enhancements
+
+1. [feat(core): support createLocales](https://github.com/alibaba/designable/commit/db71be3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(core): remove unused this optional chain (#52)](https://github.com/alibaba/designable/commit/bbafcb8) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
+
 ## v0.5.22(2021-08-30)
 
 ### :tada: Enhancements
@@ -273,15 +283,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): add HistoryWidget](https://github.com/alibaba/designable/commit/21498a1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.26(2021-08-05)
-
-### :tada: Enhancements
-
-1. [feat(core): support CloneNodeEvent](https://github.com/alibaba/designable/commit/c19e402) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(react): support dark theme for dash box title](https://github.com/alibaba/designable/commit/d7bfd60) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/3b2041e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
