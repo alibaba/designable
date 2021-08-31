@@ -243,12 +243,12 @@ export class TreeNode {
   }
 
   isMyAncestor(node: TreeNode) {
-    if (node === this || this?.parent === node) return false
+    if (node === this || this.parent === node) return false
     return node.contains(this)
   }
 
   isMyParent(node: TreeNode) {
-    return this?.parent === node
+    return this.parent === node
   }
 
   isMyParents(node: TreeNode) {
