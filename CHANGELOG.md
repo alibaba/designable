@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.25(2021-08-31)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): use NodeTitleWidget for OutlineWidget](https://github.com/alibaba/designable/commit/9590a2d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.24(2021-08-31)
 
 ### :tada: Enhancements
@@ -277,9 +283,5 @@
 1. [feat(core): support from node event](https://github.com/alibaba/designable/commit/c4d68ee) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 ## v0.4.29(2021-08-06)
-
-### No Change Log
-
-## v0.4.28(2021-08-06)
 
 ### No Change Log
