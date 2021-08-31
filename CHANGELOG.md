@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.24(2021-08-31)
+
+### :tada: Enhancements
+
+1. [feat(react): support NodeTitleWidget](https://github.com/alibaba/designable/commit/8242a50) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.23(2021-08-31)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ## v0.4.28(2021-08-06)
 
 ### No Change Log
-
-## v0.4.27(2021-08-06)
-
-### :tada: Enhancements
-
-1. [feat(react): add HistoryWidget](https://github.com/alibaba/designable/commit/21498a1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
