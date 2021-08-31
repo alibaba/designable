@@ -150,7 +150,7 @@ export class Viewport {
   }
 
   elementFromPoint(point: IPoint) {
-    if (this?.contentWindow?.document) {
+    if (this.contentWindow?.document) {
       return this.contentWindow.document.elementFromPoint(point.x, point.y)
     }
   }
