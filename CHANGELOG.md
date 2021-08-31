@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.26(2021-08-31)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix can not take component locales](https://github.com/alibaba/designable/commit/cd39398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.25(2021-08-31)
 
 ### :beetle: Bug Fixes
@@ -281,7 +287,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support from node event](https://github.com/alibaba/designable/commit/c4d68ee) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.29(2021-08-06)
-
-### No Change Log
