@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.22(2021-08-30)
+
+### :tada: Enhancements
+
+1. [feat(core): support getDropNodes for designerProps](https://github.com/alibaba/designable/commit/ddd3c95) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.21(2021-08-29)
 
 ### :tada: Enhancements
@@ -279,11 +285,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(formily): fix transformer](https://github.com/alibaba/designable/commit/3b2041e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.25(2021-08-04)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix shortcut can not get context](https://github.com/alibaba/designable/commit/8263c49) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [fix(formily): fix typings](https://github.com/alibaba/designable/commit/664c53f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

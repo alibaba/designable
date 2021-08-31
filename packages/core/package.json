@@ -1,6 +1,6 @@
 {
   "name": "@designable/core",
-  "version": "0.5.22",
+  "version": "0.5.23",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -15,7 +15,7 @@
     "build:umd": "rollup --config"
   },
   "dependencies": {
-    "@designable/shared": "0.5.22",
+    "@designable/shared": "0.5.23",
     "@formily/json-schema": "^2.0.0-beta.84",
     "@formily/path": "^2.0.0-beta.84",
     "@formily/reactive": "^2.0.0-beta.84",
