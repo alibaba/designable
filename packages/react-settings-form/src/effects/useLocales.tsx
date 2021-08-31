@@ -35,7 +35,7 @@ export const useLocales = (node: TreeNode) => {
         sourceName,
         `settings.${path}`
       )
-      const componentMessage = GlobalRegistry.getSourceDesignerMessage(
+      const componentMessage = GlobalRegistry.getComponentDesignerMessage(
         componentName,
         `settings.${path}`
       )
