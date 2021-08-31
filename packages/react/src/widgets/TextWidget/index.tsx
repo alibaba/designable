@@ -7,6 +7,7 @@ export interface ITextWidgetProps {
   componentName?: string
   sourceName?: string
   token?: string
+  defaultMessage?: string
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
@@ -33,7 +34,8 @@ export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
     if (message) return message
   }
   const token = takeToken()
-  const message = takeMessage(token) || takeMessage(props.token)
+  const message =
+    takeMessage(token) || takeMessage(props.token) || props.defaultMessage
   if (message) return message
   return <Fragment>{props.children}</Fragment>
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import { useCursor, usePrefix, useDesigner } from '../../hooks'
 import { CursorStatus } from '@designable/core'
 import { observer } from '@formily/reactive-react'
-import { TextWidget } from '../TextWidget'
+import { NodeTitleWidget } from '../NodeTitleWidget'
 import './styles.less'
 
 export const GhostWidget = observer(() => {
@@ -18,11 +18,7 @@ export const GhostWidget = observer(() => {
           whiteSpace: 'nowrap',
         }}
       >
-        <TextWidget>
-          {firstNode?.designerProps?.title ||
-            firstNode?.componentName ||
-            'NoTitleComponent'}
-        </TextWidget>
+        <NodeTitleWidget node={firstNode} />
         {draggingNodes.length > 1 ? '...' : ''}
       </span>
     )

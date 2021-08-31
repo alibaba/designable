@@ -2,7 +2,7 @@ import React from 'react'
 import { Breadcrumb } from 'antd'
 import { useCurrentNode, useSelection, usePrefix, useHover } from '../../hooks'
 import { IconWidget } from '../IconWidget'
-import { TextWidget } from '../TextWidget'
+import { NodeTitleWidget } from '../NodeTitleWidget'
 import { observer } from '@formily/react'
 import './styles.less'
 
@@ -43,7 +43,7 @@ export const NodePathWidget: React.FC<INodePathWidgetProps> = observer(
                   selection.select(node)
                 }}
               >
-                <TextWidget>{node.designerProps.title}</TextWidget>
+                <NodeTitleWidget node={node} />
               </a>
             </Breadcrumb.Item>
           )
