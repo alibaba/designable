@@ -21,7 +21,7 @@ const getBrowserLanguage = () => {
 
 const getISOCode = (language: string, type = 'global') => {
   let isoCode = DESIGNER_LOCALES.language
-  let lang = cleanSpace(language)
+  let lang = normalize(language)
   if (DESIGNER_LOCALES[type][lang]) {
     return lang
   }
@@ -58,14 +58,14 @@ const DESIGNER_LOCALES: IDesignerLocales = define(
   }
 )
 
-const cleanSpace = (str: string) => {
+const normalize = (str: string) => {
   return String(str).replace(/\s+/g, '_').toLocaleLowerCase()
 }
 
 const mergeLocales = (target: any, source: any) => {
   if (isPlainObj(target) && isPlainObj(source)) {
     each(source, function (value, key) {
-      const token = cleanSpace(key)
+      const token = normalize(key)
       const messages = mergeLocales(target[key] || target[token], value)
       target[token] = messages
       target[key] = messages
@@ -75,7 +75,7 @@ const mergeLocales = (target: any, source: any) => {
     const result = Array.isArray(source) ? [] : {}
     each(source, function (value, key) {
       const messages = mergeLocales(undefined, value)
-      result[cleanSpace(key)] = messages
+      result[normalize(key)] = messages
       result[key] = messages
     })
     return result
@@ -123,8 +123,8 @@ const DESIGNER_GlobalRegistry = {
   ) => {
     const isoCodes = Object.keys(locales || {})
     isoCodes.forEach((key) => {
-      const isoCode = cleanSpace(key)
-      const name = cleanSpace(componentName)
+      const isoCode = normalize(key)
+      const name = normalize(componentName)
       DESIGNER_LOCALES.components[isoCode] =
         DESIGNER_LOCALES.components[isoCode] || {}
       DESIGNER_LOCALES.components[isoCode][name] = mergeLocales(
@@ -137,8 +137,8 @@ const DESIGNER_GlobalRegistry = {
   setSourceDesignerLocales: (sourceName: string, locales: LocaleMessages) => {
     const isoCodes = Object.keys(locales || {})
     isoCodes.forEach((key) => {
-      const isoCode = cleanSpace(key)
-      const name = cleanSpace(sourceName)
+      const isoCode = normalize(key)
+      const name = normalize(sourceName)
       DESIGNER_LOCALES.sources[isoCode] =
         DESIGNER_LOCALES.sources[isoCode] || {}
       DESIGNER_LOCALES.sources[isoCode][name] = mergeLocales({}, locales[key])
@@ -151,34 +151,35 @@ const DESIGNER_GlobalRegistry = {
 
   getComponentDesignerMessage: (componentName: string, token: string) => {
     const lang = getISOCode(DESIGNER_LOCALES.language)
-    const locale = DESIGNER_LOCALES.components?.[lang]?.[componentName]
+    const locale =
+      DESIGNER_LOCALES.components?.[lang]?.[normalize(componentName)]
     if (!locale) {
       for (let key in DESIGNER_LOCALES.components) {
         const message = Path.getIn(
           DESIGNER_LOCALES.components[key],
-          cleanSpace(token)
+          normalize(token)
         )
         if (message) return message
       }
       return
     }
-    return Path.getIn(locale, cleanSpace(token))
+    return Path.getIn(locale, normalize(token))
   },
 
   getSourceDesignerMessage: (sourceName: string, token: string) => {
     const lang = getISOCode(DESIGNER_LOCALES.language)
-    const locale = DESIGNER_LOCALES.sources?.[lang]?.[sourceName]
+    const locale = DESIGNER_LOCALES.sources?.[lang]?.[normalize(sourceName)]
     if (!locale) {
       for (let key in DESIGNER_LOCALES.sources) {
         const message = Path.getIn(
           DESIGNER_LOCALES.sources[key],
-          cleanSpace(token)
+          normalize(token)
         )
         if (message) return message
       }
       return
     }
-    return Path.getIn(locale, cleanSpace(token))
+    return Path.getIn(locale, normalize(token))
   },
 
   getSourceDesignerProps: (nodeName: string) => {
@@ -204,13 +205,13 @@ const DESIGNER_GlobalRegistry = {
       for (let key in DESIGNER_LOCALES.global) {
         const message = Path.getIn(
           DESIGNER_LOCALES.global[key],
-          cleanSpace(token)
+          normalize(token)
         )
         if (message) return message
       }
       return
     }
-    return Path.getIn(locale, cleanSpace(token))
+    return Path.getIn(locale, normalize(token))
   },
 
   registerDesignerProps: (map: IDesignerControllerPropsMap) => {
