@@ -230,6 +230,14 @@ const DESIGNER_GlobalRegistry = {
   },
 }
 
+export const createLocales = (...packages: LocaleMessages[]) => {
+  const results = {}
+  packages.forEach((locales) => {
+    mergeLocales(results, locales)
+  })
+  return results
+}
+
 export type IDesignerRegistry = typeof DESIGNER_GlobalRegistry
 
 export const GlobalRegistry: IDesignerRegistry =
