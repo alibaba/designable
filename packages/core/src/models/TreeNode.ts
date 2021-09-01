@@ -17,7 +17,6 @@ import {
 import {
   IDesignerControllerProps,
   IDesignerProps,
-  IControlNodeMetaType,
   LocaleMessages,
 } from '../types'
 import { GlobalRegistry } from '../registry'
@@ -331,12 +330,6 @@ export class TreeNode {
       results.push(this.parent.children[i])
     }
     return results
-  }
-
-  matchNodeMeta(meta: IControlNodeMetaType) {
-    if (meta?.componentName === this.componentName) return true
-    if (meta?.id === this.id) return true
-    return false
   }
 
   allowSibling(nodes: TreeNode[]) {

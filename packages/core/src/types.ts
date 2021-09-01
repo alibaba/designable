@@ -31,20 +31,6 @@ export type IEngineContext = {
   viewport: Viewport
 }
 
-export type IControlType = boolean | ((node: TreeNode) => boolean)
-
-export type IControlNodeMetaType = {
-  componentName: string //指定组件类型
-  id?: string //指定实例ID
-  maxInstances?: number //最大实例数量
-  minInstances?: number //最小实例数量
-}
-
-export type IControlNodeType =
-  | string
-  | IControlNodeMetaType
-  | ((node: TreeNode) => IControlNodeMetaType)
-
 export interface IDesignerProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址

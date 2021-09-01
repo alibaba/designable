@@ -5,6 +5,10 @@ export interface IDesignerProps {
   theme?: 'dark' | 'light' | (string & {})
 }
 
+export interface IDesignerComponents {
+  [key: string]: React.JSXElementConstructor<any>
+}
+
 export interface IDesignerContext {
   engine: Engine
   theme?: 'dark' | 'light' | (string & {})

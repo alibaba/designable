@@ -1,20 +1,16 @@
-import React, { Fragment, useEffect, useContext, createContext } from 'react'
-import { useTree, usePrefix, useDesigner, useRegistry } from '../../hooks'
-import { TreeNodeContext } from '../../context'
+import React, { Fragment } from 'react'
+import { useTree, usePrefix, useDesigner, useComponents } from '../../hooks'
+import { TreeNodeContext, DesignerComponentsContext } from '../../context'
+import { IDesignerComponents } from '../../types'
 import { TreeNode } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 import cls from 'classnames'
 import './styles.less'
 
-const ComponentsContext = createContext<IComponents>({})
-export interface IComponents {
-  [key: string]: React.JSXElementConstructor<any>
-}
-
 export interface IComponentTreeWidgetProps {
   style?: React.CSSProperties
   className?: string
-  components: IComponents
+  components: IDesignerComponents
 }
 
 export interface ITreeNodeWidgetProps {
@@ -25,7 +21,7 @@ export interface ITreeNodeWidgetProps {
 export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
   (props: ITreeNodeWidgetProps) => {
     const designer = useDesigner(props.node?.designerProps?.effects)
-    const components = useContext(ComponentsContext)
+    const components = useComponents()
     const node = props.node
     const renderChildren = () => {
       if (node?.designerProps?.selfRenderChildren) return []
@@ -77,22 +73,7 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
     const tree = useTree()
     const prefix = usePrefix('component-tree')
     const designer = useDesigner()
-    const registry = useRegistry()
     const dataId = {}
-    useEffect(() => {
-      if (designer) {
-        Object.entries(props.components).forEach(
-          ([componentName, component]) => {
-            if (component['designerProps']) {
-              registry.setComponentDesignerProps(
-                componentName,
-                component['designerProps']
-              )
-            }
-          }
-        )
-      }
-    }, [])
     if (designer && tree) {
       dataId[designer?.props?.nodeIdAttrName] = tree.id
     }
@@ -102,9 +83,9 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
         className={cls(prefix, props.className)}
         {...dataId}
       >
-        <ComponentsContext.Provider value={props.components}>
+        <DesignerComponentsContext.Provider value={props.components}>
           <TreeNodeWidget node={tree} />
-        </ComponentsContext.Provider>
+        </DesignerComponentsContext.Provider>
       </div>
     )
   })
