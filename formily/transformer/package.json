@@ -1,13 +1,21 @@
 {
-  "name": "@designable/formily",
+  "name": "@designable/formily-transformer",
   "version": "0.5.27",
   "license": "MIT",
   "main": "lib",
-  "types": "lib/index.d.ts",
   "engines": {
     "npm": ">=3.0.0"
   },
   "module": "esm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/designable.git"
+  },
+  "types": "esm/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/alibaba/designable/issues"
+  },
+  "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
     "build:cjs": "tsc --project tsconfig.build.json",
@@ -20,8 +28,8 @@
   "dependencies": {
     "@designable/core": "0.5.27",
     "@designable/shared": "0.5.27",
-    "@formily/core": "^2.0.0-beta.84",
-    "@formily/json-schema": "^2.0.0-beta.84"
+    "@formily/core": "^2.0.0-rc.4",
+    "@formily/json-schema": "^2.0.0-rc.4"
   },
   "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
 }

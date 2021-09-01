@@ -1,0 +1,37 @@
+import { createLocales } from '@designable/core'
+import { Field } from './Field'
+
+export const DatePicker = createLocales(Field, {
+  'zh-CN': {
+    title: '日期选择',
+    settings: {
+      'x-component-props': {
+        disabledDate: {
+          title: '不可选日期',
+          tooltip: '格式 (currentDate: moment) => boolean',
+        },
+        disabledTime: {
+          title: '不可选时间',
+          tooltip: '格式 (currentDate: moment) => boolean',
+        },
+        inputReadOnly: '输入框只读',
+        format: '格式',
+        picker: {
+          title: '选择器类型',
+          dataSource: ['时间', '日期', '月份', '年', '季度'],
+        },
+        showNow: '显示此刻',
+        showTime: '时间选择',
+        showToday: '显示今天',
+      },
+    },
+  },
+  'en-US': {},
+})
+
+export const DateRangePicker = createLocales(DatePicker, {
+  'zh-CN': {
+    title: '日期范围',
+  },
+  'en-US': {},
+})

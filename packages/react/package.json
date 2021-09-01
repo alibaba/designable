@@ -8,6 +8,14 @@
     "npm": ">=3.0.0"
   },
   "module": "esm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/designable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alibaba/designable/issues"
+  },
+  "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd && ts-node copy",
     "build:cjs": "tsc --project tsconfig.build.json",
@@ -21,8 +29,8 @@
   "dependencies": {
     "@designable/core": "0.5.27",
     "@designable/shared": "0.5.27",
-    "@formily/reactive": "^2.0.0-beta.84",
-    "@formily/reactive-react": "^2.0.0-beta.84",
+    "@formily/reactive": "^2.0.0-rc.4",
+    "@formily/reactive-react": "^2.0.0-rc.4",
     "@juggle/resize-observer": "^3.3.1",
     "dateformat": "^4.5.1"
   },
