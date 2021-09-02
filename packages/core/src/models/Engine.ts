@@ -93,7 +93,7 @@ export class Engine extends Event {
   }
 
   mount() {
-    this.attachEvents(window)
+    this.create()
   }
 
   unmount() {

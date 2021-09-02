@@ -10,9 +10,7 @@ export class Subscribable<ExtendsType = any> {
   private subscribers: {
     index?: number
     [key: number]: ISubscriber
-  } = {
-    index: 0,
-  }
+  } = {}
 
   dispatch<T extends ExtendsType = any>(event: T, context?: any) {
     let interrupted = false
@@ -29,6 +27,9 @@ export class Subscribable<ExtendsType = any> {
 
   subscribe(subscriber: ISubscriber) {
     let id: number
+    if (Object.keys(this.subscribers).length === 0) {
+      this.subscribers = { index: 0 }
+    }
     if (isFn(subscriber)) {
       id = this.subscribers.index + 1
       this.subscribers[id] = subscriber
@@ -40,7 +41,6 @@ export class Subscribable<ExtendsType = any> {
     }
 
     unsubscribe[UNSUBSCRIBE_ID_SYMBOL] = id
-
     return unsubscribe
   }
 

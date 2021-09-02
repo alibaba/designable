@@ -260,17 +260,22 @@ export class EventDriver<Engine extends Event = Event, Context = any>
  */
 export class Event extends Subscribable<ICustomEvent<any>> {
   private drivers: IEventDriverClass<any>[] = []
+  private effects: IEventProps['effects'] = []
   private containers: EventContainer[] = []
   constructor(props?: IEventProps) {
     super()
     if (isArr(props?.effects)) {
-      props.effects.forEach((plugin) => {
-        plugin(this)
-      })
+      this.effects = props?.effects
     }
     if (isArr(props?.drivers)) {
       this.drivers = props.drivers
     }
+  }
+
+  initPlugin() {
+    this.effects.forEach((plugin) => {
+      plugin(this)
+    })
   }
 
   subscribeTo<T extends CustomEventClass>(
@@ -347,6 +352,11 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     delete container[EVENTS_SYMBOL]
     delete container[EVENTS_ONCE_SYMBOL]
     delete container[EVENTS_BATCH_SYMBOL]
+  }
+
+  create() {
+    this.initPlugin()
+    this.attachEvents(window)
   }
 
   destroy() {
