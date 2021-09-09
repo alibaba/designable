@@ -1,46 +1,50 @@
 import React, { useState } from 'react'
-import { TreeNode } from '@designable/core'
-import { isFn } from '@designable/shared'
+import { isResource, isResourceHost, IResourceLike } from '@designable/core'
+import { isFn, flat } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
-import cls from 'classnames'
-import { useDesigner, usePrefix, useWorkspace } from '../../hooks'
+import { usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { TextWidget } from '../TextWidget'
+import cls from 'classnames'
 import './styles.less'
 
-export type SourceMapper = (node: TreeNode) => React.ReactChild
+export type SourceMapper = (resource: IResourceLike) => React.ReactChild
 
-export interface IDragSourceWidgetProps {
-  name: string
+export interface IResourceWidgetProps {
   title: React.ReactNode
+  sources?: Array<IResourceLike | IResourceLike[]>
   className?: string
   defaultExpand?: boolean
   children?: SourceMapper | React.ReactElement
 }
 
-export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
+export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
   (props) => {
-    const prefix = usePrefix('drag-source')
-    const designer = useDesigner()
-    const workspace = useWorkspace()
+    const prefix = usePrefix('resource')
     const [expand, setExpand] = useState(props.defaultExpand)
-    const renderNode = (node: TreeNode) => {
+    const renderNode = (source: IResourceLike) => {
+      const { node, icon, title, thumb, span } = isResourceHost(source)
+        ? source.Resource
+        : source
       return (
         <div
           className={prefix + '-item'}
+          style={{ gridColumnStart: `span ${span || 1}` }}
           key={node.id}
           data-designer-source-id={node.id}
         >
-          {node?.designerProps?.sourceIcon && (
+          {thumb && <img className={prefix + '-item-thumb'} src={thumb} />}
+          {icon && (
             <IconWidget
-              infer={node.designerProps.sourceIcon}
-              style={{ margin: '10px 0', width: 150, height: 40 }}
+              className={prefix + '-item-icon'}
+              infer={icon}
+              style={{ width: 150, height: 40 }}
             />
           )}
           <span className={prefix + '-item-text'}>
             {
               <TextWidget sourceName={node.sourceName} token="title">
-                {node?.designerProps?.title}
+                {title}
               </TextWidget>
             }
           </span>
@@ -48,10 +52,13 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
       )
     }
 
-    const source =
-      workspace?.source?.size > 0 ? workspace.source : designer.source
-    const sources = source.getSourcesByGroup(props.name)
-    const remainItems = sources?.length % 3
+    const sources = flat(props.sources)
+    const remainItems =
+      sources.reduce((length, source) => {
+        if (isResourceHost(source)) return length + (source.Resource.span ?? 1)
+        if (isResource(source)) return length + (source.span ?? 1)
+        return length
+      }, 0) % 3
     return (
       <div
         className={cls(prefix, props.className, {
@@ -70,7 +77,7 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
             <IconWidget infer="Expand" size={10} />
           </div>
           <div className={prefix + '-header-content'}>
-            <TextWidget>{props.title || `sources.${props.name}`}</TextWidget>
+            <TextWidget>{props.title}</TextWidget>
           </div>
         </div>
         <div className={prefix + '-content-wrapper'}>
@@ -89,6 +96,6 @@ export const DragSourceWidget: React.FC<IDragSourceWidgetProps> = observer(
   }
 )
 
-DragSourceWidget.defaultProps = {
+ResourceWidget.defaultProps = {
   defaultExpand: true,
 }

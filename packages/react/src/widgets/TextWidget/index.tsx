@@ -1,41 +1,40 @@
 import React, { Fragment } from 'react'
-import { isStr } from '@designable/shared'
-import { GlobalRegistry } from '@designable/core'
+import { isStr, isPlainObj } from '@designable/shared'
+import { GlobalRegistry, IDesignerLocales } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 
 export interface ITextWidgetProps {
   componentName?: string
   sourceName?: string
-  token?: string
-  defaultMessage?: string
+  token?: string | IDesignerLocales
+  defaultMessage?: string | IDesignerLocales
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
-  const takeToken = () => {
-    if (isStr(props.children)) return props.children || props.token
+  const takeLocale = (message: string | IDesignerLocales): React.ReactNode => {
+    if (isStr(message)) return message
+    if (isPlainObj(message)) {
+      const lang = GlobalRegistry.getDesignerLanguage()
+      for (let key in message) {
+        if (key.toLocaleLowerCase() === lang) return message[key]
+      }
+      return
+    }
+    return message
   }
-  const takeMessage = (token: string) => {
+  const takeMessage = (token: any) => {
     if (!token) return
-    if (props.sourceName) {
-      const message = GlobalRegistry.getSourceDesignerMessage(
-        props.sourceName,
-        token
-      )
-      if (message) return message
-    }
-    if (props.componentName) {
-      const message = GlobalRegistry.getComponentDesignerMessage(
-        props.componentName,
-        token
-      )
-      if (message) return message
-    }
-    const message = GlobalRegistry.getDesignerMessage(token)
-    if (message) return message
+    const message = isStr(token)
+      ? GlobalRegistry.getDesignerMessage(token)
+      : token
+    if (message) return takeLocale(message)
+    return token
   }
-  const token = takeToken()
-  const message =
-    takeMessage(token) || takeMessage(props.token) || props.defaultMessage
-  if (message) return message
-  return <Fragment>{props.children}</Fragment>
+  return (
+    <Fragment>
+      {takeMessage(props.children) ||
+        takeMessage(props.token) ||
+        takeMessage(props.defaultMessage)}
+    </Fragment>
+  )
 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { CursorStatus, CursorType, ClosestDirection } from '@designable/core'
+import { CursorStatus, CursorType, ClosestPosition } from '@designable/core'
 import {
   useViewport,
   useCursor,
@@ -50,7 +50,7 @@ export const AuxToolWidget = () => {
         if (cursor.type === CursorType.Move) {
           if (operation.getDragNodes().length) {
             // todo: update cusor will trigger document layout rerender https://bugs.chromium.org/p/chromium/issues/detail?id=664066
-            // if (viewportDragon.closestDirection === ClosestDirection.Inner) {
+            // if (viewportDragon.closestDirection === ClosestPosition.Inner) {
             //   setCursorState(viewport.contentWindow, 'copy')
             // } else {
             setCursorState(viewport.contentWindow, 'move')

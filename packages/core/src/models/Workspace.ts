@@ -5,7 +5,6 @@ import { History } from './History'
 import { uid, ICustomEvent, EventContainer } from '@designable/shared'
 import { HistoryGotoEvent, HistoryRedoEvent, HistoryUndoEvent } from '../events'
 import { IEngineContext } from '../types'
-import { DragSource } from './DragSource'
 export interface IViewportMatcher {
   contentWindow?: Window
   viewportElement?: HTMLElement
@@ -38,8 +37,6 @@ export class Workspace {
 
   viewport: Viewport
 
-  source: DragSource
-
   outline: Viewport
 
   operation: Operation
@@ -54,7 +51,6 @@ export class Workspace {
     this.id = props.id || uid()
     this.title = props.title
     this.description = props.description
-    this.source = new DragSource()
     this.viewport = new Viewport({
       engine: this.engine,
       workspace: this,

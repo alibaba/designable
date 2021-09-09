@@ -1,17 +1,8 @@
 import React from 'react'
 import { isVoidField, onFieldReact } from '@formily/core'
-import { GlobalRegistry, TreeNode } from '@designable/core'
-import { isPlainObj, isStr } from '@designable/shared'
+import { TreeNode } from '@designable/core'
+import { isStr } from '@designable/shared'
 import { IconWidget } from '@designable/react'
-
-const takeMessage = (message: any): any => {
-  if (isStr(message))
-    return {
-      title: message,
-    }
-  if (isPlainObj(message)) return message
-  return {}
-}
 
 const takeIcon = (message: string) => {
   if (!isStr(message)) return
@@ -23,29 +14,11 @@ const takeIcon = (message: string) => {
 export const useLocales = (node: TreeNode) => {
   onFieldReact('*', (field) => {
     const takeLocales = () => {
-      const namespace = node?.designerProps?.propsSchema?.$namespace
-      const componentName = node?.componentName
-      const sourceName = node?.sourceName
       const path = field.path.toString().replace(/\.[\d+]/g, '')
-      const token = field.path.segments[field.path.segments.length - 1]
-      const commonMessage = GlobalRegistry.getDesignerMessage(
-        `settings.${path}`
-      )
-      const sourceMessage = GlobalRegistry.getSourceDesignerMessage(
-        sourceName,
-        `settings.${path}`
-      )
-      const componentMessage = GlobalRegistry.getComponentDesignerMessage(
-        componentName,
-        `settings.${path}`
-      )
-      const namespaceMessage = GlobalRegistry.getDesignerMessage(
-        `settings.${namespace}.${token}`
-      )
-      if (sourceMessage) return takeMessage(sourceMessage)
-      if (componentMessage) return takeMessage(componentMessage)
-      if (namespaceMessage) return takeMessage(namespaceMessage)
-      return takeMessage(commonMessage)
+      const token = `settings.${path}`
+      const locales = node.getMessage(token)
+      if (isStr(locales)) return { title: locales }
+      return locales || {}
     }
     const locales = takeLocales()
     if (locales.title) {

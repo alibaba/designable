@@ -1,6 +1,6 @@
 @import '../../variables.less';
 
-.@{prefix-cls}-drag-source {
+.@{prefix-cls}-resource {
   flex-wrap: wrap;
 
   &-header {
@@ -25,7 +25,7 @@
   &-content-wrapper {
     display: flex;
     justify-content: center;
-    background: var(--dn-drag-source-content-bg-color);
+    background: var(--dn-resource-content-bg-color);
   }
 
   &-content {
@@ -36,7 +36,7 @@
   }
 
   &.expand {
-    .@{prefix-cls}-drag-source-content {
+    .@{prefix-cls}-resource-content {
       display: grid;
       grid-template-columns: repeat(3, 33.3333%);
       grid-gap: 1px;
@@ -44,7 +44,7 @@
       border-bottom: 1px solid var(--dn-panel-border-color);
     }
 
-    .@{prefix-cls}-drag-source-header-expand {
+    .@{prefix-cls}-resource-header-expand {
       transform: rotate(0);
     }
   }
@@ -52,10 +52,9 @@
   &-item {
     position: relative;
     user-select: none;
-    padding: 8px 10px;
-    background: var(--dn-drag-source-content-bg-color);
+    background: var(--dn-resource-content-bg-color);
     min-height: 40px;
-    color: var(--dn-drag-source-item-color);
+    color: var(--dn-resource-item-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,17 +63,23 @@
     transition: color 0.1s ease-out;
 
     &:hover {
-      color: var(--dn-drag-source-item-hover-color);
+      color: var(--dn-resource-item-hover-color);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       z-index: 1;
+    }
+
+    &-icon {
+      margin: 12px 0;
     }
 
     &-text {
       text-align: center;
       font-size: 12px;
+      line-height: 1;
+      margin-bottom: 12px;
     }
     &-remain {
-      background: var(--dn-drag-source-content-bg-color);
+      background: var(--dn-resource-content-bg-color);
     }
   }
 }

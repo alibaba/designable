@@ -17,16 +17,15 @@ import {
 import {
   IDesignerControllerProps,
   IDesignerProps,
-  LocaleMessages,
+  IDesignerLocales,
 } from '../types'
 import { GlobalRegistry } from '../registry'
+import { mergeLocales } from '../internals'
 
 export interface ITreeNode {
   componentName?: string
   sourceName?: string
   operation?: Operation
-  designerProps?: IDesignerControllerProps
-  designerLocales?: LocaleMessages
   hidden?: boolean
   isSourceNode?: boolean
   id?: string
@@ -154,6 +153,8 @@ export class TreeNode {
       props: observable,
       hidden: observable.ref,
       children: observable.shallow,
+      designerProps: observable.computed,
+      designerLocales: observable.computed,
       wrap: action,
       prepend: action,
       append: action,
@@ -167,22 +168,26 @@ export class TreeNode {
   }
 
   get designerProps(): IDesignerProps {
-    const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
-      this.componentName
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerProps: IDesignerProps = behaviors.reduce((buf, pattern) => {
+      if (!pattern.designerProps) return buf
+      Object.assign(buf, resolveDesignerProps(this, pattern.designerProps))
+      return buf
+    }, {})
+    return designerProps
+  }
+
+  get designerLocales(): IDesignerLocales {
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerLocales: IDesignerLocales = behaviors.reduce(
+      (buf, pattern) => {
+        if (!pattern.designerLocales) return buf
+        mergeLocales(buf, pattern.designerLocales)
+        return buf
+      },
+      {}
     )
-    const sourceDesignerProps = GlobalRegistry.getSourceDesignerProps(
-      this.sourceName
-    )
-    const finallyDesignerProps: IDesignerProps = {
-      ...resolveDesignerProps(this, commonDesignerProps),
-      ...resolveDesignerProps(this, sourceDesignerProps),
-    }
-    const display = this.props?.style?.display
-    if (display) {
-      finallyDesignerProps.inlineLayout =
-        display === 'inline' || display === 'inline-block'
-    }
-    return finallyDesignerProps
+    return designerLocales
   }
 
   get previous() {
@@ -229,6 +234,10 @@ export class TreeNode {
     return this.children[0]
   }
 
+  get isSourceNode() {
+    return this.root.isSelfSourceNode
+  }
+
   getPrevious(step = 1) {
     return this.parent.children[this.index - step]
   }
@@ -239,6 +248,26 @@ export class TreeNode {
 
   getSibling(index = 0) {
     return this.parent.children[index]
+  }
+
+  getParents(node?: TreeNode): TreeNode[] {
+    const _node = node || this
+    return _node?.parent
+      ? [_node.parent].concat(this.getParents(_node.parent))
+      : []
+  }
+
+  getParentByDepth(depth = 0) {
+    let parent = this.parent
+    if (parent?.depth === depth) {
+      return parent
+    } else {
+      return parent?.getParentByDepth(depth)
+    }
+  }
+
+  getMessage(token: string) {
+    return GlobalRegistry.getDesignerMessage(token, this.designerLocales)
   }
 
   isMyAncestor(node: TreeNode) {
@@ -261,10 +290,6 @@ export class TreeNode {
 
   isMyChildren(node: TreeNode) {
     return node.isMyParents(this)
-  }
-
-  get isSourceNode() {
-    return this.root.isSelfSourceNode
   }
 
   takeSnapshot(type?: string) {
@@ -346,7 +371,23 @@ export class TreeNode {
     if (!this.designerProps?.droppable) return false
     if (this.designerProps?.allowAppend?.(this, nodes) === false) return false
     if (nodes.some((node) => !node.allowDrop(this))) return false
+    if (this.root === this) return true
     return true
+  }
+
+  allowClone() {
+    if (this === this.root) return false
+    return this.designerProps.cloneable ?? true
+  }
+
+  allowDrag() {
+    if (this === this.root && !this.isSourceNode) return false
+    return this.designerProps.draggable ?? true
+  }
+
+  allowDelete() {
+    if (this === this.root) return false
+    return this.designerProps.deletable ?? true
   }
 
   findById(id: string) {
@@ -354,22 +395,6 @@ export class TreeNode {
     if (this.id === id) return this
     if (this.children?.length > 0) {
       return TreeNodes.get(id)
-    }
-  }
-
-  getParents(node?: TreeNode): TreeNode[] {
-    const _node = node || this
-    return _node?.parent
-      ? [_node.parent].concat(this.getParents(_node.parent))
-      : []
-  }
-
-  getParentByDepth(depth = 0) {
-    let parent = this.parent
-    if (parent?.depth === depth) {
-      return parent
-    } else {
-      return parent?.getParentByDepth(depth)
     }
   }
 
@@ -415,14 +440,6 @@ export class TreeNode {
     )
   }
 
-  /**
-   * @deprecated
-   * please use `setProps`
-   */
-  setNodeProps(...nodes: TreeNode[]) {
-    return this.setProps(...nodes)
-  }
-
   setComponentName(componentName: string) {
     this.componentName = componentName
   }
@@ -446,14 +463,6 @@ export class TreeNode {
     )
   }
 
-  /**
-   * @deprecated
-   * please use `prepend`
-   */
-  prependNode(...nodes: TreeNode[]) {
-    return this.prepend(...nodes)
-  }
-
   append(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
     const originSourceParents = nodes.map((node) => node.parent)
@@ -473,14 +482,6 @@ export class TreeNode {
     )
   }
 
-  /**
-   * @deprecated
-   * please use `append`
-   */
-  appendNode(...nodes: TreeNode[]) {
-    return this.append(...nodes)
-  }
-
   wrap(wrapper: TreeNode) {
     if (wrapper === this) return
     const parent = this.parent
@@ -495,14 +496,6 @@ export class TreeNode {
         return wrapper
       }
     )
-  }
-
-  /**
-   * @deprecated
-   * please use `wrap`
-   */
-  wrapNode(wrapper: TreeNode) {
-    return this.wrap(wrapper)
   }
 
   insertAfter(...nodes: TreeNode[]) {
@@ -657,8 +650,6 @@ export class TreeNode {
 
   from(node?: ITreeNode) {
     if (!node) return
-    const designerProps = node.designerProps
-    const designerLocales = node.designerLocales
     return this.triggerMutation(
       new FromNodeEvent({
         target: this,
@@ -673,14 +664,6 @@ export class TreeNode {
         if (node.componentName) {
           this.componentName = node.componentName
         }
-        this.sourceName = node.sourceName || this.id
-        if (designerProps)
-          GlobalRegistry.setSourceDesignerProps(this.sourceName, designerProps)
-        if (designerLocales)
-          GlobalRegistry.setSourceDesignerLocales(
-            this.sourceName,
-            designerLocales
-          )
         this.props = {
           ...this.designerProps?.defaultProps,
           ...node.props,
@@ -711,7 +694,11 @@ export class TreeNode {
     }
   }
 
-  create(node: ITreeNode, parent?: TreeNode) {
+  static create(node: ITreeNode, parent?: TreeNode) {
     return new TreeNode(node, parent)
+  }
+
+  static findById(id: string) {
+    return TreeNodes.get(id)
   }
 }

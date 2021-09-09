@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const DragSourceAnimation = {
+export const ResourceAnimation = {
   light: (
     <svg
       viewBox="0 0 1024 1024"

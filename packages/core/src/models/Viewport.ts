@@ -1,5 +1,6 @@
 import {
   calcBoundingRect,
+  calcElementLayout,
   isHTMLElement,
   isPointInRect,
   IPoint,
@@ -406,5 +407,11 @@ export class Viewport {
     } else {
       return this.getChildrenOffsetRect(node)
     }
+  }
+
+  getValidNodeLayout(node: TreeNode) {
+    if (!node) return 'vertical'
+    const element = this.findElementById(node.id)
+    return calcElementLayout(element)
   }
 }
