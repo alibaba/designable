@@ -51,6 +51,7 @@ import {
   TimePicker,
   Upload,
   Switch,
+  Text,
 } from '../src'
 
 GlobalRegistry.setDesignerBehaviors([
@@ -71,6 +72,7 @@ GlobalRegistry.setDesignerBehaviors([
   TimePicker,
   Upload,
   Switch,
+  Text,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -134,6 +136,7 @@ const App = () => {
                 TimePicker,
                 Upload,
                 Switch,
+                Text,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -177,6 +180,7 @@ const App = () => {
                       TimePicker,
                       Upload,
                       Switch,
+                      Text,
                     }}
                   />
                 )}

@@ -17,6 +17,7 @@ export const Field = {
         dataSource: ['可编辑', '禁用', '只读', '阅读', '继承'],
       },
       'x-validator': '校验规则',
+      'x-decorator': '容器组件',
       'x-reactions': '响应器规则',
       'field-group': '字段属性',
       'component-group': '组件属性',

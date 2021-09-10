@@ -125,7 +125,7 @@ export const createVoidFieldSchema = (
   return {
     type: 'object',
     properties: {
-      'collapse-field': {
+      'field-group': {
         type: 'void',
         'x-component': 'CollapseItem',
         properties: {

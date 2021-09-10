@@ -100,8 +100,10 @@ const toDesignableFieldProps = (
   if (!components['FormItem']) {
     components['FormItem'] = FormItem
   }
-  const decorator = FormPath.getIn(components, schema['x-decorator'])
-  const component = FormPath.getIn(components, schema['x-component'])
+  const decorator =
+    schema['x-decorator'] && FormPath.getIn(components, schema['x-decorator'])
+  const component =
+    schema['x-component'] && FormPath.getIn(components, schema['x-component'])
   const decoratorProps = schema['x-decorator-props'] || {}
   const componentProps = schema['x-component-props'] || {}
   if (decorator) {
@@ -109,8 +111,12 @@ const toDesignableFieldProps = (
   } else if (component) {
     FormPath.setIn(componentProps, nodeIdAttrName, id)
   }
-  results.decorator = [decorator, decoratorProps]
-  results.component = [component, componentProps]
+  if (decorator) {
+    results.decorator = [decorator, decoratorProps]
+  }
+  if (component) {
+    results.component = [component, componentProps]
+  }
   return results
 }
 
