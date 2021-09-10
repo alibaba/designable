@@ -1,8 +1,3 @@
-import { GlobalRegistry } from '@designable/core'
-import zhCN from './zh-CN'
-import enUS from './en-US'
+import * as AllLocales from './all'
 
-GlobalRegistry.registerDesignerLocales({
-  ...zhCN,
-  ...enUS,
-})
+export { AllLocales }

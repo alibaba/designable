@@ -1,5 +1,6 @@
 .dn-collapse-item {
   flex-wrap: wrap;
+
   &-header {
     display: flex;
     align-items: center;
@@ -25,6 +26,11 @@
   &-content {
     display: none;
     width: 100%;
+    padding-top: 4px;
+
+    & > div:last-child {
+      border-bottom: none !important;
+    }
   }
 
   &.expand {

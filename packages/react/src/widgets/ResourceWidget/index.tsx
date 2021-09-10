@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import { isResource, isResourceHost, IResourceLike } from '@designable/core'
-import { isFn, flat } from '@designable/shared'
+import {
+  isResourceHost,
+  isResourceList,
+  IResourceLike,
+  IResource,
+} from '@designable/core'
+import { isFn } from '@designable/shared'
 import { observer } from '@formily/reactive-react'
 import { usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
@@ -8,11 +13,11 @@ import { TextWidget } from '../TextWidget'
 import cls from 'classnames'
 import './styles.less'
 
-export type SourceMapper = (resource: IResourceLike) => React.ReactChild
+export type SourceMapper = (resource: IResource) => React.ReactChild
 
 export interface IResourceWidgetProps {
   title: React.ReactNode
-  sources?: Array<IResourceLike | IResourceLike[]>
+  sources?: IResourceLike[]
   className?: string
   defaultExpand?: boolean
   children?: SourceMapper | React.ReactElement
@@ -22,10 +27,8 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
   (props) => {
     const prefix = usePrefix('resource')
     const [expand, setExpand] = useState(props.defaultExpand)
-    const renderNode = (source: IResourceLike) => {
-      const { node, icon, title, thumb, span } = isResourceHost(source)
-        ? source.Resource
-        : source
+    const renderNode = (source: IResource) => {
+      const { node, icon, title, thumb, span } = source
       return (
         <div
           className={prefix + '-item'}
@@ -43,21 +46,25 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
           )}
           <span className={prefix + '-item-text'}>
             {
-              <TextWidget sourceName={node.sourceName} token="title">
-                {title}
+              <TextWidget>
+                {title || node.children[0]?.getMessage('title')}
               </TextWidget>
             }
           </span>
         </div>
       )
     }
-
-    const sources = flat(props.sources)
+    const sources = props.sources.reduce<IResource[]>((buf, source) => {
+      if (isResourceList(source)) {
+        return buf.concat(source)
+      } else if (isResourceHost(source)) {
+        return buf.concat(source.Resource)
+      }
+      return buf
+    }, [])
     const remainItems =
       sources.reduce((length, source) => {
-        if (isResourceHost(source)) return length + (source.Resource.span ?? 1)
-        if (isResource(source)) return length + (source.span ?? 1)
-        return length
+        return length + (source.span ?? 1)
       }, 0) % 3
     return (
       <div

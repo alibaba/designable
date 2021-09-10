@@ -81,7 +81,9 @@ export interface IDesignerStore<P> {
   value: P
 }
 
-export type IDesignerIconsStore = IDesignerStore<Record<string, any>>
+export type IDesignerIcons = Record<string, any>
+
+export type IDesignerIconsStore = IDesignerStore<IDesignerIcons>
 export type IDesignerLocaleStore = IDesignerStore<IDesignerLocales>
 export type IDesignerBehaviorStore = IDesignerStore<IBehavior[]>
 export type IDesignerLanguageStore = IDesignerStore<string>
@@ -106,10 +108,10 @@ export interface IBehaviorCreator {
 }
 
 export interface IBehaviorHost {
-  Behavior?: IBehavior
+  Behavior?: IBehavior[]
 }
 
-export type IBehaviorLike = IBehavior | IBehaviorHost
+export type IBehaviorLike = IBehavior[] | IBehaviorHost
 
 export interface IResource {
   title?: string | IDesignerMiniLocales
@@ -121,10 +123,10 @@ export interface IResource {
 }
 
 export interface IResourceHost {
-  Resource?: IResource
+  Resource?: IResource[]
 }
 
-export type IResourceLike = IResource | IResourceHost
+export type IResourceLike = IResource[] | IResourceHost
 export interface IResourceCreator {
   title?: string | IDesignerMiniLocales
   description?: string | IDesignerMiniLocales

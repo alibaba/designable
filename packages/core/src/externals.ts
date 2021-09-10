@@ -14,13 +14,19 @@ import {
 import { mergeLocales } from './internals'
 
 export const isBehaviorHost = (val: any): val is IBehaviorHost =>
-  val?.Behavior && isBehavior(val.Behavior)
+  val?.Behavior && isBehaviorList(val.Behavior)
+
+export const isBehaviorList = (val: any): val is IBehavior[] =>
+  Array.isArray(val) && val.every(isBehavior)
 
 export const isBehavior = (val: any): val is IBehavior =>
   isFn(val?.selector) && (!!val?.designerProps || !!val?.designerLocales)
 
 export const isResourceHost = (val: any): val is IResourceHost =>
-  val?.Resource && isResource(val.Behavior)
+  val?.Resource && isResourceList(val.Resource)
+
+export const isResourceList = (val: any): val is IResource[] =>
+  Array.isArray(val) && val.every(isResource)
 
 export const isResource = (val: any): val is IResource =>
   val?.node && !!val.node.isSourceNode && val.node instanceof TreeNode

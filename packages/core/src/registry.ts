@@ -7,13 +7,14 @@ import {
   IDesignerLocaleStore,
   IDesignerLanguageStore,
   IDesignerLocales,
-  IBehavior,
-  IBehaviorHost,
+  IDesignerIcons,
   IBehaviorLike,
+  IBehavior,
 } from './types'
 import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
-import { isBehavior, isBehaviorHost } from './externals'
+import { isBehaviorHost } from './externals'
 import { TreeNode } from './models'
+import { isBehaviorList } from '.'
 
 const getISOCode = (language: string) => {
   let isoCode = DESIGNER_LANGUAGE_STORE.value
@@ -51,15 +52,18 @@ const DESIGNER_GlobalRegistry = {
     DESIGNER_LANGUAGE_STORE.value = lang
   },
 
-  setDesignerBehaviors: (behaviors: Array<IBehaviorLike[]>) => {
-    DESIGNER_BEHAVIORS_STORE.value = flat(behaviors).reduce((buf, pattern) => {
-      if (isBehaviorHost(pattern)) {
-        return buf.concat(pattern.Behavior)
-      } else if (isBehavior(pattern)) {
-        return buf.concat(pattern)
-      }
-      return buf
-    }, [])
+  setDesignerBehaviors: (behaviors: IBehaviorLike[]) => {
+    DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IBehavior[]>(
+      (buf, behavior) => {
+        if (isBehaviorHost(behavior)) {
+          return buf.concat(behavior.Behavior)
+        } else if (isBehaviorList(behavior)) {
+          return buf.concat(behavior)
+        }
+        return buf
+      },
+      []
+    )
   },
 
   getDesignerBehaviors: (node: TreeNode) => {
@@ -92,7 +96,7 @@ const DESIGNER_GlobalRegistry = {
     return Path.getIn(locale, lowerSnake(token))
   },
 
-  registerDesignerIcons: (map: IDesignerIconsStore) => {
+  registerDesignerIcons: (map: IDesignerIcons) => {
     Object.assign(DESIGNER_ICONS_STORE, map)
   },
 

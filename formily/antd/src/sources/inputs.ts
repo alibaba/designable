@@ -1,7 +1,7 @@
 import { GlobalDragSource } from '@designable/core'
 import { createFieldSchema } from '../components'
-import * as AllLocales from '../locales/components'
-import * as AllSchemas from '../schemas'
+import * as AllLocales from '../locales/all'
+import * as AllSchemas from '../schemas/all'
 
 GlobalDragSource.appendSourcesByGroup('inputs', [
   {

@@ -14,8 +14,8 @@ export interface IFormilySchema {
 
 const createOptions = (options: ITransformerOptions): ITransformerOptions => {
   return {
-    designableFieldName: 'DesignableField',
-    designableFormName: 'DesignableForm',
+    designableFieldName: 'Field',
+    designableFormName: 'Form',
     ...options,
   }
 }
