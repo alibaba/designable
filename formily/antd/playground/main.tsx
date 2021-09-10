@@ -55,6 +55,7 @@ import {
   Card,
   ArrayCards,
   ObjectContainer,
+  ArrayTable,
 } from '../src'
 
 GlobalRegistry.setDesignerBehaviors([
@@ -79,6 +80,7 @@ GlobalRegistry.setDesignerBehaviors([
   Card,
   ArrayCards,
   ObjectContainer,
+  ArrayTable,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -146,6 +148,7 @@ const App = () => {
                 Card,
                 ArrayCards,
                 ObjectContainer,
+                ArrayTable,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -192,6 +195,7 @@ const App = () => {
                       Text,
                       Card,
                       ArrayCards,
+                      ArrayTable,
                     }}
                   />
                 )}

@@ -259,6 +259,7 @@ ArrayCards.Resource = createResource({
       componentName: 'Field',
       props: {
         type: 'array',
+        'x-decorator': 'FormItem',
         'x-component': 'ArrayCards',
         'x-component-props': {
           title: `Title`,

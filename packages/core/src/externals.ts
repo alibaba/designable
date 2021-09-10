@@ -1,4 +1,4 @@
-import { isFn } from '@designable/shared'
+import { isFn, isArr } from '@designable/shared'
 import { DEFAULT_DRIVERS, DEFAULT_EFFECTS, DEFAULT_SHORTCUTS } from './presets'
 import { Engine, TreeNode } from './models'
 import {
@@ -40,15 +40,16 @@ export const createLocales = (...packages: IDesignerLocales[]) => {
 }
 
 export const createBehavior = (
-  ...behaviors: IBehaviorCreator[]
+  ...behaviors: Array<IBehaviorCreator | IBehaviorCreator[]>
 ): IBehavior[] => {
-  return behaviors.reduce((buf, pattern) => {
-    const { selector } = pattern || {}
+  return behaviors.reduce((buf: any[], behavior) => {
+    if (isArr(behavior)) return buf.concat(createBehavior(...behavior))
+    const { selector } = behavior || {}
     if (!selector) return buf
     if (typeof selector === 'string') {
-      pattern.selector = (node) => node.componentName === selector
+      behavior.selector = (node) => node.componentName === selector
     }
-    return buf.concat(pattern)
+    return buf.concat(behavior)
   }, [])
 }
 

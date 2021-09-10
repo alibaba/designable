@@ -248,4 +248,11 @@
     cursor: text !important;
     outline: none !important;
   }
+
+  *[data-content-editable]:not(*[contenteditable='true']) {
+    &:hover {
+      cursor: text !important;
+      opacity: 0.8;
+    }
+  }
 }
