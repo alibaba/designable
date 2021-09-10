@@ -53,6 +53,8 @@ import {
   Switch,
   Text,
   Card,
+  ArrayCards,
+  ObjectContainer,
 } from '../src'
 
 GlobalRegistry.setDesignerBehaviors([
@@ -75,6 +77,8 @@ GlobalRegistry.setDesignerBehaviors([
   Switch,
   Text,
   Card,
+  ArrayCards,
+  ObjectContainer,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -140,6 +144,8 @@ const App = () => {
                 Switch,
                 Text,
                 Card,
+                ArrayCards,
+                ObjectContainer,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -185,6 +191,7 @@ const App = () => {
                       Switch,
                       Text,
                       Card,
+                      ArrayCards,
                     }}
                   />
                 )}

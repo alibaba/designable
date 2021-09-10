@@ -15,7 +15,9 @@ export const Droppable: React.FC<IDroppableProps> = (props: any) => {
     <Empty
       {...props}
       className={cls(prefix, props.className)}
-      description={<TextWidget token="Common.droppable" />}
+      description={
+        <TextWidget token={{ 'zh-CN': '可以拖入组件', 'en-US': 'Droppable' }} />
+      }
     />
   )
 }

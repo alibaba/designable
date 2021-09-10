@@ -28,6 +28,7 @@ const SchemaStateMap = {
   enum: 'dataSource',
   readOnly: 'readOnly',
   writeOnly: 'editable',
+  required: 'required',
   'x-content': 'content',
   'x-value': 'value',
   'x-editable': 'editable',
@@ -117,8 +118,10 @@ const toDesignableFieldProps = (
   if (component) {
     results.component = [component, componentProps]
   }
-  results.title = <span data-content-editable="title">{results.title}</span>
-  results.description = (
+  results.title = results.title && (
+    <span data-content-editable="title">{results.title}</span>
+  )
+  results.description = results.description && (
     <span data-content-editable="description">{results.description}</span>
   )
   return results

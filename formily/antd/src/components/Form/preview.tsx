@@ -1,32 +1,35 @@
 import React, { useMemo } from 'react'
 import { createBehavior, createResource } from '@designable/core'
 import { createForm } from '@formily/core'
+import { observer } from '@formily/react'
 import { Form as FormilyForm } from '@formily/antd'
 import { usePrefix, DnFC } from '@designable/react'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 import './styles.less'
 
-export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = (props) => {
-  const prefix = usePrefix('designable-form')
-  const form = useMemo(
-    () =>
-      createForm({
-        designable: true,
-      }),
-    []
-  )
-  return (
-    <FormilyForm
-      {...props}
-      style={{ ...props.style }}
-      className={prefix}
-      form={form}
-    >
-      {props.children}
-    </FormilyForm>
-  )
-}
+export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
+  (props) => {
+    const prefix = usePrefix('designable-form')
+    const form = useMemo(
+      () =>
+        createForm({
+          designable: true,
+        }),
+      []
+    )
+    return (
+      <FormilyForm
+        {...props}
+        style={{ ...props.style }}
+        className={prefix}
+        form={form}
+      >
+        {props.children}
+      </FormilyForm>
+    )
+  }
+)
 
 Form.Behavior = createBehavior({
   selector: (node) => node.componentName === 'Form',
@@ -36,7 +39,13 @@ Form.Behavior = createBehavior({
       cloneable: !node.isRoot,
       deletable: !node.isRoot,
       droppable: true,
-      propsSchema: AllSchemas.FormLayout,
+      propsSchema: {
+        type: 'object',
+        properties: {
+          ...(AllSchemas.FormLayout.properties as any),
+          style: AllSchemas.CSSStyle,
+        },
+      },
       defaultProps: {
         labelCol: 6,
         wrapperCol: 12,

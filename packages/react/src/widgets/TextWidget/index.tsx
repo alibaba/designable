@@ -1,17 +1,19 @@
 import React, { Fragment } from 'react'
 import { isStr, isPlainObj } from '@designable/shared'
-import { GlobalRegistry, IDesignerLocales } from '@designable/core'
+import { GlobalRegistry, IDesignerMiniLocales } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 
 export interface ITextWidgetProps {
   componentName?: string
   sourceName?: string
-  token?: string | IDesignerLocales
-  defaultMessage?: string | IDesignerLocales
+  token?: string | IDesignerMiniLocales
+  defaultMessage?: string | IDesignerMiniLocales
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
-  const takeLocale = (message: string | IDesignerLocales): React.ReactNode => {
+  const takeLocale = (
+    message: string | IDesignerMiniLocales
+  ): React.ReactNode => {
     if (isStr(message)) return message
     if (isPlainObj(message)) {
       const lang = GlobalRegistry.getDesignerLanguage()

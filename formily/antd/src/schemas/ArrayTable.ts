@@ -81,6 +81,7 @@ const Addition: ISchema = {
   properties: {
     title: {
       type: 'string',
+      default: 'Addition',
       'x-decorator': 'FormItem',
       'x-component': 'Input',
     },

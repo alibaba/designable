@@ -15,6 +15,13 @@ export const createComponentSchema = (
     'component-group': component && {
       type: 'void',
       'x-component': 'CollapseItem',
+      'x-reactions': {
+        fulfill: {
+          state: {
+            visible: '{{!!$form.values["x-component"]}}',
+          },
+        },
+      },
       properties: {
         'x-component-props': component,
       },
@@ -23,6 +30,13 @@ export const createComponentSchema = (
       type: 'void',
       'x-component': 'CollapseItem',
       'x-component-props': { defaultExpand: false },
+      'x-reactions': {
+        fulfill: {
+          state: {
+            visible: '{{!!$form.values["x-decorator"]}}',
+          },
+        },
+      },
       properties: {
         'x-decorator-props': decorator,
       },
@@ -31,6 +45,13 @@ export const createComponentSchema = (
       type: 'void',
       'x-component': 'CollapseItem',
       'x-component-props': { defaultExpand: false },
+      'x-reactions': {
+        fulfill: {
+          state: {
+            visible: '{{!!$form.values["x-component"]}}',
+          },
+        },
+      },
       properties: {
         'x-component-props.style': AllSchemas.CSSStyle,
       },
@@ -39,6 +60,13 @@ export const createComponentSchema = (
       type: 'void',
       'x-component': 'CollapseItem',
       'x-component-props': { defaultExpand: false },
+      'x-reactions': {
+        fulfill: {
+          state: {
+            visible: '{{!!$form.values["x-decorator"]}}',
+          },
+        },
+      },
       properties: {
         'x-decorator-props.style': AllSchemas.CSSStyle,
       },
@@ -119,7 +147,7 @@ export const createFieldSchema = (
 }
 
 export const createVoidFieldSchema = (
-  component: ISchema,
+  component?: ISchema,
   decorator: ISchema = AllSchemas.FormItem
 ) => {
   return {
@@ -138,11 +166,25 @@ export const createVoidFieldSchema = (
             type: 'string',
             'x-decorator': 'FormItem',
             'x-component': 'Input',
+            'x-reactions': {
+              fulfill: {
+                state: {
+                  visible: '{{$form.values["x-decorator"] === "FormItem"}}',
+                },
+              },
+            },
           },
           description: {
             type: 'string',
             'x-decorator': 'FormItem',
             'x-component': 'Input.TextArea',
+            'x-reactions': {
+              fulfill: {
+                state: {
+                  visible: '{{$form.values["x-decorator"] === "FormItem"}}',
+                },
+              },
+            },
           },
           'x-display': {
             type: 'string',
@@ -170,14 +212,6 @@ export const createVoidFieldSchema = (
             type: 'string',
             'x-decorator': 'FormItem',
             'x-component': FormItemSwitcher,
-            'x-reactions': {
-              target: '*(title,description)',
-              fulfill: {
-                state: {
-                  hidden: '{{$self.value !== "FormItem"}}',
-                },
-              },
-            },
           },
         },
       },
