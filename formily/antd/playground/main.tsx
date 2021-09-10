@@ -52,6 +52,7 @@ import {
   Upload,
   Switch,
   Text,
+  Card,
 } from '../src'
 
 GlobalRegistry.setDesignerBehaviors([
@@ -73,6 +74,7 @@ GlobalRegistry.setDesignerBehaviors([
   Upload,
   Switch,
   Text,
+  Card,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -137,6 +139,7 @@ const App = () => {
                 Upload,
                 Switch,
                 Text,
+                Card,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -181,6 +184,7 @@ const App = () => {
                       Upload,
                       Switch,
                       Text,
+                      Card,
                     }}
                   />
                 )}

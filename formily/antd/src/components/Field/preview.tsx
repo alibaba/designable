@@ -117,6 +117,10 @@ const toDesignableFieldProps = (
   if (component) {
     results.component = [component, componentProps]
   }
+  results.title = <span data-content-editable="title">{results.title}</span>
+  results.description = (
+    <span data-content-editable="description">{results.description}</span>
+  )
   return results
 }
 

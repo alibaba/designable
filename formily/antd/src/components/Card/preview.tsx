@@ -1,58 +1,48 @@
 import React from 'react'
-import { Input as FormilyInput } from '@formily/antd'
+import { Card as AntdCard } from 'antd'
+
 import { createBehavior, createResource } from '@designable/core'
 import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
+import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
-  FormilyInput
+export const Card: DnFC<React.ComponentProps<typeof AntdCard>> = (props) => {
+  return (
+    <AntdCard
+      {...props}
+      title={
+        <span data-content-editable="x-component-props.title">
+          {props.title}
+        </span>
+      }
+    >
+      {props.children}
+    </AntdCard>
+  )
+}
 
-Input.Behavior = createBehavior(
-  {
-    selector: (node) => node.props['x-component'] === 'Input',
-    designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input),
-    },
-    designerLocales: AllLocales.Input,
+Card.Behavior = createBehavior({
+  selector: (node) => node.props['x-component'] === 'Card',
+  designerProps: {
+    droppable: true,
+    propsSchema: createVoidFieldSchema(AllSchemas.Card),
   },
-  {
-    selector: (node) => node.props['x-component'] === 'Input.TextArea',
-    designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input.TextArea),
-    },
-    designerLocales: AllLocales.TextArea,
-  }
-)
+  designerLocales: AllLocales.Card,
+})
 
-Input.Resource = createResource(
-  {
-    icon: 'InputSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'Input',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input',
+Card.Resource = createResource({
+  icon: 'CardSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        type: 'void',
+        'x-component': 'Card',
+        'x-component-props': {
+          title: 'Title',
         },
       },
-    ],
-  },
-  {
-    icon: 'TextAreaSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'TextArea',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input.TextArea',
-        },
-      },
-    ],
-  }
-)
+    },
+  ],
+})

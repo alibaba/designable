@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBehavior, createResource } from '@designable/core'
-import { useDesigner, DnFC } from '@designable/react'
+import { DnFC } from '@designable/react'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -16,14 +16,13 @@ export interface IDesignableTextProps {
 }
 
 export const Text: DnFC<IDesignableTextProps> = (props) => {
-  const designer = useDesigner()
   const tagName = props.mode === 'normal' || !props.mode ? 'div' : props.mode
   return React.createElement(
     tagName,
     {
       ...props,
       className: cls(props.className, 'dn-text'),
-      [designer.props.contentEditableAttrName]: 'x-component-props.content',
+      'data-content-editable': 'x-component-props.content',
     },
     props.content
   )
