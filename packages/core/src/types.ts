@@ -45,6 +45,7 @@ export interface IDesignerProps {
   deletable?: boolean //是否可删除，默认为true
   cloneable?: boolean //是否可拷贝，默认为true
   resizable?: boolean //是否可修改尺寸，默认为false
+  inlineChildrenLayout?: boolean //子节点内联，用于指定复杂布局容器，强制内联
   selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: ISchema //Formily JSON Schema
   defaultProps?: any //默认属性

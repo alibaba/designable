@@ -411,7 +411,7 @@ export class Viewport {
 
   getValidNodeLayout(node: TreeNode) {
     if (!node) return 'vertical'
-    const element = this.findElementById(node.id)
-    return calcElementLayout(element)
+    if (node.parent?.designerProps?.inlineChildrenLayout) return 'horizontal'
+    return calcElementLayout(this.findElementById(node.id))
   }
 }
