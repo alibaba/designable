@@ -1,58 +1,34 @@
 import React from 'react'
-import { Input as FormilyInput } from '@formily/antd'
+import { Space as FormilySpace } from '@formily/antd'
 import { createBehavior, createResource } from '@designable/core'
 import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
+import { createVoidFieldSchema } from '../Field'
+import { withContainer } from '../../common/Container'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
-  FormilyInput
+export const Space: DnFC<React.ComponentProps<typeof FormilySpace>> =
+  withContainer(FormilySpace)
 
-Input.Behavior = createBehavior(
-  {
-    selector: (node) => node.props['x-component'] === 'Input',
-    designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input),
-    },
-    designerLocales: AllLocales.Input,
+Space.Behavior = createBehavior({
+  selector: (node) => node.props['x-component'] === 'Space',
+  designerProps: {
+    droppable: true,
+    inlineChildrenLayout: true,
+    propsSchema: createVoidFieldSchema(AllSchemas.Space),
   },
-  {
-    selector: (node) => node.props['x-component'] === 'Input.TextArea',
-    designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input.TextArea),
-    },
-    designerLocales: AllLocales.TextArea,
-  }
-)
+  designerLocales: AllLocales.Space,
+})
 
-Input.Resource = createResource(
-  {
-    icon: 'InputSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'Input',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input',
-        },
+Space.Resource = createResource({
+  icon: 'SpaceSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        type: 'void',
+        'x-component': 'Space',
       },
-    ],
-  },
-  {
-    icon: 'TextAreaSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'TextArea',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input.TextArea',
-        },
-      },
-    ],
-  }
-)
+    },
+  ],
+})

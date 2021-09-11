@@ -241,6 +241,7 @@ export class Viewport {
   }
 
   findElementsById(id: string) {
+    if (!id) return []
     return this.selector.queryAll(
       this.viewportRoot,
       `*[${this.nodeIdAttrName}='${id}']
@@ -313,6 +314,7 @@ export class Viewport {
    */
   getElementOffsetRectById(id: string) {
     const elements = this.findElementsById(id)
+    if (!elements.length) return
     const elementRect = calcBoundingRect(
       elements.map((element) => this.getElementRect(element))
     )
@@ -401,7 +403,6 @@ export class Viewport {
       if (!rect) return this.innerRect
       return calcBoundingRect([this.innerRect, rect])
     }
-
     if (rect) {
       return rect
     } else {
