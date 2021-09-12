@@ -59,6 +59,7 @@ import {
   Space,
   FormTab,
   FormCollapse,
+  FormLayout,
   FormGrid,
 } from '../src'
 
@@ -89,6 +90,7 @@ GlobalRegistry.setDesignerBehaviors([
   FormTab,
   FormCollapse,
   FormGrid,
+  FormLayout,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -161,6 +163,7 @@ const App = () => {
                 FormTab,
                 FormCollapse,
                 FormGrid,
+                FormLayout,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -212,6 +215,7 @@ const App = () => {
                       FormTab,
                       FormCollapse,
                       FormGrid,
+                      FormLayout,
                     }}
                   />
                 )}
