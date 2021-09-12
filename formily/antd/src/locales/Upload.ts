@@ -56,7 +56,7 @@ export const UploadDragger = createLocales(Upload, {
     },
   },
   'en-US': {
-    title: 'Upload Dragger',
+    title: 'UploadDragger',
     settings: {
       'x-component-props': {},
     },

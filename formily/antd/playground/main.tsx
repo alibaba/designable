@@ -154,21 +154,25 @@ const App = () => {
                 TimePicker,
                 Upload,
                 Switch,
-                Text,
-                Card,
-                ArrayCards,
                 ObjectContainer,
-                ArrayTable,
-                Space,
-                FormTab,
-                FormCollapse,
-                FormGrid,
-                FormLayout,
               ]}
             />
-            <ResourceWidget title="sources.Layouts" sources={[]} />
-            <ResourceWidget title="sources.Arrays" sources={[]} />
-            <ResourceWidget title="sources.Displays" sources={[]} />
+            <ResourceWidget
+              title="sources.Layouts"
+              sources={[
+                Card,
+                FormGrid,
+                FormTab,
+                FormLayout,
+                FormCollapse,
+                Space,
+              ]}
+            />
+            <ResourceWidget
+              title="sources.Arrays"
+              sources={[ArrayCards, ArrayTable]}
+            />
+            <ResourceWidget title="sources.Displays" sources={[Text]} />
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
             <OutlineTreeWidget />

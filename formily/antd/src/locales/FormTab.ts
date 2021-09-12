@@ -18,7 +18,7 @@ export const FormTab = {
     },
   },
   'en-US': {
-    title: 'Panel',
+    title: 'Tabs',
     addTabPane: 'Add Panel',
     settings: {
       'x-component-props': {

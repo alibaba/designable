@@ -56,6 +56,6 @@ export const DateRangePicker = createLocales(DatePicker, {
     title: '日期范围',
   },
   'en-US': {
-    title: 'DateRangePicker',
+    title: 'DateRange',
   },
 })

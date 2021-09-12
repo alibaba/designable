@@ -14,7 +14,7 @@ export const Space = {
     },
   },
   'en-US': {
-    title: 'SpaceLocale',
+    title: 'Space',
     settings: {
       'x-component-props': {
         direction: {

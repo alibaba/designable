@@ -9,7 +9,7 @@ export const RadioGroup = {
     },
   },
   'en-US': {
-    title: 'Radio Group',
+    title: 'Radio',
     settings: {
       'x-component-props': {
         buttonStyle: { title: 'Button style', dataSource: ['Hollow', 'Solid'] },

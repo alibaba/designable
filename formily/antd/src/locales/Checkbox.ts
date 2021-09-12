@@ -3,6 +3,6 @@ export const CheckboxGroup = {
     title: '复选框组',
   },
   'en-US': {
-    title: 'Checkbox Group',
+    title: 'Checkbox',
   },
 }
