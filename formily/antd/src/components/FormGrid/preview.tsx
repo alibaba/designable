@@ -1,58 +1,125 @@
 import React from 'react'
-import { Input as FormilyInput } from '@formily/antd'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { FormGrid as FormilyGird } from '@formily/antd'
+import { TreeNode, createBehavior, createResource } from '@designable/core'
+import { DnFC, useTreeNode, useNodeIdProps } from '@designable/react'
+import { observer } from '@formily/reactive-react'
+import { Droppable } from '../../common/Droppable'
+import { LoadTemplate } from '../../common/LoadTemplate'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
+import cls from 'classnames'
+import './styles.less'
 
-export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
-  FormilyInput
+type formilyGrid = typeof FormilyGird
 
-Input.Behavior = createBehavior(
+export const FormGrid: DnFC<React.ComponentProps<formilyGrid>> & {
+  GridColumn?: React.FC<React.ComponentProps<formilyGrid['GridColumn']>>
+} = observer((props) => {
+  const node = useTreeNode()
+  const nodeId = useNodeIdProps()
+  if (node.children.length === 0) return <Droppable {...props} />
+  const totalColumns = node.children.reduce(
+    (buf, child) => buf + (child.props?.['x-component-props']?.gridSpan ?? 1),
+    0
+  )
+  return (
+    <div {...nodeId} className="dn-grid">
+      <FormilyGird {...props} key={totalColumns}>
+        {props.children}
+      </FormilyGird>
+      <LoadTemplate
+        actions={[
+          {
+            title: node.getMessage('addGridColumn'),
+            onClick: () => {
+              const column = new TreeNode({
+                componentName: 'Field',
+                props: {
+                  type: 'void',
+                  'x-component': 'FormGrid.GridColumn',
+                },
+              })
+              node.append(column)
+            },
+          },
+        ]}
+      />
+    </div>
+  )
+})
+
+FormGrid.GridColumn = observer((props) => {
+  return (
+    <div
+      {...props}
+      className={cls(props['className'], {
+        'dn-grid-column': !props.children,
+      })}
+      data-span={props.gridSpan}
+      style={{
+        ...props['style'],
+        gridColumnStart: `span ${props.gridSpan || 1}`,
+      }}
+    >
+      {props.children}
+    </div>
+  )
+})
+
+FormGrid.Behavior = createBehavior(
   {
-    selector: (node) => node.props['x-component'] === 'Input',
+    selector: (node) => node.props['x-component'] === 'FormGrid',
     designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input),
+      droppable: true,
+      allowDrop: (node) => node.props['x-component'] !== 'FormGrid',
+      propsSchema: createFieldSchema(AllSchemas.FormGrid),
     },
-    designerLocales: AllLocales.Input,
+    designerLocales: AllLocales.FormGrid,
   },
   {
-    selector: (node) => node.props['x-component'] === 'Input.TextArea',
+    selector: (node) => node.props['x-component'] === 'FormGrid.GridColumn',
     designerProps: {
-      propsSchema: createFieldSchema(AllSchemas.Input.TextArea),
+      droppable: true,
+      allowDrop: (node) => node.props['x-component'] === 'FormGrid',
+      propsSchema: createFieldSchema(AllSchemas.FormGrid.GridColumn),
     },
-    designerLocales: AllLocales.TextArea,
+    designerLocales: AllLocales.FormGridColumn,
   }
 )
 
-Input.Resource = createResource(
-  {
-    icon: 'InputSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'Input',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input',
-        },
+FormGrid.Resource = createResource({
+  icon: 'GridSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        type: 'void',
+        'x-component': 'FormGrid',
       },
-    ],
-  },
-  {
-    icon: 'TextAreaSource',
-    elements: [
-      {
-        componentName: 'Field',
-        props: {
-          type: 'string',
-          title: 'TextArea',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input.TextArea',
+      children: [
+        {
+          componentName: 'Field',
+          props: {
+            type: 'void',
+            'x-component': 'FormGrid.GridColumn',
+          },
         },
-      },
-    ],
-  }
-)
+        {
+          componentName: 'Field',
+          props: {
+            type: 'void',
+            'x-component': 'FormGrid.GridColumn',
+          },
+        },
+        {
+          componentName: 'Field',
+          props: {
+            type: 'void',
+            'x-component': 'FormGrid.GridColumn',
+          },
+        },
+      ],
+    },
+  ],
+})

@@ -1,4 +1,3 @@
-import { GlobalRegistry } from '@designable/core'
 import { ISchema } from '@formily/react'
 
 export const FormTab: ISchema & { TabPane?: ISchema } = {
@@ -25,7 +24,6 @@ export const FormTab: ISchema & { TabPane?: ISchema } = {
     },
     type: {
       type: 'string',
-      enum: GlobalRegistry.getDesignerMessage('settings.tabsTypeEnum'),
       'x-decorator': 'FormItem',
       'x-component': 'Radio.Group',
       'x-component-props': {

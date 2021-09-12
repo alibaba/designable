@@ -2,11 +2,19 @@ import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Tabs } from 'antd'
 import { TabsProps, TabPaneProps } from 'antd/lib/tabs'
-import { useNodeIdProps, useTreeNode, TreeNodeWidget } from '@designable/react'
+import { TreeNode, createBehavior, createResource } from '@designable/core'
+import {
+  useNodeIdProps,
+  useTreeNode,
+  TreeNodeWidget,
+  DnFC,
+} from '@designable/react'
 import { Droppable } from '../../common/Droppable'
-import { TreeNode } from '@designable/core'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
+import { createVoidFieldSchema } from '../Field'
+import { AllSchemas } from '../../schemas'
+import { AllLocales } from '../../locales'
 import { matchComponent } from '../../shared'
 
 const parseTabs = (parent: TreeNode) => {
@@ -25,7 +33,7 @@ const getCorrectActiveKey = (activeKey: string, tabs: TreeNode[]) => {
   return tabs[tabs.length - 1].id
 }
 
-export const DesignableFormTab: React.FC<TabsProps> & {
+export const FormTab: DnFC<TabsProps> & {
   TabPane?: React.FC<TabPaneProps>
 } = observer((props) => {
   const [activeKey, setActiveKey] = useState<string>()
@@ -34,7 +42,7 @@ export const DesignableFormTab: React.FC<TabsProps> & {
   const designer = useDropTemplate('FormTab', (source) => {
     return [
       new TreeNode({
-        componentName: 'DesignableField',
+        componentName: 'Field',
         props: {
           type: 'void',
           'x-component': 'FormTab.TabPane',
@@ -63,13 +71,23 @@ export const DesignableFormTab: React.FC<TabsProps> & {
             <Tabs.TabPane
               {...props}
               style={{ ...props.style }}
-              tab={props.tab}
+              tab={
+                <span
+                  data-content-editable="x-component-props.tab"
+                  data-content-editable-node-id={tab.id}
+                >
+                  {props.tab}
+                </span>
+              }
               key={tab.id}
             >
               {React.createElement(
                 'div',
                 {
                   [designer.props.nodeIdAttrName]: tab.id,
+                  style: {
+                    padding: '20px 0',
+                  },
                 },
                 tab.children.length ? (
                   <TreeNodeWidget node={tab} />
@@ -89,10 +107,10 @@ export const DesignableFormTab: React.FC<TabsProps> & {
       <LoadTemplate
         actions={[
           {
-            title: 'Common.addTabPane',
+            title: node.getMessage('addTabPane'),
             onClick: () => {
               const tabPane = new TreeNode({
-                componentName: 'DesignableField',
+                componentName: 'Field',
                 props: {
                   type: 'void',
                   'x-component': 'FormTab.TabPane',
@@ -111,6 +129,42 @@ export const DesignableFormTab: React.FC<TabsProps> & {
   )
 })
 
-DesignableFormTab.TabPane = (props) => {
+FormTab.TabPane = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
+
+FormTab.Behavior = createBehavior(
+  {
+    selector: (node) => node.props['x-component'] === 'FormTab',
+    designerProps: {
+      droppable: true,
+      allowAppend: (target, source) =>
+        target.children.length === 0 ||
+        source.every((node) => node.props['x-component'] === 'FormTab.TabPane'),
+      propsSchema: createVoidFieldSchema(AllSchemas.FormTab),
+    },
+    designerLocales: AllLocales.FormTab,
+  },
+  {
+    selector: (node) => node.props['x-component'] === 'FormTab.TabPane',
+    designerProps: {
+      droppable: true,
+      allowDrop: (node) => node.props['x-component'] === 'FormTab',
+      propsSchema: createVoidFieldSchema(AllSchemas.FormTab.TabPane),
+    },
+    designerLocales: AllLocales.FormTabPane,
+  }
+)
+
+FormTab.Resource = createResource({
+  icon: 'TabSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        type: 'void',
+        'x-component': 'FormTab',
+      },
+    },
+  ],
+})

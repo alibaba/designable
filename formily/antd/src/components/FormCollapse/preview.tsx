@@ -2,15 +2,23 @@ import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Collapse } from 'antd'
 import { CollapseProps, CollapsePanelProps } from 'antd/lib/collapse'
-import { useTreeNode, useNodeIdProps, TreeNodeWidget } from '@designable/react'
+import { TreeNode, createBehavior, createResource } from '@designable/core'
+import {
+  useTreeNode,
+  useNodeIdProps,
+  TreeNodeWidget,
+  DnFC,
+} from '@designable/react'
 import { toArr } from '@formily/shared'
 import { Droppable } from '../../common/Droppable'
-import { TreeNode } from '@designable/core'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
+import { createVoidFieldSchema } from '../Field'
+import { AllSchemas } from '../../schemas'
+import { AllLocales } from '../../locales'
 import { matchComponent } from '../../shared'
 
-const parseCollpase = (parent: TreeNode) => {
+const parseCollapse = (parent: TreeNode) => {
   const tabs: TreeNode[] = []
   parent.children.forEach((node) => {
     if (matchComponent(node, 'FormCollapse.CollapsePanel')) {
@@ -20,7 +28,7 @@ const parseCollpase = (parent: TreeNode) => {
   return tabs
 }
 
-export const DesignableFormCollapse: React.FC<CollapseProps> & {
+export const FormCollapse: DnFC<CollapseProps> & {
   CollapsePanel?: React.FC<CollapsePanelProps>
 } = observer((props) => {
   const [activeKey, setActiveKey] = useState<string | string[]>([])
@@ -28,7 +36,7 @@ export const DesignableFormCollapse: React.FC<CollapseProps> & {
   const nodeId = useNodeIdProps()
   const designer = useDropTemplate('FormCollapse', (source) => {
     const panelNode = new TreeNode({
-      componentName: 'DesignableField',
+      componentName: 'Field',
       props: {
         type: 'void',
         'x-component': 'FormCollapse.CollapsePanel',
@@ -62,30 +70,34 @@ export const DesignableFormCollapse: React.FC<CollapseProps> & {
       return activeKey
     return tabs[tabs.length - 1].id
   }
-  const panels = parseCollpase(node)
+  const panels = parseCollapse(node)
   const renderCollapse = () => {
     if (!node.children?.length) return <Droppable {...props} />
     return (
-      <Collapse
-        {...props}
-        activeKey={getCorrectActiveKey(activeKey, panels)}
-        onChange={(id) => {
-          setActiveKey(toArr(id))
-        }}
-      >
+      <Collapse {...props} activeKey={getCorrectActiveKey(activeKey, panels)}>
         {panels.map((panel) => {
           const props = panel.props['x-component-props'] || {}
           return (
             <Collapse.Panel
               {...props}
               style={{ ...props.style }}
-              header={props.header}
+              header={
+                <span
+                  data-content-editable="x-component-props.header"
+                  data-content-editable-node-id={panel.id}
+                >
+                  {props.header}
+                </span>
+              }
               key={panel.id}
             >
               {React.createElement(
                 'div',
                 {
                   [designer.props.nodeIdAttrName]: panel.id,
+                  style: {
+                    padding: '20px 0',
+                  },
                 },
                 panel.children.length ? (
                   <TreeNodeWidget node={panel} />
@@ -105,10 +117,10 @@ export const DesignableFormCollapse: React.FC<CollapseProps> & {
       <LoadTemplate
         actions={[
           {
-            title: 'Common.addCollapsePanel',
+            title: node.getMessage('addCollapsePanel'),
             onClick: () => {
               const tabPane = new TreeNode({
-                componentName: 'DesignableField',
+                componentName: 'Field',
                 props: {
                   type: 'void',
                   'x-component': 'FormCollapse.CollapsePanel',
@@ -128,6 +140,45 @@ export const DesignableFormCollapse: React.FC<CollapseProps> & {
   )
 })
 
-DesignableFormCollapse.CollapsePanel = (props) => {
+FormCollapse.CollapsePanel = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
+
+FormCollapse.Behavior = createBehavior(
+  {
+    selector: (node) => node.props['x-component'] === 'FormCollapse',
+    designerProps: {
+      droppable: true,
+      allowAppend: (target, source) =>
+        target.children.length === 0 ||
+        source.every(
+          (node) => node.props['x-component'] === 'FormCollapse.CollapsePanel'
+        ),
+      propsSchema: createVoidFieldSchema(AllSchemas.FormCollapse),
+    },
+    designerLocales: AllLocales.FormCollapse,
+  },
+  {
+    selector: (node) =>
+      node.props['x-component'] === 'FormCollapse.CollapsePanel',
+    designerProps: {
+      droppable: true,
+      allowDrop: (node) => node.props['x-component'] === 'FormCollapse',
+      propsSchema: createVoidFieldSchema(AllSchemas.FormCollapse.CollapsePanel),
+    },
+    designerLocales: AllLocales.FormCollapsePanel,
+  }
+)
+
+FormCollapse.Resource = createResource({
+  icon: 'CollapseSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        type: 'void',
+        'x-component': 'FormCollapse',
+      },
+    },
+  ],
+})

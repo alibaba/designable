@@ -57,6 +57,9 @@ import {
   ObjectContainer,
   ArrayTable,
   Space,
+  FormTab,
+  FormCollapse,
+  FormGrid,
 } from '../src'
 
 GlobalRegistry.setDesignerBehaviors([
@@ -83,6 +86,9 @@ GlobalRegistry.setDesignerBehaviors([
   ObjectContainer,
   ArrayTable,
   Space,
+  FormTab,
+  FormCollapse,
+  FormGrid,
 ])
 
 GlobalRegistry.registerDesignerLocales({
@@ -152,6 +158,9 @@ const App = () => {
                 ObjectContainer,
                 ArrayTable,
                 Space,
+                FormTab,
+                FormCollapse,
+                FormGrid,
               ]}
             />
             <ResourceWidget title="sources.Layouts" sources={[]} />
@@ -200,6 +209,9 @@ const App = () => {
                       ArrayCards,
                       ArrayTable,
                       Space,
+                      FormTab,
+                      FormCollapse,
+                      FormGrid,
                     }}
                   />
                 )}
