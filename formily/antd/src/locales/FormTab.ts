@@ -17,14 +17,40 @@ export const FormTab = {
       },
     },
   },
+  'en-US': {
+    title: 'Panel',
+    addTabPane: 'Add Panel',
+    settings: {
+      'x-component-props': {
+        animated: 'Enable Animated',
+        centered: 'Label Centered',
+        tab: 'Tab Title',
+        type: {
+          title: 'Type',
+          dataSource: [
+            { label: 'Line', value: 'line' },
+            { label: 'Card', value: 'card' },
+          ],
+        },
+      },
+    },
+  },
 }
 
-export const FormTabPane = {
+export const FormTabPanel = {
   'zh-CN': {
     title: '选项卡面板',
     settings: {
       'x-component-props': {
         tab: '面板标题',
+      },
+    },
+  },
+  'en-US': {
+    title: 'Tab Panel',
+    settings: {
+      'x-component-props': {
+        tab: 'Pane Title',
       },
     },
   },

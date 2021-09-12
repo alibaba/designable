@@ -25,7 +25,27 @@ export const Upload = {
       },
     },
   },
-  'en-US': {},
+  'en-US': {
+    title: 'Upload',
+    settings: {
+      'x-component-props': {
+        accept: 'Accept',
+        action: 'Upload Address',
+        data: 'Data',
+        directory: 'Support Upload Directory',
+        headers: 'Headers',
+        listType: { title: 'List Type', dataSource: ['Text', 'Image', 'Card'] },
+        multiple: 'Multiple',
+        name: 'Name',
+        openFileDialogOnClick: 'Open File Dialog On Click',
+        showUploadList: 'Show Upload List',
+        withCredentials: 'withCredentials',
+        maxCount: 'Max Count',
+        method: 'Method',
+        textContent: 'Text Content',
+      },
+    },
+  },
 }
 
 export const UploadDragger = createLocales(Upload, {
@@ -35,5 +55,10 @@ export const UploadDragger = createLocales(Upload, {
       'x-component-props': {},
     },
   },
-  'en-US': {},
+  'en-US': {
+    title: 'Upload Dragger',
+    settings: {
+      'x-component-props': {},
+    },
+  },
 })

@@ -5,5 +5,7 @@ export const Password = createLocales(Input, {
   'zh-CN': {
     title: '密码输入',
   },
-  'en-US': {},
+  'en-US': {
+    title: 'Password',
+  },
 })
