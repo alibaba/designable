@@ -55,7 +55,7 @@ const transformToMarkupSchemaCode = (tree: TreeNode) => {
     }`
   }
   const root = tree.find((child) => {
-    return child.componentName === 'Root'
+    return child.componentName === 'Form' || child.componentName === 'Root'
   })
   return `import React, { useMemo } from 'react'
 import { createForm } from '@formily/core'

@@ -107,16 +107,17 @@ const toDesignableFieldProps = (
     schema['x-component'] && FormPath.getIn(components, schema['x-component'])
   const decoratorProps = schema['x-decorator-props'] || {}
   const componentProps = schema['x-component-props'] || {}
+
   if (decorator) {
-    FormPath.setIn(decoratorProps, nodeIdAttrName, id)
-  } else if (component) {
-    FormPath.setIn(componentProps, nodeIdAttrName, id)
-  }
-  if (decorator) {
-    results.decorator = [decorator, decoratorProps]
+    results.decorator = [decorator, { ...decoratorProps }]
   }
   if (component) {
-    results.component = [component, componentProps]
+    results.component = [component, { ...componentProps }]
+  }
+  if (decorator) {
+    FormPath.setIn(results['decorator'][1], nodeIdAttrName, id)
+  } else if (component) {
+    FormPath.setIn(results['component'][1], nodeIdAttrName, id)
   }
   results.title = results.title && (
     <span data-content-editable="title">{results.title}</span>
