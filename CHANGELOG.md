@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.27(2021-08-31)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix component/source locale registry](https://github.com/alibaba/designable/commit/0017ac0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.26(2021-08-31)
 
 ### :beetle: Bug Fixes
@@ -281,9 +287,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): add from node locale](https://github.com/alibaba/designable/commit/0e7d99b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.30(2021-08-06)
-
-### :tada: Enhancements
-
-1. [feat(core): support from node event](https://github.com/alibaba/designable/commit/c4d68ee) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
