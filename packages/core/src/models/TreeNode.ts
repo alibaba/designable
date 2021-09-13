@@ -119,8 +119,6 @@ export class TreeNode {
 
   componentName = 'NO_NAME_COMPONENT'
 
-  sourceName = ''
-
   props: ITreeNode['props'] = {}
 
   children: TreeNode[] = []
@@ -171,13 +169,10 @@ export class TreeNode {
     const commonDesignerProps = GlobalRegistry.getComponentDesignerProps(
       this.componentName
     )
-    const sourceDesignerProps = GlobalRegistry.getSourceDesignerProps(
-      this.sourceName
+    const finallyDesignerProps: IDesignerProps = resolveDesignerProps(
+      this,
+      commonDesignerProps
     )
-    const finallyDesignerProps: IDesignerProps = {
-      ...resolveDesignerProps(this, commonDesignerProps),
-      ...resolveDesignerProps(this, sourceDesignerProps),
-    }
     const display = this.props?.style?.display
     if (display) {
       finallyDesignerProps.inlineLayout =
@@ -641,7 +636,6 @@ export class TreeNode {
       {
         id: uid(),
         componentName: this.componentName,
-        sourceName: this.sourceName,
         props: toJS(this.props),
         children: [],
       },
@@ -680,14 +674,6 @@ export class TreeNode {
         if (node.componentName) {
           this.componentName = node.componentName
         }
-        this.sourceName = node.sourceName || this.id
-        if (designerProps)
-          GlobalRegistry.setSourceDesignerProps(this.sourceName, designerProps)
-        if (designerLocales)
-          GlobalRegistry.setSourceDesignerLocales(
-            this.sourceName,
-            designerLocales
-          )
         this.props = {
           ...this.designerProps?.defaultProps,
           ...node.props,
@@ -709,7 +695,6 @@ export class TreeNode {
     return {
       id: this.id,
       componentName: this.componentName,
-      sourceName: this.sourceName,
       props: toJS(this.props),
       hidden: this.hidden,
       children: this.children.map((treeNode) => {

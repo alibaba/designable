@@ -104,19 +104,6 @@ const DESIGNER_GlobalRegistry = {
     }
   },
 
-  setSourceDesignerProps: (
-    sourceName: string,
-    props: IDesignerControllerProps
-  ) => {
-    const originProps = GlobalRegistry.getSourceDesignerProps(sourceName)
-    NODE_DESIGNER_PROPS_MAP[sourceName] = (node) => {
-      return {
-        ...resolveDesignerProps(node, originProps),
-        ...resolveDesignerProps(node, props),
-      }
-    }
-  },
-
   setComponentDesignerLocales: (
     componentName: string,
     locales: LocaleMessages
@@ -131,17 +118,6 @@ const DESIGNER_GlobalRegistry = {
         {},
         locales[key]
       )
-    })
-  },
-
-  setSourceDesignerLocales: (sourceName: string, locales: LocaleMessages) => {
-    const isoCodes = Object.keys(locales || {})
-    isoCodes.forEach((key) => {
-      const isoCode = normalize(key)
-      const name = normalize(sourceName)
-      DESIGNER_LOCALES.sources[isoCode] =
-        DESIGNER_LOCALES.sources[isoCode] || {}
-      DESIGNER_LOCALES.sources[isoCode][name] = mergeLocales({}, locales[key])
     })
   },
 
@@ -164,26 +140,6 @@ const DESIGNER_GlobalRegistry = {
       return
     }
     return Path.getIn(locale, normalize(token))
-  },
-
-  getSourceDesignerMessage: (sourceName: string, token: string) => {
-    const lang = getISOCode(DESIGNER_LOCALES.language)
-    const locale = DESIGNER_LOCALES.sources?.[lang]?.[normalize(sourceName)]
-    if (!locale) {
-      for (let key in DESIGNER_LOCALES.sources) {
-        const message = Path.getIn(
-          DESIGNER_LOCALES.sources[key],
-          normalize(token)
-        )
-        if (message) return message
-      }
-      return
-    }
-    return Path.getIn(locale, normalize(token))
-  },
-
-  getSourceDesignerProps: (nodeName: string) => {
-    return NODE_DESIGNER_PROPS_MAP[nodeName] || {}
   },
 
   getDesignerIcon: (name: string) => {

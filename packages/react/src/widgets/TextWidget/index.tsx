@@ -16,13 +16,6 @@ export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
   }
   const takeMessage = (token: string) => {
     if (!token) return
-    if (props.sourceName) {
-      const message = GlobalRegistry.getSourceDesignerMessage(
-        props.sourceName,
-        token
-      )
-      if (message) return message
-    }
     if (props.componentName) {
       const message = GlobalRegistry.getComponentDesignerMessage(
         props.componentName,

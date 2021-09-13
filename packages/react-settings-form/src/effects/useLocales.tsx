@@ -25,14 +25,9 @@ export const useLocales = (node: TreeNode) => {
     const takeLocales = () => {
       const namespace = node?.designerProps?.propsSchema?.$namespace
       const componentName = node?.componentName
-      const sourceName = node?.sourceName
       const path = field.path.toString().replace(/\.[\d+]/g, '')
       const token = field.path.segments[field.path.segments.length - 1]
       const commonMessage = GlobalRegistry.getDesignerMessage(
-        `settings.${path}`
-      )
-      const sourceMessage = GlobalRegistry.getSourceDesignerMessage(
-        sourceName,
         `settings.${path}`
       )
       const componentMessage = GlobalRegistry.getComponentDesignerMessage(
@@ -42,7 +37,6 @@ export const useLocales = (node: TreeNode) => {
       const namespaceMessage = GlobalRegistry.getDesignerMessage(
         `settings.${namespace}.${token}`
       )
-      if (sourceMessage) return takeMessage(sourceMessage)
       if (componentMessage) return takeMessage(componentMessage)
       if (namespaceMessage) return takeMessage(namespaceMessage)
       return takeMessage(commonMessage)
