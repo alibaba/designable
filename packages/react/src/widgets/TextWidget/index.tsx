@@ -5,7 +5,6 @@ import { observer } from '@formily/reactive-react'
 
 export interface ITextWidgetProps {
   componentName?: string
-  sourceName?: string
   token?: string
   defaultMessage?: string
 }

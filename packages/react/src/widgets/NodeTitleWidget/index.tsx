@@ -8,7 +8,6 @@ export interface INodeTitleWidgetProps {
 export const NodeTitleWidget: React.FC<INodeTitleWidgetProps> = (props) => {
   return (
     <TextWidget
-      sourceName={props.node.sourceName}
       componentName={props.node.componentName}
       token="title"
       defaultMessage={props.node.componentName || 'NoComponentTitle'}
