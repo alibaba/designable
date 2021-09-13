@@ -1,7 +1,7 @@
 export const FormCollapse = {
   'zh-CN': {
     title: '折叠面板',
-    addTabPane: '添加选项卡',
+    addCollapsePanel: '添加面板',
     settings: {
       'x-component-props': {
         accordion: '手风琴模式',
@@ -13,7 +13,7 @@ export const FormCollapse = {
   },
   'en-US': {
     title: 'Collapse',
-    addTabPane: 'Add Panel',
+    addCollapsePanel: 'Add Panel',
     settings: {
       'x-component-props': {
         accordion: 'Accordion Mode',

@@ -4,6 +4,7 @@ import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
 
 export class MouseClickDriver extends EventDriver<Engine> {
   onMouseClick = (e: MouseEvent) => {
+    e.stopPropagation() //master一定会注册一次，阻止冒泡是防止触发多次
     const target = e.target as HTMLElement
     if (
       target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)
@@ -23,6 +24,7 @@ export class MouseClickDriver extends EventDriver<Engine> {
   }
 
   onMouseDoubleClick = (e: MouseEvent) => {
+    e.stopPropagation() //master一定会注册一次，阻止冒泡是防止触发多次
     const target = e.target as HTMLElement
     if (
       target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)

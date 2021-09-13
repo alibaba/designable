@@ -35,6 +35,11 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
     const schema = node?.designerProps?.propsSchema
+    const isEmpty = !(
+      node &&
+      node.designerProps?.propsSchema &&
+      selected.length === 1
+    )
     const form = useMemo(() => {
       return createForm({
         values: node?.props,
@@ -44,13 +49,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
           props.effects?.(form)
         },
       })
-    }, [node, node?.props, schema, operation])
-
-    const isEmpty = !(
-      node &&
-      node.designerProps?.propsSchema &&
-      selected.length === 1
-    )
+    }, [node, node?.props, schema, operation, isEmpty])
 
     const render = () => {
       if (!isEmpty) {

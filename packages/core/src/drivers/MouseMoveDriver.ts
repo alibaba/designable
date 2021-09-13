@@ -5,6 +5,7 @@ export class MouseMoveDriver extends EventDriver<Engine> {
   request = null
 
   onMouseMove = (e: MouseEvent) => {
+    e.stopPropagation()
     this.request = requestAnimationFrame(() => {
       cancelAnimationFrame(this.request)
       this.dispatch(
