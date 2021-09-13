@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.28(2021-09-13)
+
+### :tada: Enhancements
+
+1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.27(2021-08-31)
 
 ### :beetle: Bug Fixes
@@ -281,9 +291,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve mobile styles](https://github.com/alibaba/designable/commit/57588ca) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.31(2021-08-06)
-
-### :blush: Other Changes
-
-1. [chore(react): add from node locale](https://github.com/alibaba/designable/commit/0e7d99b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
