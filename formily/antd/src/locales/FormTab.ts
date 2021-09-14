@@ -37,7 +37,7 @@ export const FormTab = {
   },
 }
 
-export const FormTabPanel = {
+export const FormTabPane = {
   'zh-CN': {
     title: '选项卡面板',
     settings: {
