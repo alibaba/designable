@@ -4,7 +4,6 @@ import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
 
 export class MouseClickDriver extends EventDriver<Engine> {
   onMouseClick = (e: MouseEvent) => {
-    e.stopPropagation() //master一定会注册一次，阻止冒泡是防止触发多次
     const target = e.target as HTMLElement
     if (
       target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)
@@ -24,7 +23,6 @@ export class MouseClickDriver extends EventDriver<Engine> {
   }
 
   onMouseDoubleClick = (e: MouseEvent) => {
-    e.stopPropagation() //master一定会注册一次，阻止冒泡是防止触发多次
     const target = e.target as HTMLElement
     if (
       target?.closest(`*[${this.engine.props.clickStopPropagationAttrName}]`)
@@ -45,19 +43,19 @@ export class MouseClickDriver extends EventDriver<Engine> {
 
   attach() {
     this.addEventListener('click', this.onMouseClick, {
-      once: true, //防止对同一个container注册多次click
+      mode: 'onlyChild',
     })
     this.addEventListener('dblclick', this.onMouseDoubleClick, {
-      once: true, //防止对同一个container注册多次click
+      mode: 'onlyChild',
     })
   }
 
   detach() {
     this.removeEventListener('click', this.onMouseClick, {
-      once: true,
+      mode: 'onlyChild',
     })
     this.removeEventListener('dblclick', this.onMouseDoubleClick, {
-      once: true,
+      mode: 'onlyChild',
     })
   }
 }

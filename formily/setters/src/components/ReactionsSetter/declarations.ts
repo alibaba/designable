@@ -36,6 +36,10 @@ MonacoInput.loader.init().then(async (monaco) => {
        **/
       declare var $form: Form
       /*
+       * Form Values
+       **/
+      declare var $values: any
+      /*
        * Field Model
        **/
       declare var $self: Field
