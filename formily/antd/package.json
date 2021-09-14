@@ -55,10 +55,10 @@
     "@designable/formily-transformer": "0.5.27",
     "@designable/formily-setters": "0.5.27",
     "@designable/react": "0.5.27",
-    "@formily/antd": "^2.0.0-rc.4",
-    "@formily/core": "^2.0.0-rc.4",
-    "@formily/react": "^2.0.0-rc.4",
-    "@formily/shared": "^2.0.0-rc.4"
+    "@formily/antd": "^2.0.0-rc.5",
+    "@formily/core": "^2.0.0-rc.5",
+    "@formily/react": "^2.0.0-rc.5",
+    "@formily/shared": "^2.0.0-rc.5"
   },
   "publishConfig": {
     "access": "public"
