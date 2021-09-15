@@ -7,7 +7,7 @@ export interface IDesignerProps {
 }
 
 export interface IDesignerComponents {
-  [key: string]: DnFC
+  [key: string]: DnFC<any>
 }
 
 export interface IDesignerContext {
