@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useTree, usePrefix, useDesigner, useComponents } from '../../hooks'
 import { TreeNodeContext, DesignerComponentsContext } from '../../context'
 import { IDesignerComponents } from '../../types'
-import { TreeNode } from '@designable/core'
+import { TreeNode, GlobalRegistry } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 import cls from 'classnames'
 import './styles.less'
@@ -77,6 +77,9 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
     if (designer && tree) {
       dataId[designer?.props?.nodeIdAttrName] = tree.id
     }
+    useEffect(() => {
+      GlobalRegistry.registerDesignerBehaviors(props.components)
+    }, [])
     return (
       <div
         style={props.style}

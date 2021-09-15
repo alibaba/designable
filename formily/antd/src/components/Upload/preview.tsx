@@ -11,6 +11,8 @@ export const Upload: DnFC<React.ComponentProps<typeof FormilyUpload>> =
 
 Upload.Behavior = createBehavior(
   {
+    name: 'Upload',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Upload',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Upload),
@@ -18,6 +20,8 @@ Upload.Behavior = createBehavior(
     designerLocales: AllLocales.Upload,
   },
   {
+    name: 'Upload.Dragger',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Upload.Dragger',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Upload.Dragger),

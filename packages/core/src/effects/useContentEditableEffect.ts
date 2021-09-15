@@ -1,4 +1,5 @@
 import { Path } from '@formily/path'
+import { requestIdle } from '@designable/shared'
 import { Engine, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 
@@ -80,7 +81,7 @@ export const useContentEditableEffect = (engine: Engine) => {
           this.getAttribute(engine.props.contentEditableAttrName),
           target?.textContent
         )
-        requestIdleCallback(() => {
+        requestIdle(() => {
           restore()
         })
       }

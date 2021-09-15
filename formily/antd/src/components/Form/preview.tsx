@@ -32,6 +32,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
 )
 
 Form.Behavior = createBehavior({
+  name: 'Form',
   selector: (node) => node.componentName === 'Form',
   designerProps(node) {
     return {

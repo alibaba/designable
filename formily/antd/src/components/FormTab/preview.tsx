@@ -135,6 +135,8 @@ FormTab.TabPane = (props) => {
 
 FormTab.Behavior = createBehavior(
   {
+    name: 'FormTab',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab',
     designerProps: {
       droppable: true,
@@ -146,6 +148,8 @@ FormTab.Behavior = createBehavior(
     designerLocales: AllLocales.FormTab,
   },
   {
+    name: 'FormTab.TabPane',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab.TabPane',
     designerProps: {
       droppable: true,

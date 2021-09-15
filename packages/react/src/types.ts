@@ -7,7 +7,7 @@ export interface IDesignerProps {
 }
 
 export interface IDesignerComponents {
-  [key: string]: React.JSXElementConstructor<any>
+  [key: string]: DnFC
 }
 
 export interface IDesignerContext {

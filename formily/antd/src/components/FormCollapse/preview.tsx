@@ -146,6 +146,8 @@ FormCollapse.CollapsePanel = (props) => {
 
 FormCollapse.Behavior = createBehavior(
   {
+    name: 'FormCollapse',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormCollapse',
     designerProps: {
       droppable: true,
@@ -159,6 +161,8 @@ FormCollapse.Behavior = createBehavior(
     designerLocales: AllLocales.FormCollapse,
   },
   {
+    name: 'FormCollapse.CollapsePanel',
+    extends: ['Field'],
     selector: (node) =>
       node.props['x-component'] === 'FormCollapse.CollapsePanel',
     designerProps: {

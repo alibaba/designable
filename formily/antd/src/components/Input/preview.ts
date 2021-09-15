@@ -11,6 +11,8 @@ export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
 
 Input.Behavior = createBehavior(
   {
+    name: 'Input',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Input',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Input),
@@ -18,6 +20,8 @@ Input.Behavior = createBehavior(
     designerLocales: AllLocales.Input,
   },
   {
+    name: 'Input.TextArea',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Input.TextArea',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Input.TextArea),

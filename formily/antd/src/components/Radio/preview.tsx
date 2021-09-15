@@ -10,6 +10,8 @@ export const Radio: DnFC<React.ComponentProps<typeof FormilyRadio>> =
   FormilyRadio
 
 Radio.Behavior = createBehavior({
+  name: 'Radio.Group',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Radio.Group',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Radio.Group),

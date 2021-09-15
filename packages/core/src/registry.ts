@@ -1,4 +1,4 @@
-import { each, flat } from '@designable/shared'
+import { each } from '@designable/shared'
 import { Path } from '@formily/path'
 import { observable } from '@formily/reactive'
 import {
@@ -6,6 +6,7 @@ import {
   IDesignerIconsStore,
   IDesignerLocaleStore,
   IDesignerLanguageStore,
+  IDesignerBehaviors,
   IDesignerLocales,
   IDesignerIcons,
   IBehaviorLike,
@@ -31,17 +32,41 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const DESIGNER_BEHAVIORS_STORE: IDesignerBehaviorStore = {
-  value: [],
+const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
+  const findTargetBehavior = (behavior: IBehavior) => target.includes(behavior)
+  const findSourceBehavior = (name: string) => {
+    for (let key in sources) {
+      const { Behavior } = sources[key]
+      for (let i = 0; i < Behavior.length; i++) {
+        if (Behavior[i].name === name) return Behavior[i]
+      }
+    }
+  }
+  each(sources, (item) => {
+    if (!item) return
+    if (!isBehaviorHost(item)) return
+    const { Behavior } = item
+    each(Behavior, (behavior) => {
+      if (findTargetBehavior(behavior)) return
+      const name = behavior.name
+      each(behavior.extends, (dep) => {
+        const behavior = findSourceBehavior(dep)
+        if (!behavior)
+          throw new Error(`No ${dep} behavior that ${name} depends on`)
+        if (!findTargetBehavior(behavior)) {
+          target.unshift(behavior)
+        }
+      })
+      target.push(behavior)
+    })
+  })
 }
 
-const DESIGNER_ICONS_STORE: IDesignerIconsStore = {
-  value: {},
-}
+const DESIGNER_BEHAVIORS_STORE: IDesignerBehaviorStore = observable.ref([])
 
-const DESIGNER_LOCALES_STORE: IDesignerLocaleStore = {
-  value: {},
-}
+const DESIGNER_ICONS_STORE: IDesignerIconsStore = observable.ref({})
+
+const DESIGNER_LOCALES_STORE: IDesignerLocaleStore = observable.ref({})
 
 const DESIGNER_LANGUAGE_STORE: IDesignerLanguageStore = observable.ref(
   getBrowserLanguage()
@@ -104,6 +129,14 @@ const DESIGNER_GlobalRegistry = {
     packages.forEach((locales) => {
       mergeLocales(DESIGNER_LOCALES_STORE.value, locales)
     })
+  },
+
+  registerDesignerBehaviors: (...packages: IDesignerBehaviors[]) => {
+    const results: IBehavior[] = []
+    packages.forEach((sources) => {
+      reSortBehaviors(results, sources)
+    })
+    DESIGNER_BEHAVIORS_STORE.value = results
   },
 }
 

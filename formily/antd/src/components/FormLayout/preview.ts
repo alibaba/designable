@@ -11,6 +11,8 @@ export const FormLayout: DnFC<React.ComponentProps<typeof FormilyFormLayout>> =
   withContainer(FormilyFormLayout)
 
 FormLayout.Behavior = createBehavior({
+  name: 'FormLayout',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'FormLayout',
   designerProps: {
     droppable: true,

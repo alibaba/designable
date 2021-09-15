@@ -9,6 +9,8 @@ import { AllLocales } from '../../locales'
 export const Switch: DnFC<React.ComponentProps<typeof AntdSwitch>> = AntdSwitch
 
 Switch.Behavior = createBehavior({
+  name: 'Switch',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Switch',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Switch),

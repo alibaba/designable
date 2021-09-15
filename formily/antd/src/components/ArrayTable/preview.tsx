@@ -428,6 +428,8 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
 ArrayBase.mixin(ArrayTable)
 
 ArrayTable.Behavior = createBehavior(createArrayBehavior('ArrayTable'), {
+  name: 'ArrayTable.Column',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'ArrayTable.Column',
   designerProps: {
     droppable: true,

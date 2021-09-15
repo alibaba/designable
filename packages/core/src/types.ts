@@ -78,6 +78,10 @@ export interface IDesignerMiniLocales {
   [ISOCode: string]: string
 }
 
+export interface IDesignerBehaviors {
+  [key: string]: IBehaviorHost
+}
+
 export interface IDesignerStore<P> {
   value: P
 }
@@ -97,12 +101,16 @@ export type WorkbenchTypes =
   | (string & {})
 
 export interface IBehavior {
+  name: string
+  extends?: string[]
   selector: (node: TreeNode) => boolean
   designerProps?: IDesignerControllerProps
   designerLocales?: IDesignerLocales
 }
 
 export interface IBehaviorCreator {
+  name: string
+  extends?: string[]
   selector: string | ((node: TreeNode) => boolean)
   designerProps?: IDesignerControllerProps
   designerLocales?: IDesignerLocales

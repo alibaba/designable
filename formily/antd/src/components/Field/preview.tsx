@@ -163,6 +163,7 @@ export const Field: DnFC<ISchema> = observer((props) => {
 })
 
 Field.Behavior = createBehavior({
+  name: 'Field',
   selector: 'Field',
   designerLocales: AllLocales.Field,
 })

@@ -11,6 +11,8 @@ export const TimePicker: DnFC<React.ComponentProps<typeof FormilyTimePicker>> =
 
 TimePicker.Behavior = createBehavior(
   {
+    name: 'TimePicker',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'TimePicker',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.TimePicker),
@@ -18,6 +20,8 @@ TimePicker.Behavior = createBehavior(
     designerLocales: AllLocales.TimePicker,
   },
   {
+    name: 'TimePicker.RangePicker',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'TimePicker.RangePicker',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.TimePicker.RangePicker),

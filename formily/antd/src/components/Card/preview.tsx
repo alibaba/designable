@@ -23,6 +23,8 @@ export const Card: DnFC<React.ComponentProps<typeof AntdCard>> = (props) => {
 }
 
 Card.Behavior = createBehavior({
+  name: 'Card',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Card',
   designerProps: {
     droppable: true,

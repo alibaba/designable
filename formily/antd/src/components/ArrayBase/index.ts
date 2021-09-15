@@ -6,6 +6,8 @@ import { AllLocales } from '../../locales'
 export const createArrayBehavior = (name: string) => {
   return createBehavior(
     {
+      name,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === name,
       designerProps: {
         droppable: true,
@@ -14,6 +16,8 @@ export const createArrayBehavior = (name: string) => {
       designerLocales: AllLocales[name],
     },
     {
+      name: `${name}.Addition`,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Addition`,
       designerProps: {
         allowDrop(parent) {
@@ -24,6 +28,8 @@ export const createArrayBehavior = (name: string) => {
       designerLocales: AllLocales.ArrayAddition,
     },
     {
+      name: `${name}.Remove`,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Remove`,
       designerProps: {
         allowDrop(parent) {
@@ -34,6 +40,8 @@ export const createArrayBehavior = (name: string) => {
       designerLocales: AllLocales.ArrayRemove,
     },
     {
+      name: `${name}.Index`,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Index`,
       designerProps: {
         allowDrop(parent) {
@@ -44,6 +52,8 @@ export const createArrayBehavior = (name: string) => {
       designerLocales: AllLocales.ArrayIndex,
     },
     {
+      name: `${name}.MoveUp`,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveUp`,
       designerProps: {
         allowDrop(parent) {
@@ -54,6 +64,8 @@ export const createArrayBehavior = (name: string) => {
       designerLocales: AllLocales.ArrayMoveUp,
     },
     {
+      name: `${name}.MoveDown`,
+      extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveDown`,
       designerProps: {
         allowDrop(parent) {

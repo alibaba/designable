@@ -10,6 +10,8 @@ export const Transfer: DnFC<React.ComponentProps<typeof FormilyTransfer>> =
   FormilyTransfer
 
 Transfer.Behavior = createBehavior({
+  name: 'Transfer',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Transfer',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Transfer),

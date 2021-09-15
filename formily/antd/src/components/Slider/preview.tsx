@@ -9,6 +9,8 @@ import { AllLocales } from '../../locales'
 export const Slider: DnFC<React.ComponentProps<typeof AntdSlider>> = AntdSlider
 
 Slider.Behavior = createBehavior({
+  name: 'Slider',
+  extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Slider',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Slider),

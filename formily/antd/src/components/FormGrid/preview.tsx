@@ -69,6 +69,8 @@ FormGrid.GridColumn = observer((props) => {
 
 FormGrid.Behavior = createBehavior(
   {
+    name: 'FormGrid',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormGrid',
     designerProps: {
       droppable: true,
@@ -78,6 +80,8 @@ FormGrid.Behavior = createBehavior(
     designerLocales: AllLocales.FormGrid,
   },
   {
+    name: 'FormGrid.GridColumn',
+    extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormGrid.GridColumn',
     designerProps: {
       droppable: true,
