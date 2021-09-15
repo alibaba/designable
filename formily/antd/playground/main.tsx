@@ -190,6 +190,7 @@ const App = () => {
                       FormCollapse,
                       FormGrid,
                       FormLayout,
+                      ObjectContainer,
                     }}
                   />
                 )}
