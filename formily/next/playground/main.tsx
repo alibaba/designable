@@ -1,4 +1,6 @@
-import React from 'react'
+import 'antd/dist/antd.less'
+import '@alifd/next/dist/next.css'
+import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import {
   Designer,
@@ -6,7 +8,7 @@ import {
   ViewToolsWidget,
   Workspace,
   OutlineTreeWidget,
-  DragSourceWidget,
+  ResourceWidget,
   HistoryWidget,
   MainPanel,
   CompositePanel,
@@ -24,7 +26,6 @@ import {
   Shortcut,
   KeyCode,
 } from '@designable/core'
-import { createDesignableField, createDesignableForm } from '../src'
 import {
   LogoWidget,
   ActionsWidget,
@@ -33,8 +34,6 @@ import {
   MarkupSchemaWidget,
 } from './widgets'
 import { saveSchema } from './service'
-import 'antd/dist/antd.less'
-import '@alifd/next/dist/next.css'
 
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
@@ -55,38 +54,71 @@ GlobalRegistry.registerDesignerLocales({
   },
 })
 
-const Root = createDesignableForm({
-  registryName: 'Root',
-})
-
-const DesignableField = createDesignableField({
-  registryName: 'DesignableField',
-})
-
-const SaveShortCut = new Shortcut({
-  codes: [
-    [KeyCode.Meta, KeyCode.S],
-    [KeyCode.Control, KeyCode.S],
-  ],
-  handler(ctx) {
-    saveSchema(ctx.engine)
-  },
-})
-
-const engine = createDesigner({
-  shortcuts: [SaveShortCut],
-})
-
 const App = () => {
+  const engine = useMemo(
+    () =>
+      createDesigner({
+        shortcuts: [
+          new Shortcut({
+            codes: [
+              [KeyCode.Meta, KeyCode.S],
+              [KeyCode.Control, KeyCode.S],
+            ],
+            handler(ctx) {
+              saveSchema(ctx.engine)
+            },
+          }),
+        ],
+        rootComponentName: 'Form',
+      }),
+    []
+  )
   return (
     <Designer engine={engine}>
       <MainPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
-            <DragSourceWidget title="sources.Inputs" name="inputs" />
-            <DragSourceWidget title="sources.Layouts" name="layouts" />
-            <DragSourceWidget title="sources.Arrays" name="arrays" />
-            <DragSourceWidget title="sources.Displays" name="displays" />
+            <ResourceWidget
+              title="sources.Inputs"
+              sources={
+                [
+                  // Input,
+                  // Password,
+                  // NumberPicker,
+                  // Rate,
+                  // Slider,
+                  // Select,
+                  // TreeSelect,
+                  // Cascader,
+                  // Transfer,
+                  // Checkbox,
+                  // Radio,
+                  // DatePicker,
+                  // TimePicker,
+                  // Upload,
+                  // Switch,
+                  // ObjectContainer,
+                ]
+              }
+            />
+            <ResourceWidget
+              title="sources.Layouts"
+              sources={
+                [
+                  // Card,
+                  // FormGrid,
+                  // FormTab,
+                  // FormLayout,
+                  // FormCollapse,
+                  // Space,
+                ]
+              }
+            />
+            {/* <ResourceWidget
+              title="sources.Arrays"
+              sources={[ArrayCards, ArrayTable]}
+            />
+            <ResourceWidget title="sources.Displays" sources={[Text]} /> */}
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
             <OutlineTreeWidget />
@@ -107,10 +139,37 @@ const App = () => {
               <ViewPanel type="DESIGNABLE">
                 {() => (
                   <ComponentTreeWidget
-                    components={{
-                      Root,
-                      DesignableField,
-                    }}
+                    components={
+                      {
+                        // Form,
+                        // Field,
+                        // Input,
+                        // Select,
+                        // TreeSelect,
+                        // Cascader,
+                        // Radio,
+                        // Checkbox,
+                        // Slider,
+                        // Rate,
+                        // NumberPicker,
+                        // Transfer,
+                        // Password,
+                        // DatePicker,
+                        // TimePicker,
+                        // Upload,
+                        // Switch,
+                        // Text,
+                        // Card,
+                        // ArrayCards,
+                        // ArrayTable,
+                        // Space,
+                        // FormTab,
+                        // FormCollapse,
+                        // FormGrid,
+                        // FormLayout,
+                        // ObjectContainer,
+                      }
+                    }
                   />
                 )}
               </ViewPanel>
