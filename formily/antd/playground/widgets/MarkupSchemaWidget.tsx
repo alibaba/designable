@@ -133,7 +133,7 @@ const SchemaField = createSchemaField({
 })
 
 export default ()=>{
-  const form = useMemo(()=>createForm(),[])
+  const form = useMemo(() => createForm(), [])
 
   return <Form form={form} ${printAttribute(root)}>
     <SchemaField>

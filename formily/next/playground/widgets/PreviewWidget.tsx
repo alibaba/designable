@@ -31,14 +31,15 @@ import {
 } from '@formily/next'
 import { Card, Range, Rating } from '@alifd/next'
 import { TreeNode } from '@designable/core'
-import { transformToSchema } from '@designable/formily'
+import { transformToSchema } from '@designable/formily-transformer'
 
 const Text: React.FC<{
+  value?: string
   content?: string
   mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-}> = ({ mode, content, ...props }) => {
+}> = ({ value, mode, content, ...props }) => {
   const tagName = mode === 'normal' || !mode ? 'div' : mode
-  return React.createElement(tagName, props, content)
+  return React.createElement(tagName, props, value || content)
 }
 
 const SchemaField = createSchemaField({
@@ -81,10 +82,7 @@ export interface IPreviewWidgetProps {
 
 export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
   const form = useMemo(() => createForm(), [])
-  const { form: formProps, schema } = transformToSchema(props.tree, {
-    designableFormName: 'Root',
-    designableFieldName: 'DesignableField',
-  })
+  const { form: formProps, schema } = transformToSchema(props.tree)
   return (
     <Form {...formProps} form={form}>
       <SchemaField schema={schema} />

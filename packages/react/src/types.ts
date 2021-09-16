@@ -26,3 +26,8 @@ export type DnFC<P = {}> = React.FC<P> & {
   Resource?: IResource[]
   Behavior?: IBehavior[]
 }
+
+export type DnComponent<P = {}> = React.ComponentType<P> & {
+  Resource?: IResource[]
+  Behavior?: IBehavior[]
+}
