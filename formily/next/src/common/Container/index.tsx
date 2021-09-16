@@ -12,8 +12,9 @@ export const Container: React.FC = observer((props) => {
 })
 
 export const withContainer = (Target: React.JSXElementConstructor<any>) => {
-  return (props: any) => {
+  return ({ ...props }: any) => {
     const designer = useDesigner()
+    // 原始 props 可能被冻结了，delete 会报错
     delete props[designer.props.nodeIdAttrName]
     return (
       <Container>

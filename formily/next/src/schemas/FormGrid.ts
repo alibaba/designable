@@ -1,6 +1,6 @@
-import type { ISchema } from '@formily/react'
+import { ISchema } from '@formily/react'
 
-export const FormGrid: ISchema = {
+export const FormGrid: ISchema & { GridColumn?: ISchema } = {
   type: 'object',
   properties: {
     minWidth: {
@@ -59,6 +59,20 @@ export const FormGrid: ISchema = {
       'x-component': 'Switch',
       'x-component-props': {
         defaultChecked: true,
+      },
+    },
+  },
+}
+
+FormGrid.GridColumn = {
+  type: 'object',
+  properties: {
+    gridSpan: {
+      type: 'number',
+      'x-decorator': 'FormItem',
+      'x-component': 'NumberPicker',
+      'x-component-props': {
+        defaultValue: 1,
       },
     },
   },

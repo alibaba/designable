@@ -34,6 +34,35 @@ import {
   MarkupSchemaWidget,
 } from './widgets'
 import { saveSchema } from './service'
+import {
+  Form,
+  Field,
+  Input,
+  Select,
+  TreeSelect,
+  Cascader,
+  Radio,
+  Checkbox,
+  Range,
+  Rating,
+  NumberPicker,
+  Transfer,
+  Password,
+  DatePicker,
+  TimePicker,
+  Upload,
+  Switch,
+  Text,
+  Card,
+  ArrayCards,
+  ObjectContainer,
+  ArrayTable,
+  Space,
+  FormTab,
+  FormCollapse,
+  FormLayout,
+  FormGrid,
+} from '../src'
 
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
@@ -80,45 +109,41 @@ const App = () => {
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
               title="sources.Inputs"
-              sources={
-                [
-                  // Input,
-                  // Password,
-                  // NumberPicker,
-                  // Rate,
-                  // Slider,
-                  // Select,
-                  // TreeSelect,
-                  // Cascader,
-                  // Transfer,
-                  // Checkbox,
-                  // Radio,
-                  // DatePicker,
-                  // TimePicker,
-                  // Upload,
-                  // Switch,
-                  // ObjectContainer,
-                ]
-              }
+              sources={[
+                Input,
+                Password,
+                NumberPicker,
+                Rating,
+                Range,
+                Select,
+                TreeSelect,
+                Cascader,
+                Transfer,
+                Checkbox,
+                Radio,
+                DatePicker,
+                TimePicker,
+                Upload,
+                Switch,
+                ObjectContainer,
+              ]}
             />
             <ResourceWidget
               title="sources.Layouts"
-              sources={
-                [
-                  // Card,
-                  // FormGrid,
-                  // FormTab,
-                  // FormLayout,
-                  // FormCollapse,
-                  // Space,
-                ]
-              }
+              sources={[
+                Card,
+                FormGrid,
+                FormTab,
+                FormLayout,
+                FormCollapse,
+                Space,
+              ]}
             />
-            {/* <ResourceWidget
+            <ResourceWidget
               title="sources.Arrays"
               sources={[ArrayCards, ArrayTable]}
             />
-            <ResourceWidget title="sources.Displays" sources={[Text]} /> */}
+            <ResourceWidget title="sources.Displays" sources={[Text]} />
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
             <OutlineTreeWidget />
@@ -139,37 +164,35 @@ const App = () => {
               <ViewPanel type="DESIGNABLE">
                 {() => (
                   <ComponentTreeWidget
-                    components={
-                      {
-                        // Form,
-                        // Field,
-                        // Input,
-                        // Select,
-                        // TreeSelect,
-                        // Cascader,
-                        // Radio,
-                        // Checkbox,
-                        // Slider,
-                        // Rate,
-                        // NumberPicker,
-                        // Transfer,
-                        // Password,
-                        // DatePicker,
-                        // TimePicker,
-                        // Upload,
-                        // Switch,
-                        // Text,
-                        // Card,
-                        // ArrayCards,
-                        // ArrayTable,
-                        // Space,
-                        // FormTab,
-                        // FormCollapse,
-                        // FormGrid,
-                        // FormLayout,
-                        // ObjectContainer,
-                      }
-                    }
+                    components={{
+                      Form,
+                      Field,
+                      Input,
+                      Select,
+                      TreeSelect,
+                      Cascader,
+                      Radio,
+                      Checkbox,
+                      Range,
+                      Rating,
+                      NumberPicker,
+                      Transfer,
+                      Password,
+                      DatePicker,
+                      TimePicker,
+                      Upload,
+                      Switch,
+                      Text,
+                      Card,
+                      ArrayCards,
+                      ArrayTable,
+                      Space,
+                      FormTab,
+                      FormCollapse,
+                      FormGrid,
+                      FormLayout,
+                      ObjectContainer,
+                    }}
                   />
                 )}
               </ViewPanel>
