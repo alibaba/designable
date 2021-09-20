@@ -12,7 +12,7 @@ export const Container: React.FC = observer((props) => {
 })
 
 export const withContainer = (Target: React.JSXElementConstructor<any>) => {
-  return (props: any) => {
+  return ({ ...props }: any) => {
     const designer = useDesigner()
     delete props[designer.props.nodeIdAttrName]
     return (

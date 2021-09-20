@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@designable/shared": "0.5.27",
-    "@formily/json-schema": "^2.0.0-rc.5",
-    "@formily/path": "^2.0.0-rc.5",
-    "@formily/reactive": "^2.0.0-rc.5",
+    "@formily/json-schema": "^2.0.0-rc.9",
+    "@formily/path": "^2.0.0-rc.9",
+    "@formily/reactive": "^2.0.0-rc.9",
     "@juggle/resize-observer": "^3.3.1"
   },
   "publishConfig": {

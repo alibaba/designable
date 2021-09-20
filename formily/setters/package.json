@@ -39,10 +39,10 @@
     "@designable/react": "0.5.27",
     "@designable/react-settings-form": "0.5.27",
     "@designable/formily-transformer": "0.5.27",
-    "@formily/antd": "^2.0.0-rc.5",
-    "@formily/core": "^2.0.0-rc.5",
-    "@formily/react": "^2.0.0-rc.5",
-    "@formily/shared": "^2.0.0-rc.5"
+    "@formily/antd": "^2.0.0-rc.9",
+    "@formily/core": "^2.0.0-rc.9",
+    "@formily/react": "^2.0.0-rc.9",
+    "@formily/shared": "^2.0.0-rc.9"
   },
   "publishConfig": {
     "access": "public"

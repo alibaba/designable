@@ -10,6 +10,11 @@ export const Card: DnFC<React.ComponentProps<typeof NextCard>> = (props) => {
   return (
     <NextCard
       {...props}
+      style={{
+        ...props.style,
+        minHeight: 300,
+      }}
+      contentHeight="auto"
       title={
         <span data-content-editable="x-component-props.title">
           {props.title}
