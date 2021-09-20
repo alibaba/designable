@@ -1,6 +1,6 @@
 {
   "name": "@designable/shared",
-  "version": "0.5.27",
+  "version": "1.0.0-beta.1",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",

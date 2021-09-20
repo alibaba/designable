@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.5.29(2021-09-13)
+
+### :beetle: Bug Fixes
+
+1. [fix: Displaying the default DesignableFiled, all the time when prompted by text does not realise the real component name. (#58)](https://github.com/alibaba/designable/commit/1928f04) :point_right: ( [呆鸡](https://github.com/呆鸡) )
+
+## v0.5.28(2021-09-13)
+
+### :tada: Enhancements
+
+1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v0.5.27(2021-08-31)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix component/source locale registry](https://github.com/alibaba/designable/commit/0017ac0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v0.5.26(2021-08-31)
 
 ### :beetle: Bug Fixes
@@ -261,29 +283,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix DragSourceWidget](https://github.com/alibaba/designable/commit/894fe58) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.32(2021-08-09)
-
-### :tada: Enhancements
-
-1. [feat(settings): add dirty check to SettingsForm](https://github.com/alibaba/designable/commit/7ce5757) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(core): support workspace drag source](https://github.com/alibaba/designable/commit/4f2a586) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(react): support Workbench component](https://github.com/alibaba/designable/commit/bfbb71a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(react): improve mobile styles](https://github.com/alibaba/designable/commit/57588ca) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.31(2021-08-06)
-
-### :blush: Other Changes
-
-1. [chore(react): add from node locale](https://github.com/alibaba/designable/commit/0e7d99b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.30(2021-08-06)
-
-### :tada: Enhancements
-
-1. [feat(core): support from node event](https://github.com/alibaba/designable/commit/c4d68ee) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
