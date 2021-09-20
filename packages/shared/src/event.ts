@@ -379,9 +379,4 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     delete container[EVENTS_ONCE_SYMBOL]
     delete container[EVENTS_BATCH_SYMBOL]
   }
-
-  destroy() {
-    this.detachEvents()
-    this.unsubscribe()
-  }
 }
