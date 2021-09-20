@@ -1,14 +1,14 @@
 import React from 'react'
 import { usePrefix } from '../hooks'
 import cls from 'classnames'
-export interface IMainPanelProps {
+export interface IStudioPanelProps {
   style?: React.CSSProperties
   className?: string
   logo?: React.ReactNode
   actions?: React.ReactNode
 }
 
-export const MainPanel: React.FC<IMainPanelProps> = ({
+export const StudioPanel: React.FC<IStudioPanelProps> = ({
   logo,
   actions,
   ...props
