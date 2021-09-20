@@ -10,7 +10,7 @@ import {
   OutlineTreeWidget,
   ResourceWidget,
   HistoryWidget,
-  MainPanel,
+  StudioPanel,
   CompositePanel,
   WorkspacePanel,
   ToolbarPanel,
@@ -104,7 +104,7 @@ const App = () => {
   )
   return (
     <Designer engine={engine}>
-      <MainPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
+      <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
@@ -213,7 +213,7 @@ const App = () => {
         <SettingsPanel title="panels.PropertySettings">
           <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
         </SettingsPanel>
-      </MainPanel>
+      </StudioPanel>
     </Designer>
   )
 }
