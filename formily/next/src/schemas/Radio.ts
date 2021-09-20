@@ -22,8 +22,8 @@ Radio.Group = {
       enum: ['normal', 'button'],
       'x-decorator': 'FormItem',
       'x-component': 'Radio.Group',
-      default: 'normal',
       'x-component-props': {
+        defaultValue: 'normal',
         optionType: 'button',
       },
     },

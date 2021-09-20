@@ -65,7 +65,9 @@ export const ArrayTable: ISchema & { Addition?: ISchema; Column?: ISchema } = {
       type: 'boolean',
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
-      default: false,
+      'x-component-props': {
+        defaultValue: false,
+      },
     },
     maxBodyHeight: {
       type: 'number',

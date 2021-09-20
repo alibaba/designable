@@ -17,7 +17,9 @@ export const FormTab: ISchema & { TabPane?: ISchema } = {
       enum: ['pure', 'wrapped', 'text', 'capsule'],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
-      default: 'pure',
+      'x-component-props': {
+        defaultValue: 'pure',
+      },
     },
     animation: {
       type: 'boolean',

@@ -22,7 +22,9 @@ export const Cascader: ISchema = {
       type: 'boolean',
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
-      default: false,
+      'x-component-props': {
+        defaultValue: false,
+      },
     },
     canOnlySelectLeaf: {
       type: 'boolean',

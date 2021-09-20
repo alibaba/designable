@@ -70,8 +70,8 @@ export const Select: ISchema = {
       enum: ['single', 'multiple', 'tag'],
       'x-decorator': 'FormItem',
       'x-component': 'Radio.Group',
-      default: 'single',
       'x-component-props': {
+        defaultValue: 'single',
         optionType: 'button',
       },
     },

@@ -70,7 +70,9 @@ export const NumberPicker: ISchema = {
       type: 'boolean',
       'x-decorator': 'FormItem',
       'x-component': 'Switch',
-      default: true,
+      'x-component-props': {
+        defaultValue: false,
+      },
     },
     alwaysShowTrigger: {
       type: 'boolean',
