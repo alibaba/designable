@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.0-beta.1(2021-09-20)
+
+### :rose: Improve code quality
+
+1. [refactor(react): MainPanel -> StudioPanel](https://github.com/alibaba/designable/commit/74b344f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [refactor(project): redesign Registry/DragSource (#59)](https://github.com/alibaba/designable/commit/764e7ec) :point_right: ( [Janry](https://github.com/Janry) )
+
 ## v0.5.29(2021-09-13)
 
 ### :beetle: Bug Fixes
@@ -277,9 +285,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(settings): remove stringify to check schema](https://github.com/alibaba/designable/commit/89c7299) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.33(2021-08-09)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix DragSourceWidget](https://github.com/alibaba/designable/commit/894fe58) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
