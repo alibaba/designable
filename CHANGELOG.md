@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0-beta.2(2021-09-20)
+
+### :tada: Enhancements
+
+1. [feat(react): support move StudioPanel to root node](https://github.com/alibaba/designable/commit/9a54259) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
+
+### :blush: Other Changes
+
+1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
+
+1. [chore: update playground](https://github.com/alibaba/designable/commit/8a5b3f7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.1(2021-09-20)
 
 ### :rose: Improve code quality
@@ -279,9 +295,3 @@
 ### :memo: Documents Changes
 
 1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
-
-## v0.4.34(2021-08-10)
-
-### :rose: Improve code quality
-
-1. [refactor(settings): remove stringify to check schema](https://github.com/alibaba/designable/commit/89c7299) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
