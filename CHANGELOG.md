@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.3(2021-09-20)
+
+### :blush: Other Changes
+
+1. [chore: support remount engine](https://github.com/alibaba/designable/commit/021668c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.2(2021-09-20)
 
 ### :tada: Enhancements
@@ -281,17 +287,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings-form): fix ui can not reactive with node.props changed](https://github.com/alibaba/designable/commit/7aebb2e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.35(2021-08-15)
-
-### :tada: Enhancements
-
-1. [feat(react): support auto clean instance](https://github.com/alibaba/designable/commit/4da8293) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
-
-### :memo: Documents Changes
-
-1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )

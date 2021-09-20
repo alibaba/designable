@@ -1,6 +1,6 @@
 {
   "name": "@designable/react",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -27,8 +27,8 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.3",
-    "@designable/shared": "1.0.0-beta.3",
+    "@designable/core": "1.0.0-beta.4",
+    "@designable/shared": "1.0.0-beta.4",
     "@formily/reactive": "^2.0.0-rc.9",
     "@formily/reactive-react": "^2.0.0-rc.9",
     "@juggle/resize-observer": "^3.3.1",
