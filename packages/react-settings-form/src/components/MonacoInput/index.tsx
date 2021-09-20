@@ -126,7 +126,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
     onMount?.(editor, monaco)
     const model = editor.getModel()
     const currentValue = editor.getValue()
-    model['getLanguage'] = () => computedLanguage.current
+    model['getDesignerLanguage'] = () => computedLanguage.current
     if (currentValue) {
       format(computedLanguage.current, currentValue)
         .then((content) => {

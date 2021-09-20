@@ -18,7 +18,10 @@ const env: GlobalEnv = {
 
 export type EventOptions =
   | boolean
-  | (AddEventListenerOptions & EventListenerOptions & { once?: boolean })
+  | (AddEventListenerOptions &
+      EventListenerOptions & {
+        mode?: 'onlyOne' | 'onlyParent' | 'onlyChild'
+      })
 
 export type EventContainer = Window | HTMLElement | HTMLDocument
 
@@ -100,6 +103,8 @@ export interface IEventProps<T = Event> {
   effects?: IEventEffect<T>[]
 }
 
+const isOnlyMode = (mode: string) =>
+  mode === 'onlyOne' || mode === 'onlyChild' || mode === 'onlyParent'
 /**
  * 事件驱动器基类
  */
@@ -170,12 +175,39 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   ): void
   addEventListener(type: any, listener: any, options: any) {
     const target = this.eventTarget(type)
-    if (options?.once) {
+    if (isOnlyMode(options?.mode)) {
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      delete options.once
-      if (!target[EVENTS_ONCE_SYMBOL][type]) {
+      const constructor = this['constructor']
+      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
+      const handler = target[EVENTS_ONCE_SYMBOL][type]
+      const container = constructor[EVENTS_ONCE_SYMBOL][type]
+      const removeContainer = () => {
+        if (!container) return
+        container.removeEventListener(
+          type,
+          container[EVENTS_ONCE_SYMBOL][type],
+          options
+        )
+        delete container[EVENTS_ONCE_SYMBOL][type]
+      }
+      if (!handler) {
+        if (container) {
+          if (options.mode === 'onlyChild') {
+            if (container.contains(target)) {
+              container.removeEventListener(
+                type,
+                container[EVENTS_ONCE_SYMBOL][type],
+                options
+              )
+              delete container[EVENTS_ONCE_SYMBOL][type]
+            }
+          } else if (options.mode === 'onlyParent') {
+            if (container.contains(target)) return
+          }
+        }
         target.addEventListener(type, listener, options)
         target[EVENTS_ONCE_SYMBOL][type] = listener
+        constructor[EVENTS_ONCE_SYMBOL][type] = target
       }
     } else {
       target[EVENTS_SYMBOL] = target[EVENTS_SYMBOL] || {}
@@ -199,9 +231,8 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   ): void
   removeEventListener(type: any, listener: any, options?: any) {
     const target = this.eventTarget(type)
-    if (options?.once) {
+    if (isOnlyMode(options?.mode)) {
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      delete options.once
       delete target[EVENTS_ONCE_SYMBOL][type]
       target.removeEventListener(type, listener, options)
     } else {

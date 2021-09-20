@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { observer } from '@formily/reactive-react'
 import { TreeNode } from '@designable/core'
-import { TextWidget } from '../TextWidget'
 export interface INodeTitleWidgetProps {
   node: TreeNode
 }
 
-export const NodeTitleWidget: React.FC<INodeTitleWidgetProps> = (props) => {
-  return (
-    <TextWidget
-      componentName={props.node.componentName}
-      token="title"
-      defaultMessage={props.node.componentName || 'NoComponentTitle'}
-    >
-      {props.node.designerProps.title}
-    </TextWidget>
-  )
-}
+export const NodeTitleWidget: React.FC<INodeTitleWidgetProps> = observer(
+  (props) => {
+    const takeNode = () => {
+      const node = props.node
+      if (node.componentName === '$$ResourceNode$$') {
+        return node.children[0]
+      }
+      return node
+    }
+    const node = takeNode()
+    return <Fragment>{node.getMessage('title') || node.componentName}</Fragment>
+  }
+)

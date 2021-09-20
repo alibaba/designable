@@ -27,7 +27,7 @@ loader.init().then((monaco) => {
       return [
         {
           text: await format(
-            model['getLanguage']?.() || 'typescript',
+            model['getDesignerLanguage']?.() || 'typescript',
             model.getValue()
           ),
           range: model.getFullModelRange(),

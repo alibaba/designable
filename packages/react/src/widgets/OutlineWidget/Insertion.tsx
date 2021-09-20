@@ -1,6 +1,6 @@
 import React from 'react'
 import { useOutlineDragon, usePrefix } from '../../hooks'
-import { ClosestDirection } from '@designable/core'
+import { ClosestPosition } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 
 export interface IInsertionProps {
@@ -22,12 +22,12 @@ export const Insertion: React.FC<IInsertionProps> = observer(
       }
       if (!closestRect) return baseStyle
       if (
-        closestDirection === ClosestDirection.After ||
-        closestDirection === ClosestDirection.InnerAfter ||
-        closestDirection === ClosestDirection.Under ||
-        closestDirection === ClosestDirection.ForbidAfter ||
-        closestDirection === ClosestDirection.ForbidInnerAfter ||
-        closestDirection === ClosestDirection.ForbidUnder
+        closestDirection === ClosestPosition.After ||
+        closestDirection === ClosestPosition.InnerAfter ||
+        closestDirection === ClosestPosition.Under ||
+        closestDirection === ClosestPosition.ForbidAfter ||
+        closestDirection === ClosestPosition.ForbidInnerAfter ||
+        closestDirection === ClosestPosition.ForbidUnder
       ) {
         baseStyle.width = closestRect.width
         baseStyle.height = 2
@@ -35,12 +35,12 @@ export const Insertion: React.FC<IInsertionProps> = observer(
           closestRect.x
         }px,${closestRect.y + closestRect.height - 2}px,0)`
       } else if (
-        closestDirection === ClosestDirection.Before ||
-        closestDirection === ClosestDirection.InnerBefore ||
-        closestDirection === ClosestDirection.Upper ||
-        closestDirection === ClosestDirection.ForbidBefore ||
-        closestDirection === ClosestDirection.ForbidInnerBefore ||
-        closestDirection === ClosestDirection.ForbidUpper
+        closestDirection === ClosestPosition.Before ||
+        closestDirection === ClosestPosition.InnerBefore ||
+        closestDirection === ClosestPosition.Upper ||
+        closestDirection === ClosestPosition.ForbidBefore ||
+        closestDirection === ClosestPosition.ForbidInnerBefore ||
+        closestDirection === ClosestPosition.ForbidUpper
       ) {
         baseStyle.width = closestRect.width
         baseStyle.height = 2

@@ -8,7 +8,7 @@ import {
   DesignerToolsWidget,
   ViewToolsWidget,
   OutlineTreeWidget,
-  DragSourceWidget,
+  ResourceWidget,
   MainPanel,
   CompositePanel,
   WorkspacePanel,
@@ -21,8 +21,9 @@ import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
+  createResource,
+  createBehavior,
   GlobalRegistry,
-  GlobalDragSource,
 } from '@designable/core'
 import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
@@ -31,15 +32,25 @@ import { GithubOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.less'
 import './theme.less'
 
-GlobalRegistry.registerDesignerProps({
-  Root: {
-    title: 'components.Root',
+const RootBehavior = createBehavior({
+  selector: 'Root',
+  designerProps: {
+    droppable: true,
   },
-  Field: (node) => ({
-    title: `components.${node.props['x-component']}`,
-    draggable: true,
-    inlineLayout: true,
-    sourceIcon: 'InputSource',
+  designerLocales: {
+    'zh-CN': {
+      title: '根组件',
+    },
+    'en-US': {
+      title: 'Root',
+    },
+  },
+})
+
+const InputBehavior = createBehavior({
+  selector: (node) =>
+    node.componentName === 'Field' && node.props['x-component'] === 'Input',
+  designerProps: {
     propsSchema: {
       type: 'object',
       $namespace: 'Field',
@@ -127,101 +138,102 @@ GlobalRegistry.registerDesignerProps({
         },
       },
     },
-  }),
-  Card: {
-    title: 'components.Card',
-    droppable: true,
-    sourceIcon: 'CardSource',
-    inlineChildrenLayout: true,
-    // allowAppend: (target, sources) =>
-    //   sources.every((node) => node.componentName === 'Field'),
+  },
+  designerLocales: {
+    'zh-CN': {
+      title: '输入框',
+      settings: {
+        title: '标题',
+        hidden: '是否隐藏',
+        default: '默认值',
+        style: {
+          width: '宽度',
+          height: '高度',
+          display: '展示',
+          background: '背景',
+          boxShadow: '阴影',
+          font: '字体',
+          margin: '外边距',
+          padding: '内边距',
+          borderRadius: '圆角',
+          border: '边框',
+        },
+      },
+    },
+    'en-US': {
+      title: 'Input',
+      settings: {
+        title: 'Title',
+        hidden: 'Hidden',
+        default: 'Default Value',
+        style: {
+          width: 'Width',
+          height: 'Height',
+          display: 'Display',
+          background: 'Background',
+          boxShadow: 'Box Shadow',
+          font: 'Font',
+          margin: 'Margin',
+          padding: 'Padding',
+          borderRadius: 'Border Radius',
+          border: 'Border',
+        },
+      },
+    },
   },
 })
 
-GlobalDragSource.setSourcesByGroup('form', [
-  {
-    componentName: 'Field',
-    designerProps: {
-      allowDrop(parent) {
-        return parent.componentName === 'Card'
-      },
-    },
-    designerLocales: {
-      'zh-CN': {
-        settings: {
-          default: '默认值1',
-        },
-      },
-    },
-    props: {
-      title: '输入框',
-      type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
-    },
+const CardBehavior = createBehavior({
+  selector: 'Card',
+  designerProps: {
+    droppable: true,
   },
-  {
-    componentName: 'Field',
-    designerLocales: {
-      'zh-CN': {
-        settings: {
-          default: '默认值2',
-        },
-      },
-    },
-    props: {
-      title: '输入框',
-      type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
-    },
-  },
-  {
-    componentName: 'Card',
-    props: {
+  designerLocales: {
+    'zh-CN': {
       title: '卡片',
-      type: 'void',
-      'x-decorator': 'FormItem',
-      'x-component': 'Card',
+    },
+    'en-US': {
+      title: 'Card',
     },
   },
-  {
-    componentName: 'Card',
-    props: {
-      title: '卡片',
-      type: 'void',
-      'x-decorator': 'FormItem',
-      'x-component': 'Card',
-    },
-    designerProps: {
-      title: 'title',
-    },
-    designerLocales: {
-      'zh-CN': {
-        title: '卡片2',
-      },
-      'en-US': {
-        title: 'Card2',
-      },
-    },
-    children: [
-      {
-        componentName: 'Field',
-        designerProps: {
-          allowDrop(parent) {
-            return parent.componentName === 'Card'
-          },
-        },
-        props: {
-          title: '输入框',
-          type: 'string',
-          'x-decorator': 'FormItem',
-          'x-component': 'Input',
-        },
-      },
-    ],
+})
+
+GlobalRegistry.setDesignerBehaviors([RootBehavior, InputBehavior, CardBehavior])
+
+const Input = createResource({
+  title: {
+    'zh-CN': '输入框',
+    'en-US': 'Input',
   },
-])
+  icon: 'InputSource',
+  elements: [
+    {
+      componentName: 'Field',
+      props: {
+        title: '输入框',
+        type: 'string',
+        'x-decorator': 'FormItem',
+        'x-component': 'Input',
+      },
+    },
+  ],
+})
+
+const Card = createResource({
+  title: {
+    'zh-CN': '卡片',
+    'en-US': 'Card',
+  },
+  icon: 'CardSource',
+  elements: [
+    {
+      componentName: 'Card',
+      props: {
+        title: '卡片',
+      },
+    },
+  ],
+})
 
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
@@ -230,56 +242,12 @@ GlobalRegistry.registerDesignerLocales({
       Displays: '展示控件',
       Feedbacks: '反馈控件',
     },
-    components: {
-      Root: '表单',
-      Input: '输入框',
-      Card: '卡片',
-    },
-    settings: {
-      title: '标题',
-      hidden: '是否隐藏',
-      default: '默认值',
-      style: {
-        width: '宽度',
-        height: '高度',
-        display: '展示',
-        background: '背景',
-        boxShadow: '阴影',
-        font: '字体',
-        margin: '外边距',
-        padding: '内边距',
-        borderRadius: '圆角',
-        border: '边框',
-      },
-    },
   },
   'en-US': {
     sources: {
       Inputs: 'Inputs',
       Displays: 'Displays',
       Feedbacks: 'Feedbacks',
-    },
-    components: {
-      Root: 'Form',
-      Input: 'Input',
-      Card: 'Card',
-    },
-    settings: {
-      title: 'Title',
-      hidden: 'Hidden',
-      default: 'Default Value',
-      style: {
-        width: 'Width',
-        height: 'Height',
-        display: 'Display',
-        background: 'Background',
-        boxShadow: 'Box Shadow',
-        font: 'Font',
-        margin: 'Margin',
-        padding: 'Padding',
-        borderRadius: 'Border Radius',
-        border: 'Border',
-      },
     },
   },
 })
@@ -316,7 +284,6 @@ const Actions = observer(() => (
 ))
 
 const engine = createDesigner()
-
 const App = () => {
   return (
     <Designer engine={engine}>
@@ -324,9 +291,15 @@ const App = () => {
         <MainPanel logo={<Logo />} actions={<Actions />}>
           <CompositePanel>
             <CompositePanel.Item title="panels.Component" icon="Component">
-              <DragSourceWidget title="sources.Inputs" name="form" />
-              <DragSourceWidget title="sources.Displays" name="form" />
-              <DragSourceWidget title="sources.Feedbacks" name="form" />
+              <ResourceWidget title="sources.Inputs" sources={[Input, Card]} />
+              <ResourceWidget
+                title="sources.Displays"
+                sources={[Input, Card]}
+              />
+              <ResourceWidget
+                title="sources.Feedbacks"
+                sources={[Input, Card]}
+              />
             </CompositePanel.Item>
             <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
               <OutlineTreeWidget />

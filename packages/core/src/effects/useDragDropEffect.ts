@@ -1,4 +1,4 @@
-import { Engine, ClosestDirection, CursorType } from '../models'
+import { Engine, ClosestPosition, CursorType } from '../models'
 import {
   DragStartEvent,
   DragMoveEvent,
@@ -32,16 +32,11 @@ export const useDragDropEffect = (engine: Engine) => {
           operation.focusClean()
         }
         if (node) {
-          if (node?.designerProps?.draggable === false) return
+          if (!node.allowDrag()) return
           if (node === node.root) return
-          const validSelected = engine.getAllSelectedNodes().filter((node) => {
-            if (node) {
-              return (
-                node?.designerProps?.draggable !== false && node !== node.root
-              )
-            }
-            return false
-          })
+          const validSelected = engine
+            .getAllSelectedNodes()
+            .filter((node) => node.allowDrag())
           if (validSelected.some((selectNode) => selectNode === node)) {
             operation.setDragNodes(operation.sortNodes(validSelected))
           } else {
@@ -49,9 +44,9 @@ export const useDragDropEffect = (engine: Engine) => {
           }
         }
       } else if (sourceId) {
-        const sourceNode = engine.findSourceNodeById(sourceId)
+        const sourceNode = engine.findNodeById(sourceId)
         if (sourceNode) {
-          if (sourceNode?.designerProps?.draggable === false) return
+          if (!sourceNode.allowDrag()) return
           operation.setDragNodes([sourceNode])
         }
       }
@@ -118,13 +113,13 @@ export const useDragDropEffect = (engine: Engine) => {
       const operation = currentWorkspace.operation
       const dragNodes = operation.getDragNodes()
       const closestNode = operation.getClosestNode()
-      const closestDirection = operation.getClosestDirection()
+      const closestDirection = operation.getClosestPosition()
       const selection = operation.selection
       if (!dragNodes.length) return
       if (dragNodes.length && closestNode && closestDirection) {
         if (
-          closestDirection === ClosestDirection.After ||
-          closestDirection === ClosestDirection.Under
+          closestDirection === ClosestPosition.After ||
+          closestDirection === ClosestPosition.Under
         ) {
           if (closestNode.allowSibling(dragNodes)) {
             selection.batchSafeSelect(
@@ -134,8 +129,8 @@ export const useDragDropEffect = (engine: Engine) => {
             )
           }
         } else if (
-          closestDirection === ClosestDirection.Before ||
-          closestDirection === ClosestDirection.Upper
+          closestDirection === ClosestPosition.Before ||
+          closestDirection === ClosestPosition.Upper
         ) {
           if (closestNode.allowSibling(dragNodes)) {
             selection.batchSafeSelect(
@@ -145,8 +140,8 @@ export const useDragDropEffect = (engine: Engine) => {
             )
           }
         } else if (
-          closestDirection === ClosestDirection.Inner ||
-          closestDirection === ClosestDirection.InnerAfter
+          closestDirection === ClosestPosition.Inner ||
+          closestDirection === ClosestPosition.InnerAfter
         ) {
           if (closestNode.allowAppend(dragNodes)) {
             selection.batchSafeSelect(
@@ -154,7 +149,7 @@ export const useDragDropEffect = (engine: Engine) => {
             )
             operation.setDropNode(closestNode)
           }
-        } else if (closestDirection === ClosestDirection.InnerBefore) {
+        } else if (closestDirection === ClosestPosition.InnerBefore) {
           if (closestNode.allowAppend(dragNodes)) {
             selection.batchSafeSelect(
               closestNode.prepend(...operation.getDropNodes(closestNode))

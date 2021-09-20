@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useEffect } from 'react'
 import {
   TreeNode,
-  ClosestDirection,
+  ClosestPosition,
   CursorStatus,
   DragMoveEvent,
 } from '@designable/core'
@@ -46,7 +46,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
         if (!ref.current) return
         if (
           closestNodeId === id &&
-          closestDirection === ClosestDirection.Inner
+          closestDirection === ClosestPosition.Inner
         ) {
           if (!ref.current.classList.contains('droppable')) {
             ref.current.classList.add('droppable')
