@@ -1,14 +1,17 @@
 import React from 'react'
 import { usePrefix } from '../hooks'
+import { Layout } from '../containers'
 import cls from 'classnames'
 export interface IStudioPanelProps {
   style?: React.CSSProperties
   className?: string
   logo?: React.ReactNode
   actions?: React.ReactNode
+  prefixCls?: string
+  theme?: string
 }
 
-export const StudioPanel: React.FC<IStudioPanelProps> = ({
+const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
   logo,
   actions,
   ...props
@@ -32,5 +35,13 @@ export const StudioPanel: React.FC<IStudioPanelProps> = ({
     <div {...props} className={cls(prefix, 'root')}>
       {props.children}
     </div>
+  )
+}
+
+export const StudioPanel: React.FC<IStudioPanelProps> = (props) => {
+  return (
+    <Layout theme={props.theme} prefixCls={props.prefixCls}>
+      <StudioPanelInternal {...props} />
+    </Layout>
   )
 }

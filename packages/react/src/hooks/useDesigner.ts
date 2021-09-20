@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { Engine } from '@designable/core'
-import { DesignerContext } from '../context'
+import { DesignerEngineContext } from '../context'
 import { isFn } from '@designable/shared'
 export interface IEffects {
   (engine: Engine): void
@@ -8,7 +8,7 @@ export interface IEffects {
 
 export const useDesigner = (effects?: IEffects): Engine => {
   const designer: Engine =
-    window['__DESINGER_ENGINE__'] || useContext(DesignerContext)?.engine
+    window['__DESINGER_ENGINE__'] || useContext(DesignerEngineContext)
   useEffect(() => {
     if (isFn(effects)) {
       return effects(designer)

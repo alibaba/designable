@@ -133,6 +133,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
                   setActiveKey(index)
                 }
                 item.onClick?.(e)
+                props.onChange?.(index)
               }}
             >
               {takeTab()}

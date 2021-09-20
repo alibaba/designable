@@ -1,17 +1,19 @@
 import React from 'react'
 import { Engine, IResource, IBehavior } from '@designable/core'
-export interface IDesignerProps {
-  engine: Engine
+
+export interface IDesignerLayoutProps {
   prefixCls?: string
   theme?: 'dark' | 'light' | (string & {})
+}
+export interface IDesignerProps extends IDesignerLayoutProps {
+  engine: Engine
 }
 
 export interface IDesignerComponents {
   [key: string]: DnFC<any>
 }
 
-export interface IDesignerContext {
-  engine: Engine
+export interface IDesignerLayoutContext {
   theme?: 'dark' | 'light' | (string & {})
   prefixCls: string
 }
