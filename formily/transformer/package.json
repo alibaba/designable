@@ -17,10 +17,9 @@
   },
   "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
-    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc --project tsconfig.build.json",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
-    "build:umd": "rollup --config"
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm"
   },
   "publishConfig": {
     "access": "public"
