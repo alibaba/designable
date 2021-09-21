@@ -70,7 +70,7 @@ export const DatePicker: ISchema & { RangePicker?: ISchema } = {
   properties: {
     picker: {
       type: 'string',
-      enum: ['time', 'date', 'month', 'year', 'decade'],
+      enum: ['time', 'date', 'month', 'year', 'quarter', 'decade'],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {
