@@ -3,7 +3,7 @@ import { Breadcrumb } from 'antd'
 import { useCurrentNode, useSelection, usePrefix, useHover } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { NodeTitleWidget } from '../NodeTitleWidget'
-import { observer } from '@formily/react'
+import { observer } from '@formily/reactive-react'
 import './styles.less'
 
 export interface INodePathWidgetProps {
