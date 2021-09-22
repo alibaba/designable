@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.4(2021-09-20)
+
+### :tada: Enhancements
+
+1. [feat: support HistoryPushEvent](https://github.com/alibaba/designable/commit/cfec592) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.3(2021-09-20)
 
 ### :blush: Other Changes
@@ -281,9 +287,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): merge styles](https://github.com/alibaba/designable/commit/83374f6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.36(2021-08-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings-form): fix ui can not reactive with node.props changed](https://github.com/alibaba/designable/commit/7aebb2e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
