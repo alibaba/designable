@@ -17,9 +17,10 @@ export const Workspace: React.FC<IWorkspaceProps> = ({
   const oldId = useRef<string>()
   const designer = useDesigner()
   const workspace = useMemo(() => {
+    if (!designer) return
     if (oldId.current && oldId.current !== id) {
       const old = designer.workbench.findWorkspaceById(oldId.current)
-      old.viewport.detachEvents()
+      if (old) old.viewport.detachEvents()
     }
     const workspace = {
       id: id || 'index',
