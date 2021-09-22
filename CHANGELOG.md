@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.7(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix ui can not refresh with top rerender](https://github.com/alibaba/designable/commit/cf63e82) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.6(2021-09-22)
 
 ### :blush: Other Changes
@@ -275,9 +281,3 @@
 1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/354a7b5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [chore(settings): improve code](https://github.com/alibaba/designable/commit/40c0dd1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.39(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(react): support sourceIcon for DragSource](https://github.com/alibaba/designable/commit/fcb3a5e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
