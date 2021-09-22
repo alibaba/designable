@@ -20,7 +20,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   clickStopPropagationAttrName?: string //点击阻止冒泡属性
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
-  defaultComponentTree?: ITreeNode[] //默认组件树
+  defaultComponentTree?: ITreeNode //默认组件树
   defaultScreenType?: ScreenType
   rootComponentName?: string
 }

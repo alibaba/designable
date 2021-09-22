@@ -91,7 +91,6 @@ export class Engine extends Event {
     shortcuts: [],
     effects: [],
     drivers: [],
-    defaultComponentTree: [],
     rootComponentName: 'Root',
     sourceIdAttrName: 'data-designer-source-id',
     nodeIdAttrName: 'data-designer-node-id',

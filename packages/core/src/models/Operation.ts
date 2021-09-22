@@ -45,8 +45,8 @@ export class Operation {
     this.workspace = workspace
     this.tree = new TreeNode({
       componentName: this.engine.props.rootComponentName,
+      ...this.engine.props.defaultComponentTree,
       operation: this,
-      children: this.engine.props.defaultComponentTree,
     })
     this.selection = new Selection({
       operation: this,
