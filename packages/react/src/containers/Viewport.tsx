@@ -38,7 +38,7 @@ export const Viewport: React.FC<IViewportProps> = ({
     return () => {
       viewport.onUnmount()
     }
-  }, [])
+  }, [viewport])
   return (
     <div
       {...props}

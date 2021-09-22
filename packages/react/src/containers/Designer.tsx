@@ -24,7 +24,7 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
         props.engine.unmount()
       }
     }
-  }, [])
+  }, [props.engine])
 
   if (engine)
     throw new Error(
