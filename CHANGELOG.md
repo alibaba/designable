@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.6(2021-09-22)
+
+### :blush: Other Changes
+
+1. [chore(project): move formily deps to peerDeps](https://github.com/alibaba/designable/commit/ee19f25) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.5(2021-09-22)
 
 ### :beetle: Bug Fixes
@@ -275,9 +281,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): support sourceIcon for DragSource](https://github.com/alibaba/designable/commit/fcb3a5e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.38(2021-08-20)
-
-### :blush: Other Changes
-
-1. [chore(react): improve DragSource styles](https://github.com/alibaba/designable/commit/0b2283f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
