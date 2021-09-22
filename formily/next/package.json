@@ -1,6 +1,6 @@
 {
   "name": "@designable/formily-next",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "license": "MIT",
   "main": "lib",
   "module": "esm",
@@ -24,7 +24,11 @@
     "start": "webpack-dev-server --config playground/webpack.dev.ts"
   },
   "devDependencies": {
-    "@designable/react-settings-form": "1.0.0-beta.5",
+    "@designable/react-settings-form": "1.0.0-beta.6",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/next": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10",
     "autoprefixer": "^9.0",
     "file-loader": "^5.0.2",
     "fs-extra": "^8.1.0",
@@ -39,30 +43,26 @@
     "webpack": "^4.41.5",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
-    "@formily/core": "^2.0.0-rc.10",
-    "@formily/next": "^2.0.0-rc.10",
-    "@formily/react": "^2.0.0-rc.10",
-    "@formily/shared": "^2.0.0-rc.10"
+    "webpack-dev-server": "^3.10.1"
   },
   "peerDependencies": {
     "@alifd/next": "^1.23.0",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/next": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10",
     "@types/react": ">=16.8.0 || >=17.0.0",
     "@types/react-dom": ">=16.8.0 || >=17.0.0",
     "antd": "^4.0.0",
     "react": ">=16.8.0 || >=17.0.0",
     "react-dom": ">=16.8.0",
-    "react-is": ">=16.8.0 || >=17.0.0",
-    "@formily/core": "^2.0.0-rc.10",
-    "@formily/next": "^2.0.0-rc.10",
-    "@formily/react": "^2.0.0-rc.10",
-    "@formily/shared": "^2.0.0-rc.10"
+    "react-is": ">=16.8.0 || >=17.0.0"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.5",
-    "@designable/formily-setters": "1.0.0-beta.5",
-    "@designable/formily-transformer": "1.0.0-beta.5",
-    "@designable/react": "1.0.0-beta.5"
+    "@designable/core": "1.0.0-beta.6",
+    "@designable/formily-setters": "1.0.0-beta.6",
+    "@designable/formily-transformer": "1.0.0-beta.6",
+    "@designable/react": "1.0.0-beta.6"
   },
   "publishConfig": {
     "access": "public"

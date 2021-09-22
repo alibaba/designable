@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-beta.5(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(formily-antd): fix DatePicker settings](https://github.com/alibaba/designable/commit/2e7e9d2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(react): update NodePathWidget dependencies](https://github.com/alibaba/designable/commit/87d801e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.4(2021-09-20)
 
 ### :tada: Enhancements
@@ -271,19 +281,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve DragSource styles](https://github.com/alibaba/designable/commit/0b2283f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.37(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(react): improve panels styles](https://github.com/alibaba/designable/commit/f78898e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(react): remove duplicate css properties (#41)](https://github.com/alibaba/designable/commit/49f2239) :point_right: ( [Jingsong Gao](https://github.com/Jingsong Gao) )
-
-1. [fix(react): tree maybe undefined (#42)](https://github.com/alibaba/designable/commit/0c09ff4) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
-
-### :blush: Other Changes
-
-1. [chore(react): merge styles](https://github.com/alibaba/designable/commit/83374f6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
