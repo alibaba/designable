@@ -23,22 +23,28 @@
     "build:umd": "rollup --config"
   },
   "peerDependencies": {
-    "antd": "^4.0.0"
+    "antd": "^4.0.0",
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/reactive": "^2.0.0-rc.10",
+    "@formily/reactive-react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10"
   },
   "devDependencies": {
-    "antd": "^4.15.5"
+    "antd": "^4.15.5",
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/reactive": "^2.0.0-rc.10",
+    "@formily/reactive-react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10"
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
     "@designable/core": "1.0.0-beta.5",
     "@designable/react": "1.0.0-beta.5",
     "@designable/shared": "1.0.0-beta.5",
-    "@formily/antd": "^2.0.0-rc.9",
-    "@formily/core": "^2.0.0-rc.9",
-    "@formily/react": "^2.0.0-rc.9",
-    "@formily/reactive": "^2.0.0-rc.9",
-    "@formily/reactive-react": "^2.0.0-rc.9",
-    "@formily/shared": "^2.0.0-rc.9",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.25.2",
     "prettier": "^2.3.2",

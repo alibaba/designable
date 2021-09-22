@@ -24,11 +24,17 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/json-schema": "^2.0.0-rc.10"
+  },
+  "peerDependencies": {
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/json-schema": "^2.0.0-rc.10"
+  },
   "dependencies": {
     "@designable/core": "1.0.0-beta.5",
-    "@designable/shared": "1.0.0-beta.5",
-    "@formily/core": "^2.0.0-rc.9",
-    "@formily/json-schema": "^2.0.0-rc.9"
+    "@designable/shared": "1.0.0-beta.5"
   },
   "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
 }

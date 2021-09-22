@@ -39,7 +39,11 @@
     "webpack": "^4.41.5",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10"
   },
   "peerDependencies": {
     "@types/react": ">=16.8.0 || >=17.0.0",
@@ -47,17 +51,17 @@
     "antd": "^4.0.0",
     "react": ">=16.8.0 || >=17.0.0",
     "react-dom": ">=16.8.0",
-    "react-is": ">=16.8.0 || >=17.0.0"
+    "react-is": ">=16.8.0 || >=17.0.0",
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10"
   },
   "dependencies": {
     "@designable/core": "1.0.0-beta.5",
     "@designable/formily-setters": "1.0.0-beta.5",
     "@designable/formily-transformer": "1.0.0-beta.5",
-    "@designable/react": "1.0.0-beta.5",
-    "@formily/antd": "^2.0.0-rc.9",
-    "@formily/core": "^2.0.0-rc.9",
-    "@formily/react": "^2.0.0-rc.9",
-    "@formily/shared": "^2.0.0-rc.9"
+    "@designable/react": "1.0.0-beta.5"
   },
   "publishConfig": {
     "access": "public"
