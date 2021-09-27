@@ -22,7 +22,7 @@ export const GhostWidget = observer(() => {
         if (!ref.current) return
         ref.current.style.transform = transform
       }),
-    []
+    [designer, cursor]
   )
   const renderNodes = () => {
     return (

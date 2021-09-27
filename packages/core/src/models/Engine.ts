@@ -84,7 +84,7 @@ export class Engine extends Event {
   }
 
   unmount() {
-    this.detachEvents(window)
+    this.detachEvents()
   }
 
   static defaultProps: IEngineProps<Engine> = {

@@ -181,15 +181,6 @@ export class EventDriver<Engine extends Event = Event, Context = any>
       constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
       const handler = target[EVENTS_ONCE_SYMBOL][type]
       const container = constructor[EVENTS_ONCE_SYMBOL][type]
-      const removeContainer = () => {
-        if (!container) return
-        container.removeEventListener(
-          type,
-          container[EVENTS_ONCE_SYMBOL][type],
-          options
-        )
-        delete container[EVENTS_ONCE_SYMBOL][type]
-      }
       if (!handler) {
         if (container) {
           if (options.mode === 'onlyChild') {
@@ -232,7 +223,10 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   removeEventListener(type: any, listener: any, options?: any) {
     const target = this.eventTarget(type)
     if (isOnlyMode(options?.mode)) {
+      const constructor = this['constructor']
+      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
+      delete constructor[EVENTS_ONCE_SYMBOL][type]
       delete target[EVENTS_ONCE_SYMBOL][type]
       target.removeEventListener(type, listener, options)
     } else {
@@ -342,14 +336,13 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       return this.attachEvents(container.document, container, context)
     }
     if (container[ATTACHED_SYMBOL]) return
-    this.drivers.map((EventDriver) => {
+    container[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
       const driver = new EventDriver(this, context)
       driver.contentWindow = contentWindow
       driver.container = container
       driver.attach(container)
       return driver
     })
-    container[ATTACHED_SYMBOL] = true
     if (!this.containers.includes(container)) {
       this.containers.push(container)
     }
@@ -366,6 +359,9 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       return this.detachEvents(container.document)
     }
     if (!container[ATTACHED_SYMBOL]) return
+    container[ATTACHED_SYMBOL].forEach((driver) => {
+      driver.detach(container)
+    })
     env.ALL_EVENT_DRIVERS = env.ALL_EVENT_DRIVERS.reduce((drivers, driver) => {
       if (driver.container === container) {
         driver.detach(container)
