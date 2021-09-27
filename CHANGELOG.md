@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.0-beta.9(2021-09-27)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix event driver conflict](https://github.com/alibaba/designable/commit/af41004) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(formily): fix FormLayout locales](https://github.com/alibaba/designable/commit/ea2648a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.8(2021-09-22)
 
 ### :beetle: Bug Fixes
@@ -269,9 +277,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support data-content-editable-node-id](https://github.com/alibaba/designable/commit/ad7790d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.41(2021-08-21)
-
-### :tada: Enhancements
-
-1. [feat(core): support content-editable](https://github.com/alibaba/designable/commit/2b9c46c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
