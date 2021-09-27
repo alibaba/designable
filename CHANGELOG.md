@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-beta.8(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix Workspace will throw error when designer is undefined](https://github.com/alibaba/designable/commit/611e9e6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(core): change defaultComponentTree type ITreeNode[] to ITreeNode](https://github.com/alibaba/designable/commit/40b2af7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.7(2021-09-22)
 
 ### :beetle: Bug Fixes
@@ -265,19 +275,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support content-editable](https://github.com/alibaba/designable/commit/2b9c46c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.40(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(settings): support multi workspace for SettingsForm](https://github.com/alibaba/designable/commit/0ab144f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(settings): move NodePath to NodePathWidget](https://github.com/alibaba/designable/commit/2fc9c1d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/354a7b5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [chore(settings): improve code](https://github.com/alibaba/designable/commit/40c0dd1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
