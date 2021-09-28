@@ -7,9 +7,9 @@ import {
   useNodeIdProps,
   useTreeNode,
   TreeNodeWidget,
+  DroppableWidget,
   DnFC,
 } from '@designable/react'
-import { Droppable } from '../../common/Droppable'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'
@@ -56,7 +56,7 @@ export const FormTab: DnFC<TabsProps> & {
   })
   const tabs = parseTabs(node)
   const renderTabs = () => {
-    if (!node.children?.length) return <Droppable />
+    if (!node.children?.length) return <DroppableWidget />
     return (
       <Tabs
         {...props}
@@ -92,7 +92,7 @@ export const FormTab: DnFC<TabsProps> & {
                 tab.children.length ? (
                   <TreeNodeWidget node={tab} />
                 ) : (
-                  <Droppable />
+                  <DroppableWidget node={tab} />
                 )
               )}
             </Tabs.TabPane>

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Table } from '@alifd/next'
 import { TableProps } from '@alifd/next/types/table'
-import { Droppable } from '../../common/Droppable'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
   useTreeNode,
   TreeNodeWidget,
+  DroppableWidget,
   useNodeIdProps,
   DnFC,
 } from '@designable/react'
@@ -149,7 +149,7 @@ export const ArrayTable: DnFC<TableProps> = observer((props) => {
   }
 
   const renderTable = () => {
-    if (node.children.length === 0) return <Droppable />
+    if (node.children.length === 0) return <DroppableWidget />
     return (
       <ArrayBase disabled>
         <Table
@@ -188,7 +188,9 @@ export const ArrayTable: DnFC<TableProps> = observer((props) => {
               />
             )
           })}
-          {columns.length === 0 && <Table.Column cell={() => <Droppable />} />}
+          {columns.length === 0 && (
+            <Table.Column cell={() => <DroppableWidget />} />
+          )}
         </Table>
         {additions.map((child) => {
           return <TreeNodeWidget node={child} key={child.id} />

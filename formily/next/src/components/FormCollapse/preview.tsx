@@ -10,10 +10,10 @@ import {
   useTreeNode,
   useNodeIdProps,
   TreeNodeWidget,
+  DroppableWidget,
   DnFC,
 } from '@designable/react'
 import { toArr } from '@formily/shared'
-import { Droppable } from '../../common/Droppable'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'
@@ -57,7 +57,7 @@ export const FormCollapse: DnFC<CollapseProps> & {
   const panels = parseCollapse(node)
 
   const renderCollapse = () => {
-    if (!node.children?.length) return <Droppable {...props} />
+    if (!node.children?.length) return <DroppableWidget />
     return (
       <Collapse
         {...props}
@@ -93,7 +93,7 @@ export const FormCollapse: DnFC<CollapseProps> & {
                 panel.children.length ? (
                   <TreeNodeWidget node={panel} />
                 ) : (
-                  <Droppable />
+                  <DroppableWidget />
                 )
               )}
             </Collapse.Panel>

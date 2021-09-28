@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import { Card } from '@alifd/next'
 import { CardProps } from '@alifd/next/types/card'
-import { Droppable } from '../../common/Droppable'
 import { TreeNode, createResource } from '@designable/core'
 import {
   useTreeNode,
   TreeNodeWidget,
+  DroppableWidget,
   useNodeIdProps,
   DnFC,
 } from '@designable/react'
@@ -85,7 +85,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
     return [objectNode, additionNode]
   })
   const renderCard = () => {
-    if (node.children.length === 0) return <Droppable />
+    if (node.children.length === 0) return <DroppableWidget />
     const additions = queryNodesByComponentPath(node, [
       'ArrayCards',
       'ArrayCards.Addition',
@@ -137,7 +137,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
                   <TreeNodeWidget key={node.id} node={node} />
                 ))
               ) : (
-                <Droppable />
+                <DroppableWidget />
               )}
             </div>
           </Card>

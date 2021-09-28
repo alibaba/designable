@@ -1,10 +1,10 @@
 import React from 'react'
 import { Table, TableProps } from 'antd'
-import { Droppable } from '../../common/Droppable'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
   useTreeNode,
   TreeNodeWidget,
+  DroppableWidget,
   useNodeIdProps,
   DnFC,
 } from '@designable/react'
@@ -170,7 +170,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
   }
 
   const renderTable = () => {
-    if (node.children.length === 0) return <Droppable />
+    if (node.children.length === 0) return <DroppableWidget />
     return (
       <ArrayBase disabled>
         <Table
@@ -219,7 +219,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
             )
           })}
           {columns.length === 0 && (
-            <Table.Column render={() => <Droppable />} />
+            <Table.Column render={() => <DroppableWidget />} />
           )}
         </Table>
         {additions.map((child) => {
