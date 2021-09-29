@@ -23,14 +23,14 @@
     "build:umd": "rollup --config"
   },
   "devDependencies": {
-    "@formily/json-schema": "^2.0.0-rc.10",
-    "@formily/path": "^2.0.0-rc.10",
-    "@formily/reactive": "^2.0.0-rc.10"
+    "@formily/json-schema": "^2.0.0-rc.12",
+    "@formily/path": "^2.0.0-rc.12",
+    "@formily/reactive": "^2.0.0-rc.12"
   },
   "peerDependencies": {
-    "@formily/json-schema": "^2.0.0-rc.10",
-    "@formily/path": "^2.0.0-rc.10",
-    "@formily/reactive": "^2.0.0-rc.10"
+    "@formily/json-schema": "^2.0.0-rc.12",
+    "@formily/path": "^2.0.0-rc.12",
+    "@formily/reactive": "^2.0.0-rc.12"
   },
   "dependencies": {
     "@designable/shared": "1.0.0-beta.10",

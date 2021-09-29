@@ -23,12 +23,12 @@
     "build:umd": "rollup --config"
   },
   "devDependencies": {
-    "@formily/reactive": "^2.0.0-rc.10",
-    "@formily/reactive-react": "^2.0.0-rc.10"
+    "@formily/reactive": "^2.0.0-rc.12",
+    "@formily/reactive-react": "^2.0.0-rc.12"
   },
   "peerDependencies": {
-    "@formily/reactive": "^2.0.0-rc.10",
-    "@formily/reactive-react": "^2.0.0-rc.10",
+    "@formily/reactive": "^2.0.0-rc.12",
+    "@formily/reactive-react": "^2.0.0-rc.12",
     "antd": "^4.15.4",
     "react": "16.x || 17.x"
   },

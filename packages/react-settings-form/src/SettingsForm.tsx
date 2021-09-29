@@ -42,7 +42,8 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     )
     const form = useMemo(() => {
       return createForm({
-        values: node?.props,
+        initialValues: node?.designerProps?.defaultProps,
+        values: node.props,
         effects(form) {
           useLocales(node)
           useSnapshot(operation)

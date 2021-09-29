@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormPath } from '@formily/core'
+import { toJS } from '@formily/reactive'
 import {
   ArrayField,
   Field as InternalField,
@@ -112,10 +113,10 @@ const toDesignableFieldProps = (
   const componentProps = schema['x-component-props'] || {}
 
   if (decorator) {
-    results.decorator = [decorator, { ...decoratorProps }]
+    results.decorator = [decorator, toJS(decoratorProps)]
   }
   if (component) {
-    results.component = [component, { ...componentProps }]
+    results.component = [component, toJS(componentProps)]
   }
   if (decorator) {
     FormPath.setIn(results['decorator'][1], nodeIdAttrName, id)

@@ -25,12 +25,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@formily/core": "^2.0.0-rc.10",
-    "@formily/json-schema": "^2.0.0-rc.10"
+    "@formily/core": "^2.0.0-rc.12",
+    "@formily/json-schema": "^2.0.0-rc.12"
   },
   "peerDependencies": {
-    "@formily/core": "^2.0.0-rc.10",
-    "@formily/json-schema": "^2.0.0-rc.10"
+    "@formily/core": "^2.0.0-rc.12",
+    "@formily/json-schema": "^2.0.0-rc.12"
   },
   "dependencies": {
     "@designable/core": "1.0.0-beta.10",
