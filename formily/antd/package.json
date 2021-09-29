@@ -1,6 +1,6 @@
 {
   "name": "@designable/formily-antd",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "license": "MIT",
   "main": "lib",
   "module": "esm",
@@ -24,12 +24,12 @@
     "start": "webpack-dev-server --config playground/webpack.dev.ts"
   },
   "devDependencies": {
-    "@designable/react-settings-form": "1.0.0-beta.10",
+    "@designable/react-settings-form": "1.0.0-beta.11",
     "@formily/antd": "^2.0.0-rc.12",
     "@formily/core": "^2.0.0-rc.12",
     "@formily/react": "^2.0.0-rc.12",
-    "@formily/shared": "^2.0.0-rc.12",
     "@formily/reactive": "^2.0.0-rc.12",
+    "@formily/shared": "^2.0.0-rc.12",
     "autoprefixer": "^9.0",
     "file-loader": "^5.0.2",
     "fs-extra": "^8.1.0",
@@ -50,8 +50,8 @@
     "@formily/antd": "^2.0.0-rc.12",
     "@formily/core": "^2.0.0-rc.12",
     "@formily/react": "^2.0.0-rc.12",
-    "@formily/shared": "^2.0.0-rc.12",
     "@formily/reactive": "^2.0.0-rc.12",
+    "@formily/shared": "^2.0.0-rc.12",
     "@types/react": ">=16.8.0 || >=17.0.0",
     "@types/react-dom": ">=16.8.0 || >=17.0.0",
     "antd": "^4.0.0",
@@ -60,10 +60,10 @@
     "react-is": ">=16.8.0 || >=17.0.0"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.10",
-    "@designable/formily-setters": "1.0.0-beta.10",
-    "@designable/formily-transformer": "1.0.0-beta.10",
-    "@designable/react": "1.0.0-beta.10"
+    "@designable/core": "1.0.0-beta.11",
+    "@designable/formily-setters": "1.0.0-beta.11",
+    "@designable/formily-transformer": "1.0.0-beta.11",
+    "@designable/react": "1.0.0-beta.11"
   },
   "publishConfig": {
     "access": "public"

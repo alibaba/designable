@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.10(2021-09-27)
+
+### :beetle: Bug Fixes
+
+1. [fix(shared): fix batch add event conflict with multi engine](https://github.com/alibaba/designable/commit/a92f56b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.9(2021-09-27)
 
 ### :beetle: Bug Fixes
@@ -271,9 +277,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(settings): fix BorderStyleSetter](https://github.com/alibaba/designable/commit/008bd1c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.42(2021-08-21)
-
-### :tada: Enhancements
-
-1. [feat(core): support data-content-editable-node-id](https://github.com/alibaba/designable/commit/ad7790d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
