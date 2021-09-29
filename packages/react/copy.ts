@@ -1,4 +1,4 @@
-import { runCopy } from '../../scripts/copy'
+import { runCopy } from '../../scripts/build-style'
 
 runCopy({
   esStr: 'antd/es/',

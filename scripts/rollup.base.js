@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import NpmImport from 'less-plugin-npm-import'
 import externalGlobals from 'rollup-plugin-external-globals'
 import { terser } from 'rollup-plugin-terser'
+import path from 'path'
 
 const presets = () => {
   const externals = {
@@ -61,6 +62,20 @@ const presets = () => {
     externalGlobals(externals),
   ]
 }
+
+const inputFilePath = path.join(process.cwd(), 'src/index.ts')
+
+export const removeImportStyleFromInputFilePlugin = () => ({
+  name: 'remove-import-style-from-input-file',
+  transform(code, id) {
+    // 样式由 build:style 进行打包，所以要删除入口文件上的 `import './style'`
+    if (inputFilePath === id) {
+      return code.replace(`import './style';`, '')
+    }
+
+    return code
+  },
+})
 
 export default (filename, targetName, ...plugins) => [
   {

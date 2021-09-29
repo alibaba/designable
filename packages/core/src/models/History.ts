@@ -1,6 +1,7 @@
 import { define, observable, action } from '@formily/reactive'
 
 export interface IHistoryProps<T> {
+  onPush?: (item: T) => void
   onRedo?: (item: T) => void
   onUndo?: (item: T) => void
   onGoto?: (item: T) => void
@@ -53,16 +54,20 @@ export class History<T extends ISerializable = any> {
     if (this.current < this.history.length - 1) {
       this.history = this.history.slice(0, this.current + 1)
     }
-    this.current = this.history.length
-    this.history.push({
+    const item = {
       data: this.context.serialize(),
       timestamp: Date.now(),
       type,
-    })
+    }
+    this.current = this.history.length
+    this.history.push(item)
     const overSizeCount = this.history.length - this.maxSize
     if (overSizeCount > 0) {
       this.history.splice(0, overSizeCount)
       this.current = this.history.length - 1
+    }
+    if (this.props?.onPush) {
+      this.props.onPush(item)
     }
   }
 

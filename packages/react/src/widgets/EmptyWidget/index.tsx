@@ -8,7 +8,7 @@ const Empty = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div className="animations">
-        <IconWidget infer="DragSourceAnimation" size={240} />
+        <IconWidget infer="ResourceAnimation" size={240} />
         <IconWidget infer="BatchDragAnimation" size={240} />
       </div>
       <div className="hotkeys-list">

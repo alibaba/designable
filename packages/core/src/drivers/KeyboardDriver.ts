@@ -28,19 +28,19 @@ export class KeyboardDriver extends EventDriver {
 
   attach() {
     this.addEventListener('keydown', this.onKeyDown, {
-      once: true,
+      mode: 'onlyParent',
     })
     this.addEventListener('keyup', this.onKeyUp, {
-      once: true,
+      mode: 'onlyParent',
     })
   }
 
   detach() {
     this.removeEventListener('keydown', this.onKeyDown, {
-      once: true,
+      mode: 'onlyParent',
     })
     this.removeEventListener('keyup', this.onKeyUp, {
-      once: true,
+      mode: 'onlyParent',
     })
   }
 }

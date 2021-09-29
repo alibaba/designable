@@ -1,33 +1,42 @@
 import React, { Fragment } from 'react'
-import { isStr } from '@designable/shared'
-import { GlobalRegistry } from '@designable/core'
+import { isStr, isPlainObj } from '@designable/shared'
+import { GlobalRegistry, IDesignerMiniLocales } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 
 export interface ITextWidgetProps {
   componentName?: string
-  token?: string
-  defaultMessage?: string
+  sourceName?: string
+  token?: string | IDesignerMiniLocales
+  defaultMessage?: string | IDesignerMiniLocales
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
-  const takeToken = () => {
-    if (isStr(props.children)) return props.children || props.token
-  }
-  const takeMessage = (token: string) => {
-    if (!token) return
-    if (props.componentName) {
-      const message = GlobalRegistry.getComponentDesignerMessage(
-        props.componentName,
-        token
-      )
-      if (message) return message
+  const takeLocale = (
+    message: string | IDesignerMiniLocales
+  ): React.ReactNode => {
+    if (isStr(message)) return message
+    if (isPlainObj(message)) {
+      const lang = GlobalRegistry.getDesignerLanguage()
+      for (let key in message) {
+        if (key.toLocaleLowerCase() === lang) return message[key]
+      }
+      return
     }
-    const message = GlobalRegistry.getDesignerMessage(token)
-    if (message) return message
+    return message
   }
-  const token = takeToken()
-  const message =
-    takeMessage(token) || takeMessage(props.token)
-  if (message) return message
-  return <Fragment>{props.children}</Fragment>
+  const takeMessage = (token: any) => {
+    if (!token) return
+    const message = isStr(token)
+      ? GlobalRegistry.getDesignerMessage(token)
+      : token
+    if (message) return takeLocale(message)
+    return token
+  }
+  return (
+    <Fragment>
+      {takeMessage(props.children) ||
+        takeMessage(props.token) ||
+        takeMessage(props.defaultMessage)}
+    </Fragment>
+  )
 })

@@ -1,4 +1,5 @@
 import { Path } from '@formily/path'
+import { requestIdle } from '@designable/shared'
 import { Engine, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 
@@ -6,25 +7,54 @@ type GlobalState = {
   activeElements: Map<HTMLInputElement, TreeNode>
   requestTimer: any
   isComposition: boolean
+  queue: (() => void)[]
 }
 
-function placeCaretAtEnd(el: HTMLInputElement, isCollapse: boolean) {
+function getAllRanges(sel: Selection) {
+  const ranges = []
+  for (let i = 0; i < sel.rangeCount; i++) {
+    const range = sel.getRangeAt(i)
+    ranges[i] = {
+      collapsed: range.collapsed,
+      startOffset: range.startOffset,
+      endOffset: range.endOffset,
+    }
+  }
+  return ranges
+}
+
+function setEndOfContenteditable(contentEditableElement: Element) {
+  const range = document.createRange()
+  range.selectNodeContents(contentEditableElement)
+  range.collapse(false)
+  const selection = window.getSelection()
+  selection.removeAllRanges()
+  selection.addRange(range)
+}
+
+function createCaretCache(el: Element) {
   const currentSelection = window.getSelection()
   if (currentSelection.containsNode(el)) return
-  el.focus()
-  const range = document.createRange()
-  range.selectNodeContents(el)
-  if (isCollapse) {
-    range.collapse(false)
+  const ranges = getAllRanges(currentSelection)
+  return () => {
+    const sel = window.getSelection()
+    const firstNode = el.childNodes[0]
+    if (!firstNode) return
+    sel.removeAllRanges()
+    ranges.forEach((item) => {
+      const range = document.createRange()
+      range.collapse(item.collapsed)
+      range.setStart(firstNode, item.startOffset)
+      range.setEnd(firstNode, item.endOffset)
+      sel.addRange(range)
+    })
   }
-  const sel = window.getSelection()
-  sel.removeAllRanges()
-  sel.addRange(range)
 }
 
 export const useContentEditableEffect = (engine: Engine) => {
   const globalState: GlobalState = {
     activeElements: new Map(),
+    queue: [],
     requestTimer: null,
     isComposition: false,
   }
@@ -42,20 +72,31 @@ export const useContentEditableEffect = (engine: Engine) => {
     event.preventDefault()
     if (node) {
       const target = event.target as Element
-      clearTimeout(globalState.requestTimer)
-      globalState.requestTimer = setTimeout(() => {
+      const handler = () => {
+        globalState.queue.length = 0
         if (globalState.isComposition) return
-        const isCollapsed = window.getSelection().isCollapsed
+        const restore = createCaretCache(target)
         Path.setIn(
           node.props,
           this.getAttribute(engine.props.contentEditableAttrName),
           target?.textContent
         )
-        setTimeout(() => {
-          placeCaretAtEnd(this, isCollapsed)
-        }, 16)
-      }, 600)
+        requestIdle(() => {
+          restore()
+        })
+      }
+      globalState.queue.push(handler)
+      clearTimeout(globalState.requestTimer)
+      globalState.requestTimer = setTimeout(handler, 600)
     }
+  }
+
+  function onSelectionChangeHandler() {
+    clearTimeout(globalState.requestTimer)
+    globalState.requestTimer = setTimeout(
+      globalState.queue[globalState.queue.length - 1],
+      600
+    )
   }
 
   function onCompositionHandler(event: CompositionEvent) {
@@ -96,12 +137,14 @@ export const useContentEditableEffect = (engine: Engine) => {
       return
     globalState.activeElements.forEach((node, element) => {
       globalState.activeElements.delete(element)
-      element.setAttribute('contenteditable', 'false')
+      element.removeAttribute('contenteditable')
+      element.removeAttribute('spellcheck')
       element.removeEventListener('input', onInputHandler)
       element.removeEventListener('compositionstart', onCompositionHandler)
       element.removeEventListener('compositionupdate', onCompositionHandler)
       element.removeEventListener('compositionend', onCompositionHandler)
       element.removeEventListener('past', onPastHandler)
+      document.removeEventListener('selectionchange', onSelectionChangeHandler)
     })
   })
 
@@ -120,6 +163,7 @@ export const useContentEditableEffect = (engine: Engine) => {
           const targetNode = tree.findById(nodeId)
           if (targetNode) {
             globalState.activeElements.set(editableElement, targetNode)
+            editableElement.setAttribute('spellcheck', 'false')
             editableElement.setAttribute('contenteditable', 'true')
             editableElement.focus()
             editableElement.addEventListener('input', onInputHandler)
@@ -137,7 +181,11 @@ export const useContentEditableEffect = (engine: Engine) => {
             )
             editableElement.addEventListener('keydown', onKeyDownHandler)
             editableElement.addEventListener('paste', onPastHandler)
-            placeCaretAtEnd(editableElement, false)
+            document.addEventListener(
+              'selectionchange',
+              onSelectionChangeHandler
+            )
+            setEndOfContenteditable(editableElement)
           }
         }
       }

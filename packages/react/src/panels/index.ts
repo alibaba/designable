@@ -1,5 +1,5 @@
 import './styles.less'
-export * from './MainPanel'
+export * from './StudioPanel'
 export * from './CompositePanel'
 export * from './SettingsPanel'
 export * from './WorkspacePanel'

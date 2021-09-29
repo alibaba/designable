@@ -1,6 +1,6 @@
 {
   "name": "@designable/react-settings-form",
-  "version": "0.5.29",
+  "version": "1.0.0-beta.10",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -8,6 +8,14 @@
     "npm": ">=3.0.0"
   },
   "module": "esm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/designable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alibaba/designable/issues"
+  },
+  "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd && ts-node copy",
     "build:cjs": "tsc --project tsconfig.build.json",
@@ -15,22 +23,28 @@
     "build:umd": "rollup --config"
   },
   "peerDependencies": {
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/reactive": "^2.0.0-rc.10",
+    "@formily/reactive-react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10",
     "antd": "^4.0.0"
   },
   "devDependencies": {
+    "@formily/antd": "^2.0.0-rc.10",
+    "@formily/core": "^2.0.0-rc.10",
+    "@formily/react": "^2.0.0-rc.10",
+    "@formily/reactive": "^2.0.0-rc.10",
+    "@formily/reactive-react": "^2.0.0-rc.10",
+    "@formily/shared": "^2.0.0-rc.10",
     "antd": "^4.15.5"
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@designable/core": "0.5.29",
-    "@designable/react": "0.5.29",
-    "@designable/shared": "0.5.29",
-    "@formily/antd": "^2.0.0-beta.84",
-    "@formily/core": "^2.0.0-beta.84",
-    "@formily/react": "^2.0.0-beta.84",
-    "@formily/reactive": "^2.0.0-beta.84",
-    "@formily/reactive-react": "^2.0.0-beta.84",
-    "@formily/shared": "^2.0.0-beta.84",
+    "@designable/core": "1.0.0-beta.10",
+    "@designable/react": "1.0.0-beta.10",
+    "@designable/shared": "1.0.0-beta.10",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.25.2",
     "prettier": "^2.3.2",

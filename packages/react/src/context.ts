@@ -1,7 +1,16 @@
 import { createContext } from 'react'
-import { TreeNode } from '@designable/core'
-import { IDesignerContext, IWorkspaceContext } from './types'
-export const DesignerContext = createContext<IDesignerContext>(null)
+import { TreeNode, Engine } from '@designable/core'
+import {
+  IDesignerLayoutContext,
+  IWorkspaceContext,
+  IDesignerComponents,
+} from './types'
+
+export const DesignerComponentsContext = createContext<IDesignerComponents>({})
+
+export const DesignerLayoutContext = createContext<IDesignerLayoutContext>(null)
+
+export const DesignerEngineContext = createContext<Engine>(null)
 
 export const TreeNodeContext = createContext<TreeNode>(null)
 

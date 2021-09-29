@@ -3,9 +3,13 @@ import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
 import { uid, ICustomEvent, EventContainer } from '@designable/shared'
-import { HistoryGotoEvent, HistoryRedoEvent, HistoryUndoEvent } from '../events'
+import {
+  HistoryGotoEvent,
+  HistoryRedoEvent,
+  HistoryUndoEvent,
+  HistoryPushEvent,
+} from '../events'
 import { IEngineContext } from '../types'
-import { DragSource } from './DragSource'
 export interface IViewportMatcher {
   contentWindow?: Window
   viewportElement?: HTMLElement
@@ -38,8 +42,6 @@ export class Workspace {
 
   viewport: Viewport
 
-  source: DragSource
-
   outline: Viewport
 
   operation: Operation
@@ -54,7 +56,6 @@ export class Workspace {
     this.id = props.id || uid()
     this.title = props.title
     this.description = props.description
-    this.source = new DragSource()
     this.viewport = new Viewport({
       engine: this.engine,
       workspace: this,
@@ -71,6 +72,9 @@ export class Workspace {
     })
     this.operation = new Operation(this)
     this.history = new History(this, {
+      onPush: (item) => {
+        this.operation.dispatch(new HistoryPushEvent(item))
+      },
       onRedo: (item) => {
         this.operation.hover.clear()
         this.operation.dispatch(new HistoryRedoEvent(item))

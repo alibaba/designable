@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { DesignerContext } from '../context'
+import { DesignerLayoutContext } from '../context'
 
 export const usePrefix = (after = '') => {
-  return useContext(DesignerContext)?.prefixCls + after
+  return useContext(DesignerLayoutContext)?.prefixCls + after
 }

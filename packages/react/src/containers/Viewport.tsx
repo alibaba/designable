@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { usePrefix, useViewport } from '../hooks'
 import { AuxToolWidget, EmptyWidget } from '../widgets'
+import { Viewport as ViewportType } from '@designable/core'
 import { requestIdle } from '@designable/shared'
 import cls from 'classnames'
 export interface IViewportProps
@@ -16,10 +17,14 @@ export const Viewport: React.FC<IViewportProps> = ({
   const prefix = usePrefix('viewport')
   const viewport = useViewport()
   const ref = useRef<HTMLDivElement>()
+  const viewportRef = useRef<ViewportType>()
   const isFrameRef = useRef(false)
   useEffect(() => {
     const frameElement = ref.current.querySelector('iframe')
     if (!viewport) return
+    if (viewportRef.current && viewportRef.current !== viewport) {
+      viewportRef.current.onUnmount()
+    }
     if (frameElement) {
       frameElement.addEventListener('load', () => {
         viewport.onMount(frameElement, frameElement.contentWindow)
@@ -35,10 +40,12 @@ export const Viewport: React.FC<IViewportProps> = ({
         setLoaded(true)
       })
     }
+    viewportRef.current = viewport
     return () => {
       viewport.onUnmount()
     }
-  }, [])
+  }, [viewport])
+
   return (
     <div
       {...props}

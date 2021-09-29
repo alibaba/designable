@@ -292,3 +292,10 @@ export function includesWith(val: any, search: any) {
     return false
   }
 }
+
+export const flat = <T>(array: Array<T | T[]>): T[] => {
+  return toArr(array).reduce((buf, item) => {
+    if (isArr(item)) return buf.concat(flat(item))
+    return buf.concat(item)
+  }, [])
+}

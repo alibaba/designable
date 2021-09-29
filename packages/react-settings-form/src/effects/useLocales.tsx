@@ -1,17 +1,8 @@
 import React from 'react'
 import { isVoidField, onFieldReact } from '@formily/core'
-import { GlobalRegistry, TreeNode } from '@designable/core'
-import { isPlainObj, isStr } from '@designable/shared'
+import { TreeNode, GlobalRegistry } from '@designable/core'
+import { isStr } from '@designable/shared'
 import { IconWidget } from '@designable/react'
-
-const takeMessage = (message: any): any => {
-  if (isStr(message))
-    return {
-      title: message,
-    }
-  if (isPlainObj(message)) return message
-  return {}
-}
 
 const takeIcon = (message: string) => {
   if (!isStr(message)) return
@@ -20,64 +11,55 @@ const takeIcon = (message: string) => {
   return
 }
 
+const mapEnum = (dataSource: any[]) => (item: any, index: number) => {
+  const label = dataSource[index] || dataSource[item.value] || item.label
+  const icon = takeIcon(label)
+  return {
+    ...item,
+    value: item?.value ?? null,
+    label: icon ? (
+      <IconWidget infer={icon[0]} tooltip={icon[1]} />
+    ) : (
+      label?.label ?? label ?? 'Unknow'
+    ),
+  }
+}
+
 export const useLocales = (node: TreeNode) => {
   onFieldReact('*', (field) => {
-    const takeLocales = () => {
-      const namespace = node?.designerProps?.propsSchema?.$namespace
-      const componentName = node?.componentName
-      const path = field.path.toString().replace(/\.[\d+]/g, '')
-      const token = field.path.segments[field.path.segments.length - 1]
-      const commonMessage = GlobalRegistry.getDesignerMessage(
-        `settings.${path}`
-      )
-      const componentMessage = GlobalRegistry.getComponentDesignerMessage(
-        componentName,
-        `settings.${path}`
-      )
-      const namespaceMessage = GlobalRegistry.getDesignerMessage(
-        `settings.${namespace}.${token}`
-      )
-      if (componentMessage) return takeMessage(componentMessage)
-      if (namespaceMessage) return takeMessage(namespaceMessage)
-      return takeMessage(commonMessage)
+    const path = field.path.toString().replace(/\.[\d+]/g, '')
+    const takeMessage = (prop?: string) => {
+      const token = `settings.${path}${prop ? `.${prop}` : ''}`
+      return node.getMessage(token) || GlobalRegistry.getDesignerMessage(token)
     }
-    const locales = takeLocales()
-    if (locales.title) {
-      field.title = locales.title
+    const title = takeMessage('title') || takeMessage()
+    const description = takeMessage('description')
+    const tooltip = takeMessage('tooltip')
+    const dataSource = takeMessage('dataSource')
+    const placeholder = takeMessage('placeholder')
+    if (title) {
+      field.title = title
     }
-    if (locales.description) {
-      field.description = locales.description
+    if (description) {
+      field.description = description
     }
-    if (locales.tooltip) {
+    if (tooltip) {
       field.decorator[1] = field.decorator[1] || []
-      field.decorator[1].tooltip = locales.tooltip
+      field.decorator[1].tooltip = tooltip
     }
-    if (locales.placeholder) {
+    if (placeholder) {
       field.component[1] = field.component[1] || []
-      field.component[1].placeholder = locales.placeholder
+      field.component[1].placeholder = placeholder
     }
     if (!isVoidField(field)) {
-      if (locales.dataSource?.length) {
+      if (dataSource?.length) {
         if (field.dataSource?.length) {
-          field.dataSource = field.dataSource.map((item, index) => {
-            const label =
-              locales.dataSource[index] ||
-              locales.dataSource[item.value] ||
-              item.label
-            const icon = takeIcon(label)
-            return {
-              ...item,
-              value: item?.value ?? null,
-              label: icon ? (
-                <IconWidget infer={icon[0]} tooltip={icon[1]} />
-              ) : (
-                label?.label ?? label
-              ),
-            }
-          })
+          field.dataSource = field.dataSource.map(mapEnum(dataSource))
         } else {
-          field.dataSource = locales.dataSource.slice()
+          field.dataSource = dataSource.slice()
         }
+      } else {
+        field.dataSource = field.dataSource?.filter(Boolean)
       }
     }
   })

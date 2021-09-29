@@ -1,4 +1,5 @@
 import './styles.less'
+export * from './Layout'
 export * from './Designer'
 export * from './Workspace'
 export * from './Simulator'

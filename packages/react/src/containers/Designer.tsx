@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { Engine } from '@designable/core'
-import cls from 'classnames'
-import { DesignerContext } from '../context'
+import { DesignerEngineContext } from '../context'
 import { IDesignerProps } from '../types'
 import { GhostWidget } from '../widgets'
 import { useDesigner } from '../hooks'
+import { Layout } from './Layout'
 
 export const Designer: React.FC<IDesignerProps> = (props) => {
   const engine = useDesigner()
@@ -24,7 +24,7 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
         props.engine.unmount()
       }
     }
-  }, [])
+  }, [props.engine])
 
   if (engine)
     throw new Error(
@@ -32,23 +32,12 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
     )
 
   return (
-    <div
-      className={cls({
-        [`${props.prefixCls}app`]: true,
-        [`${props.prefixCls}${props.theme}`]: props.theme,
-      })}
-    >
-      <DesignerContext.Provider
-        value={{
-          engine: props.engine,
-          prefixCls: props.prefixCls,
-          theme: props.theme,
-        }}
-      >
+    <Layout theme={props.theme} prefixCls={props.prefixCls}>
+      <DesignerEngineContext.Provider value={props.engine}>
         {props.children}
         <GhostWidget />
-      </DesignerContext.Provider>
-    </div>
+      </DesignerEngineContext.Provider>
+    </Layout>
   )
 }
 

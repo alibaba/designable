@@ -2,23 +2,17 @@ import { isArr, isWindow } from './types'
 import { Subscribable, ISubscriber } from './subscribable'
 
 const ATTACHED_SYMBOL = Symbol('ATTACHED_SYMBOL')
-
 const EVENTS_SYMBOL = Symbol('__EVENTS_SYMBOL__')
-
 const EVENTS_ONCE_SYMBOL = Symbol('EVENTS_ONCE_SYMBOL')
 const EVENTS_BATCH_SYMBOL = Symbol('EVENTS_BATCH_SYMBOL')
-
-type GlobalEnv = {
-  ALL_EVENT_DRIVERS: EventDriver[]
-}
-
-const env: GlobalEnv = {
-  ALL_EVENT_DRIVERS: [],
-}
+const DRIVER_INSTANCES_SYMBOL = Symbol('DRIVER_INSTANCES_SYMBOL')
 
 export type EventOptions =
   | boolean
-  | (AddEventListenerOptions & EventListenerOptions & { once?: boolean })
+  | (AddEventListenerOptions &
+      EventListenerOptions & {
+        mode?: 'onlyOne' | 'onlyParent' | 'onlyChild'
+      })
 
 export type EventContainer = Window | HTMLElement | HTMLDocument
 
@@ -100,6 +94,8 @@ export interface IEventProps<T = Event> {
   effects?: IEventEffect<T>[]
 }
 
+const isOnlyMode = (mode: string) =>
+  mode === 'onlyOne' || mode === 'onlyChild' || mode === 'onlyParent'
 /**
  * 事件驱动器基类
  */
@@ -170,12 +166,30 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   ): void
   addEventListener(type: any, listener: any, options: any) {
     const target = this.eventTarget(type)
-    if (options?.once) {
+    if (isOnlyMode(options?.mode)) {
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      delete options.once
-      if (!target[EVENTS_ONCE_SYMBOL][type]) {
+      const constructor = this['constructor']
+      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
+      const handler = target[EVENTS_ONCE_SYMBOL][type]
+      const container = constructor[EVENTS_ONCE_SYMBOL][type]
+      if (!handler) {
+        if (container) {
+          if (options.mode === 'onlyChild') {
+            if (container.contains(target)) {
+              container.removeEventListener(
+                type,
+                container[EVENTS_ONCE_SYMBOL][type],
+                options
+              )
+              delete container[EVENTS_ONCE_SYMBOL][type]
+            }
+          } else if (options.mode === 'onlyParent') {
+            if (container.contains(target)) return
+          }
+        }
         target.addEventListener(type, listener, options)
         target[EVENTS_ONCE_SYMBOL][type] = listener
+        constructor[EVENTS_ONCE_SYMBOL][type] = target
       }
     } else {
       target[EVENTS_SYMBOL] = target[EVENTS_SYMBOL] || {}
@@ -199,9 +213,11 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   ): void
   removeEventListener(type: any, listener: any, options?: any) {
     const target = this.eventTarget(type)
-    if (options?.once) {
+    if (isOnlyMode(options?.mode)) {
+      const constructor = this['constructor']
+      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
       target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      delete options.once
+      delete constructor[EVENTS_ONCE_SYMBOL][type]
       delete target[EVENTS_ONCE_SYMBOL][type]
       target.removeEventListener(type, listener, options)
     } else {
@@ -223,10 +239,12 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchAddEventListener(type: any, listener: any, options?: any) {
-    if (!env.ALL_EVENT_DRIVERS.includes(this)) {
-      env.ALL_EVENT_DRIVERS.push(this)
+    this.engine[DRIVER_INSTANCES_SYMBOL] =
+      this.engine[DRIVER_INSTANCES_SYMBOL] || []
+    if (!this.engine[DRIVER_INSTANCES_SYMBOL].includes(this)) {
+      this.engine[DRIVER_INSTANCES_SYMBOL].push(this)
     }
-    env.ALL_EVENT_DRIVERS.forEach((driver) => {
+    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
       const target = driver.eventTarget(type)
       target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
       if (!target[EVENTS_BATCH_SYMBOL][type]) {
@@ -247,7 +265,9 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchRemoveEventListener(type: any, listener: any, options: any) {
-    env.ALL_EVENT_DRIVERS.forEach((driver) => {
+    this.engine[DRIVER_INSTANCES_SYMBOL] =
+      this.engine[DRIVER_INSTANCES_SYMBOL] || []
+    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
       const target = driver.eventTarget(type)
       target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
       target.removeEventListener(type, listener, options)
@@ -311,14 +331,13 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       return this.attachEvents(container.document, container, context)
     }
     if (container[ATTACHED_SYMBOL]) return
-    this.drivers.map((EventDriver) => {
+    container[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
       const driver = new EventDriver(this, context)
       driver.contentWindow = contentWindow
       driver.container = container
       driver.attach(container)
       return driver
     })
-    container[ATTACHED_SYMBOL] = true
     if (!this.containers.includes(container)) {
       this.containers.push(container)
     }
@@ -335,22 +354,25 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       return this.detachEvents(container.document)
     }
     if (!container[ATTACHED_SYMBOL]) return
-    env.ALL_EVENT_DRIVERS = env.ALL_EVENT_DRIVERS.reduce((drivers, driver) => {
-      if (driver.container === container) {
-        driver.detach(container)
-        return drivers
-      }
-      return drivers.concat(driver)
-    }, [])
+    container[ATTACHED_SYMBOL].forEach((driver) => {
+      driver.detach(container)
+    })
+
+    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL] || []
+    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL].reduce(
+      (drivers, driver) => {
+        if (driver.container === container) {
+          driver.detach(container)
+          return drivers
+        }
+        return drivers.concat(driver)
+      },
+      []
+    )
     this.containers = this.containers.filter((item) => item !== container)
     delete container[ATTACHED_SYMBOL]
     delete container[EVENTS_SYMBOL]
     delete container[EVENTS_ONCE_SYMBOL]
     delete container[EVENTS_BATCH_SYMBOL]
-  }
-
-  destroy() {
-    this.detachEvents()
-    this.unsubscribe()
   }
 }

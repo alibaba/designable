@@ -1,5 +1,87 @@
 # Changelog
 
+## v1.0.0-beta.9(2021-09-27)
+
+### :beetle: Bug Fixes
+
+1. [fix(core): fix event driver conflict](https://github.com/alibaba/designable/commit/af41004) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(formily): fix FormLayout locales](https://github.com/alibaba/designable/commit/ea2648a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.8(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix Workspace will throw error when designer is undefined](https://github.com/alibaba/designable/commit/611e9e6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor(core): change defaultComponentTree type ITreeNode[] to ITreeNode](https://github.com/alibaba/designable/commit/40b2af7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.7(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix ui can not refresh with top rerender](https://github.com/alibaba/designable/commit/cf63e82) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.6(2021-09-22)
+
+### :blush: Other Changes
+
+1. [chore(project): move formily deps to peerDeps](https://github.com/alibaba/designable/commit/ee19f25) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.5(2021-09-22)
+
+### :beetle: Bug Fixes
+
+1. [fix(formily-antd): fix DatePicker settings](https://github.com/alibaba/designable/commit/2e7e9d2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(react): update NodePathWidget dependencies](https://github.com/alibaba/designable/commit/87d801e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.4(2021-09-20)
+
+### :tada: Enhancements
+
+1. [feat: support HistoryPushEvent](https://github.com/alibaba/designable/commit/cfec592) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.3(2021-09-20)
+
+### :blush: Other Changes
+
+1. [chore: support remount engine](https://github.com/alibaba/designable/commit/021668c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.2(2021-09-20)
+
+### :tada: Enhancements
+
+1. [feat(react): support move StudioPanel to root node](https://github.com/alibaba/designable/commit/9a54259) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
+
+### :blush: Other Changes
+
+1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
+
+1. [chore: update playground](https://github.com/alibaba/designable/commit/8a5b3f7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.1(2021-09-20)
+
+### :rose: Improve code quality
+
+1. [refactor(react): MainPanel -> StudioPanel](https://github.com/alibaba/designable/commit/74b344f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [refactor(project): redesign Registry/DragSource (#59)](https://github.com/alibaba/designable/commit/764e7ec) :point_right: ( [Janry](https://github.com/Janry) )
+
+## v0.5.29(2021-09-13)
+
+### :beetle: Bug Fixes
+
+1. [fix: Displaying the default DesignableFiled, all the time when prompted by text does not realise the real component name. (#58)](https://github.com/alibaba/designable/commit/1928f04) :point_right: ( [呆鸡](https://github.com/呆鸡) )
+
 ## v0.5.28(2021-09-13)
 
 ### :tada: Enhancements
@@ -195,99 +277,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support data-content-editable-node-id](https://github.com/alibaba/designable/commit/ad7790d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.41(2021-08-21)
-
-### :tada: Enhancements
-
-1. [feat(core): support content-editable](https://github.com/alibaba/designable/commit/2b9c46c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.40(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(settings): support multi workspace for SettingsForm](https://github.com/alibaba/designable/commit/0ab144f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(settings): move NodePath to NodePathWidget](https://github.com/alibaba/designable/commit/2fc9c1d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/354a7b5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [chore(settings): improve code](https://github.com/alibaba/designable/commit/40c0dd1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.39(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(react): support sourceIcon for DragSource](https://github.com/alibaba/designable/commit/fcb3a5e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.38(2021-08-20)
-
-### :blush: Other Changes
-
-1. [chore(react): improve DragSource styles](https://github.com/alibaba/designable/commit/0b2283f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.37(2021-08-20)
-
-### :tada: Enhancements
-
-1. [feat(react): improve panels styles](https://github.com/alibaba/designable/commit/f78898e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(react): remove duplicate css properties (#41)](https://github.com/alibaba/designable/commit/49f2239) :point_right: ( [Jingsong Gao](https://github.com/Jingsong Gao) )
-
-1. [fix(react): tree maybe undefined (#42)](https://github.com/alibaba/designable/commit/0c09ff4) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
-
-### :blush: Other Changes
-
-1. [chore(react): merge styles](https://github.com/alibaba/designable/commit/83374f6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.36(2021-08-19)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings-form): fix ui can not reactive with node.props changed](https://github.com/alibaba/designable/commit/7aebb2e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.35(2021-08-15)
-
-### :tada: Enhancements
-
-1. [feat(react): support auto clean instance](https://github.com/alibaba/designable/commit/4da8293) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
-
-### :memo: Documents Changes
-
-1. [docs(readme): fix content (#37)](https://github.com/alibaba/designable/commit/a939235) :point_right: ( [Bin](https://github.com/Bin) )
-
-## v0.4.34(2021-08-10)
-
-### :rose: Improve code quality
-
-1. [refactor(settings): remove stringify to check schema](https://github.com/alibaba/designable/commit/89c7299) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.33(2021-08-09)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix DragSourceWidget](https://github.com/alibaba/designable/commit/894fe58) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.4.32(2021-08-09)
-
-### :tada: Enhancements
-
-1. [feat(settings): add dirty check to SettingsForm](https://github.com/alibaba/designable/commit/7ce5757) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(core): support workspace drag source](https://github.com/alibaba/designable/commit/4f2a586) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(react): support Workbench component](https://github.com/alibaba/designable/commit/bfbb71a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(react): improve mobile styles](https://github.com/alibaba/designable/commit/57588ca) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

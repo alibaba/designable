@@ -43,19 +43,19 @@ export class MouseClickDriver extends EventDriver<Engine> {
 
   attach() {
     this.addEventListener('click', this.onMouseClick, {
-      once: true, //防止对同一个container注册多次click
+      mode: 'onlyChild',
     })
     this.addEventListener('dblclick', this.onMouseDoubleClick, {
-      once: true, //防止对同一个container注册多次click
+      mode: 'onlyChild',
     })
   }
 
   detach() {
     this.removeEventListener('click', this.onMouseClick, {
-      once: true,
+      mode: 'onlyChild',
     })
     this.removeEventListener('dblclick', this.onMouseDoubleClick, {
-      once: true,
+      mode: 'onlyChild',
     })
   }
 }
