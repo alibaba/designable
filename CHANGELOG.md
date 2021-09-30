@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-beta.11(2021-09-29)
+
+### :tada: Enhancements
+
+1. [feat(react): support normalize DroppableWidget](https://github.com/alibaba/designable/commit/729410a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix: fix controlled props can not update](https://github.com/alibaba/designable/commit/dcffdeb) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.10(2021-09-27)
 
 ### :beetle: Bug Fixes
@@ -271,9 +281,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): improve content editable](https://github.com/alibaba/designable/commit/3aac0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.0(2021-08-22)
-
-### :beetle: Bug Fixes
-
-1. [fix(settings): fix BorderStyleSetter](https://github.com/alibaba/designable/commit/008bd1c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

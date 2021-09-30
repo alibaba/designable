@@ -1,6 +1,6 @@
 {
   "name": "@designable/playground",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -25,11 +25,11 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.11",
-    "@designable/react": "1.0.0-beta.11",
-    "@designable/react-sandbox": "1.0.0-beta.11",
-    "@designable/react-settings-form": "1.0.0-beta.11",
-    "@designable/shared": "1.0.0-beta.11",
+    "@designable/core": "1.0.0-beta.12",
+    "@designable/react": "1.0.0-beta.12",
+    "@designable/react-sandbox": "1.0.0-beta.12",
+    "@designable/react-settings-form": "1.0.0-beta.12",
+    "@designable/shared": "1.0.0-beta.12",
     "@formily/reactive": "^2.0.0-rc.12",
     "@formily/reactive-react": "^2.0.0-rc.12",
     "antd": "^4.15.2",

@@ -1,6 +1,6 @@
 {
   "name": "@designable/react-settings-form",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@designable/core": "1.0.0-beta.11",
-    "@designable/react": "1.0.0-beta.11",
-    "@designable/shared": "1.0.0-beta.11",
+    "@designable/core": "1.0.0-beta.12",
+    "@designable/react": "1.0.0-beta.12",
+    "@designable/shared": "1.0.0-beta.12",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.25.2",
     "prettier": "^2.3.2",
