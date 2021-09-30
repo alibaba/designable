@@ -12,6 +12,7 @@ export interface IViewPanelProps {
     onChange: (tree: ITreeNode) => void
   ) => React.ReactElement
   scrollable?: boolean
+  dragTipsDirection?: 'left' | 'right'
 }
 
 export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
@@ -36,7 +37,12 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
       tree.takeSnapshot()
     })
   }
-  if (workbench.type === 'DESIGNABLE') return <Viewport>{render()}</Viewport>
+  if (workbench.type === 'DESIGNABLE')
+    return (
+      <Viewport dragTipsDirection={props.dragTipsDirection}>
+        {render()}
+      </Viewport>
+    )
   return (
     <div
       style={{

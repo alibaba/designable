@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react'
-import { Engine } from '@designable/core'
+import { Engine, GlobalRegistry } from '@designable/core'
 import { DesignerEngineContext } from '../context'
 import { IDesignerProps } from '../types'
 import { GhostWidget } from '../widgets'
 import { useDesigner } from '../hooks'
 import { Layout } from './Layout'
+import * as icons from '../icons'
+
+GlobalRegistry.registerDesignerIcons(icons)
 
 export const Designer: React.FC<IDesignerProps> = (props) => {
   const engine = useDesigner()

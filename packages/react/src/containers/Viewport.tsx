@@ -7,10 +7,12 @@ import cls from 'classnames'
 export interface IViewportProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'placeholder'> {
   placeholder?: React.ReactNode
+  dragTipsDirection?: 'left' | 'right'
 }
 
 export const Viewport: React.FC<IViewportProps> = ({
   placeholder,
+  dragTipsDirection,
   ...props
 }) => {
   const [loaded, setLoaded] = useState(false)
@@ -59,7 +61,9 @@ export const Viewport: React.FC<IViewportProps> = ({
     >
       {props.children}
       <AuxToolWidget />
-      <EmptyWidget>{placeholder}</EmptyWidget>
+      <EmptyWidget dragTipsDirection={dragTipsDirection}>
+        {placeholder}
+      </EmptyWidget>
     </div>
   )
 }
