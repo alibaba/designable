@@ -33,9 +33,7 @@ const parseItems = (
   return items
 }
 
-export const CompositePanel: React.FC<ICompositePanelProps> & {
-  Item?: React.FC<ICompositePanelItemProps>
-} = (props) => {
+const CompositePanelInternal: React.FC<ICompositePanelProps> = (props) => {
   const prefix = usePrefix('composite-panel')
   const [activeKey, setActiveKey] = useState(props.defaultActiveKey ?? 0)
   const [pinning, setPinning] = useState(props.defaultPinning ?? false)
@@ -146,6 +144,14 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
   )
 }
 
-CompositePanel.Item = () => {
+const Item = () => {
   return <React.Fragment />
 }
+
+export interface CompositePanelType extends React.FC<ICompositePanelProps> {
+  Item: typeof Item
+}
+
+export const CompositePanel = CompositePanelInternal as CompositePanelType
+
+CompositePanel.Item = Item
