@@ -6,6 +6,7 @@ import { usePrefix } from '../hooks'
 
 export interface ICompositePanelProps {
   direction?: 'left' | 'right'
+  showNavTitle?: boolean
   defaultOpen?: boolean
   defaultPinning?: boolean
   defaultActiveKey?: number
@@ -112,7 +113,20 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
             if (item.href) {
               return <a href={item.href}>{item.icon}</a>
             }
-            return <IconWidget infer={item.icon} />
+            return (
+              <IconWidget
+                tooltip={
+                  props.showNavTitle
+                    ? null
+                    : {
+                        title: <TextWidget>{item.title}</TextWidget>,
+                        placement:
+                          props.direction === 'right' ? 'left' : 'right',
+                      }
+                }
+                infer={item.icon}
+              />
+            )
           }
           const shape = item.shape ?? 'tab'
           const Comp = shape === 'link' ? 'a' : 'div'
@@ -137,6 +151,11 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
               }}
             >
               {takeTab()}
+              {props.showNavTitle && item.title ? (
+                <div className={prefix + '-tabs-pane-title'}>
+                  <TextWidget>{item.title}</TextWidget>
+                </div>
+              ) : null}
             </Comp>
           )
         })}

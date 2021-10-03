@@ -72,15 +72,20 @@
 
     &-pane {
       color: var(--dn-composite-panel-tabs-color);
-      height: 48px;
-      width: 48px;
+      min-height: 48px;
+      min-width: 48px;
+      padding: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       position: relative;
       font-size: 20px;
-
+      flex-direction: column;
+      &-title {
+        font-size: 10px;
+        margin-top: 6px;
+      }
       &:hover {
         color: var(--dn-composite-panel-tabs-hover-color);
       }

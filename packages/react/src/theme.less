@@ -258,6 +258,11 @@
   }
 
   *[data-content-editable]:not(*[contenteditable='true']) {
+    &:empty::before {
+      content: 'Please Input';
+      display: block;
+      opacity: 0.6;
+    }
     &:hover {
       cursor: text !important;
       opacity: 0.8;
