@@ -79,14 +79,6 @@ const Column: ISchema = {
 const Addition: ISchema = {
   type: 'object',
   properties: {
-    title: {
-      type: 'string',
-      'x-decorator': 'FormItem',
-      'x-component': 'Input',
-      'x-component-props': {
-        defaultValue: 'Addition',
-      },
-    },
     method: {
       type: 'string',
       enum: ['push', 'unshift'],

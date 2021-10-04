@@ -35,6 +35,7 @@ export const FormGrid: DnFC<React.ComponentProps<formilyGrid>> & {
         actions={[
           {
             title: node.getMessage('addGridColumn'),
+            icon: 'AddColumn',
             onClick: () => {
               const column = new TreeNode({
                 componentName: 'Field',

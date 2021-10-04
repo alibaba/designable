@@ -107,6 +107,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
     }
     return children
   }
+  if (!props.infer) return null
   return renderTooltips(
     <span
       {...props}
@@ -133,6 +134,7 @@ IconWidget.ShadowSVG = (props) => {
       root.innerHTML = `<svg viewBox="0 0 1024 1024" style="width:${width};height:${height}">${props.content}</svg>`
     }
     return () => {
+      if (!ref.current) return
       ref.current.attachShadow({
         mode: 'closed',
       })

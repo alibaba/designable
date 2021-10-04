@@ -102,7 +102,7 @@ const App = () => {
     []
   )
   return (
-    <Designer engine={engine}>
+    <Designer engine={engine} theme="dark">
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
