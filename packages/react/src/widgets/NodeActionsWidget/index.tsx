@@ -14,7 +14,8 @@ export interface INodeActionsWidgetProps {
 }
 
 export interface INodeActionsWidgetActionProps
-  extends Partial<TypographyProps['Link']> {
+  extends Omit<React.ComponentProps<'a'>, 'title' | 'type' | 'ref'>,
+    Partial<TypographyProps['Link']> {
   className?: string
   style?: React.CSSProperties
   title: React.ReactNode
