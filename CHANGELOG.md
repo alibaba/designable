@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.14(2021-10-04)
+
+### :blush: Other Changes
+
+1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/51a0fde) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.13(2021-10-04)
 
 ### :blush: Other Changes
@@ -275,9 +281,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix drag source childtree is not work](https://github.com/alibaba/designable/commit/7ac1d84) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.3(2021-08-23)
-
-### :blush: Other Changes
-
-1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/49e1ac7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
