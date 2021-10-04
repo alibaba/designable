@@ -1,13 +1,9 @@
 import React from 'react'
 import { Space, Typography, Divider, TypographyProps } from 'antd'
-import {
-  usePrefix,
-  TextWidget,
-  IconWidget,
-  useTreeNode,
-  useSelected,
-} from '@designable/react'
 import { observer } from '@formily/reactive-react'
+import { usePrefix, useTreeNode, useSelected } from '../../hooks'
+import { IconWidget } from '../IconWidget'
+import { TextWidget } from '../TextWidget'
 import cls from 'classnames'
 import './styles.less'
 

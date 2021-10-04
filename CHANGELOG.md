@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.12(2021-09-30)
+
+### :tada: Enhancements
+
+1. [feat(react): add more source icons](https://github.com/alibaba/designable/commit/75963da) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.11(2021-09-29)
 
 ### :tada: Enhancements
@@ -275,9 +281,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/8de6be8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.1(2021-08-22)
-
-### :tada: Enhancements
-
-1. [feat(core): improve content editable](https://github.com/alibaba/designable/commit/3aac0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
