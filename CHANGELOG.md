@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.13(2021-10-04)
+
+### :blush: Other Changes
+
+1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/f45572d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.12(2021-09-30)
 
 ### :tada: Enhancements
@@ -275,9 +281,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/49e1ac7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.2(2021-08-23)
-
-### :blush: Other Changes
-
-1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/8de6be8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
