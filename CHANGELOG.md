@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.15(2021-10-04)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/19df7b2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.14(2021-10-04)
 
 ### :blush: Other Changes
@@ -275,9 +281,3 @@
 1. [feat(react): support source icons](https://github.com/alibaba/designable/commit/1023ae8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [feat(settings): support effects props](https://github.com/alibaba/designable/commit/e221142) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.4(2021-08-23)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix drag source childtree is not work](https://github.com/alibaba/designable/commit/7ac1d84) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
