@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.16(2021-10-06)
+
+### :blush: Other Changes
+
+1. [chore(core): improve dnd](https://github.com/alibaba/designable/commit/f59b65e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.15(2021-10-04)
 
 ### :beetle: Bug Fixes
@@ -273,11 +279,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): update icons](https://github.com/alibaba/designable/commit/56f2686) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.5(2021-08-24)
-
-### :tada: Enhancements
-
-1. [feat(react): support source icons](https://github.com/alibaba/designable/commit/1023ae8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(settings): support effects props](https://github.com/alibaba/designable/commit/e221142) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
