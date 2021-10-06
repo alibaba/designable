@@ -190,14 +190,10 @@ export class Operation {
     for (let i = nodes.length - 1; i >= 0; i--) {
       const node = nodes[i]
       if (node.allowDelete()) {
-        const previousIndex = node.index - 1
-        const afterIndex = node.index + 1
-        const parent = node.parent
+        const previous = node.previous
+        const next = node.next
         node.remove()
-        const previous = previousIndex > -1 && parent.children[previousIndex]
-        const after =
-          afterIndex < parent.children.length && parent.children[afterIndex]
-        this.selection.select(previous ? previous : after ? after : node.parent)
+        this.selection.select(previous ? previous : next ? next : node.parent)
         this.hover.clear()
       }
     }
