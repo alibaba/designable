@@ -8,6 +8,7 @@ const InlineLayoutTagNames = new Set([
   'BDO',
   'BIG',
   'BR',
+  'BUTTON',
   'CANVAS',
   'CITE',
   'CODE',
