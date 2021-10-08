@@ -11,7 +11,7 @@ export interface ICompositePanelProps {
   defaultPinning?: boolean
   defaultActiveKey?: number
   activeKey?: number | string
-  onChange?: (activeKey: number) => void
+  onChange?: (activeKey: number | string) => void
 }
 export interface ICompositePanelItemProps {
   shape?: 'tab' | 'button' | 'link'
@@ -27,9 +27,9 @@ const parseItems = (
   children: React.ReactNode
 ): React.PropsWithChildren<ICompositePanelItemProps>[] => {
   const items = []
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, (child, index) => {
     if (child?.['type'] === CompositePanel.Item) {
-      items.push({ key: child['key'], ...child['props'] })
+      items.push({ key: child['key'] ?? index, ...child['props'] })
     }
   })
   return items
@@ -161,7 +161,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
                   setActiveKey(index)
                 }
                 item.onClick?.(e)
-                props.onChange?.(index)
+                props.onChange?.(item.key ?? index)
               }}
             >
               {takeTab()}
