@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.18(2021-10-08)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/03eb84d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.17(2021-10-06)
 
 ### :tada: Enhancements
@@ -279,9 +285,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/11c6397) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.7(2021-08-25)
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/bf6466a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
