@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.0-beta.17(2021-10-06)
+
+### :tada: Enhancements
+
+1. [feat(react): add source icons](https://github.com/alibaba/designable/commit/de56564) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(shared): improve element layout calculator](https://github.com/alibaba/designable/commit/f29ec8a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore(core): improve remove](https://github.com/alibaba/designable/commit/8eeed0a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.16(2021-10-06)
 
 ### :blush: Other Changes
@@ -273,9 +285,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/bf6466a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.6(2021-08-24)
-
-### :blush: Other Changes
-
-1. [chore(react): update icons](https://github.com/alibaba/designable/commit/56f2686) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
