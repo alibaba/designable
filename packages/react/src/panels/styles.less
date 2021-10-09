@@ -82,10 +82,12 @@
       position: relative;
       font-size: 20px;
       flex-direction: column;
+
       &-title {
         font-size: 10px;
         margin-top: 6px;
       }
+
       &:hover {
         color: var(--dn-composite-panel-tabs-hover-color);
       }
@@ -138,7 +140,7 @@
         display: flex;
         align-items: center;
 
-        & > * {
+        &>* {
           margin-right: 8px;
 
           &:last-child {
@@ -189,6 +191,11 @@
       left: auto;
       right: 100%;
       top: 0;
+    }
+
+    .@{prefix-cls}-composite-panel-tabs-content {
+      border-left: 1px solid var(--dn-panel-border-color);
+
     }
   }
 }
@@ -249,7 +256,7 @@
       display: flex;
       align-items: center;
 
-      & > * {
+      &>* {
         margin-right: 8px;
 
         &:last-child {
