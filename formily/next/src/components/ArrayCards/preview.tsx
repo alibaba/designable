@@ -156,6 +156,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
         actions={[
           {
             title: node.getMessage('addIndex'),
+            icon: 'AddIndex',
             onClick: () => {
               if (
                 hasNodeByComponentPath(node, [
@@ -178,6 +179,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
 
           {
             title: node.getMessage('addOperation'),
+            icon: 'AddOperation',
             onClick: () => {
               const oldAdditionNode = findNodeByComponentPath(node, [
                 'ArrayCards',

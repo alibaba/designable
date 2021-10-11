@@ -108,6 +108,7 @@ export const FormTab: DnFC<TabsProps> & {
         actions={[
           {
             title: node.getMessage('addTabPane'),
+            icon: 'AddPanel',
             onClick: () => {
               const tabPane = new TreeNode({
                 componentName: 'Field',

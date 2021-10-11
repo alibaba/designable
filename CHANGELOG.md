@@ -1,5 +1,59 @@
 # Changelog
 
+## v1.0.0-beta.19(2021-10-08)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/3708613) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.18(2021-10-08)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/03eb84d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.17(2021-10-06)
+
+### :tada: Enhancements
+
+1. [feat(react): add source icons](https://github.com/alibaba/designable/commit/de56564) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(shared): improve element layout calculator](https://github.com/alibaba/designable/commit/f29ec8a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore(core): improve remove](https://github.com/alibaba/designable/commit/8eeed0a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.16(2021-10-06)
+
+### :blush: Other Changes
+
+1. [chore(core): improve dnd](https://github.com/alibaba/designable/commit/f59b65e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.15(2021-10-04)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/19df7b2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.14(2021-10-04)
+
+### :blush: Other Changes
+
+1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/51a0fde) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.13(2021-10-04)
+
+### :blush: Other Changes
+
+1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/f45572d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+## v1.0.0-beta.12(2021-09-30)
+
+### :tada: Enhancements
+
+1. [feat(react): add more source icons](https://github.com/alibaba/designable/commit/75963da) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.11(2021-09-29)
 
 ### :tada: Enhancements
@@ -231,53 +285,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/3cc1996) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.8(2021-08-25)
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/11c6397) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.7(2021-08-25)
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/bf6466a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.6(2021-08-24)
-
-### :blush: Other Changes
-
-1. [chore(react): update icons](https://github.com/alibaba/designable/commit/56f2686) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.5(2021-08-24)
-
-### :tada: Enhancements
-
-1. [feat(react): support source icons](https://github.com/alibaba/designable/commit/1023ae8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [feat(settings): support effects props](https://github.com/alibaba/designable/commit/e221142) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.4(2021-08-23)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix drag source childtree is not work](https://github.com/alibaba/designable/commit/7ac1d84) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.3(2021-08-23)
-
-### :blush: Other Changes
-
-1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/49e1ac7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.2(2021-08-23)
-
-### :blush: Other Changes
-
-1. [chore(core): improve content-editable experience](https://github.com/alibaba/designable/commit/8de6be8) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.1(2021-08-22)
-
-### :tada: Enhancements
-
-1. [feat(core): improve content editable](https://github.com/alibaba/designable/commit/3aac0ce) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

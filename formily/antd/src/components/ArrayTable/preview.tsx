@@ -243,6 +243,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
         actions={[
           {
             title: node.getMessage('addSortHandle'),
+            icon: 'AddSort',
             onClick: () => {
               if (
                 hasNodeByComponentPath(node, [
@@ -277,6 +278,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
           },
           {
             title: node.getMessage('addIndex'),
+            icon: 'AddIndex',
             onClick: () => {
               if (
                 hasNodeByComponentPath(node, [
@@ -321,6 +323,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
           },
           {
             title: node.getMessage('addColumn'),
+            icon: 'AddColumn',
             onClick: () => {
               const operationNode = findNodeByComponentPath(node, [
                 'ArrayTable',
@@ -353,6 +356,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
           },
           {
             title: node.getMessage('addOperation'),
+            icon: 'AddOperation',
             onClick: () => {
               const oldOperationNode = findNodeByComponentPath(node, [
                 'ArrayTable',

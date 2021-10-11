@@ -4,7 +4,6 @@ import { observable, define, action } from '@formily/reactive'
 import {
   calcDistanceOfPointToRect,
   calcDistancePointToEdge,
-  isFn,
   isNearAfter,
   isPointInRect,
   IPoint,
@@ -100,17 +99,39 @@ export class Dragon {
       closestRect,
       this.forceBlock ? false : isInline
     )
+    const getValidParent = (node: TreeNode) => {
+      if (node.parent?.allowSibling(this.dragNodes)) return node.parent
+      return getValidParent(node.parent)
+    }
     if (isPointInRect(point, closestRect, this.sensitive)) {
       if (!closestNode.allowAppend(this.dragNodes)) {
         if (!closestNode.allowSibling(this.dragNodes)) {
+          const parentClosestNode = getValidParent(this.closestNode)
+          if (parentClosestNode) {
+            this.closestNode = parentClosestNode
+          }
           if (isInline) {
-            return isAfter
-              ? ClosestPosition.ForbidAfter
-              : ClosestPosition.ForbidBefore
+            if (parentClosestNode) {
+              if (isAfter) {
+                return ClosestPosition.After
+              }
+              return ClosestPosition.Before
+            }
+            if (isAfter) {
+              return ClosestPosition.ForbidAfter
+            }
+            return ClosestPosition.ForbidBefore
           } else {
-            return isAfter
-              ? ClosestPosition.ForbidUnder
-              : ClosestPosition.ForbidUpper
+            if (parentClosestNode) {
+              if (isAfter) {
+                return ClosestPosition.Under
+              }
+              return ClosestPosition.Upper
+            }
+            if (isAfter) {
+              return ClosestPosition.ForbidUnder
+            }
+            return ClosestPosition.ForbidUpper
           }
         } else {
           if (isInline) {
@@ -121,9 +142,10 @@ export class Dragon {
         }
       }
       if (closestNode.contains(...this.dragNodes)) {
-        return isAfter
-          ? ClosestPosition.InnerAfter
-          : ClosestPosition.InnerBefore
+        if (isAfter) {
+          return ClosestPosition.InnerAfter
+        }
+        return ClosestPosition.InnerBefore
       } else {
         return ClosestPosition.Inner
       }
@@ -131,11 +153,27 @@ export class Dragon {
       return isAfter ? ClosestPosition.InnerAfter : ClosestPosition.InnerBefore
     } else {
       if (!closestNode.allowSibling(this.dragNodes)) {
+        const parentClosestNode = getValidParent(this.closestNode)
+        if (parentClosestNode) {
+          this.closestNode = parentClosestNode
+        }
         if (isInline) {
+          if (parentClosestNode) {
+            if (isAfter) {
+              return ClosestPosition.After
+            }
+            return ClosestPosition.Before
+          }
           return isAfter
             ? ClosestPosition.ForbidAfter
             : ClosestPosition.ForbidBefore
         } else {
+          if (parentClosestNode) {
+            if (isAfter) {
+              return ClosestPosition.Under
+            }
+            return ClosestPosition.Upper
+          }
           return isAfter
             ? ClosestPosition.ForbidUnder
             : ClosestPosition.ForbidUpper

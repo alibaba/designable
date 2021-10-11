@@ -109,6 +109,7 @@ export const FormCollapse: DnFC<CollapseProps> & {
         actions={[
           {
             title: node.getMessage('addCollapsePanel'),
+            icon: 'AddPanel',
             onClick: () => {
               const collapsePanel = new TreeNode({
                 componentName: 'Field',

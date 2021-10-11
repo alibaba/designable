@@ -24,6 +24,32 @@
   z-index: 2;
 }
 
+.dn-aux-button {
+  button {
+    font-size: 12px !important;
+    display: flex;
+    align-items: center;
+    padding: 0 3px;
+    height: 20px;
+    color: var(--dn-aux-selector-btn-color); //#fff
+    background: var(--dn-aux-selector-btn-bg-color); //#1890ff
+    border-color: var(--dn-aux-selector-btn-border-color); //#1890ff
+
+    &:hover,
+    &:focus {
+      color: var(--dn-aux-selector-btn-hover-color); //#fff
+      background: var(--dn-aux-selector-btn-hover-bg-color); //#40a9ff
+      border-color: var(--dn-aux-selector-btn-hover-border-color); //#40a9ff
+    }
+
+    &:active {
+      color: var(--dn-aux-selector-btn-active-color); //#fff
+      background: var(--dn-aux-selector-btn-active-bg-color); //#096dd9
+      border-color: var(--dn-aux-selector-btn-active-border-color); //#096dd9
+    }
+  }
+}
+
 .@{prefix-cls}-aux-cover-rect {
   &.dragging {
     background-color: var(--dn-aux-cover-rect-dragging-color);
@@ -44,6 +70,8 @@
   pointer-events: all;
   z-index: 10;
   user-select: none;
+
+  .dn-aux-button();
 
   &.bottom-right {
     top: 100%;
@@ -132,7 +160,7 @@
       height: 20px;
     }
 
-    &>* {
+    & > * {
       margin-top: 4px;
       margin-bottom: 4px;
       margin-left: 2px;
@@ -165,29 +193,7 @@
 }
 
 .@{prefix-cls}-aux-selector {
-  button {
-    font-size: 12px !important;
-    display: flex;
-    align-items: center;
-    padding: 0 3px;
-    height: 20px;
-    color: var(--dn-aux-selector-btn-color); //#fff
-    background: var(--dn-aux-selector-btn-bg-color); //#1890ff
-    border-color: var(--dn-aux-selector-btn-border-color); //#1890ff
-
-    &:hover,
-    &:focus {
-      color: var(--dn-aux-selector-btn-hover-color); //#fff
-      background: var(--dn-aux-selector-btn-hover-bg-color); //#40a9ff
-      border-color: var(--dn-aux-selector-btn-hover-border-color); //#40a9ff
-    }
-
-    &:active {
-      color: var(--dn-aux-selector-btn-active-color); //#fff
-      background: var(--dn-aux-selector-btn-active-bg-color); //#096dd9
-      border-color: var(--dn-aux-selector-btn-active-border-color); //#096dd9
-    }
-  }
+  .dn-aux-button();
 
   &-menu {
     margin-top: -4px;

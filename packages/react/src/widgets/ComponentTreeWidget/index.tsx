@@ -30,13 +30,12 @@ export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
       })
     }
     const renderProps = (extendsProps: any = {}) => {
-      if (node?.designerProps?.getComponentProps) {
-        return {
-          ...extendsProps,
-          ...node.designerProps.getComponentProps(node),
-        }
+      return {
+        ...node.designerProps?.defaultProps,
+        ...extendsProps,
+        ...node.props,
+        ...node.designerProps?.getComponentProps?.(node),
       }
-      return { ...extendsProps, ...node.props }
     }
     const renderComponent = () => {
       const componentName = node.componentName
