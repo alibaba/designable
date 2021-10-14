@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.21(2021-10-14)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/bf4ba3f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.20(2021-10-08)
 
 ### :beetle: Bug Fixes
@@ -279,9 +285,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(shared): misspell for subscribable (#49)](https://github.com/alibaba/designable/commit/8491f77) :point_right: ( [Rihua](https://github.com/Rihua) )
-
-## v0.5.10(2021-08-25)
-
-### :blush: Other Changes
-
-1. [chore(react): improve drag source styles](https://github.com/alibaba/designable/commit/639a78f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
