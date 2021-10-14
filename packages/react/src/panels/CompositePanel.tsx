@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { isValid } from '@designable/shared'
 import cls from 'classnames'
 import { IconWidget, TextWidget } from '../widgets'
@@ -46,26 +46,34 @@ const findItem = (
   }
 }
 
+const getDefaultKey = (children: React.ReactNode) => {
+  const items = parseItems(children)
+  return items?.[0].key
+}
+
 export const CompositePanel: React.FC<ICompositePanelProps> & {
   Item?: React.FC<ICompositePanelItemProps>
 } = (props) => {
   const prefix = usePrefix('composite-panel')
   const [activeKey, setActiveKey] = useState<string | number>(
-    props.defaultActiveKey ?? 0
+    props.defaultActiveKey ?? getDefaultKey(props.children)
   )
+  const activeKeyRef = useRef(null)
   const [pinning, setPinning] = useState(props.defaultPinning ?? false)
   const [visible, setVisible] = useState(props.defaultOpen ?? true)
   const items = parseItems(props.children)
   const currentItem = findItem(items, activeKey)
   const content = currentItem?.children
 
+  activeKeyRef.current = activeKey
+
   useEffect(() => {
     if (isValid(props.activeKey)) {
-      if (props.activeKey !== activeKey) {
+      if (props.activeKey !== activeKeyRef.current) {
         setActiveKey(props.activeKey)
       }
     }
-  }, [props.activeKey, activeKey])
+  }, [props.activeKey])
 
   const renderContent = () => {
     if (!content || !visible) return
@@ -147,22 +155,21 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
           return (
             <Comp
               className={cls(prefix + '-tabs-pane', {
-                active: activeKey === index || activeKey === item.key,
+                active: activeKey === item.key,
               })}
               key={index}
               href={item.href}
               onClick={(e: any) => {
-                const key = item.key ?? index
                 if (shape === 'tab') {
-                  if (activeKey === index || activeKey === item.key) {
+                  if (activeKey === item.key) {
                     setVisible(!visible)
                   } else {
                     setVisible(true)
                   }
-                  setActiveKey(key)
+                  setActiveKey(item.key)
                 }
                 item.onClick?.(e)
-                props.onChange?.(key)
+                props.onChange?.(item.key)
               }}
             >
               {takeTab()}
