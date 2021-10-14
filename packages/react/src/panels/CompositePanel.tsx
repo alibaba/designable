@@ -166,7 +166,8 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
                   } else {
                     setVisible(true)
                   }
-                  setActiveKey(item.key)
+                  if (!props?.activeKey || !props?.onChange)
+                    setActiveKey(item.key)
                 }
                 item.onClick?.(e)
                 props.onChange?.(item.key)
