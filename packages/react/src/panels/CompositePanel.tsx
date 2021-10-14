@@ -152,16 +152,17 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
               key={index}
               href={item.href}
               onClick={(e: any) => {
+                const key = item.key ?? index
                 if (shape === 'tab') {
                   if (activeKey === index || activeKey === item.key) {
                     setVisible(!visible)
                   } else {
                     setVisible(true)
                   }
-                  setActiveKey(index)
+                  setActiveKey(key)
                 }
                 item.onClick?.(e)
-                props.onChange?.(item.key ?? index)
+                props.onChange?.(key)
               }}
             >
               {takeTab()}
