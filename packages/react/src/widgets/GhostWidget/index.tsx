@@ -16,10 +16,12 @@ export const GhostWidget = observer(() => {
   useEffect(
     () =>
       autorun(() => {
+        if (!ref.current) return
+
         const transform = `perspective(1px) translate3d(${
           cursor.position?.topClientX - 18
         }px,${cursor.position?.topClientY - 12}px,0) scale(0.8)`
-        if (!ref.current) return
+
         ref.current.style.transform = transform
       }),
     [designer, cursor]
