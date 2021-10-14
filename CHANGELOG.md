@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.22(2021-10-14)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/a364532) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.21(2021-10-14)
 
 ### :beetle: Bug Fixes
@@ -275,13 +281,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support node designerProps with nodeName](https://github.com/alibaba/designable/commit/864ae0f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.11(2021-08-25)
-
-### :tada: Enhancements
-
-1. [feat(react): add source icons](https://github.com/alibaba/designable/commit/97f7182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(shared): misspell for subscribable (#49)](https://github.com/alibaba/designable/commit/8491f77) :point_right: ( [Rihua](https://github.com/Rihua) )
