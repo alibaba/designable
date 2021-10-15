@@ -33,6 +33,7 @@ import 'antd/dist/antd.less'
 import './theme.less'
 
 const RootBehavior = createBehavior({
+  name: 'Root',
   selector: 'Root',
   designerProps: {
     droppable: true,
@@ -48,6 +49,7 @@ const RootBehavior = createBehavior({
 })
 
 const InputBehavior = createBehavior({
+  name: 'Input',
   selector: (node) =>
     node.componentName === 'Field' && node.props['x-component'] === 'Input',
   designerProps: {
@@ -184,6 +186,7 @@ const InputBehavior = createBehavior({
 })
 
 const CardBehavior = createBehavior({
+  name: 'Card',
   selector: 'Card',
   designerProps: {
     droppable: true,

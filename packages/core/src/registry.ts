@@ -136,7 +136,9 @@ const DESIGNER_GlobalRegistry = {
     packages.forEach((sources) => {
       reSortBehaviors(results, sources)
     })
-    DESIGNER_BEHAVIORS_STORE.value = results
+    if (results.length) {
+      DESIGNER_BEHAVIORS_STORE.value = results
+    }
   },
 }
 
