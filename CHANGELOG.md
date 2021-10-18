@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.23(2021-10-15)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel onChange](https://github.com/alibaba/designable/commit/d928b69) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.22(2021-10-14)
 
 ### :beetle: Bug Fixes
@@ -275,9 +281,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix the name property is not lost when cloning and serializing node](https://github.com/alibaba/designable/commit/e11fecf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.12(2021-08-27)
-
-### :tada: Enhancements
-
-1. [feat(core): support node designerProps with nodeName](https://github.com/alibaba/designable/commit/864ae0f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
