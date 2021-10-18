@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.0-beta.24(2021-10-18)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix CompositePanel styles](https://github.com/alibaba/designable/commit/7e2d15f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(react): fix conflict of registerDesignerBehaviors](https://github.com/alibaba/designable/commit/a88611a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.23(2021-10-15)
 
 ### :beetle: Bug Fixes
@@ -275,9 +283,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve node quick selection](https://github.com/alibaba/designable/commit/fc8e6c3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.13(2021-08-27)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix the name property is not lost when cloning and serializing node](https://github.com/alibaba/designable/commit/e11fecf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
