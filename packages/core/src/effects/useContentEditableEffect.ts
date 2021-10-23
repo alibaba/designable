@@ -82,6 +82,7 @@ export const useContentEditableEffect = (engine: Engine) => {
           target?.textContent
         )
         requestIdle(() => {
+          node.takeSnapshot('update:node:props')
           restore()
         })
       }
