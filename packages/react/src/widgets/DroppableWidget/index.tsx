@@ -26,12 +26,14 @@ export const DroppableWidget: React.FC<IDroppableWidgetProps> = observer(
     const hasChildren = target.children?.length > 0
     return (
       <div {...nodeId} className={className} style={style}>
-        {hasChildren && !placeholder ? (
+        {hasChildren ? (
           props.children
-        ) : (
+        ) : placeholder ? (
           <div style={{ height }} className="dn-droppable-placeholder">
             <NodeTitleWidget node={target} />
           </div>
+        ) : (
+          props.children
         )}
         {actions?.length ? (
           <NodeActionsWidget>
