@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.25(2021-10-18)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): add source icons](https://github.com/alibaba/designable/commit/8cb04ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.24(2021-10-18)
 
 ### :beetle: Bug Fixes
@@ -273,13 +279,3 @@
 ## v0.5.15(2021-08-27)
 
 ### No Change Log
-
-## v0.5.14(2021-08-27)
-
-### :rose: Improve code quality
-
-1. [refactor(core): support drag source designerProps](https://github.com/alibaba/designable/commit/82ee47f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(core): improve node quick selection](https://github.com/alibaba/designable/commit/fc8e6c3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
