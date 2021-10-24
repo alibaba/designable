@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.27(2021-10-23)
+
+### :tada: Enhancements
+
+1. [feat(react): support placeholder to DroppableWidget](https://github.com/alibaba/designable/commit/79ae6d1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.26(2021-10-23)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve drag source name value format](https://github.com/alibaba/designable/commit/ea4aea5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.16(2021-08-27)
-
-### :blush: Other Changes
-
-1. [chore(formily): update \_sourceName to \_designableSourceName](https://github.com/alibaba/designable/commit/330a5cf) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
