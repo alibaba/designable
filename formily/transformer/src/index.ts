@@ -1,5 +1,5 @@
 import { ISchema, Schema } from '@formily/json-schema'
-import { ITreeNode, TreeNode } from '@designable/core'
+import { ITreeNode } from '@designable/core'
 import { clone, uid } from '@designable/shared'
 
 export interface ITransformerOptions {
@@ -20,12 +20,22 @@ const createOptions = (options: ITransformerOptions): ITransformerOptions => {
   }
 }
 
+const findNode = (node: ITreeNode, finder?: (node: ITreeNode) => boolean) => {
+  if (!node) return
+  if (finder(node)) return node
+  if (!node.children) return
+  for (let i = 0; i < node.children.length; i++) {
+    if (findNode(node.children[i])) return node.children[i]
+  }
+  return
+}
+
 export const transformToSchema = (
-  node: TreeNode,
+  node: ITreeNode,
   options?: ITransformerOptions
 ): IFormilySchema => {
   const realOptions = createOptions(options)
-  const root = node.find((child) => {
+  const root = findNode(node, (child) => {
     return child.componentName === realOptions.designableFormName
   })
   const schema = {
@@ -33,7 +43,7 @@ export const transformToSchema = (
     properties: {},
   }
   if (!root) return { schema }
-  const createSchema = (node: TreeNode, schema: ISchema = {}) => {
+  const createSchema = (node: ITreeNode, schema: ISchema = {}) => {
     if (node !== root) {
       Object.assign(schema, clone(node.props))
     }
