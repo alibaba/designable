@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.28(2021-10-24)
+
+### :tada: Enhancements
+
+1. [feat(react-settings-form): support to expression](https://github.com/alibaba/designable/commit/7290811) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.27(2021-10-23)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix drag source component](https://github.com/alibaba/designable/commit/6784528) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.17(2021-08-27)
-
-### :blush: Other Changes
-
-1. [chore(core): improve drag source name value format](https://github.com/alibaba/designable/commit/ea4aea5) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
