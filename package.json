@@ -14,7 +14,7 @@
     "build": "rimraf -rf packages/*/{lib,esm} && lerna run build",
     "build:docs": "dumi build",
     "start": "dumi dev",
-    "start:playground": "cd packages/playground && npm run start",
+    "start:playground": "cd formily/antd && npm run start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",
