@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.29(2021-10-25)
+
+### :tada: Enhancements
+
+1. [feat(formily-transformer): remove designable core code dependency](https://github.com/alibaba/designable/commit/be8b182) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.28(2021-10-24)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support designerLocales for Drag Source](https://github.com/alibaba/designable/commit/19d894f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.18(2021-08-27)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix drag source component](https://github.com/alibaba/designable/commit/6784528) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
