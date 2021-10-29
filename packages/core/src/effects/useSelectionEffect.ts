@@ -61,10 +61,10 @@ export const useSelectionEffect = (engine: Engine) => {
         if (operation.focusNode !== node) {
           operation.focusClean()
         }
-        selection.select(node)
+        selection.select(node, true)
       }
     } else {
-      selection.select(tree)
+      selection.select(tree, true)
     }
   })
 }

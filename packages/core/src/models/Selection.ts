@@ -35,20 +35,23 @@ export class Selection {
     })
   }
 
-  trigger(type = SelectNodeEvent) {
+  trigger(type = SelectNodeEvent, fromUser = false) {
     return this.operation.dispatch(
       new type({
         target: this.operation.tree,
         source: this.operation.getSelectedNodes(),
+        extra: {
+          fromUser,
+        },
       })
     )
   }
 
-  select(id: string | TreeNode) {
+  select(id: string | TreeNode, fromUser?: boolean) {
     if (isStr(id)) {
       if (this.selected.length === 1 && this.selected.includes(id)) return
       this.selected = [id]
-      this.trigger()
+      this.trigger(SelectNodeEvent, fromUser)
     } else {
       this.select(id?.id)
     }
