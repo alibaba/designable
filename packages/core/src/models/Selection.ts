@@ -53,13 +53,13 @@ export class Selection {
       this.selected = [id]
       this.trigger(SelectNodeEvent, fromUser)
     } else {
-      this.select(id?.id)
+      this.select(id?.id, fromUser)
     }
   }
 
-  safeSelect(id: string | TreeNode) {
+  safeSelect(id: string | TreeNode, fromUser?: boolean) {
     if (!id) return
-    this.select(id)
+    this.select(id, fromUser)
   }
 
   mapIds(ids: any) {
@@ -68,14 +68,14 @@ export class Selection {
       : []
   }
 
-  batchSelect(ids: string[] | TreeNode[]) {
+  batchSelect(ids: string[] | TreeNode[], fromUser?: boolean) {
     this.selected = this.mapIds(ids)
-    this.trigger()
+    this.trigger(SelectNodeEvent, fromUser)
   }
 
-  batchSafeSelect(ids: string[] | TreeNode[]) {
+  batchSafeSelect(ids: string[] | TreeNode[], fromUser?: boolean) {
     if (!ids?.length) return
-    this.batchSelect(ids)
+    this.batchSelect(ids, fromUser)
   }
 
   get first() {
