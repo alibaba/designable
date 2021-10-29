@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.30(2021-10-27)
+
+### :tada: Enhancements
+
+1. [feat: add source icons](https://github.com/alibaba/designable/commit/56321bc) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.29(2021-10-25)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ### :tada: Enhancements
 
 1. [feat(core): support allowDrop for designerProps](https://github.com/alibaba/designable/commit/6200ab1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.19(2021-08-28)
-
-### :tada: Enhancements
-
-1. [feat(core): support designerLocales for Drag Source](https://github.com/alibaba/designable/commit/19d894f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
