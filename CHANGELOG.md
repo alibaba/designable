@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.31(2021-10-29)
+
+### :tada: Enhancements
+
+1. [feat(core): support fromUser for SelectionEvent](https://github.com/alibaba/designable/commit/d3aeda7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.30(2021-10-27)
 
 ### :tada: Enhancements
@@ -277,9 +283,3 @@
 ### :tada: Enhancements
 
 1. [feat(settings): support CollapseItem](https://github.com/alibaba/designable/commit/de01a25) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.20(2021-08-28)
-
-### :tada: Enhancements
-
-1. [feat(core): support allowDrop for designerProps](https://github.com/alibaba/designable/commit/6200ab1) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
