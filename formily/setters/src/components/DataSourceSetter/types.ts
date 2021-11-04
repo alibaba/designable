@@ -15,3 +15,7 @@ export interface ITreeDataSource {
   dataSource: INodeItem[]
   selectedKey: string
 }
+
+export interface IKeyValuePairProps {
+  labeKey: string,
+}

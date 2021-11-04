@@ -6,12 +6,21 @@ import { usePrefix, TextWidget, IconWidget } from '@designable/react'
 import { Title } from './Title'
 import { Header } from './Header'
 import { traverseTree } from './shared'
-import { ITreeDataSource, INodeItem } from './types'
+import { ITreeDataSource, INodeItem, IKeyValuePairProps } from './types'
 import './styles.less'
 import { GlobalRegistry } from '@designable/core'
 
+const limitTreeDrag = ({ dropPosition }) => {
+  if(dropPosition === 0) {
+    return false
+  }
+  return true
+}
+
 export interface ITreePanelProps {
   treeDataSource: ITreeDataSource
+  allowTree: boolean
+  defaultKeyValuePairs: IKeyValuePairProps[]
 }
 
 export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
@@ -77,18 +86,24 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
             onClick={() => {
               const uuid = uid()
               const dataSource = props.treeDataSource.dataSource
+              const initialKeyValuePairs = props.defaultKeyValuePairs?.map(pair => {
+                return {
+                  label: pair.labeKey,
+                  value: null,
+                }
+              }) || [
+                {
+                  label: 'label',
+                  value: `${GlobalRegistry.getDesignerMessage(
+                    `SettingComponents.DataSourceSetter.item`
+                  )} ${dataSource.length + 1}`,
+                },
+                { label: 'value', value: uuid },
+              ]
               props.treeDataSource.dataSource = dataSource.concat({
                 key: uuid,
                 duplicateKey: uuid,
-                map: [
-                  {
-                    label: 'label',
-                    value: `${GlobalRegistry.getDesignerMessage(
-                      `SettingComponents.DataSourceSetter.item`
-                    )} ${dataSource.length + 1}`,
-                  },
-                  { label: 'value', value: uuid },
-                ],
+                map: initialKeyValuePairs,
                 children: [],
               })
             }}
@@ -101,7 +116,8 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
       <div className={`${prefix + '-layout-item-content'}`}>
         <Tree
           blockNode
-          draggable
+          draggable={true}
+          allowDrop={props.allowTree ? null : limitTreeDrag}
           defaultExpandAll
           defaultExpandParent
           autoExpandParent
