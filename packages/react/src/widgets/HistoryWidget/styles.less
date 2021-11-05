@@ -1,0 +1,23 @@
+@import '../../variables.less';
+
+.@{prefix-cls}-history {
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    min-height: 32px;
+    padding: 0 10px;
+    align-items: center;
+    cursor: pointer;
+    color: var(--dn-outline-tree-node-header-color);
+    &-timestamp {
+      font-size: 10px;
+    }
+    &:hover {
+      background-color: var(--dn-panel-active-bg-color);
+    }
+
+    &.active {
+      background-color: var(--dn-panel-active-bg-color);
+    }
+  }
+}

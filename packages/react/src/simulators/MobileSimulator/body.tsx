@@ -1,11 +1,23 @@
 import { observer } from '@formily/reactive-react'
 import React from 'react'
-import { useScreen, usePrefix } from '../../hooks'
+import { useScreen, usePrefix, useTheme } from '../../hooks'
 
 export interface IMobileBodyProps {}
 
+const MockupImages = {
+  dark: [
+    '//img.alicdn.com/imgextra/i3/O1CN01zXMc8W26oJZGUaCK1_!!6000000007708-55-tps-946-459.svg',
+    '//img.alicdn.com/imgextra/i3/O1CN012KWk2i1DLduN7InSK_!!6000000000200-55-tps-459-945.svg',
+  ],
+  light: [
+    '//img.alicdn.com/imgextra/i4/O1CN01vuXGe31tEy00v2xBx_!!6000000005871-55-tps-946-459.svg',
+    '//img.alicdn.com/imgextra/i4/O1CN01ehfzMc1QPqY6HONTJ_!!6000000001969-55-tps-459-945.svg',
+  ],
+}
+
 export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
   const screen = useScreen()
+  const theme = useTheme()
   const prefix = usePrefix('mobile-simulator-body')
   const getContentStyles = (): React.CSSProperties => {
     if (screen.flip) {
@@ -27,6 +39,7 @@ export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
       overflow: 'hidden',
     }
   }
+
   return (
     <div
       className={prefix}
@@ -43,11 +56,7 @@ export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
         }}
       >
         <img
-          src={
-            screen.flip
-              ? '//img.alicdn.com/tfs/TB1gj1O1eL2gK0jSZPhXXahvXXa-1420-690.png'
-              : '//img.alicdn.com/tfs/TB1zlYLpRBh1e4jSZFhXXcC9VXa-690-1420.png'
-          }
+          src={screen.flip ? MockupImages[theme][0] : MockupImages[theme][1]}
           style={{
             display: 'block',
             margin: '20px 0',

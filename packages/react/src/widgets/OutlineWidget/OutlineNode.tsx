@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useEffect } from 'react'
 import {
   TreeNode,
-  ClosestDirection,
+  ClosestPosition,
   CursorStatus,
   DragMoveEvent,
 } from '@designable/core'
@@ -16,7 +16,7 @@ import {
   useDesigner,
 } from '../../hooks'
 import { IconWidget } from '../IconWidget'
-import { TextWidget } from '../TextWidget'
+import { NodeTitleWidget } from '../NodeTitleWidget'
 import { NodeContext } from './context'
 import cls from 'classnames'
 import './styles.less'
@@ -46,7 +46,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
         if (!ref.current) return
         if (
           closestNodeId === id &&
-          closestDirection === ClosestDirection.Inner
+          closestDirection === ClosestPosition.Inner
         ) {
           if (!ref.current.classList.contains('droppable')) {
             ref.current.classList.add('droppable')
@@ -113,9 +113,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
       if (isFn(ctx.renderTitle)) return ctx.renderTitle(node)
       return (
         <span>
-          <TextWidget>
-            {node?.designerProps?.title || node.componentName}
-          </TextWidget>
+          <NodeTitleWidget node={node} />
         </span>
       )
     }
@@ -135,8 +133,8 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
           <div
             className={prefix + '-header-head'}
             style={{
-              left: -node.depth * 22,
-              width: node.depth * 22,
+              left: -node.depth * 16,
+              width: node.depth * 16,
             }}
           ></div>
           <div className={prefix + '-header-content'}>
@@ -154,7 +152,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
                     }
                   }}
                 >
-                  <IconWidget infer="Expand" />
+                  <IconWidget infer="Expand" size={10} />
                 </div>
               )}
               <div className={prefix + '-icon'}>{renderIcon(node)}</div>

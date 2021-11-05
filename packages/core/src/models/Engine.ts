@@ -1,8 +1,7 @@
 import { IEngineProps } from '../types'
 import { ITreeNode, TreeNode } from './TreeNode'
 import { Workbench } from './Workbench'
-import { Cursor } from './Cusor'
-import { DragSource, GlobalDragSource } from './DragSource'
+import { Cursor } from './Cursor'
 import { Keyboard } from './Keyboard'
 import { Screen, ScreenType } from './Screen'
 import { Event, uid } from '@designable/shared'
@@ -13,8 +12,6 @@ import { Event, uid } from '@designable/shared'
 
 export class Engine extends Event {
   id: string
-
-  source: DragSource = GlobalDragSource
 
   props: IEngineProps<Engine>
 
@@ -63,17 +60,7 @@ export class Engine extends Event {
   }
 
   findNodeById(id: string) {
-    for (let i = 0; i < this.workbench.workspaces.length; i++) {
-      const workspace = this.workbench.workspaces[i]
-      const node = workspace.operation.tree.findById(id)
-      if (node) {
-        return node
-      }
-    }
-  }
-
-  findSourceNodeById(id: string) {
-    return this.source.tree.findById(id)
+    return TreeNode.findById(id)
   }
 
   findDraggingNodes(): TreeNode[] {
@@ -97,15 +84,19 @@ export class Engine extends Event {
   }
 
   unmount() {
-    this.destroy()
+    this.detachEvents()
   }
 
   static defaultProps: IEngineProps<Engine> = {
     shortcuts: [],
     effects: [],
     drivers: [],
+    rootComponentName: 'Root',
     sourceIdAttrName: 'data-designer-source-id',
     nodeIdAttrName: 'data-designer-node-id',
+    contentEditableAttrName: 'data-content-editable',
+    contentEditableNodeIdAttrName: 'data-content-editable-node-id',
+    clickStopPropagationAttrName: 'data-click-stop-propagation',
     nodeHelpersIdAttrName: 'data-designer-node-helpers-id',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
     defaultScreenType: ScreenType.PC,

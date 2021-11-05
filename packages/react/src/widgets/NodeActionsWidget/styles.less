@@ -1,0 +1,55 @@
+@import '~antd/lib/style/themes/default.less';
+
+.dn-node-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  &-content {
+    position: relative;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    &::before {
+      position: absolute;
+      content: '';
+      display: block;
+      height: 0;
+      width: 300%;
+      top: 50%;
+      border-bottom: 1px dashed @border-color-split;
+      right: 100%;
+    }
+    &::after {
+      position: absolute;
+      content: '';
+      display: block;
+      height: 0;
+      width: 300%;
+      top: 50%;
+      border-bottom: 1px dashed @border-color-split;
+      left: 100%;
+    }
+    a {
+      color: @text-color-secondary;
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
+  &-item {
+    &-text {
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      line-height: 1;
+      .dn-icon {
+        margin-right: 6px;
+      }
+    }
+  }
+}

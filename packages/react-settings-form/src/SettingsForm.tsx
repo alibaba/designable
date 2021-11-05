@@ -8,13 +8,14 @@ import {
   useSelected,
   useOperation,
   useCurrentNode,
+  useWorkbench,
   IconWidget,
+  NodePathWidget,
 } from '@designable/react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './shared/context'
 import { useLocales, useSnapshot } from './effects'
-import { NodePath } from './components/NodePath'
 import { Empty } from 'antd'
 import cls from 'classnames'
 import './styles.less'
@@ -25,25 +26,31 @@ const GlobalState = {
 
 export const SettingsForm: React.FC<ISettingFormProps> = observer(
   (props) => {
-    const operation = useOperation()
-    const node = useCurrentNode()
-    const selected = useSelected()
+    const workbench = useWorkbench()
+    const currentWorkspace =
+      workbench?.activeWorkspace || workbench?.currentWorkspace
+    const currentWorkspaceId = currentWorkspace?.id
+    const operation = useOperation(currentWorkspaceId)
+    const node = useCurrentNode(currentWorkspaceId)
+    const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
-    const form = useMemo(() => {
-      return createForm({
-        values: node?.props,
-        effects() {
-          useLocales()
-          useSnapshot(operation)
-        },
-      })
-    }, [node, node?.designerProps?.propsSchema, operation])
-
+    const schema = node?.designerProps?.propsSchema
     const isEmpty = !(
       node &&
       node.designerProps?.propsSchema &&
       selected.length === 1
     )
+    const form = useMemo(() => {
+      return createForm({
+        initialValues: node?.designerProps?.defaultProps,
+        values: node?.props,
+        effects(form) {
+          useLocales(node)
+          useSnapshot(operation)
+          props.effects?.(form)
+        },
+      })
+    }, [node, node?.props, schema, operation, isEmpty])
 
     const render = () => {
       if (!isEmpty) {
@@ -64,9 +71,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
                 tooltipLayout="text"
               >
                 <SchemaField
-                  schema={node.designerProps.propsSchema as any}
+                  schema={schema}
                   components={props.components}
-                  scope={props.scope}
+                  scope={{ $node: node, ...props.scope }}
                 />
               </Form>
             </SettingsFormContext.Provider>
@@ -83,7 +90,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     return (
       <IconWidget.Provider tooltip>
         <div className={prefix + '-wrapper'}>
-          {!isEmpty && <NodePath />}
+          {!isEmpty && <NodePathWidget workspaceId={currentWorkspaceId} />}
           <div className={prefix + '-content'}>{render()}</div>
         </div>
       </IconWidget.Provider>
@@ -92,7 +99,9 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
   {
     scheduler: (update) => {
       cancelIdle(GlobalState.idleRequest)
-      GlobalState.idleRequest = requestIdle(update)
+      GlobalState.idleRequest = requestIdle(update, {
+        timeout: 500,
+      })
     },
   }
 )

@@ -1,9 +1,62 @@
 @import '~antd/lib/style/themes/default.less';
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate__slideInRight {
+  -webkit-animation-name: slideInRight;
+  animation-name: slideInRight;
+}
+
+.animate__slideOutRight {
+  -webkit-animation-name: slideOutRight;
+  animation-name: slideOutRight;
+}
+
+.animate__animated {
+  animation-delay: 0ms;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
+.animate__fadeInUp {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
 .dn-settings-form-wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 
   .dn-node-path {
     flex-grow: 0;
@@ -13,24 +66,12 @@
     flex-grow: 1;
     overflow: overlay;
   }
-}
-
-.dn-settings-form {
-  padding: 10px 20px;
-
-  &-empty {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    color: #888;
-  }
 
   .@{ant-prefix}-formily-item {
     border-bottom: 1px solid @border-color-split;
     padding-bottom: 8px;
     margin-bottom: 8px;
+    margin-top: 8px;
 
     * {
       font-size: 13px;
@@ -41,7 +82,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      & > .@{ant-prefix}-radio-group {
+      &>.@{ant-prefix}-radio-group {
         display: flex !important;
         width: 100%;
 
@@ -54,11 +95,28 @@
         }
       }
 
-      & > .@{ant-prefix}-slider {
+      &>.@{ant-prefix}-slider {
         flex-shrink: 0;
         min-width: 0;
         width: 100%;
       }
+
+      &>.@{ant-prefix}-select {
+        max-width: 140px;
+      }
     }
+  }
+}
+
+.dn-settings-form {
+  padding: 0 20px;
+
+  &-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    color: #888;
   }
 }

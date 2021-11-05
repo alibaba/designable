@@ -3,6 +3,7 @@ import { usePrefix } from '@designable/react'
 import { camelCase } from '@formily/shared'
 import { Select } from '@formily/antd'
 import { observable } from '@formily/reactive'
+import { Field as FieldType } from '@formily/core'
 import { useField, Field, observer } from '@formily/react'
 import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
@@ -32,6 +33,28 @@ const BorderStyleOptions = [
   },
 ]
 
+const createBorderProp = (position: string, key: string) => {
+  const insert = position === 'center' ? '' : `-${position}`
+  return camelCase(`border${insert}-${key}`)
+}
+
+const parseInitPosition = (field: FieldType) => {
+  const basePath = field.address.parent()
+  for (let i = 0; i < Positions.length; i++) {
+    const position = Positions[i]
+    const stylePath = `${basePath}.${createBorderProp(position, 'style')}`
+    const widthPath = `${basePath}.${createBorderProp(position, 'width')}`
+    const colorPath = `${basePath}.${createBorderProp(position, 'color')}`
+    if (
+      field.query(stylePath).value() ||
+      field.query(widthPath).value() ||
+      field.query(colorPath).value()
+    ) {
+      return position
+    }
+  }
+  return 'center'
+}
 export interface IBorderStyleSetterProps {
   className?: string
   style?: React.CSSProperties
@@ -39,16 +62,15 @@ export interface IBorderStyleSetterProps {
 
 export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
   ({ className, style }) => {
+    const field = useField<FieldType>()
     const currentPosition = useMemo(
       () =>
         observable({
-          value: 'center',
+          value: parseInitPosition(field),
         }),
-      []
+      [field.value]
     )
-    const field = useField()
     const prefix = usePrefix('border-style-setter')
-
     const createReaction =
       (position: string) => (field: Formily.Core.Models.Field) => {
         field.display =
@@ -80,32 +102,20 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
                 return (
                   <Fragment key={key}>
                     <Field
-                      name={camelCase(
-                        `border${
-                          position === 'center' ? '' : `-${position}`
-                        }Style`
-                      )}
+                      name={createBorderProp(position, 'style')}
                       basePath={field.address.parent()}
                       dataSource={BorderStyleOptions}
                       reactions={createReaction(position)}
                       component={[Select, { placeholder: 'Please Select' }]}
                     />
                     <Field
-                      name={camelCase(
-                        `border${
-                          position === 'center' ? '' : `-${position}`
-                        }Width`
-                      )}
+                      name={createBorderProp(position, 'width')}
                       basePath={field.address.parent()}
                       reactions={createReaction(position)}
                       component={[SizeInput, { exclude: ['auto'] }]}
                     />
                     <Field
-                      name={camelCase(
-                        `border${
-                          position === 'center' ? '' : `-${position}`
-                        }Color`
-                      )}
+                      name={createBorderProp(position, 'color')}
                       basePath={field.address.parent()}
                       reactions={createReaction(position)}
                       component={[ColorInput]}

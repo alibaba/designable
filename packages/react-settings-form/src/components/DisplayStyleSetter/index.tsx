@@ -54,6 +54,7 @@ export const DisplayStyleSetter: React.FC<IDisplayStyleSetterProps> = observer(
         <Field
           name="flex"
           basePath={field.address.parent()}
+          visible={false}
           reactions={(flexField) => {
             flexField.visible = field.value === 'flex'
           }}

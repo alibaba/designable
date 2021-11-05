@@ -3,7 +3,12 @@ import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
 import { uid, ICustomEvent, EventContainer } from '@designable/shared'
-import { HistoryRedoEvent, HistoryUndoEvent } from '../events'
+import {
+  HistoryGotoEvent,
+  HistoryRedoEvent,
+  HistoryUndoEvent,
+  HistoryPushEvent,
+} from '../events'
 import { IEngineContext } from '../types'
 export interface IViewportMatcher {
   contentWindow?: Window
@@ -11,6 +16,9 @@ export interface IViewportMatcher {
 }
 
 export interface IWorkspace {
+  id?: string
+  title?: string
+  description?: string
   operation: IOperation
 }
 
@@ -64,6 +72,9 @@ export class Workspace {
     })
     this.operation = new Operation(this)
     this.history = new History(this, {
+      onPush: (item) => {
+        this.operation.dispatch(new HistoryPushEvent(item))
+      },
       onRedo: (item) => {
         this.operation.hover.clear()
         this.operation.dispatch(new HistoryRedoEvent(item))
@@ -71,6 +82,10 @@ export class Workspace {
       onUndo: (item) => {
         this.operation.hover.clear()
         this.operation.dispatch(new HistoryUndoEvent(item))
+      },
+      onGoto: (item) => {
+        this.operation.hover.clear()
+        this.operation.dispatch(new HistoryGotoEvent(item))
       },
     })
   }
@@ -98,13 +113,26 @@ export class Workspace {
 
   serialize(): IWorkspace {
     return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
       operation: this.operation.serialize(),
     }
   }
 
   from(workspace?: IWorkspace) {
-    if (workspace?.operation) {
+    if (!workspace) return
+    if (workspace.operation) {
       this.operation.from(workspace.operation)
+    }
+    if (workspace.id) {
+      this.id = workspace.id
+    }
+    if (workspace.title) {
+      this.title = workspace.title
+    }
+    if (workspace.description) {
+      this.description = workspace.description
     }
   }
 }

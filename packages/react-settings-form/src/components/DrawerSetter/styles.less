@@ -1,0 +1,55 @@
+@import '~antd/lib/style/themes/default.less';
+
+.dn-drawer-setter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  background: var(--dn-composite-panel-tabs-content-bg-color);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 5px 10px;
+    color: @text-color;
+    border-bottom: 1px solid @border-color-split;
+    cursor: pointer;
+  }
+
+  &-header-text {
+    margin-left: 4px;
+  }
+
+  &-body {
+    padding: 10px 20px;
+    overflow: overlay;
+    overflow-x: hidden;
+    flex-grow: 2;
+  }
+}
+
+.dn-drawer-wrapper {
+  transition: all 0.16s ease-in-out;
+
+  &-enter {
+    transform: translateX(100%);
+  }
+
+  &-enter-active {
+    transform: translateX(0);
+  }
+
+  &-exit {
+    transform: translateX(0);
+  }
+
+  &-exit-active {
+    transform: translateX(100%);
+  }
+}

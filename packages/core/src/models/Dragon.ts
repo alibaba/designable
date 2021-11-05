@@ -4,7 +4,6 @@ import { observable, define, action } from '@formily/reactive'
 import {
   calcDistanceOfPointToRect,
   calcDistancePointToEdge,
-  isFn,
   isNearAfter,
   isPointInRect,
   IPoint,
@@ -12,7 +11,7 @@ import {
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
 
-export enum ClosestDirection {
+export enum ClosestPosition {
   Before = 'BEFORE',
   ForbidBefore = 'FORBID_BEFORE',
   After = 'After',
@@ -41,7 +40,7 @@ export interface IDragonCalculateProps {
   touchNode: TreeNode
   point?: IPoint
   closestNode?: TreeNode
-  closestDirection?: ClosestDirection
+  closestDirection?: ClosestPosition
 }
 export class Dragon {
   operation: Operation
@@ -60,7 +59,7 @@ export class Dragon {
 
   closestOffsetRect: DOMRect = null
 
-  closestDirection: ClosestDirection = null
+  closestDirection: ClosestPosition = null
 
   sensitive = true
 
@@ -77,20 +76,21 @@ export class Dragon {
     this.makeObservable()
   }
 
+  getClosestLayout() {
+    return this.viewport.getValidNodeLayout(this.closestNode)
+  }
+
   /**
    * 相对最近节点的位置
    * @readonly
-   * @type {ClosestDirection}
+   * @type {ClosestPosition}
    * @memberof Dragon
    */
-  getClosestDirection(point: IPoint): ClosestDirection {
+  getClosestPosition(point: IPoint): ClosestPosition {
     const closestNode = this.closestNode
-    if (!closestNode) return ClosestDirection.Forbid
-    const closestNodeParent = closestNode.parent
+    if (!closestNode) return ClosestPosition.Forbid
     const closestRect = this.viewport.getValidNodeRect(closestNode)
-    const isInline =
-      this.closestNode?.designerProps?.inlineLayout ||
-      closestNodeParent?.designerProps?.inlineChildrenLayout
+    const isInline = this.getClosestLayout() === 'horizontal'
     if (!closestRect) {
       return
     }
@@ -99,58 +99,95 @@ export class Dragon {
       closestRect,
       this.forceBlock ? false : isInline
     )
+    const getValidParent = (node: TreeNode) => {
+      if (node.parent?.allowSibling(this.dragNodes)) return node.parent
+      return getValidParent(node.parent)
+    }
     if (isPointInRect(point, closestRect, this.sensitive)) {
       if (!closestNode.allowAppend(this.dragNodes)) {
         if (!closestNode.allowSibling(this.dragNodes)) {
+          const parentClosestNode = getValidParent(this.closestNode)
+          if (parentClosestNode) {
+            this.closestNode = parentClosestNode
+          }
           if (isInline) {
-            return isAfter
-              ? ClosestDirection.ForbidAfter
-              : ClosestDirection.ForbidBefore
+            if (parentClosestNode) {
+              if (isAfter) {
+                return ClosestPosition.After
+              }
+              return ClosestPosition.Before
+            }
+            if (isAfter) {
+              return ClosestPosition.ForbidAfter
+            }
+            return ClosestPosition.ForbidBefore
           } else {
-            return isAfter
-              ? ClosestDirection.ForbidUnder
-              : ClosestDirection.ForbidUpper
+            if (parentClosestNode) {
+              if (isAfter) {
+                return ClosestPosition.Under
+              }
+              return ClosestPosition.Upper
+            }
+            if (isAfter) {
+              return ClosestPosition.ForbidUnder
+            }
+            return ClosestPosition.ForbidUpper
           }
         } else {
           if (isInline) {
-            return isAfter ? ClosestDirection.After : ClosestDirection.Before
+            return isAfter ? ClosestPosition.After : ClosestPosition.Before
           } else {
-            return isAfter ? ClosestDirection.Under : ClosestDirection.Upper
+            return isAfter ? ClosestPosition.Under : ClosestPosition.Upper
           }
         }
       }
       if (closestNode.contains(...this.dragNodes)) {
-        return isAfter
-          ? ClosestDirection.InnerAfter
-          : ClosestDirection.InnerBefore
+        if (isAfter) {
+          return ClosestPosition.InnerAfter
+        }
+        return ClosestPosition.InnerBefore
       } else {
-        return ClosestDirection.Inner
+        return ClosestPosition.Inner
       }
     } else if (closestNode === closestNode.root) {
-      return isAfter
-        ? ClosestDirection.InnerAfter
-        : ClosestDirection.InnerBefore
+      return isAfter ? ClosestPosition.InnerAfter : ClosestPosition.InnerBefore
     } else {
       if (!closestNode.allowSibling(this.dragNodes)) {
+        const parentClosestNode = getValidParent(this.closestNode)
+        if (parentClosestNode) {
+          this.closestNode = parentClosestNode
+        }
         if (isInline) {
+          if (parentClosestNode) {
+            if (isAfter) {
+              return ClosestPosition.After
+            }
+            return ClosestPosition.Before
+          }
           return isAfter
-            ? ClosestDirection.ForbidAfter
-            : ClosestDirection.ForbidBefore
+            ? ClosestPosition.ForbidAfter
+            : ClosestPosition.ForbidBefore
         } else {
+          if (parentClosestNode) {
+            if (isAfter) {
+              return ClosestPosition.Under
+            }
+            return ClosestPosition.Upper
+          }
           return isAfter
-            ? ClosestDirection.ForbidUnder
-            : ClosestDirection.ForbidUpper
+            ? ClosestPosition.ForbidUnder
+            : ClosestPosition.ForbidUpper
         }
       }
       if (isInline) {
-        return isAfter ? ClosestDirection.After : ClosestDirection.Before
+        return isAfter ? ClosestPosition.After : ClosestPosition.Before
       } else {
-        return isAfter ? ClosestDirection.Under : ClosestDirection.Upper
+        return isAfter ? ClosestPosition.Under : ClosestPosition.Upper
       }
     }
   }
 
-  setClosestDirection(direction: ClosestDirection) {
+  setClosestPosition(direction: ClosestPosition) {
     this.closestDirection = direction
   }
 
@@ -205,8 +242,8 @@ export class Dragon {
     if (!closestNode || !closestDirection) return
     const closestRect = this.viewport.getValidNodeRect(closestNode)
     if (
-      closestDirection === ClosestDirection.InnerAfter ||
-      closestDirection === ClosestDirection.InnerBefore
+      closestDirection === ClosestPosition.InnerAfter ||
+      closestDirection === ClosestPosition.InnerBefore
     ) {
       return this.viewport.getChildrenRect(closestNode)
     } else {
@@ -224,8 +261,8 @@ export class Dragon {
     if (!closestNode || !closestDirection) return
     const closestRect = this.viewport.getValidNodeOffsetRect(closestNode)
     if (
-      closestDirection === ClosestDirection.InnerAfter ||
-      closestDirection === ClosestDirection.InnerBefore
+      closestDirection === ClosestPosition.InnerAfter ||
+      closestDirection === ClosestPosition.InnerBefore
     ) {
       return this.viewport.getChildrenOffsetRect(closestNode)
     } else {
@@ -237,14 +274,7 @@ export class Dragon {
     this.closestOffsetRect = rect
   }
 
-  setDragNodes(nodes: TreeNode[] = []) {
-    const dragNodes: TreeNode[] = nodes.reduce((buf, node) => {
-      if (isFn(node?.designerProps?.getDragNodes)) {
-        const transformed = node.designerProps.getDragNodes(node)
-        return transformed ? buf.concat(transformed) : buf
-      }
-      return buf.concat([node])
-    }, [])
+  setDragNodes(dragNodes: TreeNode[] = []) {
     this.dragNodes = dragNodes
     this.trigger(
       new DragNodeEvent({
@@ -268,7 +298,7 @@ export class Dragon {
     const { point, touchNode, closestNode, closestDirection } = props
     this.setTouchNode(touchNode)
     this.closestNode = closestNode || this.getClosestNode(point)
-    this.closestDirection = closestDirection || this.getClosestDirection(point)
+    this.closestDirection = closestDirection || this.getClosestPosition(point)
     this.closestRect = this.getClosestRect()
     this.closestOffsetRect = this.getClosestOffsetRect()
   }
@@ -284,7 +314,7 @@ export class Dragon {
   }
 
   trigger(event: any) {
-    if (this?.operation) {
+    if (this.operation) {
       return this.operation.dispatch(event)
     }
   }
@@ -310,7 +340,7 @@ export class Dragon {
       setTouchNode: action,
       setDropNode: action,
       setClosestNode: action,
-      setClosestDirection: action,
+      setClosestPosition: action,
       setClosestOffsetRect: action,
       setClosestRect: action,
       clear: action,

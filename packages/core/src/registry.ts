@@ -1,29 +1,29 @@
-import { each, isFn, isPlainObj } from '@designable/shared'
+import { each } from '@designable/shared'
 import { Path } from '@formily/path'
-import { define, observable } from '@formily/reactive'
+import { observable } from '@formily/reactive'
 import {
-  IDesignerControllerProps,
-  IDesignerControllerPropsMap,
+  IDesignerBehaviorStore,
+  IDesignerIconsStore,
+  IDesignerLocaleStore,
+  IDesignerLanguageStore,
+  IDesignerBehaviors,
   IDesignerLocales,
+  IDesignerIcons,
+  IBehaviorLike,
+  IBehavior,
 } from './types'
-
-const getBrowserlanguage = () => {
-  /* istanbul ignore next */
-  if (!window.navigator) {
-    return 'en'
-  }
-  return (
-    window.navigator['browserlanguage'] || window.navigator?.language || 'en'
-  )
-}
+import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
+import { isBehaviorHost } from './externals'
+import { TreeNode } from './models'
+import { isBehaviorList } from '.'
 
 const getISOCode = (language: string) => {
-  let isoCode = DESIGNER_LOCALES.language
-  let lang = cleanSpace(language)
-  if (DESIGNER_LOCALES.messages[lang]) {
+  let isoCode = DESIGNER_LANGUAGE_STORE.value
+  let lang = lowerSnake(language)
+  if (DESIGNER_LOCALES_STORE.value[lang]) {
     return lang
   }
-  each(DESIGNER_LOCALES.messages, (_, key: string) => {
+  each(DESIGNER_LOCALES_STORE.value, (_, key: string) => {
     if (key.indexOf(lang) > -1 || String(lang).indexOf(key) > -1) {
       isoCode = key
       return false
@@ -32,118 +32,113 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const DESIGNER_PROPS_MAP: IDesignerControllerPropsMap = {
-  Root: {
-    droppable: true,
-    cloneable: false,
-    deletable: false,
-  },
-}
-
-const DESIGNER_ICONS_MAP: Record<string, any> = {}
-
-const DESIGNER_LOCALES: IDesignerLocales = define(
-  {
-    messages: {},
-    language: getBrowserlanguage(),
-  },
-  {
-    language: observable.ref,
-  }
-)
-
-const cleanSpace = (str: string) => {
-  return String(str).replace(/\s+/g, '_').toLocaleLowerCase()
-}
-
-const mergeLocales = (target: any, source: any) => {
-  if (isPlainObj(target) && isPlainObj(source)) {
-    each(source, function (value, key) {
-      const token = cleanSpace(key)
-      const messages = mergeLocales(target[key] || target[token], value)
-      target[token] = messages
-      target[key] = messages
-    })
-    return target
-  } else if (isPlainObj(source)) {
-    const result = Array.isArray(source) ? [] : {}
-    each(source, function (value, key) {
-      const messages = mergeLocales(undefined, value)
-      result[cleanSpace(key)] = messages
-      result[key] = messages
-    })
-    return result
-  }
-  return source
-}
-
-const DESIGNER_GlobalRegistry = {
-  setComponentDesignerProps: (
-    componentName: string,
-    props: IDesignerControllerProps
-  ) => {
-    const originProps = GlobalRegistry.getComponentDesignerProps(componentName)
-    DESIGNER_PROPS_MAP[componentName] = (node) => {
-      if (isFn(originProps)) {
-        if (isFn(props)) {
-          return { ...originProps(node), ...props(node) }
-        } else {
-          return { ...originProps(node), ...props }
-        }
-      } else if (isFn(props)) {
-        return { ...originProps, ...props(node) }
-      } else {
-        return { ...originProps, ...props }
+const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
+  const findTargetBehavior = (behavior: IBehavior) => target.includes(behavior)
+  const findSourceBehavior = (name: string) => {
+    for (let key in sources) {
+      const { Behavior } = sources[key]
+      for (let i = 0; i < Behavior.length; i++) {
+        if (Behavior[i].name === name) return Behavior[i]
       }
     }
-  },
-
-  getComponentDesignerProps: (componentName: string) => {
-    return DESIGNER_PROPS_MAP[componentName] || {}
-  },
-
-  registerDesignerProps: (map: IDesignerControllerPropsMap) => {
-    each(map, (props, componentName) => {
-      GlobalRegistry.setComponentDesignerProps(componentName, props)
+  }
+  each(sources, (item) => {
+    if (!item) return
+    if (!isBehaviorHost(item)) return
+    const { Behavior } = item
+    each(Behavior, (behavior) => {
+      if (findTargetBehavior(behavior)) return
+      const name = behavior.name
+      each(behavior.extends, (dep) => {
+        const behavior = findSourceBehavior(dep)
+        if (!behavior)
+          throw new Error(`No ${dep} behavior that ${name} depends on`)
+        if (!findTargetBehavior(behavior)) {
+          target.unshift(behavior)
+        }
+      })
+      target.push(behavior)
     })
+  })
+}
+
+const DESIGNER_BEHAVIORS_STORE: IDesignerBehaviorStore = observable.ref([])
+
+const DESIGNER_ICONS_STORE: IDesignerIconsStore = observable.ref({})
+
+const DESIGNER_LOCALES_STORE: IDesignerLocaleStore = observable.ref({})
+
+const DESIGNER_LANGUAGE_STORE: IDesignerLanguageStore = observable.ref(
+  getBrowserLanguage()
+)
+
+const DESIGNER_GlobalRegistry = {
+  setDesignerLanguage: (lang: string) => {
+    DESIGNER_LANGUAGE_STORE.value = lang
   },
 
-  registerDesignerIcons: (map: Record<string, any>) => {
-    Object.assign(DESIGNER_ICONS_MAP, map)
+  setDesignerBehaviors: (behaviors: IBehaviorLike[]) => {
+    DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IBehavior[]>(
+      (buf, behavior) => {
+        if (isBehaviorHost(behavior)) {
+          return buf.concat(behavior.Behavior)
+        } else if (isBehaviorList(behavior)) {
+          return buf.concat(behavior)
+        }
+        return buf
+      },
+      []
+    )
+  },
+
+  getDesignerBehaviors: (node: TreeNode) => {
+    return DESIGNER_BEHAVIORS_STORE.value.filter((pattern) =>
+      pattern.selector(node)
+    )
   },
 
   getDesignerIcon: (name: string) => {
-    return DESIGNER_ICONS_MAP[name]
+    return DESIGNER_ICONS_STORE[name]
   },
 
-  setDesignerLanguage(lang: string) {
-    DESIGNER_LOCALES.language = lang
+  getDesignerLanguage: () => {
+    return getISOCode(DESIGNER_LANGUAGE_STORE.value)
   },
 
-  getDesignerLanguage() {
-    return DESIGNER_LOCALES.language
-  },
-
-  getDesignerMessage(token: string) {
-    const lang = getISOCode(DESIGNER_LOCALES.language)
-    const locale = DESIGNER_LOCALES.messages[lang]
+  getDesignerMessage: (token: string, locales?: IDesignerLocales) => {
+    const lang = getISOCode(DESIGNER_LANGUAGE_STORE.value)
+    const locale = locales ? locales[lang] : DESIGNER_LOCALES_STORE.value[lang]
     if (!locale) {
-      for (let key in DESIGNER_LOCALES.messages) {
+      for (let key in DESIGNER_LOCALES_STORE.value) {
         const message = Path.getIn(
-          DESIGNER_LOCALES.messages[key],
-          cleanSpace(token)
+          DESIGNER_LOCALES_STORE.value[key],
+          lowerSnake(token)
         )
         if (message) return message
       }
       return
     }
-    return Path.getIn(locale, cleanSpace(token))
+    return Path.getIn(locale, lowerSnake(token))
   },
 
-  registerDesignerLocales(...packages: IDesignerLocales['messages'][]) {
+  registerDesignerIcons: (map: IDesignerIcons) => {
+    Object.assign(DESIGNER_ICONS_STORE, map)
+  },
+
+  registerDesignerLocales: (...packages: IDesignerLocales[]) => {
     packages.forEach((locales) => {
-      mergeLocales(DESIGNER_LOCALES.messages, locales)
+      mergeLocales(DESIGNER_LOCALES_STORE.value, locales)
     })
+  },
+
+  registerDesignerBehaviors: (...packages: IDesignerBehaviors[]) => {
+    const results: IBehavior[] = []
+    packages.forEach((sources) => {
+      reSortBehaviors(results, sources)
+    })
+    if (results.length) {
+      DESIGNER_BEHAVIORS_STORE.value = results
+    }
   },
 }
 

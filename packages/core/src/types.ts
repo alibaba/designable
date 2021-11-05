@@ -1,4 +1,5 @@
 import { IEventProps, Event } from '@designable/shared'
+import { ISchema } from '@formily/json-schema'
 import {
   Engine,
   ITreeNode,
@@ -8,17 +9,20 @@ import {
   Workbench,
   Workspace,
   TreeNode,
-  ISchema,
 } from './models'
 
 export type IEngineProps<T = Event> = IEventProps<T> & {
+  shortcuts?: Shortcut[]
   sourceIdAttrName?: string //拖拽源Id的dom属性名
   nodeIdAttrName?: string //节点Id的dom属性名
+  contentEditableAttrName?: string //原地编辑属性名
+  contentEditableNodeIdAttrName?: string //原地编辑指定Node Id属性名
+  clickStopPropagationAttrName?: string //点击阻止冒泡属性
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
-  defaultComponentTree?: ITreeNode[] //默认组件树
+  defaultComponentTree?: ITreeNode //默认组件树
   defaultScreenType?: ScreenType
-  shortcuts?: Shortcut[]
+  rootComponentName?: string
 }
 
 export type IEngineContext = {
@@ -28,20 +32,6 @@ export type IEngineContext = {
   viewport: Viewport
 }
 
-export type IControlType = boolean | ((node: TreeNode) => boolean)
-
-export type IControlNodeMetaType = {
-  componentName: string //指定组件类型
-  id?: string //指定实例ID
-  maxInstances?: number //最大实例数量
-  minInstances?: number //最小实例数量
-}
-
-export type IControlNodeType =
-  | string
-  | IControlNodeMetaType
-  | ((node: TreeNode) => IControlNodeMetaType)
-
 export interface IDesignerProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
@@ -50,22 +40,21 @@ export interface IDesignerProps {
   title?: string //标题
   description?: string //描述
   icon?: string //icon
-  group?: string //分类
   droppable?: boolean //是否可作为拖拽容器，默认为true
   draggable?: boolean //是否可拖拽，默认为true
   deletable?: boolean //是否可删除，默认为true
   cloneable?: boolean //是否可拷贝，默认为true
   resizable?: boolean //是否可修改尺寸，默认为false
-  inlineLayout?: boolean //是否是内联布局
-  inlineChildrenLayout?: boolean //子节点是否内联
+  inlineChildrenLayout?: boolean //子节点内联，用于指定复杂布局容器，强制内联
   selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: ISchema //Formily JSON Schema
   defaultProps?: any //默认属性
-  effects?: (engine: Engine) => void
-  getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截拖拽节点
+  getDragNodes?: (node: TreeNode) => TreeNode | TreeNode[] //拦截转换Drag节点
+  getDropNodes?: (node: TreeNode, parent: TreeNode) => TreeNode | TreeNode[] //拦截转换Drop节点
   getComponentProps?: (node: TreeNode) => any //拦截属性
   allowAppend?: (target: TreeNode, sources?: TreeNode[]) => boolean
   allowSiblings?: (target: TreeNode, sources?: TreeNode[]) => boolean
+  allowDrop?: (target: TreeNode) => boolean
   [key: string]: any
 }
 
@@ -80,13 +69,29 @@ export type IDesignerControllerPropsMap = Record<
   IDesignerControllerProps
 >
 export interface IDesignerLocales {
-  messages: {
-    [ISOCode: string]: {
-      [key: string]: any
-    }
+  [ISOCode: string]: {
+    [key: string]: any
   }
-  language: string
 }
+
+export interface IDesignerMiniLocales {
+  [ISOCode: string]: string
+}
+
+export interface IDesignerBehaviors {
+  [key: string]: IBehaviorHost
+}
+
+export interface IDesignerStore<P> {
+  value: P
+}
+
+export type IDesignerIcons = Record<string, any>
+
+export type IDesignerIconsStore = IDesignerStore<IDesignerIcons>
+export type IDesignerLocaleStore = IDesignerStore<IDesignerLocales>
+export type IDesignerBehaviorStore = IDesignerStore<IBehavior[]>
+export type IDesignerLanguageStore = IDesignerStore<string>
 
 export type WorkbenchTypes =
   | 'DESIGNABLE'
@@ -94,3 +99,48 @@ export type WorkbenchTypes =
   | 'JSONTREE'
   | 'MARKUP'
   | (string & {})
+
+export interface IBehavior {
+  name: string
+  extends?: string[]
+  selector: (node: TreeNode) => boolean
+  designerProps?: IDesignerControllerProps
+  designerLocales?: IDesignerLocales
+}
+
+export interface IBehaviorCreator {
+  name: string
+  extends?: string[]
+  selector: string | ((node: TreeNode) => boolean)
+  designerProps?: IDesignerControllerProps
+  designerLocales?: IDesignerLocales
+}
+
+export interface IBehaviorHost {
+  Behavior?: IBehavior[]
+}
+
+export type IBehaviorLike = IBehavior[] | IBehaviorHost
+
+export interface IResource {
+  title?: string | IDesignerMiniLocales
+  description?: string | IDesignerMiniLocales
+  icon?: any
+  thumb?: string
+  span?: number
+  node?: TreeNode
+}
+
+export interface IResourceHost {
+  Resource?: IResource[]
+}
+
+export type IResourceLike = IResource[] | IResourceHost
+export interface IResourceCreator {
+  title?: string | IDesignerMiniLocales
+  description?: string | IDesignerMiniLocales
+  icon?: any
+  thumb?: string
+  span?: number
+  elements?: ITreeNode[]
+}

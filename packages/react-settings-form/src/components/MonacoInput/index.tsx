@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import Editor, { EditorProps } from '@monaco-editor/react'
+import Editor, { EditorProps, loader } from '@monaco-editor/react'
 import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { Tooltip } from 'antd'
@@ -10,17 +10,25 @@ import cls from 'classnames'
 import './styles.less'
 import './config'
 
-type Monaco = typeof monaco
+export type Monaco = typeof monaco
 export interface MonacoInputProps extends EditorProps {
+  helpLink?: string | boolean
+  helpCode?: string
+  helpCodeViewWidth?: number | string
   extraLib?: string
   onChange?: (value: string) => void
 }
 
-export const MonacoInput: React.FC<MonacoInputProps> = ({
+export const MonacoInput: React.FC<MonacoInputProps> & {
+  loader?: typeof loader
+} = ({
   className,
   language,
   defaultLanguage,
   width,
+  helpLink,
+  helpCode,
+  helpCodeViewWidth,
   height,
   onMount,
   onChange,
@@ -82,6 +90,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
 
   const renderHelper = () => {
     const getHref = () => {
+      if (typeof helpLink === 'string') return helpLink
       if (isFileLanguage()) {
         return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
       }
@@ -89,6 +98,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
         return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators'
       }
     }
+    if (helpLink === false) return null
     const href = getHref()
     return (
       href && (
@@ -116,7 +126,7 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     onMount?.(editor, monaco)
     const model = editor.getModel()
     const currentValue = editor.getValue()
-    model['getLanguage'] = () => computedLanguage.current
+    model['getDesignerLanguage'] = () => computedLanguage.current
     if (currentValue) {
       format(computedLanguage.current, currentValue)
         .then((content) => {
@@ -132,6 +142,9 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     if (props.extraLib) {
       updateExtraLib()
     }
+    editor.onDidChangeModelContent(() => {
+      onChangeHandler(editor.getValue())
+    })
   }
 
   const submit = () => {
@@ -234,6 +247,44 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
     ? 'typescript'
     : computedLanguage.current
 
+  const renderHelpCode = () => {
+    if (!helpCode) return null
+    return (
+      <div
+        className={prefix + '-view'}
+        style={{ width: helpCodeViewWidth || '50%' }}
+      >
+        <Editor
+          value={helpCode}
+          theme={theme === 'dark' ? 'monokai' : 'chrome-devtools'}
+          defaultLanguage={realLanguage.current}
+          language={realLanguage.current}
+          options={{
+            ...props.options,
+            lineNumbers: 'off',
+            readOnly: true,
+            glyphMargin: false,
+            folding: false,
+            lineDecorationsWidth: 0,
+            lineNumbersMinChars: 0,
+            minimap: {
+              enabled: false,
+            },
+            tabSize: 2,
+            smoothScrolling: true,
+            scrollbar: {
+              verticalScrollbarSize: 5,
+              horizontalScrollbarSize: 5,
+              alwaysConsumeMouseWheel: false,
+            },
+          }}
+          width="100%"
+          height="100%"
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       className={cls(prefix, className, {
@@ -242,28 +293,32 @@ export const MonacoInput: React.FC<MonacoInputProps> = ({
       style={{ width, height }}
     >
       {renderHelper()}
-      <Editor
-        {...props}
-        theme={theme === 'dark' ? 'monokai' : 'chrome-devtools'}
-        defaultLanguage={realLanguage.current}
-        language={realLanguage.current}
-        options={{
-          ...props.options,
-          tabSize: 2,
-          smoothScrolling: true,
-          glyphMargin: true,
-          scrollbar: {
-            verticalScrollbarSize: 5,
-            horizontalScrollbarSize: 5,
-            alwaysConsumeMouseWheel: false,
-          },
-        }}
-        value={input}
-        width="100%"
-        height="100%"
-        onMount={onMountHandler}
-        onChange={onChangeHandler}
-      />
+      <div className={prefix + '-view'}>
+        <Editor
+          {...props}
+          theme={theme === 'dark' ? 'monokai' : 'chrome-devtools'}
+          defaultLanguage={realLanguage.current}
+          language={realLanguage.current}
+          options={{
+            glyphMargin: true,
+            ...props.options,
+            tabSize: 2,
+            smoothScrolling: true,
+            scrollbar: {
+              verticalScrollbarSize: 5,
+              horizontalScrollbarSize: 5,
+              alwaysConsumeMouseWheel: false,
+            },
+          }}
+          value={input}
+          width="100%"
+          height="100%"
+          onMount={onMountHandler}
+        />
+      </div>
+      {renderHelpCode()}
     </div>
   )
 }
+
+MonacoInput.loader = loader

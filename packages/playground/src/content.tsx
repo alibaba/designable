@@ -19,7 +19,7 @@ export const Content = () => (
               border: '1px solid #ddd',
             }}
           >
-            {node.props.title}
+            <span data-content-editable="title">{node.props.title}</span>
             {props.children}
           </span>
         )
@@ -31,6 +31,7 @@ export const Content = () => (
             style={{
               background: '#eee',
               border: '1px solid #ddd',
+              width: '100%',
               display: 'flex',
               padding: 10,
               height: props.children ? 'auto' : 150,

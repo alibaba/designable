@@ -83,7 +83,6 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
     }
 
     const renderResponsiveController = () => {
-      if (workbench.type !== 'DESIGNABLE') return null
       if (!props.use.includes('SCREEN_TYPE')) return null
       if (screen.type !== ScreenType.Responsive) return null
       return (
@@ -135,7 +134,6 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
     }
 
     const renderScreenTypeController = () => {
-      if (workbench.type !== 'DESIGNABLE') return null
       if (!props.use.includes('SCREEN_TYPE')) return null
       return (
         <Button.Group size="small" style={{ marginRight: 20 }}>
@@ -171,7 +169,6 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
     }
 
     const renderMobileController = () => {
-      if (workbench.type !== 'DESIGNABLE') return null
       if (!props.use.includes('SCREEN_TYPE')) return null
       if (screen.type !== ScreenType.Mobile) return
       return (

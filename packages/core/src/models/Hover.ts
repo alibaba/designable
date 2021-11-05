@@ -29,7 +29,7 @@ export class Hover {
   }
 
   trigger() {
-    if (this?.operation) {
+    if (this.operation) {
       return this.operation.dispatch(
         new HoverNodeEvent({
           target: this.operation.tree,

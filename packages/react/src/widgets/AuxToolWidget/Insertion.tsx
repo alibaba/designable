@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDragon, usePrefix } from '../../hooks'
-import { ClosestDirection } from '@designable/core'
+import { ClosestPosition } from '@designable/core'
 import { observer } from '@formily/reactive-react'
 
 export const Insertion = observer(() => {
@@ -9,7 +9,7 @@ export const Insertion = observer(() => {
   const createInsertionStyle = (): React.CSSProperties => {
     const closestDirection = viewportDragon.closestDirection
     const closestRect = viewportDragon.closestOffsetRect
-    const closestNode = viewportDragon.closestNode
+    const isInlineLayout = viewportDragon.getClosestLayout() === 'horizontal'
     const baseStyle: React.CSSProperties = {
       position: 'absolute',
       transform: 'perspective(1px) translate3d(0,0,0)',
@@ -18,15 +18,15 @@ export const Insertion = observer(() => {
     }
     if (!closestRect) return baseStyle
     if (
-      closestDirection === ClosestDirection.Before ||
-      closestDirection === ClosestDirection.ForbidBefore
+      closestDirection === ClosestPosition.Before ||
+      closestDirection === ClosestPosition.ForbidBefore
     ) {
       baseStyle.width = 2
       baseStyle.height = closestRect.height
       baseStyle.transform = `perspective(1px) translate3d(${closestRect.x}px,${closestRect.y}px,0)`
     } else if (
-      closestDirection === ClosestDirection.After ||
-      closestDirection === ClosestDirection.ForbidAfter
+      closestDirection === ClosestPosition.After ||
+      closestDirection === ClosestPosition.ForbidAfter
     ) {
       baseStyle.width = 2
       baseStyle.height = closestRect.height
@@ -34,12 +34,12 @@ export const Insertion = observer(() => {
         closestRect.x + closestRect.width - 2
       }px,${closestRect.y}px,0)`
     } else if (
-      closestDirection === ClosestDirection.InnerAfter ||
-      closestDirection === ClosestDirection.Under ||
-      closestDirection === ClosestDirection.ForbidInnerAfter ||
-      closestDirection === ClosestDirection.ForbidUnder
+      closestDirection === ClosestPosition.InnerAfter ||
+      closestDirection === ClosestPosition.Under ||
+      closestDirection === ClosestPosition.ForbidInnerAfter ||
+      closestDirection === ClosestPosition.ForbidUnder
     ) {
-      if (closestNode?.designerProps?.inlineLayout === true) {
+      if (isInlineLayout) {
         baseStyle.width = 2
         baseStyle.height = closestRect.height
         baseStyle.transform = `perspective(1px) translate3d(${
@@ -53,12 +53,12 @@ export const Insertion = observer(() => {
         }px,${closestRect.y + closestRect.height - 2}px,0)`
       }
     } else if (
-      closestDirection === ClosestDirection.InnerBefore ||
-      closestDirection === ClosestDirection.Upper ||
-      closestDirection === ClosestDirection.ForbidInnerBefore ||
-      closestDirection === ClosestDirection.ForbidUpper
+      closestDirection === ClosestPosition.InnerBefore ||
+      closestDirection === ClosestPosition.Upper ||
+      closestDirection === ClosestPosition.ForbidInnerBefore ||
+      closestDirection === ClosestPosition.ForbidUpper
     ) {
-      if (closestNode?.designerProps?.inlineLayout === true) {
+      if (isInlineLayout) {
         baseStyle.width = 2
         baseStyle.height = closestRect.height
         baseStyle.transform = `perspective(1px) translate3d(${closestRect.x}px,${closestRect.y}px,0)`

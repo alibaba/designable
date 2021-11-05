@@ -1,12 +1,15 @@
 import { define, observable, action } from '@formily/reactive'
 
 export interface IHistoryProps<T> {
-  onRedo(item: T): void
-  onUndo(item: T): void
+  onPush?: (item: T) => void
+  onRedo?: (item: T) => void
+  onUndo?: (item: T) => void
+  onGoto?: (item: T) => void
 }
 
 export interface HistoryItem<T> {
   data: T
+  type?: string
   timestamp: number
 }
 
@@ -22,6 +25,7 @@ export class History<T extends ISerializable = any> {
   history: HistoryItem<T>[] = []
   updateTimer = null
   maxSize = 100
+  locking = false
   constructor(context: T, props?: IHistoryProps<HistoryItem<T>>) {
     this.context = context
     this.props = props
@@ -45,16 +49,25 @@ export class History<T extends ISerializable = any> {
     return this.history
   }
 
-  push() {
+  push(type?: string) {
+    if (this.locking) return
     if (this.current < this.history.length - 1) {
       this.history = this.history.slice(0, this.current + 1)
     }
+    const item = {
+      data: this.context.serialize(),
+      timestamp: Date.now(),
+      type,
+    }
     this.current = this.history.length
-    this.history.push(this.context.serialize())
+    this.history.push(item)
     const overSizeCount = this.history.length - this.maxSize
     if (overSizeCount > 0) {
       this.history.splice(0, overSizeCount)
       this.current = this.history.length - 1
+    }
+    if (this.props?.onPush) {
+      this.props.onPush(item)
     }
   }
 
@@ -69,7 +82,9 @@ export class History<T extends ISerializable = any> {
   redo() {
     if (this.allowRedo) {
       const item = this.history[this.current + 1]
-      this.context.from(item)
+      this.locking = true
+      this.context.from(item.data)
+      this.locking = false
       this.current++
       if (this.props?.onRedo) {
         this.props.onRedo(item)
@@ -80,7 +95,9 @@ export class History<T extends ISerializable = any> {
   undo() {
     if (this.allowUndo) {
       const item = this.history[this.current - 1]
-      this.context.from(item)
+      this.locking = true
+      this.context.from(item.data)
+      this.locking = false
       this.current--
       if (this.props?.onUndo) {
         this.props.onUndo(item)
@@ -89,9 +106,15 @@ export class History<T extends ISerializable = any> {
   }
 
   goTo(index: number) {
-    if (this.history[index]) {
-      this.context.from(this.history[index])
+    const item = this.history[index]
+    if (item) {
+      this.locking = true
+      this.context.from(item.data)
+      this.locking = false
       this.current = index
+      if (this.props?.onGoto) {
+        this.props.onGoto(item)
+      }
     }
   }
 

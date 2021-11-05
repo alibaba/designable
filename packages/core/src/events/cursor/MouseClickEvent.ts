@@ -7,3 +7,10 @@ export class MouseClickEvent
 {
   type = 'mouse:click'
 }
+
+export class MouseDoubleClickEvent
+  extends AbstractCursorEvent
+  implements ICustomEvent
+{
+  type = 'mouse:dblclick'
+}

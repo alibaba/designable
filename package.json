@@ -5,7 +5,8 @@
     "node": "8.x || 9.x || 10.x || 11.x"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "formily/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -26,8 +27,9 @@
     "version:minor": "lerna version minor",
     "version:preminor": "lerna version preminor --preid beta",
     "version:major": "lerna version major",
-    "release:force": "lerna publish from-package --yes && ts-node scripts/release release",
-    "prelease:force": "lerna publish from-package --yes --dist-tag next && ts-node scripts/release release",
+    "release:github": "ts-node scripts/release release",
+    "release:force": "lerna publish from-package --yes",
+    "prelease:force": "lerna publish from-package --yes --dist-tag next",
     "release": "lerna publish",
     "prelease": "lerna publish --dist-tag next",
     "lint": "eslint --ext .ts,.tsx,.js  --fix",
@@ -49,6 +51,7 @@
     "@types/node": "^12.6.8",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/dateformat": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.8.2",
     "@umijs/plugin-sass": "^1.1.1",
@@ -135,7 +138,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/desingable.git"
+    "url": "git+https://github.com/alibaba/designable.git"
   },
   "config": {
     "ghooks": {

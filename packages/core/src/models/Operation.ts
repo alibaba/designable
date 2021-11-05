@@ -44,9 +44,9 @@ export class Operation {
     this.engine = workspace.engine
     this.workspace = workspace
     this.tree = new TreeNode({
-      componentName: 'Root',
+      componentName: this.engine.props.rootComponentName,
+      ...this.engine.props.defaultComponentTree,
       operation: this,
-      children: this.engine.props.defaultComponentTree || [],
     })
     this.selection = new Selection({
       operation: this,
@@ -90,8 +90,17 @@ export class Operation {
   }
 
   setDragNodes(nodes: TreeNode[]) {
-    this.outlineDragon.setDragNodes(nodes)
-    this.viewportDragon.setDragNodes(nodes)
+    const dragNodes = nodes.reduce((buf, node) => {
+      if (isFn(node?.designerProps?.getDragNodes)) {
+        const transformed = node.designerProps.getDragNodes(node)
+        return transformed ? buf.concat(transformed) : buf
+      }
+      if (node.componentName === '$$ResourceNode$$')
+        return buf.concat(node.children)
+      return buf.concat([node])
+    }, [])
+    this.outlineDragon.setDragNodes(dragNodes)
+    this.viewportDragon.setDragNodes(dragNodes)
   }
 
   getDragNodes() {
@@ -101,11 +110,25 @@ export class Operation {
     return this.viewportDragon.dragNodes
   }
 
+  getDropNodes(parent: TreeNode) {
+    const dragNodes = this.getDragNodes()
+    return dragNodes.reduce((buf, node) => {
+      if (isFn(node.designerProps?.getDropNodes)) {
+        const cloned = node.isSourceNode ? node.clone(node.parent) : node
+        const transformed = node.designerProps.getDropNodes(cloned, parent)
+        return transformed ? buf.concat(transformed) : buf
+      }
+      if (node.componentName === '$$ResourceNode$$')
+        return buf.concat(node.children)
+      return buf.concat([node])
+    }, [])
+  }
+
   getClosestNode() {
     return this.viewportDragon.closestNode || this.outlineDragon.closestNode
   }
 
-  getClosestDirection() {
+  getClosestPosition() {
     return (
       this.viewportDragon.closestDirection ||
       this.outlineDragon.closestDirection
@@ -166,15 +189,11 @@ export class Operation {
   removeNodes(nodes: TreeNode[]) {
     for (let i = nodes.length - 1; i >= 0; i--) {
       const node = nodes[i]
-      if (node !== this.tree && node?.designerProps?.deletable !== false) {
-        const previousIndex = node.index - 1
-        const afterIndex = node.index + 1
-        const parent = node.parent
+      if (node.allowDelete()) {
+        const previous = node.previous
+        const next = node.next
         node.remove()
-        const previous = previousIndex > -1 && parent.children[previousIndex]
-        const after =
-          afterIndex < parent.children.length && parent.children[afterIndex]
-        this.selection.select(previous ? previous : after ? after : node.parent)
+        this.selection.select(previous ? previous : next ? next : node.parent)
         this.hover.clear()
       }
     }
@@ -196,7 +215,8 @@ export class Operation {
       })
     })
     each(filterNestedNode, (node) => {
-      if (node?.designerProps?.cloneable === false) return
+      if (node === node.root) return
+      if (!node.allowClone()) return
       groups[node?.parent?.id] = groups[node?.parent?.id] || []
       groups[node?.parent?.id].push(node)
       if (lastGroupNode[node?.parent?.id]) {
@@ -213,6 +233,7 @@ export class Operation {
       let insertPoint = lastNode
       each(nodes, (node) => {
         const cloned = node.clone()
+        if (!cloned) return
         if (
           this.selection.has(node) &&
           insertPoint.parent.allowAppend([cloned])
@@ -234,7 +255,7 @@ export class Operation {
     })
     parents.forEach((nodes, target) => {
       if (!nodes.length) return
-      target.appendNode(...nodes)
+      target.append(...nodes)
     })
   }
 
@@ -247,10 +268,16 @@ export class Operation {
     })
   }
 
-  snapshot() {
+  snapshot(type?: string) {
     cancelIdle(this.requests.snapshot)
+    if (
+      !this.workspace ||
+      !this.workspace.history ||
+      this.workspace.history.locking
+    )
+      return
     this.requests.snapshot = requestIdle(() => {
-      this.workspace.history.push()
+      this.workspace.history.push(type)
     })
   }
 

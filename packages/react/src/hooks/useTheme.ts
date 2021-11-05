@@ -1,7 +1,9 @@
 import { useContext } from 'react'
-import { DesignerContext } from '../context'
-import { IDesignerContext } from '../types'
+import { DesignerLayoutContext } from '../context'
+import { IDesignerLayoutContext } from '../types'
 
-export const useTheme = (): IDesignerContext['theme'] => {
-  return window['__DESINGER_THEME__'] || useContext(DesignerContext)?.theme
+export const useTheme = (): IDesignerLayoutContext['theme'] => {
+  return (
+    window['__DESINGER_THEME__'] || useContext(DesignerLayoutContext)?.theme
+  )
 }

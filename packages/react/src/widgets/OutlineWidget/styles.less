@@ -72,10 +72,10 @@
 
     &.selected {
       & > .@{prefix-cls}-outline-tree-node-header {
-        background-color: var(--dn-outline-tree-node-selected-color);
+        background-color: var(--dn-panel-active-bg-color);
 
         .@{prefix-cls}-outline-tree-node-header-head {
-          background-color: var(--dn-outline-tree-node-selected-color);
+          background-color: var(--dn-panel-active-bg-color);
         }
       }
     }
@@ -156,7 +156,7 @@
       align-items: center;
       transition: all 0.15s ease-out;
       transform: rotate(-90deg);
-      margin-right: 9px;
+      margin-right: 3px;
       width: 12px;
     }
 
@@ -186,7 +186,7 @@
     }
 
     &-children {
-      padding-left: 22px;
+      padding-left: 16px;
       display: none;
       width: fit-content;
       min-width: 100%;

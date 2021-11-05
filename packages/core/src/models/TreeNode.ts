@@ -11,16 +11,20 @@ import {
   UpdateChildrenEvent,
   RemoveNodeEvent,
   UpdateNodePropsEvent,
+  CloneNodeEvent,
+  FromNodeEvent,
 } from '../events'
 import {
   IDesignerControllerProps,
   IDesignerProps,
-  IControlNodeMetaType,
+  IDesignerLocales,
 } from '../types'
 import { GlobalRegistry } from '../registry'
+import { mergeLocales } from '../internals'
 
 export interface ITreeNode {
   componentName?: string
+  sourceName?: string
   operation?: Operation
   hidden?: boolean
   isSourceNode?: boolean
@@ -67,9 +71,9 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
     if (!parent.isSourceNode) {
       if (node.isSourceNode) {
         node = node.clone(parent)
-        deepReset(node)
+        resetDepth(node)
       } else if (!node.isRoot && node.isInOperation) {
-        node.root.operation.selection?.remove?.(node)
+        node.root.operation.selection.remove(node)
         removeNode(node)
         shallowReset(node)
       } else {
@@ -86,8 +90,16 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   })
 }
 
-const resetNodeParent = (node: TreeNode, parent: TreeNode) => {
+const resetParent = (node: TreeNode, parent: TreeNode) => {
   return resetNodesParent([node], parent)[0]
+}
+
+const resolveDesignerProps = (
+  node: TreeNode,
+  props: IDesignerControllerProps
+) => {
+  if (isFn(props)) return props(node)
+  return props
 }
 
 export class TreeNode {
@@ -105,13 +117,13 @@ export class TreeNode {
 
   componentName = 'NO_NAME_COMPONENT'
 
+  sourceName = ''
+
   props: ITreeNode['props'] = {}
 
   children: TreeNode[] = []
 
   isSelfSourceNode: boolean
-
-  originDesignerProps: IDesignerProps
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     if (node instanceof TreeNode) {
@@ -141,48 +153,41 @@ export class TreeNode {
       props: observable,
       hidden: observable.ref,
       children: observable.shallow,
-      wrapNode: action,
-      prependNode: action,
-      appendNode: action,
+      designerProps: observable.computed,
+      designerLocales: observable.computed,
+      wrap: action,
+      prepend: action,
+      append: action,
       insertAfter: action,
       insertBefore: action,
       remove: action,
-      setNodeProps: action,
-      setNodeChildren: action,
+      setProps: action,
+      setChildren: action,
       setComponentName: action,
     })
   }
 
-  set designerProps(props: IDesignerProps) {
-    this.originDesignerProps = props || {}
+  get designerProps(): IDesignerProps {
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerProps: IDesignerProps = behaviors.reduce((buf, pattern) => {
+      if (!pattern.designerProps) return buf
+      Object.assign(buf, resolveDesignerProps(this, pattern.designerProps))
+      return buf
+    }, {})
+    return designerProps
   }
 
-  get designerProps(): IDesignerProps {
-    const designerProps = GlobalRegistry.getComponentDesignerProps(
-      this.componentName
+  get designerLocales(): IDesignerLocales {
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerLocales: IDesignerLocales = behaviors.reduce(
+      (buf, pattern) => {
+        if (!pattern.designerLocales) return buf
+        mergeLocales(buf, pattern.designerLocales)
+        return buf
+      },
+      {}
     )
-    const finallyDesignerProps: IDesignerProps = {}
-    if (isFn(designerProps)) {
-      Object.assign(
-        finallyDesignerProps,
-        designerProps(this),
-        this.originDesignerProps
-      )
-    } else {
-      Object.assign(
-        finallyDesignerProps,
-        designerProps,
-        this.originDesignerProps
-      )
-    }
-    const display = this.props?.style?.display
-
-    if (display) {
-      finallyDesignerProps.inlineLayout =
-        display === 'inline' || display === 'inline-block'
-    }
-
-    return finallyDesignerProps
+    return designerLocales
   }
 
   get previous() {
@@ -207,9 +212,9 @@ export class TreeNode {
     return this.parent.children.indexOf(this)
   }
 
-  get childrens(): TreeNode[] {
+  get descendants(): TreeNode[] {
     return this.children.reduce((buf, node) => {
-      return buf.concat(node).concat(node.childrens)
+      return buf.concat(node).concat(node.descendants)
     }, [])
   }
 
@@ -229,6 +234,10 @@ export class TreeNode {
     return this.children[0]
   }
 
+  get isSourceNode() {
+    return this.root.isSelfSourceNode
+  }
+
   getPrevious(step = 1) {
     return this.parent.children[this.index - step]
   }
@@ -241,13 +250,33 @@ export class TreeNode {
     return this.parent.children[index]
   }
 
+  getParents(node?: TreeNode): TreeNode[] {
+    const _node = node || this
+    return _node?.parent
+      ? [_node.parent].concat(this.getParents(_node.parent))
+      : []
+  }
+
+  getParentByDepth(depth = 0) {
+    let parent = this.parent
+    if (parent?.depth === depth) {
+      return parent
+    } else {
+      return parent?.getParentByDepth(depth)
+    }
+  }
+
+  getMessage(token: string) {
+    return GlobalRegistry.getDesignerMessage(token, this.designerLocales)
+  }
+
   isMyAncestor(node: TreeNode) {
-    if (node === this || this?.parent === node) return false
+    if (node === this || this.parent === node) return false
     return node.contains(this)
   }
 
   isMyParent(node: TreeNode) {
-    return this?.parent === node
+    return this.parent === node
   }
 
   isMyParents(node: TreeNode) {
@@ -263,20 +292,16 @@ export class TreeNode {
     return node.isMyParents(this)
   }
 
-  get isSourceNode() {
-    return this.root.isSelfSourceNode
-  }
-
-  takeSnapshot() {
+  takeSnapshot(type?: string) {
     if (this.root?.operation) {
-      this.root.operation.snapshot()
+      this.root.operation.snapshot(type)
     }
   }
 
   triggerMutation<T>(event: any, callback?: () => T, defaults?: T): T {
     if (this.root?.operation) {
       const result = this.root.operation.dispatch(event, callback) || defaults
-      this.takeSnapshot()
+      this.takeSnapshot(event?.type)
       return result
     } else if (isFn(callback)) {
       return callback()
@@ -332,21 +357,37 @@ export class TreeNode {
     return results
   }
 
-  matchNodeMeta(meta: IControlNodeMetaType) {
-    if (meta?.componentName === this.componentName) return true
-    if (meta?.id === this.id) return true
-    return false
-  }
-
   allowSibling(nodes: TreeNode[]) {
     if (this.designerProps?.allowSiblings?.(this, nodes) === false) return false
     return this.parent?.allowAppend(nodes)
   }
 
+  allowDrop(parent: TreeNode) {
+    if (!isFn(this.designerProps.allowDrop)) return true
+    return this.designerProps.allowDrop(parent)
+  }
+
   allowAppend(nodes: TreeNode[]) {
     if (!this.designerProps?.droppable) return false
     if (this.designerProps?.allowAppend?.(this, nodes) === false) return false
+    if (nodes.some((node) => !node.allowDrop(this))) return false
+    if (this.root === this) return true
     return true
+  }
+
+  allowClone() {
+    if (this === this.root) return false
+    return this.designerProps.cloneable ?? true
+  }
+
+  allowDrag() {
+    if (this === this.root && !this.isSourceNode) return false
+    return this.designerProps.draggable ?? true
+  }
+
+  allowDelete() {
+    if (this === this.root) return false
+    return this.designerProps.deletable ?? true
   }
 
   findById(id: string) {
@@ -354,22 +395,6 @@ export class TreeNode {
     if (this.id === id) return this
     if (this.children?.length > 0) {
       return TreeNodes.get(id)
-    }
-  }
-
-  getParents(node?: TreeNode): TreeNode[] {
-    const _node = node || this
-    return _node?.parent
-      ? [_node.parent].concat(this.getParents(_node.parent))
-      : []
-  }
-
-  getParentByDepth(depth = 0) {
-    let parent = this.parent
-    if (parent?.depth === depth) {
-      return parent
-    } else {
-      return parent?.getParentByDepth(depth)
     }
   }
 
@@ -403,7 +428,7 @@ export class TreeNode {
     )
   }
 
-  setNodeProps(props?: any) {
+  setProps(props?: any) {
     return this.triggerMutation(
       new UpdateNodePropsEvent({
         target: this,
@@ -415,16 +440,18 @@ export class TreeNode {
     )
   }
 
-  setComponentName(name: string) {
-    this.componentName = name
+  setComponentName(componentName: string) {
+    this.componentName = componentName
   }
 
-  prependNode(...nodes: TreeNode[]) {
+  prepend(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
     return this.triggerMutation(
       new PrependNodeEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
@@ -436,12 +463,14 @@ export class TreeNode {
     )
   }
 
-  appendNode(...nodes: TreeNode[]) {
+  append(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     if (!newNodes.length) return []
     return this.triggerMutation(
       new AppendNodeEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
@@ -453,7 +482,7 @@ export class TreeNode {
     )
   }
 
-  wrapNode(wrapper: TreeNode) {
+  wrap(wrapper: TreeNode) {
     if (wrapper === this) return
     const parent = this.parent
     return this.triggerMutation(
@@ -462,8 +491,8 @@ export class TreeNode {
         source: wrapper,
       }),
       () => {
-        resetNodeParent(this, wrapper)
-        resetNodeParent(wrapper, parent)
+        resetParent(this, wrapper)
+        resetParent(wrapper, parent)
         return wrapper
       }
     )
@@ -473,11 +502,13 @@ export class TreeNode {
     const parent = this.parent
     if (nodes.some((node) => node.contains(this))) return []
     if (parent?.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
 
       return this.triggerMutation(
         new InsertAfterEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -501,10 +532,12 @@ export class TreeNode {
     const parent = this.parent
     if (nodes.some((node) => node.contains(this))) return []
     if (parent?.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
       if (!newNodes.length) return []
       return this.triggerMutation(
         new InsertBeforeEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -527,10 +560,12 @@ export class TreeNode {
   insertChildren(start: number, ...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return []
     if (this.children?.length) {
+      const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, this)
       if (!newNodes.length) return []
       return this.triggerMutation(
         new InsertChildrenEvent({
+          originSourceParents,
           target: this,
           source: newNodes,
         }),
@@ -549,10 +584,12 @@ export class TreeNode {
     return []
   }
 
-  setNodeChildren(...nodes: TreeNode[]) {
+  setChildren(...nodes: TreeNode[]) {
+    const originSourceParents = nodes.map((node) => node.parent)
     const newNodes = this.resetNodesParent(nodes, this)
     return this.triggerMutation(
       new UpdateChildrenEvent({
+        originSourceParents,
         target: this,
         source: newNodes,
       }),
@@ -562,6 +599,14 @@ export class TreeNode {
       },
       []
     )
+  }
+
+  /**
+   * @deprecated
+   * please use `setChildren`
+   */
+  setNodeChildren(...nodes: TreeNode[]) {
+    return this.setChildren(...nodes)
   }
 
   remove() {
@@ -582,49 +627,62 @@ export class TreeNode {
       {
         id: uid(),
         componentName: this.componentName,
+        sourceName: this.sourceName,
         props: toJS(this.props),
         children: [],
       },
       parent ? parent : this.parent
     )
     newNode.children = resetNodesParent(
-      this.children.map((treeNode) => {
-        return treeNode.clone(newNode)
+      this.children.map((child) => {
+        return child.clone(newNode)
       }),
       newNode
     )
-    return newNode
+    return this.triggerMutation(
+      new CloneNodeEvent({
+        target: this,
+        source: newNode,
+      }),
+      () => newNode
+    )
   }
 
   from(node?: ITreeNode) {
     if (!node) return
-    if (node.id && node.id !== this.id) {
-      TreeNodes.delete(this.id)
-      TreeNodes.set(node.id, this)
-      this.id = node.id
-    }
-    if (node.componentName) {
-      this.componentName = node.componentName
-    }
-    this.props = {
-      ...this.designerProps?.defaultProps,
-      ...node.props,
-    }
-    if (node.hidden) {
-      this.hidden = node.hidden
-    }
-    if (node.children) {
-      this.children =
-        node.children?.map?.((node) => {
-          return new TreeNode(node, this)
-        }) || []
-    }
+    return this.triggerMutation(
+      new FromNodeEvent({
+        target: this,
+        source: node,
+      }),
+      () => {
+        if (node.id && node.id !== this.id) {
+          TreeNodes.delete(this.id)
+          TreeNodes.set(node.id, this)
+          this.id = node.id
+        }
+        if (node.componentName) {
+          this.componentName = node.componentName
+        }
+        this.props = node.props ?? {}
+        if (node.hidden) {
+          this.hidden = node.hidden
+        }
+        if (node.children) {
+          this.children =
+            node.children?.map?.((node) => {
+              return new TreeNode(node, this)
+            }) || []
+        }
+      }
+    )
   }
 
   serialize(): ITreeNode {
     return {
       id: this.id,
       componentName: this.componentName,
+      sourceName: this.sourceName,
       props: toJS(this.props),
       hidden: this.hidden,
       children: this.children.map((treeNode) => {
@@ -633,7 +691,11 @@ export class TreeNode {
     }
   }
 
-  create(node: ITreeNode, parent?: TreeNode) {
+  static create(node: ITreeNode, parent?: TreeNode) {
     return new TreeNode(node, parent)
+  }
+
+  static findById(id: string) {
+    return TreeNodes.get(id)
   }
 }

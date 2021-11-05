@@ -3,6 +3,7 @@ import { TreeNode } from '@designable/core'
 import { useHover, useSelection, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { TextWidget } from '../TextWidget'
+import { NodeTitleWidget } from '../NodeTitleWidget'
 import { Button } from 'antd'
 import { observer } from '@formily/reactive-react'
 
@@ -84,9 +85,7 @@ export const Selector: React.FC<ISelectorProps> = observer(({ node }) => {
             >
               {renderIcon(parent)}
               <span style={{ transform: 'scale(0.85)', marginLeft: 2 }}>
-                <TextWidget>
-                  {parent?.designerProps?.title || parent?.componentName}
-                </TextWidget>
+                <NodeTitleWidget node={parent} />
               </span>
             </Button>
           )
@@ -116,9 +115,7 @@ export const Selector: React.FC<ISelectorProps> = observer(({ node }) => {
       >
         {renderIcon(node)}
         <span>
-          <TextWidget>
-            {node.designerProps?.title || node?.componentName}
-          </TextWidget>
+          <NodeTitleWidget node={node} />
         </span>
       </Button>
       {expand && renderMenu()}

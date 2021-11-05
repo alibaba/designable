@@ -4,7 +4,7 @@ import { useTree, usePrefix, useOutline, useWorkbench } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { OutlineTreeNode } from './OutlineNode'
 import { Insertion } from './Insertion'
-import { TreeNode } from '@designable/core'
+import { TreeNode, Viewport } from '@designable/core'
 import { NodeContext } from './context'
 
 export interface IOutlineTreeWidgetProps {
@@ -20,18 +20,24 @@ export const OutlineTreeWidget: React.FC<IOutlineTreeWidgetProps> = observer(
     const ref = useRef<HTMLDivElement>()
     const prefix = usePrefix('outline-tree')
     const workbench = useWorkbench()
-    const workspaceId = workbench.currentWorkspace?.id
+    const current = workbench?.activeWorkspace || workbench?.currentWorkspace
+    const workspaceId = current?.id
     const tree = useTree(workspaceId)
     const outline = useOutline(workspaceId)
-
+    const outlineRef = useRef<Viewport>()
     useLayoutEffect(() => {
+      if (!workspaceId) return
+      if (outlineRef.current && outlineRef.current !== outline) {
+        outlineRef.current.onUnmount()
+      }
       if (ref.current && outline) {
         outline.onMount(ref.current, window)
       }
+      outlineRef.current = outline
       return () => {
         outline.onUnmount()
       }
-    }, [])
+    }, [workspaceId, outline])
 
     if (!outline || !workspaceId) return null
     return (

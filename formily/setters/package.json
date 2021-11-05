@@ -1,0 +1,54 @@
+{
+  "name": "@designable/formily-setters",
+  "version": "1.0.0-beta.32",
+  "license": "MIT",
+  "main": "lib",
+  "module": "esm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alibaba/designable.git"
+  },
+  "types": "esm/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/alibaba/designable/issues"
+  },
+  "homepage": "https://github.com/alibaba/designable#readme",
+  "engines": {
+    "npm": ">=3.0.0"
+  },
+  "scripts": {
+    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && ts-node copy",
+    "build:cjs": "tsc --project tsconfig.build.json",
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
+    "start": "webpack-dev-server --config playground/webpack.dev.ts"
+  },
+  "devDependencies": {
+    "@formily/antd": "^2.0.0-rc.12",
+    "@formily/core": "^2.0.0-rc.12",
+    "@formily/react": "^2.0.0-rc.12",
+    "@formily/shared": "^2.0.0-rc.12",
+    "antd": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@formily/antd": "^2.0.0-rc.12",
+    "@formily/core": "^2.0.0-rc.12",
+    "@formily/react": "^2.0.0-rc.12",
+    "@formily/shared": "^2.0.0-rc.12",
+    "@types/react": ">=16.8.0 || >=17.0.0",
+    "@types/react-dom": ">=16.8.0 || >=17.0.0",
+    "antd": "^4.0.0",
+    "react": ">=16.8.0 || >=17.0.0",
+    "react-dom": ">=16.8.0",
+    "react-is": ">=16.8.0 || >=17.0.0"
+  },
+  "dependencies": {
+    "@designable/core": "1.0.0-beta.32",
+    "@designable/formily-transformer": "1.0.0-beta.32",
+    "@designable/react": "1.0.0-beta.32",
+    "@designable/react-settings-form": "1.0.0-beta.32"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "2c44ae410a73f02735c63c6430e021a50e21f3ec"
+}

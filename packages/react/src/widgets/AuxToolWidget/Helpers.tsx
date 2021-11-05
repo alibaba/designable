@@ -110,13 +110,9 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
     >
       <div className={cls(prefix + '-content')}>
         <Selector node={node} />
-        {node?.designerProps?.cloneable === false ? null : <Copy node={node} />}
-        {node?.designerProps?.draggable === false ? null : (
-          <DragFocus node={node} />
-        )}
-        {node?.designerProps?.deletable === false ? null : (
-          <Delete node={node} />
-        )}
+        {node?.allowClone() === false ? null : <Copy node={node} />}
+        {node?.allowDrag() === false ? null : <DragFocus node={node} />}
+        {node?.allowDelete() === false ? null : <Delete node={node} />}
       </div>
     </div>
   )
