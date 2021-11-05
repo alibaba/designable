@@ -57,6 +57,7 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+
   .dn-node-path {
     flex-grow: 0;
   }
@@ -71,6 +72,7 @@
     padding-bottom: 8px;
     margin-bottom: 8px;
     margin-top: 8px;
+
     * {
       font-size: 13px;
     }
@@ -80,7 +82,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      & > .@{ant-prefix}-radio-group {
+      &>.@{ant-prefix}-radio-group {
         display: flex !important;
         width: 100%;
 
@@ -93,10 +95,14 @@
         }
       }
 
-      & > .@{ant-prefix}-slider {
+      &>.@{ant-prefix}-slider {
         flex-shrink: 0;
         min-width: 0;
         width: 100%;
+      }
+
+      &>.@{ant-prefix}-select {
+        max-width: 140px;
       }
     }
   }
