@@ -8,7 +8,7 @@ import { usePrefix, useTheme, TextWidget } from '@designable/react'
 import { DataSettingPanel } from './DataSettingPanel'
 import { TreePanel } from './TreePanel'
 import { transformDataToValue, transformValueToData } from './shared'
-import { IDataSourceItem, ITreeDataSource, IKeyValuePairProps } from './types'
+import { IDataSourceItem, ITreeDataSource } from './types'
 import './styles.less'
 export interface IDataSourceSetterProps {
   className?: string
@@ -17,7 +17,10 @@ export interface IDataSourceSetterProps {
   value: IDataSourceItem[]
   allowTree?: boolean
   allowExtendOption?: boolean
-  defaultKeyValuePairs?: IKeyValuePairProps[]
+  defaultOptionValue?: {
+    label: string
+    value: any
+  }[]
   effects?: (form: Form<any>) => void
 }
 
@@ -29,7 +32,7 @@ export const DataSourceSetter: React.FC<IDataSourceSetterProps> = observer(
       onChange,
       allowTree = true,
       allowExtendOption = true,
-      defaultKeyValuePairs,
+      defaultOptionValue,
       effects = () => {},
     } = props
     const theme = useTheme()
@@ -72,7 +75,7 @@ export const DataSourceSetter: React.FC<IDataSourceSetterProps> = observer(
           >
             <div className={`${prefix + '-layout-item left'}`}>
               <TreePanel
-                defaultKeyValuePairs={defaultKeyValuePairs}
+                defaultOptionValue={defaultOptionValue}
                 allowTree={allowTree}
                 treeDataSource={treeDataSource}
               ></TreePanel>

@@ -6,7 +6,7 @@ import { usePrefix, TextWidget, IconWidget } from '@designable/react'
 import { Title } from './Title'
 import { Header } from './Header'
 import { traverseTree } from './shared'
-import { ITreeDataSource, INodeItem, IKeyValuePairProps } from './types'
+import { ITreeDataSource, INodeItem } from './types'
 import './styles.less'
 import { GlobalRegistry } from '@designable/core'
 
@@ -20,7 +20,10 @@ const limitTreeDrag = ({ dropPosition }) => {
 export interface ITreePanelProps {
   treeDataSource: ITreeDataSource
   allowTree: boolean
-  defaultKeyValuePairs: IKeyValuePairProps[]
+  defaultOptionValue: {
+    label: string
+    value: any
+  }[]
 }
 
 export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
@@ -86,14 +89,7 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
             onClick={() => {
               const uuid = uid()
               const dataSource = props.treeDataSource.dataSource
-              const initialKeyValuePairs = props.defaultKeyValuePairs?.map(
-                (pair) => {
-                  return {
-                    label: pair.key,
-                    value: null,
-                  }
-                }
-              ) || [
+              const initialKeyValuePairs = props.defaultOptionValue || [
                 {
                   label: 'label',
                   value: `${GlobalRegistry.getDesignerMessage(

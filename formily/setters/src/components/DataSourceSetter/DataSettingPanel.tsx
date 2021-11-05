@@ -9,7 +9,7 @@ import { ValueInput } from '@designable/react-settings-form'
 import { usePrefix, TextWidget } from '@designable/react'
 import { Header } from './Header'
 import { traverseTree } from './shared'
-import { ITreeDataSource, IKeyValuePairProps } from './types'
+import { ITreeDataSource } from './types'
 import './styles.less'
 
 const SchemaField = createSchemaField({
@@ -24,7 +24,6 @@ const SchemaField = createSchemaField({
 export interface IDataSettingPanelProps {
   treeDataSource: ITreeDataSource
   allowExtendOption?: boolean
-  defaultKeyValuePairs?: IKeyValuePairProps[]
   effects?: (form: FormCore<any>) => void
 }
 
