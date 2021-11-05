@@ -41,7 +41,7 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
       })
       return createForm({
         values,
-        effects: effects
+        effects: effects,
       })
     }, [
       props.treeDataSource.selectedKey,
