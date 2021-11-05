@@ -27,7 +27,7 @@ export const DataSourceSetter: React.FC<IDataSourceSetterProps> = observer(
       value = [],
       onChange,
       allowTree = true,
-      allowExtendOption = false,
+      allowExtendOption = true,
       defaultKeyValuePairs,
       effects = () => {},
     } = props
