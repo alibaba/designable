@@ -20,6 +20,7 @@ export interface IDataSourceSetterProps {
   defaultKeyValuePairs?: IKeyValuePairProps[]
   effects?: (form: Form<any>) => void
 }
+
 export const DataSourceSetter: React.FC<IDataSourceSetterProps> = observer(
   (props) => {
     const {
