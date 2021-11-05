@@ -17,5 +17,5 @@ export interface ITreeDataSource {
 }
 
 export interface IKeyValuePairProps {
-  labeKey: string,
+  key: string
 }

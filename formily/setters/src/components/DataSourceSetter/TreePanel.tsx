@@ -11,7 +11,7 @@ import './styles.less'
 import { GlobalRegistry } from '@designable/core'
 
 const limitTreeDrag = ({ dropPosition }) => {
-  if(dropPosition === 0) {
+  if (dropPosition === 0) {
     return false
   }
   return true
@@ -86,12 +86,14 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
             onClick={() => {
               const uuid = uid()
               const dataSource = props.treeDataSource.dataSource
-              const initialKeyValuePairs = props.defaultKeyValuePairs?.map(pair => {
-                return {
-                  label: pair.labeKey,
-                  value: null,
+              const initialKeyValuePairs = props.defaultKeyValuePairs?.map(
+                (pair) => {
+                  return {
+                    label: pair.key,
+                    value: null,
+                  }
                 }
-              }) || [
+              ) || [
                 {
                   label: 'label',
                   value: `${GlobalRegistry.getDesignerMessage(
