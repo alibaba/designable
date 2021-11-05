@@ -1,12 +1,9 @@
 const ValidatorFormats = [
   { label: 'URL', value: 'url' },
   { label: 'Email', value: 'email' },
-  { label: 'IPV6', value: 'ipv6' },
-  { label: 'IPV4', value: 'ipv4' },
   { label: 'Number', value: 'number' },
   { label: 'Integer', value: 'integer' },
   { label: 'ID', value: 'idcard' },
-  { label: 'QQ', value: 'qq' },
   { label: 'Phone Number', value: 'phone' },
   { label: 'Currency', value: 'money' },
   { label: 'Chinese', value: 'zh' },

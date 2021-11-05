@@ -1,12 +1,9 @@
 const ValidatorFormats = [
   { label: 'URL地址', value: 'url' },
   { label: '邮箱格式', value: 'email' },
-  { label: 'IPV6格式', value: 'ipv6' },
-  { label: 'IPV4格式', value: 'ipv4' },
   { label: '数字格式', value: 'number' },
   { label: '整数格式', value: 'integer' },
   { label: '身份证格式', value: 'idcard' },
-  { label: 'QQ号格式', value: 'qq' },
   { label: '手机号格式', value: 'phone' },
   { label: '货币格式', value: 'money' },
   { label: '中文格式', value: 'zh' },
