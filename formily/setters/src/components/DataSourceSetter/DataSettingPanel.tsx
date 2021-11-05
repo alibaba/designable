@@ -2,7 +2,7 @@ import React, { useMemo, Fragment } from 'react'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { ArrayItems, Form, Input, FormItem } from '@formily/antd'
-import { createForm } from '@formily/core'
+import { createForm, Form as FormCore } from '@formily/core'
 import { observer } from '@formily/reactive-react'
 import { createSchemaField } from '@formily/react'
 import { ValueInput } from '@designable/react-settings-form'
@@ -23,10 +23,13 @@ const SchemaField = createSchemaField({
 
 export interface IDataSettingPanelProps {
   treeDataSource: ITreeDataSource
+  allowExtendOption?: boolean
+  effects?: (form: FormCore<any>) => void
 }
 
 export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
   (props) => {
+    const { allowExtendOption, effects } = props
     const prefix = usePrefix('data-source-setter')
     const form = useMemo(() => {
       let values: any
@@ -37,6 +40,7 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
       })
       return createForm({
         values,
+        effects: effects,
       })
     }, [
       props.treeDataSource.selectedKey,
@@ -63,17 +67,19 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
             <TextWidget token="SettingComponents.DataSourceSetter.nodeProperty" />
           }
           extra={
-            <Button
-              type="text"
-              onClick={() => {
-                form.setFieldState('map', (state) => {
-                  state.value.push({})
-                })
-              }}
-              icon={<PlusOutlined />}
-            >
-              <TextWidget token="SettingComponents.DataSourceSetter.addKeyValuePair" />
-            </Button>
+            allowExtendOption ? (
+              <Button
+                type="text"
+                onClick={() => {
+                  form.setFieldState('map', (state) => {
+                    state.value.push({})
+                  })
+                }}
+                icon={<PlusOutlined />}
+              >
+                <TextWidget token="SettingComponents.DataSourceSetter.addKeyValuePair" />
+              </Button>
+            ) : null
           }
         />
         <div className={`${prefix + '-layout-item-content'}`}>
@@ -89,6 +95,7 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
                       <TextWidget token="SettingComponents.DataSourceSetter.label" />
                     }
                     x-decorator="FormItem"
+                    x-disabled={!allowExtendOption}
                     name="label"
                     x-component="Input"
                   />
@@ -102,6 +109,7 @@ export const DataSettingPanel: React.FC<IDataSettingPanelProps> = observer(
                   />
                   <SchemaField.Void
                     x-component="ArrayItems.Remove"
+                    x-visible={allowExtendOption}
                     x-component-props={{
                       style: {
                         margin: 5,
