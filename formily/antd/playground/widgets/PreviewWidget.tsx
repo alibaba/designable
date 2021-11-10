@@ -29,6 +29,7 @@ import {
   ArrayTable,
   ArrayCards,
 } from '@formily/antd'
+import { JSXComponent } from '@formily/react'
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
@@ -78,6 +79,7 @@ const SchemaField = createSchemaField({
 
 export interface IPreviewWidgetProps {
   tree: TreeNode
+  components?: Record<string, JSXComponent>
 }
 
 export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
@@ -85,7 +87,7 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
   const { form: formProps, schema } = transformToSchema(props.tree)
   return (
     <Form {...formProps} form={form}>
-      <SchemaField schema={schema} />
+      <SchemaField schema={schema} components={props.components} />
     </Form>
   )
 }
