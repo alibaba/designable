@@ -35,7 +35,7 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
     )
 
   return (
-    <Layout theme={props.theme} prefixCls={props.prefixCls}>
+    <Layout {...props}>
       <DesignerEngineContext.Provider value={props.engine}>
         {props.children}
         <GhostWidget />

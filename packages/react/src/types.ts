@@ -4,6 +4,7 @@ import { Engine, IResource, IBehavior } from '@designable/core'
 export interface IDesignerLayoutProps {
   prefixCls?: string
   theme?: 'dark' | 'light' | (string & {})
+  variables?: Record<string, string>
 }
 export interface IDesignerProps extends IDesignerLayoutProps {
   engine: Engine
