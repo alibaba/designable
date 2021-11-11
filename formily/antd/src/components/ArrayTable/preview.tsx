@@ -210,7 +210,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
                 key={node.id}
                 render={(value, record, key) => {
                   return (
-                    <ArrayBase.Item key={key} index={key}>
+                    <ArrayBase.Item key={key} index={key} record={null}>
                       {children.length > 0 ? children : 'Droppable'}
                     </ArrayBase.Item>
                   )
