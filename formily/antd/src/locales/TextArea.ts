@@ -22,4 +22,14 @@ export const TextArea = {
       },
     },
   },
+  'ko-KR': {
+    title: '텍스트 상자',
+    settings: {
+      'x-component-props': {
+        maxLength: '최대 길이',
+        autoSize: '자동 길이 변환',
+        showCount: '개수 보기',
+      },
+    },
+  },
 }

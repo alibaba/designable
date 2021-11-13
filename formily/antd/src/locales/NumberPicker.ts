@@ -52,4 +52,31 @@ export const NumberPicker = {
       },
     },
   },
+  'ko-KR': {
+    title: '숫자 입력',
+    settings: {
+      'x-component-props': {
+        formatter: {
+          title: '포맷 컨버터',
+          tooltip: '형식: function(value: number | string): string',
+        },
+        keyboard: '숏컷 키 활성화',
+        parser: {
+          title: '포멧 파서',
+          tooltip:
+            '문자열을 숫자로 변환하는 포맷 컨버터를 만들고 사용하세요, 형식 :function(string): number',
+        },
+        decimalSeparator: '소수 구분 기호',
+        precision: '정밀도',
+        max: '최대값',
+        min: '최소값',
+        step: '스탭',
+        stringMode: {
+          title: '문자열 형식',
+          tooltip:
+            '높은 정밀도 소수를 지원합니다. onChange에서 문자열 타입으로 반환됩니다.',
+        },
+      },
+    },
+  },
 }

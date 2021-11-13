@@ -45,6 +45,9 @@ const RootBehavior = createBehavior({
     'en-US': {
       title: 'Root',
     },
+    'ko-KR': {
+      title: '루트',
+    },
   },
 })
 
@@ -182,6 +185,26 @@ const InputBehavior = createBehavior({
         },
       },
     },
+    'ko-KR': {
+      title: '입력',
+      settings: {
+        title: '텍스트',
+        hidden: '숨김 여부',
+        default: '기본 설정 값',
+        style: {
+          width: '너비',
+          height: '높이',
+          display: '디스플레이',
+          background: '배경',
+          boxShadow: '그림자 박스',
+          font: '폰트',
+          margin: '마진',
+          padding: '패딩',
+          borderRadius: '테두리 굴곡',
+          border: '테두리',
+        },
+      },
+    },
   },
 })
 
@@ -198,6 +221,9 @@ const CardBehavior = createBehavior({
     'en-US': {
       title: 'Card',
     },
+    'ko-KR': {
+      title: '카드',
+    },
   },
 })
 
@@ -207,6 +233,7 @@ const Input = createResource({
   title: {
     'zh-CN': '输入框',
     'en-US': 'Input',
+    'ko-KR': '입력 상자',
   },
   icon: 'InputSource',
   elements: [
@@ -226,6 +253,7 @@ const Card = createResource({
   title: {
     'zh-CN': '卡片',
     'en-US': 'Card',
+    'ko-KR': '카드 상자',
   },
   icon: 'CardSource',
   elements: [
@@ -253,6 +281,13 @@ GlobalRegistry.registerDesignerLocales({
       Feedbacks: 'Feedbacks',
     },
   },
+  'ko-KR': {
+    sources: {
+      Inputs: '입력',
+      Displays: '디스플레이',
+      Feedbacks: '피드백',
+    },
+  },
 })
 
 const Logo: React.FC = () => (
@@ -272,6 +307,7 @@ const Actions = observer(() => (
       options={[
         { label: 'English', value: 'en-us' },
         { label: '简体中文', value: 'zh-cn' },
+        { label: '한국어', value: 'ko-kr' },
       ]}
       onChange={(e) => {
         GlobalRegistry.setDesignerLanguage(e.target.value)

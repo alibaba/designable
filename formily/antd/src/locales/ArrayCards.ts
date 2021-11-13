@@ -12,4 +12,9 @@ export const ArrayCards = createLocales(Card, {
     addIndex: 'Add Index',
     addOperation: 'Add Operations',
   },
+  'ko-KR': {
+    title: '배열 카드',
+    addIndex: '색인 추가',
+    addOperation: '작업 추가',
+  },
 })

@@ -27,4 +27,18 @@ export const Card = {
       },
     },
   },
+  'ko-KR': {
+    title: '카드',
+    settings: {
+      'x-component-props': {
+        type: '타입',
+        title: '제목',
+        extra: '추가 항목',
+        cardTypes: [
+          { label: '안쪽', value: 'inner' },
+          { label: '기본', value: '' },
+        ],
+      },
+    },
+  },
 }

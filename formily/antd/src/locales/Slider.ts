@@ -47,4 +47,28 @@ export const Slider = {
       },
     },
   },
+  'ko-KR': {
+    title: '슬라이더',
+    settings: {
+      'x-component-props': {
+        dots: '고정된 크기',
+        range: '더블 슬라이더',
+        reverse: '뒤집어진 좌표 시스템',
+        vertical: '수직',
+        tooltipPlacement: {
+          title: '툴팁 배치',
+          tooltip: '툴팁이 나오는 위치를 설정',
+        },
+        tooltipVisible: {
+          title: '툴팁 보기',
+          tooltip:
+            '이 옵션을 켜면 툴팁이 항상 표시됩니다. 그렇지 않으면 끌어서 이동할 때도 툴팁이 항상 표시되지 않습니다',
+        },
+        max: '최댓값',
+        min: '최솟값',
+        step: '스탭',
+        marks: '마크',
+      },
+    },
+  },
 }

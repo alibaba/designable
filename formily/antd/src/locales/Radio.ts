@@ -17,4 +17,13 @@ export const RadioGroup = {
       },
     },
   },
+  'ko-KR': {
+    title: '라디오',
+    settings: {
+      'x-component-props': {
+        buttonStyle: { title: '버튼 스타일', dataSource: ['Hollow', 'Solid'] },
+        optionType: { title: '옵션 타입', dataSource: ['기본', '버튼'] },
+      },
+    },
+  },
 }
