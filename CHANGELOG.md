@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0-beta.33(2021-11-09)
+
+### :tada: Enhancements
+
+1. [feat(settings-form): add DrawerSetter's trigger props (#122)](https://github.com/alibaba/designable/commit/003de57) :point_right: ( [nekic](https://github.com/nekic) )
+
+1. [feat(formily-setters): add config to DataSourceSetter (#121)](https://github.com/alibaba/designable/commit/6fdf887) :point_right: ( [Sun HaoWei](https://github.com/Sun HaoWei) )
+
+### :beetle: Bug Fixes
+
+1. [fix(settings-form): fix styles](https://github.com/alibaba/designable/commit/6583cf9) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore(formily-setters): remove ip/qq format](https://github.com/alibaba/designable/commit/460782d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.32(2021-10-29)
 
 ### :tada: Enhancements
@@ -277,9 +293,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): remove unused this optional chain (#52)](https://github.com/alibaba/designable/commit/bbafcb8) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
-
-## v0.5.22(2021-08-30)
-
-### :tada: Enhancements
-
-1. [feat(core): support getDropNodes for designerProps](https://github.com/alibaba/designable/commit/ddd3c95) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
