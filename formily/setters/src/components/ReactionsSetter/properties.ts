@@ -37,13 +37,13 @@ export const FieldProperties = [
     helpCode: DataSourceHelper,
   },
   {
-    key: 'component[1]',
+    key: 'componentProps',
     token: 'componentProps',
     type: 'object',
     helpCode: ComponentPropsHelper,
   },
   {
-    key: 'decorator[1]',
+    key: 'componentProps',
     token: 'decoratorProps',
     type: 'object',
     helpCode: DecoratorPropsHelper,
