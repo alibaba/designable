@@ -31,4 +31,20 @@ export default {
       from_node: 'Update Child Tree',
     },
   },
+  'ko-KR': {
+    operations: {
+      default_state: '초기 상태',
+      append_node: '노드 추가',
+      prepend_node: '노드 삽입',
+      clone_node: '노드 복제',
+      update_node_props: '노드 속성 수정',
+      insert_after: '뒤쪽 노드 삽입',
+      insert_before: '앞쪽 노드 삽입',
+      insert_children: '자식 노드 삽입',
+      update_children: '자식 노드 수정',
+      remove_node: '노드 삭제',
+      wrap_node: '노드 랩핑',
+      from_node: '자식 노드 트리 수정',
+    },
+  },
 }

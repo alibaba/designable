@@ -22,6 +22,7 @@ export const ActionsWidget = observer(() => {
         options={[
           { label: 'English', value: 'en-us' },
           { label: '简体中文', value: 'zh-cn' },
+          { label: '한국어', value: 'ko-kr' },
         ]}
         onChange={(e) => {
           GlobalRegistry.setDesignerLanguage(e.target.value)

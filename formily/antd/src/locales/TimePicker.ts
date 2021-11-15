@@ -40,6 +40,25 @@ export const TimePicker = createLocales(DatePicker, {
       },
     },
   },
+  'ko-KR': {
+    title: '시간 선택',
+    settings: {
+      'x-component-props': {
+        clearText: '텍스트 삭제',
+        disabledHours: '시 비활성화',
+        disabledMinutes: '분 비활성화',
+        disabledSeconds: '초 비활성화',
+        hideDisabledOptions: '비황성화 옵션 숨기기',
+        hourStep: '시 스탭',
+        minuteStep: '분 스탭',
+        secondStep: '초 스탭',
+        use12Hours: '12시간 단위 사용',
+        inputReadOnly: 'ReadOnly',
+        showNow: '현재 시각 보여주기',
+        format: '포맷',
+      },
+    },
+  },
 })
 
 export const TimeRangePicker = createLocales(TimePicker, {
@@ -48,5 +67,8 @@ export const TimeRangePicker = createLocales(TimePicker, {
   },
   'en-US': {
     title: 'Time Range',
+  },
+  'ko-KR': {
+    title: '시간 범위',
   },
 })

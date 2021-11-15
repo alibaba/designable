@@ -76,4 +76,44 @@ export const Form = createLocales(Component, {
       },
     },
   },
+  'ko-KR': {
+    title: '폼',
+    settings: {
+      labelCol: 'Label Col',
+      wrapperCol: 'Wrapper Col',
+      colon: 'Colon',
+      labelAlign: {
+        title: 'Label 정렬',
+        dataSource: ['왼쪽', '오른쪽', '상속'],
+      },
+      wrapperAlign: {
+        title: 'Wrapper 정렬',
+        dataSource: ['왼쪽', '오른쪽', '상속'],
+      },
+      labelWrap: 'Label Wrap',
+      wrapperWrap: 'Wrapper Wrap',
+      labelWidth: 'Label Width',
+      wrapperWidth: 'Wrapper Width',
+      fullness: 'Fullness',
+      inset: 'Inset',
+      shallow: 'Shallow',
+      bordered: 'Bordered',
+      size: {
+        title: '크기',
+        dataSource: ['크게', '작게', '보통', '상속'],
+      },
+      layout: {
+        title: '레이아웃',
+        dataSource: ['수직', '수평', '인라인', '상속'],
+      },
+      feedbackLayout: {
+        title: '피드백 레이아웃',
+        dataSource: ['Loose', 'Terse', '팝업', '없음', '상속'],
+      },
+      tooltipLayout: {
+        title: '툴팁 레이아웃',
+        dataSource: ['아이콘', '텍스트', '상속'],
+      },
+    },
+  },
 })

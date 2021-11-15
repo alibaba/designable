@@ -15,4 +15,12 @@ export default {
       History: 'History',
     },
   },
+  'ko-KR': {
+    panels: {
+      Component: '컴포넌트',
+      OutlinedTree: '트리 노드',
+      PropertySettings: '속성 설정',
+      History: '기록',
+    },
+  },
 }

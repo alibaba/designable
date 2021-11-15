@@ -80,6 +80,14 @@ GlobalRegistry.registerDesignerLocales({
       Displays: 'Displays',
     },
   },
+  'ko-KR': {
+    sources: {
+      Inputs: '입력',
+      Layouts: '레이아웃',
+      Arrays: '배열',
+      Displays: '디스플레이',
+    },
+  },
 })
 
 const App = () => {
