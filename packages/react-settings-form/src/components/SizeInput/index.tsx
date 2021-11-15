@@ -37,6 +37,7 @@ const createSpecialSizeOption = (type: string) => ({
 })
 
 const NormalSizeOptions = [
+  createSpecialSizeOption('inherit'),
   createSpecialSizeOption('auto'),
   createUnitType('px'),
   createUnitType('%'),
