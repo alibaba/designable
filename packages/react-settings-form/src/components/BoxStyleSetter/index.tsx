@@ -68,7 +68,7 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
         <FoldItem.Base>
           <SizeInput
             {...createPositionHandler('all', props)}
-            exclude={['auto']}
+            exclude={['inherit', 'auto']}
           />
         </FoldItem.Base>
         <FoldItem.Extra>
@@ -76,25 +76,25 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
             <InputItems.Item icon={props.labels[0]}>
               <SizeInput
                 {...createPositionHandler('top', props)}
-                exclude={['auto']}
+                exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
             <InputItems.Item icon={props.labels[1]}>
               <SizeInput
                 {...createPositionHandler('right', props)}
-                exclude={['auto']}
+                exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
             <InputItems.Item icon={props.labels[2]}>
               <SizeInput
                 {...createPositionHandler('bottom', props)}
-                exclude={['auto']}
+                exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
             <InputItems.Item icon={props.labels[3]}>
               <SizeInput
                 {...createPositionHandler('left', props)}
-                exclude={['auto']}
+                exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
           </InputItems>
