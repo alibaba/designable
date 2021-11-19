@@ -46,16 +46,28 @@ export const BoxShadowStyleSetter: React.FC<IBoxShadowStyleSetterProps> =
         <FoldItem.Extra>
           <InputItems width="50%">
             <InputItems.Item icon="AxisX">
-              <SizeInput exclude={['auto']} {...createBoxShadowConnector(0)} />
+              <SizeInput
+                exclude={['inherit', 'auto']}
+                {...createBoxShadowConnector(0)}
+              />
             </InputItems.Item>
             <InputItems.Item icon="AxisY">
-              <SizeInput exclude={['auto']} {...createBoxShadowConnector(1)} />
+              <SizeInput
+                exclude={['inherit', 'auto']}
+                {...createBoxShadowConnector(1)}
+              />
             </InputItems.Item>
             <InputItems.Item icon="Blur">
-              <SizeInput exclude={['auto']} {...createBoxShadowConnector(2)} />
+              <SizeInput
+                exclude={['inherit', 'auto']}
+                {...createBoxShadowConnector(2)}
+              />
             </InputItems.Item>
             <InputItems.Item icon="Shadow">
-              <SizeInput exclude={['auto']} {...createBoxShadowConnector(3)} />
+              <SizeInput
+                exclude={['inherit', 'auto']}
+                {...createBoxShadowConnector(3)}
+              />
             </InputItems.Item>
           </InputItems>
         </FoldItem.Extra>
