@@ -43,7 +43,7 @@ export const FieldProperties = [
     helpCode: ComponentPropsHelper,
   },
   {
-    key: 'componentProps',
+    key: 'decoratorProps',
     token: 'decoratorProps',
     type: 'object',
     helpCode: DecoratorPropsHelper,
