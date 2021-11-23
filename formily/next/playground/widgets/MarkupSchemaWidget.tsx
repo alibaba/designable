@@ -10,7 +10,11 @@ export interface IMarkupSchemaWidgetProps {
 const transformToMarkupSchemaCode = (tree: TreeNode) => {
   const printAttribute = (node: TreeNode) => {
     if (!node) return ''
-    return `${Object.keys({ ...node.props, name: node.props.name || node.id })
+    const props = { ...node.props }
+    if (node.depth !== 0) {
+      props.name = node.props.name || node.id
+    }
+    return `${Object.keys(props)
       .map((key) => {
         if (
           key === 'x-designable-id' ||
