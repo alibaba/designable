@@ -71,19 +71,17 @@ export const BorderStyleSetter: React.FC<IBorderStyleSetterProps> = observer(
       [field.value]
     )
     const prefix = usePrefix('border-style-setter')
-    const createReaction =
-      (position: string) => (field: Formily.Core.Models.Field) => {
-        field.display =
-          currentPosition.value === position ? 'visible' : 'hidden'
-        if (position !== 'center') {
-          const borderStyle = field.query('.borderStyle').value()
-          const borderWidth = field.query('.borderWidth').value()
-          const borderColor = field.query('.borderColor').value()
-          if (borderStyle || borderWidth || borderColor) {
-            field.value = undefined
-          }
+    const createReaction = (position: string) => (field: FieldType) => {
+      field.display = currentPosition.value === position ? 'visible' : 'hidden'
+      if (position !== 'center') {
+        const borderStyle = field.query('.borderStyle').value()
+        const borderWidth = field.query('.borderWidth').value()
+        const borderColor = field.query('.borderColor').value()
+        if (borderStyle || borderWidth || borderColor) {
+          field.value = undefined
         }
       }
+    }
 
     return (
       <FoldItem label={field.title}>

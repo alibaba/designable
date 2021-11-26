@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField, Field, observer } from '@formily/react'
+import { Field as FieldType } from '@formily/core'
 import { FormItem } from '@formily/antd'
 import { Radio } from 'antd'
 import { usePrefix, IconWidget } from '@designable/react'
@@ -15,7 +16,7 @@ export interface IDisplayStyleSetterProps {
 
 export const DisplayStyleSetter: React.FC<IDisplayStyleSetterProps> = observer(
   (props) => {
-    const field = useField<Formily.Core.Models.Field>()
+    const field = useField<FieldType>()
     const prefix = usePrefix('display-style-setter')
     return (
       <>
