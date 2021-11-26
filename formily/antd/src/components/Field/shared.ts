@@ -169,7 +169,7 @@ export const createVoidFieldSchema = (
             'x-reactions': {
               fulfill: {
                 state: {
-                  hidden: '{{$form.values["x-decorator"] === "FormItem"}}',
+                  hidden: '{{$form.values["x-decorator"] !== "FormItem"}}',
                 },
               },
             },
@@ -181,7 +181,7 @@ export const createVoidFieldSchema = (
             'x-reactions': {
               fulfill: {
                 state: {
-                  hidden: '{{$form.values["x-decorator"] === "FormItem"}}',
+                  hidden: '{{$form.values["x-decorator"] !== "FormItem"}}',
                 },
               },
             },
