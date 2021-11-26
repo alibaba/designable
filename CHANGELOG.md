@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.0-beta.34(2021-11-13)
+
+### :tada: Enhancements
+
+1. [feat(react): support config css variables](https://github.com/alibaba/designable/commit/e954d86) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(formily): fix reactionSetters and playground](https://github.com/alibaba/designable/commit/87971f4) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(react): fix missing record props in ArrayBase.Item (#125)](https://github.com/alibaba/designable/commit/c041167) :point_right: ( [haloworld](https://github.com/haloworld) )
+
 ## v1.0.0-beta.33(2021-11-09)
 
 ### :tada: Enhancements
@@ -283,13 +295,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): support NodeTitleWidget](https://github.com/alibaba/designable/commit/8242a50) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.23(2021-08-31)
-
-### :tada: Enhancements
-
-1. [feat(core): support createLocales](https://github.com/alibaba/designable/commit/db71be3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix(core): remove unused this optional chain (#52)](https://github.com/alibaba/designable/commit/bbafcb8) :point_right: ( [Yanlin Jiang](https://github.com/Yanlin Jiang) )
