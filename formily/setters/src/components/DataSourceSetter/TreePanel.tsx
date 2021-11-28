@@ -89,7 +89,9 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
             onClick={() => {
               const uuid = uid()
               const dataSource = props.treeDataSource.dataSource
-              const initialKeyValuePairs = props.defaultOptionValue || [
+              const initialKeyValuePairs = props.defaultOptionValue.map(
+                (item) => ({ ...item })
+              ) || [
                 {
                   label: 'label',
                   value: `${GlobalRegistry.getDesignerMessage(
@@ -115,7 +117,7 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
         <Tree
           blockNode
           draggable={true}
-          allowDrop={props.allowTree ? null : limitTreeDrag}
+          allowDrop={props.allowTree ? () => true : limitTreeDrag}
           defaultExpandAll
           defaultExpandParent
           autoExpandParent
