@@ -95,11 +95,12 @@ import {
 import { Card, Slider, Rate } from 'antd'
 
 const Text: React.FC<{
+  value?: string
   content?: string
   mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-}> = ({ mode, content, ...props }) => {
+}> = ({ value, mode, content, ...props }) => {
   const tagName = mode === 'normal' || !mode ? 'div' : mode
-  return React.createElement(tagName, props, content)
+  return React.createElement(tagName, props, value || content)
 }
 
 const SchemaField = createSchemaField({
