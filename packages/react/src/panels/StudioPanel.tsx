@@ -1,5 +1,5 @@
-import React from 'react'
-import { usePrefix } from '../hooks'
+import React, { useContext } from 'react'
+import { usePrefix, usePosition } from '../hooks'
 import { Layout } from '../containers'
 import cls from 'classnames'
 export interface IStudioPanelProps {
@@ -9,6 +9,7 @@ export interface IStudioPanelProps {
   actions?: React.ReactNode
   prefixCls?: string
   theme?: string
+  position?: React.ComponentProps<typeof Layout>['position']
 }
 
 const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
@@ -17,11 +18,17 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
   ...props
 }) => {
   const prefix = usePrefix('main-panel')
+  const position = usePosition()
   if (logo || actions) {
     return (
       <div
         {...props}
-        className={cls(prefix + '-container', 'root', props.className)}
+        className={cls(
+          prefix + '-container',
+          'root',
+          position,
+          props.className
+        )}
       >
         <div className={prefix + '-header'}>
           <div className={prefix + '-header-logo'}>{logo}</div>
@@ -32,7 +39,7 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
     )
   }
   return (
-    <div {...props} className={cls(prefix, 'root')}>
+    <div {...props} className={cls(prefix, 'root', position)}>
       {props.children}
     </div>
   )

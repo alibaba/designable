@@ -28,7 +28,11 @@ export const Layout: React.FC<IDesignerLayoutProps> = (props) => {
       })}
     >
       <DesignerLayoutContext.Provider
-        value={{ theme: props.theme, prefixCls: props.prefixCls }}
+        value={{
+          theme: props.theme,
+          prefixCls: props.prefixCls,
+          position: props.position,
+        }}
       >
         {props.children}
       </DesignerLayoutContext.Provider>
@@ -39,4 +43,5 @@ export const Layout: React.FC<IDesignerLayoutProps> = (props) => {
 Layout.defaultProps = {
   theme: 'light',
   prefixCls: 'dn-',
+  position: 'fixed',
 }

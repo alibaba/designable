@@ -21,6 +21,12 @@
       right: 0;
       bottom: 0;
     }
+    &.absolute {
+      position: absolute;
+    }
+    &.relative {
+      position: relative;
+    }
   }
 
   &-header {
@@ -140,7 +146,7 @@
         display: flex;
         align-items: center;
 
-        &>* {
+        & > * {
           margin-right: 8px;
 
           &:last-child {
@@ -196,10 +202,8 @@
     .@{prefix-cls}-composite-panel-tabs-content {
       border-right: none;
       border-left: 1px solid var(--dn-panel-border-color);
-
     }
     .@{prefix-cls}-composite-panel-tabs {
-
       border-left: 1px solid var(--dn-panel-border-color);
     }
   }
@@ -261,7 +265,7 @@
       display: flex;
       align-items: center;
 
-      &>* {
+      & > * {
         margin-right: 8px;
 
         &:last-child {
