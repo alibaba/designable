@@ -58,9 +58,6 @@ export const useSelectionEffect = (engine: Engine) => {
           selection.crossAddTo(node)
         }
       } else {
-        if (operation.focusNode !== node) {
-          operation.focusClean()
-        }
         selection.select(node, true)
       }
     } else {
