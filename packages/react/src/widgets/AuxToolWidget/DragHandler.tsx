@@ -14,8 +14,7 @@ export const DragHandler: React.FC<IDragHandlerProps> = observer(
   ({ node, style }) => {
     const designer = useDesigner()
     const prefix = usePrefix('aux-drag-handler')
-    if (node === node.root || node.designerProps.draggable === false)
-      return null
+    if (node === node.root || !node.allowDrag()) return null
     const handlerProps = {
       [designer.props.nodeDragHandlerAttrName]: 'true',
     }
