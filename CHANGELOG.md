@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-beta.36(2021-11-26)
+
+### :beetle: Bug Fixes
+
+1. [fix(react-settings-form): fix typings](https://github.com/alibaba/designable/commit/2a837fe) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore: update formily to 2.0.2](https://github.com/alibaba/designable/commit/89a1725) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.35(2021-11-26)
 
 ### :tada: Enhancements
@@ -303,9 +313,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix can not take component locales](https://github.com/alibaba/designable/commit/cd39398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.25(2021-08-31)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): use NodeTitleWidget for OutlineWidget](https://github.com/alibaba/designable/commit/9590a2d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
