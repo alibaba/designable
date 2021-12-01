@@ -67,10 +67,10 @@ export const FormGridColumn = {
     },
   },
   'ko-KR': {
-    title: 'Grid Column',
+    title: '그리드 열',
     settings: {
       'x-component-props': {
-        gridSpan: 'Grid Span',
+        gridSpan: '그리드 스팬',
       },
     },
   },
