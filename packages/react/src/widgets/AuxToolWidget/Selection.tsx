@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { Helpers } from './Helpers'
+import { ResizeHandler } from './ResizeHandler'
 import {
   useSelection,
   useValidNodeOffsetRect,
@@ -17,13 +18,13 @@ export interface ISelectionBoxProps {
 
 export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
   const prefix = usePrefix('aux-selection-box')
+  const innerPrefix = usePrefix('aux-selection-box-inner')
   const nodeRect = useValidNodeOffsetRect(props.node)
   const createSelectionStyle = () => {
     const baseStyle: React.CSSProperties = {
       position: 'absolute',
       top: 0,
       left: 0,
-      pointerEvents: 'none',
       boxSizing: 'border-box',
     }
     if (nodeRect) {
@@ -39,6 +40,8 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
 
   return (
     <div className={prefix} style={createSelectionStyle()}>
+      <div className={innerPrefix}></div>
+      <ResizeHandler node={props.node} />
       {props.showHelpers && (
         <Helpers {...props} node={props.node} nodeRect={nodeRect} />
       )}

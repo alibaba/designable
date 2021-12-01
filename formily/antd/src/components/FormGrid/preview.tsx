@@ -86,6 +86,7 @@ FormGrid.Behavior = createBehavior(
     selector: (node) => node.props['x-component'] === 'FormGrid.GridColumn',
     designerProps: {
       droppable: true,
+      resizeXPath: 'x-component-props.gridSpan',
       allowDrop: (node) => node.props['x-component'] === 'FormGrid',
       propsSchema: createFieldSchema(AllSchemas.FormGrid.GridColumn),
     },

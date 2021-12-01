@@ -99,6 +99,7 @@ export class Engine extends Event {
     clickStopPropagationAttrName: 'data-click-stop-propagation',
     nodeHelpersIdAttrName: 'data-designer-node-helpers-id',
     nodeDragHandlerAttrName: 'data-designer-node-handler',
+    nodeResizeHandlerAttrName: 'data-designer-node-resize-handler',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
     defaultScreenType: ScreenType.PC,
   }

@@ -32,8 +32,8 @@ export const FormGrid = {
     },
   },
   'ko-KR': {
-    title: 'Grid',
-    addGridColumn: 'Grid Column 추가',
+    title: '그리드 열',
+    addGridColumn: '그리드 열 추가',
     settings: {
       'x-component-props': {
         minWidth: '최소 너비',

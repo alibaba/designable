@@ -21,6 +21,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeHelpersIdAttrName?: string //节点工具栏属性名
   nodeDragHandlerAttrName?: string //节点拖拽手柄属性名
+  nodeResizeHandlerAttrName?: string //节点尺寸拖拽手柄属性名
   defaultComponentTree?: ITreeNode //默认组件树
   defaultScreenType?: ScreenType
   rootComponentName?: string
@@ -36,7 +37,7 @@ export type IEngineContext = {
 export interface IDesignerProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
-  version?: string //semever版本号
+  version?: string //semver版本号
   path?: string //组件模块路径
   title?: string //标题
   description?: string //描述
@@ -45,7 +46,11 @@ export interface IDesignerProps {
   draggable?: boolean //是否可拖拽，默认为true
   deletable?: boolean //是否可删除，默认为true
   cloneable?: boolean //是否可拷贝，默认为true
-  resizable?: boolean //是否可修改尺寸，默认为false
+  resizeXPath?: string //尺寸X轴属性修改路径
+  resizeYPath?: string //尺寸Y轴属性修改路径
+  resizeStep?: number //尺寸拖拽步数
+  resizeMin?: number //尺寸拖拽最小值
+  resizeMax?: number //尺寸拖拽最大值
   inlineChildrenLayout?: boolean //子节点内联，用于指定复杂布局容器，强制内联
   selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: ISchema //Formily JSON Schema

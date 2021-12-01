@@ -6,7 +6,7 @@ export const Field = {
       required: '必填',
       description: '描述',
       default: '默认值',
-      enum: '数据源',
+      enum: '可选项',
       'x-display': {
         title: '展示状态',
         tooltip: '半隐藏只会隐藏UI，全隐藏会删除数据',
@@ -157,7 +157,7 @@ export const Field = {
       required: 'Required',
       description: 'Description',
       default: 'Default',
-      enum: 'DataSource',
+      enum: 'Options',
       'x-display': {
         title: 'Display State',
         tooltip:

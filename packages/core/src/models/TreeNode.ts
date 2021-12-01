@@ -385,6 +385,14 @@ export class TreeNode {
     return this.designerProps.draggable ?? true
   }
 
+  allowResize() {
+    if (this === this.root && !this.isSourceNode) return false
+    return (
+      (this.designerProps.resizeXPath || this.designerProps.resizeYPath) ??
+      false
+    )
+  }
+
   allowDelete() {
     if (this === this.root) return false
     return this.designerProps.deletable ?? true
