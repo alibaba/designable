@@ -8,6 +8,7 @@ import {
   useCursor,
   useDragon,
   usePrefix,
+  useDesigner,
 } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { TreeNode } from '@designable/core'
@@ -17,6 +18,7 @@ export interface ISelectionBoxProps {
 }
 
 export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
+  const designer = useDesigner()
   const prefix = usePrefix('aux-selection-box')
   const innerPrefix = usePrefix('aux-selection-box-inner')
   const nodeRect = useValidNodeOffsetRect(props.node)
@@ -38,8 +40,12 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
 
   if (!nodeRect.width || !nodeRect.height) return null
 
+  const selectionId = {
+    [designer.props?.nodeSelectionIdAttrName]: props.node.id,
+  }
+
   return (
-    <div className={prefix} style={createSelectionStyle()}>
+    <div {...selectionId} className={prefix} style={createSelectionStyle()}>
       <div className={innerPrefix}></div>
       <ResizeHandler node={props.node} />
       {props.showHelpers && (

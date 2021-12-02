@@ -385,12 +385,13 @@ export class TreeNode {
     return this.designerProps.draggable ?? true
   }
 
-  allowResize() {
+  allowResize(): false | Array<'x' | 'y'> {
     if (this === this.root && !this.isSourceNode) return false
-    return (
-      (this.designerProps.resizeXPath || this.designerProps.resizeYPath) ??
-      false
-    )
+    const { resizable } = this.designerProps
+    if (!resizable) return false
+    if (resizable.width && resizable.height) return ['x', 'y']
+    if (resizable.width) return ['x']
+    return ['y']
   }
 
   allowDelete() {

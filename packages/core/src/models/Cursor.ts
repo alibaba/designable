@@ -11,9 +11,6 @@ export enum CursorStatus {
 export enum CursorType {
   Move = 'MOVE',
   Selection = 'SELECTION',
-  Resize = 'RESIZE',
-  ResizeWidth = 'RESIZE_WIDTH',
-  ResizeHeight = 'RESIZE_HEIGHT',
 }
 
 export interface ICursorPosition {
@@ -67,6 +64,17 @@ const DEFAULT_SCROLL_OFFSET = {
   scrollY: 0,
 }
 
+const setCursorStyle = (contentWindow: Window, style: string) => {
+  const currentRoot = document?.getElementsByTagName?.('html')?.[0]
+  const root = contentWindow?.document?.getElementsByTagName('html')?.[0]
+  if (root && root.style.cursor !== style) {
+    root.style.cursor = style
+  }
+  if (currentRoot && currentRoot.style.cursor !== style) {
+    currentRoot.style.cursor = style
+  }
+}
+
 export class Cursor {
   engine: Engine
 
@@ -101,6 +109,7 @@ export class Cursor {
       dragEndPosition: observable.ref,
       dragEndScrollOffset: observable.ref,
       view: observable.ref,
+      setStyle: action,
       setPosition: action,
       setStatus: action,
       setType: action,
@@ -113,6 +122,12 @@ export class Cursor {
 
   setType(type: CursorType | string) {
     this.type = type
+  }
+
+  setStyle(style: string) {
+    this.engine.workbench.eachWorkspace((workspace) => {
+      setCursorStyle(workspace.viewport.contentWindow, style)
+    })
   }
 
   setPosition(position?: ICursorPosition) {

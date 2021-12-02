@@ -11,7 +11,7 @@ export const useSelectionEffect = (engine: Engine) => {
       *[${engine.props.outlineNodeIdAttrName}]
     `)
     const isHelpers = target?.closest?.(
-      `*[${engine.props.nodeHelpersIdAttrName}]`
+      `*[${engine.props.nodeSelectionIdAttrName}]`
     )
     const currentWorkspace = engine.workbench.activeWorkspace
     if (!currentWorkspace) return

@@ -19,11 +19,13 @@ export const useDragDropEffect = (engine: Engine) => {
     const handler = target?.closest(
       `*[${engine.props.nodeDragHandlerAttrName}]`
     )
-    const helper = handler?.closest(`*[${engine.props.nodeHelpersIdAttrName}]`)
+    const helper = handler?.closest(
+      `*[${engine.props.nodeSelectionIdAttrName}]`
+    )
     if (!el?.getAttribute && !handler) return
     const sourceId = el?.getAttribute(engine.props.sourceIdAttrName)
     const outlineId = el?.getAttribute(engine.props.outlineNodeIdAttrName)
-    const handlerId = helper?.getAttribute(engine.props.nodeHelpersIdAttrName)
+    const handlerId = helper?.getAttribute(engine.props.nodeSelectionIdAttrName)
     const nodeId = el?.getAttribute(engine.props.nodeIdAttrName)
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
@@ -50,6 +52,7 @@ export const useDragDropEffect = (engine: Engine) => {
         }
       }
     })
+    engine.cursor.setStyle('move')
   })
 
   engine.subscribeTo(DragMoveEvent, (event) => {
@@ -159,5 +162,6 @@ export const useDragDropEffect = (engine: Engine) => {
       }
       operation.dragClean()
     })
+    engine.cursor.setStyle('')
   })
 }

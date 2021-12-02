@@ -13,25 +13,19 @@ export const ResizeHandler: React.FC<IResizeHandlerProps> = (props) => {
   const createHandler = (value: string) => {
     return {
       [designer.props.nodeResizeHandlerAttrName]: value,
+      className: cls(prefix, value),
     }
   }
-  if (!props.node.allowResize()) return null
-  const xPath = props.node.designerProps?.resizeXPath
-  const yPath = props.node.designerProps?.resizeYPath
+  const allowResize = props.node.allowResize()
+  if (!allowResize) return null
+  const allowX = allowResize.includes('x')
+  const allowY = allowResize.includes('y')
   return (
     <>
-      {xPath && (
-        <div {...createHandler('x')} className={cls(prefix, 'left')}></div>
-      )}
-      {xPath && (
-        <div {...createHandler('x')} className={cls(prefix, 'right')}></div>
-      )}
-      {yPath && (
-        <div {...createHandler('y')} className={cls(prefix, 'top')}></div>
-      )}
-      {yPath && (
-        <div {...createHandler('y')} className={cls(prefix, 'bottom')}></div>
-      )}
+      {allowX && <div {...createHandler('x-start')}></div>}
+      {allowX && <div {...createHandler('x-end')}></div>}
+      {allowY && <div {...createHandler('y-start')}></div>}
+      {allowY && <div {...createHandler('y-end')}></div>}
     </>
   )
 }

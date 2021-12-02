@@ -97,12 +97,8 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
 
   if (!nodeRect || !node) return null
 
-  const helpersId = {
-    [designer.props?.nodeHelpersIdAttrName]: node.id,
-  }
   return (
     <div
-      {...helpersId}
       className={cls(prefix, {
         [position]: true,
       })}

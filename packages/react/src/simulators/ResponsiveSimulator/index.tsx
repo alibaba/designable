@@ -31,6 +31,12 @@ const useResizeEffect = (
   let animationX = null
   let animationY = null
 
+  const getStyle = (status: ResizeHandleType) => {
+    if (status === ResizeHandleType.Resize) return 'nwse-resize'
+    if (status === ResizeHandleType.ResizeHeight) return 'ns-resize'
+    if (status === ResizeHandleType.ResizeWidth) return 'ew-resize'
+  }
+
   const updateSize = (deltaX: number, deltaY: number) => {
     const containerRect = container.current?.getBoundingClientRect()
     if (status === ResizeHandleType.Resize) {
@@ -63,7 +69,7 @@ const useResizeEffect = (
       status = target.getAttribute(
         'data-designer-resize-handle'
       ) as ResizeHandleType
-      engine.cursor.setType(status)
+      engine.cursor.setStyle(getStyle(status))
       startX = e.data.topClientX
       startY = e.data.topClientY
       startWidth = rect.width
@@ -108,7 +114,7 @@ const useResizeEffect = (
   engine.subscribeTo(DragStopEvent, () => {
     if (!status) return
     status = null
-    engine.cursor.setType(CursorType.Move)
+    engine.cursor.setStyle('')
     if (animationX) {
       animationX = animationX()
     }
