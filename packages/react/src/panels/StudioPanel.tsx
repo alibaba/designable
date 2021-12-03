@@ -43,7 +43,11 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
 
 export const StudioPanel: React.FC<IStudioPanelProps> = (props) => {
   return (
-    <Layout theme={props.theme} prefixCls={props.prefixCls}>
+    <Layout
+      theme={props.theme}
+      prefixCls={props.prefixCls}
+      position={props.position}
+    >
       <StudioPanelInternal {...props} />
     </Layout>
   )
