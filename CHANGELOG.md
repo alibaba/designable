@@ -1,5 +1,29 @@
 # Changelog
 
+## v1.0.0-beta.37(2021-12-01)
+
+### :tada: Enhancements
+
+1. [refactor: remove focusNode feature](https://github.com/alibaba/designable/commit/2d46b94) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [feat(react): add position in layout (#145)](https://github.com/alibaba/designable/commit/baba792) :point_right: ( [programmerwy](https://github.com/programmerwy) )
+
+### :beetle: Bug Fixes
+
+1. [fix(setter): initial bug (#140)](https://github.com/alibaba/designable/commit/4b72dfe) :point_right: ( [Sun HaoWei](https://github.com/Sun HaoWei) )
+
+1. [fix(antd/next): fix locales](https://github.com/alibaba/designable/commit/0bcb178) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :rose: Improve code quality
+
+1. [refactor: remove focusNode feature](https://github.com/alibaba/designable/commit/2d46b94) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore: improve code](https://github.com/alibaba/designable/commit/bd28ce6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore(antd/next): update text component output (#147)](https://github.com/alibaba/designable/commit/fa48a6e) :point_right: ( [WhiteSJ](https://github.com/WhiteSJ) )
+
 ## v1.0.0-beta.36(2021-11-26)
 
 ### :beetle: Bug Fixes
@@ -307,9 +331,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(core): fix component/source locale registry](https://github.com/alibaba/designable/commit/0017ac0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.26(2021-08-31)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix can not take component locales](https://github.com/alibaba/designable/commit/cd39398) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

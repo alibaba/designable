@@ -87,7 +87,6 @@ FormGrid.Behavior = createBehavior(
     designerProps: {
       droppable: true,
       resizable: {
-        step: 30,
         width(node) {
           const span = Number(node.props['x-component-props']?.gridSpan ?? 1)
           return {
