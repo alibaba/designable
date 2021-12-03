@@ -8,10 +8,7 @@ type ResizeData = {
   node?: TreeNode
   axis?: 'x' | 'y' | (string & {})
   type?: 'x-start' | 'x-end' | 'y-start' | 'y-end' | (string & {})
-  start?: Point
   point?: Point
-  xIndex?: number
-  yIndex?: number
 }
 
 type ResizeStore = {
@@ -37,7 +34,7 @@ export const useResizeEffect = (engine: Engine) => {
             const node = engine.findNodeById(nodeId)
             if (node) {
               const axis = type.includes('x') ? 'x' : 'y'
-              return { axis, type, node, element, xIndex: 0, yIndex: 0 }
+              return { axis, type, node, element }
             }
           }
         }
@@ -53,11 +50,10 @@ export const useResizeEffect = (engine: Engine) => {
     const target = event.data.target as HTMLElement
     const data = findStartNodeHandler(target)
     if (data) {
-      const start = new Point(event.data.clientX, event.data.clientY)
+      const point = new Point(event.data.clientX, event.data.clientY)
       store.value = {
         ...data,
-        start,
-        point: start,
+        point,
       }
       if (data.axis === 'x') {
         engine.cursor.setStyle('ew-resize')
@@ -70,14 +66,12 @@ export const useResizeEffect = (engine: Engine) => {
   engine.subscribeTo(DragMoveEvent, (event) => {
     if (engine.cursor.type !== CursorType.Move) return
     if (store.value) {
-      const { axis, type, node, element, point, start } = store.value
+      const { axis, type, node, element, point } = store.value
       const allowResize = node.allowResize()
       if (!allowResize) return
       const resizable = node.designerProps.resizable
-      const step = resizable.step ?? 1
+      const rect = element.getBoundingClientRect()
       const current = new Point(event.data.clientX, event.data.clientY)
-      const xIndex = Math.floor((current.x - start.x) / step)
-      const yIndex = Math.floor((current.x - start.x) / step)
       const plusX = type === 'x-end' ? current.x > point.x : current.x < point.x
       const plusY = type === 'y-end' ? current.y > point.y : current.y < point.y
       const allowX = allowResize.includes('x')
@@ -85,7 +79,11 @@ export const useResizeEffect = (engine: Engine) => {
       const width = resizable.width?.(node, element)
       const height = resizable.height?.(node, element)
       if (axis === 'x') {
-        if (xIndex === store.value.xIndex) return
+        if (plusX && type === 'x-end' && current.x < rect.x + rect.width) return
+        if (!plusX && type === 'x-end' && current.x > rect.x + rect.width)
+          return
+        if (plusX && type === 'x-start' && current.x > rect.x) return
+        if (!plusX && type === 'x-start' && current.x < rect.x) return
         if (allowX) {
           if (plusX) {
             width.plus()
@@ -94,7 +92,12 @@ export const useResizeEffect = (engine: Engine) => {
           }
         }
       } else if (axis === 'y') {
-        if (yIndex === store.value.yIndex) return
+        if (plusY && type === 'y-end' && current.y < rect.y + rect.height)
+          return
+        if (!plusY && type === 'y-end' && current.y > rect.y + rect.height)
+          return
+        if (plusY && type === 'y-start' && current.y > rect.y) return
+        if (!plusY && type === 'y-start' && current.y < rect.y) return
         if (allowY) {
           if (plusY) {
             height.plus()
@@ -104,8 +107,6 @@ export const useResizeEffect = (engine: Engine) => {
         }
       }
       store.value.point = current
-      store.value.xIndex = xIndex
-      store.value.yIndex = yIndex
     }
   })
 

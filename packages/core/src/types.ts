@@ -49,7 +49,6 @@ export type IResizable = {
     plus: () => void
     minus: () => void
   }
-  step?: number
 }
 
 export interface IDesignerProps {
