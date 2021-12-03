@@ -89,7 +89,7 @@ export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
             onClick={() => {
               const uuid = uid()
               const dataSource = props.treeDataSource.dataSource
-              const initialKeyValuePairs = props.defaultOptionValue.map(
+              const initialKeyValuePairs = props.defaultOptionValue?.map(
                 (item) => ({ ...item })
               ) || [
                 {

@@ -37,7 +37,7 @@ export const Form = createLocales(Component, {
     },
   },
   'en-US': {
-    title: 'Form',
+    title: 'Form',
     settings: {
       labelCol: 'Label Col',
       wrapperCol: 'Wrapper Col',

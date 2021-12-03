@@ -100,13 +100,14 @@ export class Dragon {
       this.forceBlock ? false : isInline
     )
     const getValidParent = (node: TreeNode) => {
+      if (!node) return
       if (node.parent?.allowSibling(this.dragNodes)) return node.parent
       return getValidParent(node.parent)
     }
     if (isPointInRect(point, closestRect, this.sensitive)) {
       if (!closestNode.allowAppend(this.dragNodes)) {
         if (!closestNode.allowSibling(this.dragNodes)) {
-          const parentClosestNode = getValidParent(this.closestNode)
+          const parentClosestNode = getValidParent(closestNode)
           if (parentClosestNode) {
             this.closestNode = parentClosestNode
           }
@@ -153,7 +154,7 @@ export class Dragon {
       return isAfter ? ClosestPosition.InnerAfter : ClosestPosition.InnerBefore
     } else {
       if (!closestNode.allowSibling(this.dragNodes)) {
-        const parentClosestNode = getValidParent(this.closestNode)
+        const parentClosestNode = getValidParent(closestNode)
         if (parentClosestNode) {
           this.closestNode = parentClosestNode
         }

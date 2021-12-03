@@ -186,6 +186,16 @@
 
 .@{prefix-cls}-aux-selection-box {
   border: 2px solid var(--dn-aux-selection-box-border-color);
+  position: relative;
+  pointer-events: none;
+
+  &-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 
   &-title {
     color: var(--dn-aux-selection-box-color);
@@ -208,5 +218,45 @@
       height: 20px;
       margin-top: 2px;
     }
+  }
+}
+
+.@{prefix-cls}-aux-drag-handler {
+  cursor: move;
+}
+
+.@{prefix-cls}-aux-node-resize-handler {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: all;
+  background-color: var(--dn-brand-color);
+
+  &.x-start {
+    left: 0;
+    top: 50%;
+    transform: translate(calc(-50% - 1px), -50%);
+    cursor: ew-resize;
+  }
+
+  &.x-end {
+    left: 100%;
+    top: 50%;
+    transform: translate(calc(-50% + 1px), -50%);
+    cursor: ew-resize;
+  }
+
+  &.y-start {
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, calc(-50% - 1px));
+    cursor: ns-resize;
+  }
+
+  &.y-end {
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, calc(-50% + 1px));
+    cursor: ns-resize;
   }
 }

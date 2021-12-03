@@ -6,7 +6,7 @@ import { useDesigner, usePrefix, useViewport } from '../../hooks'
 import { Selector } from './Selector'
 import { Copy } from './Copy'
 import { Delete } from './Delete'
-import { DragFocus } from './DragFocus'
+import { DragHandler } from './DragHandler'
 
 const HELPER_DEBOUNCE_TIMEOUT = 100
 
@@ -29,7 +29,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
   const viewport = useViewport()
   const unmountRef = useRef(false)
   const ref = useRef<HTMLDivElement>()
-  const [position, setPositin] = useState('top-right')
+  const [position, setPosition] = useState('top-right')
 
   useLayoutEffect(() => {
     let request = null
@@ -70,7 +70,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       const helpersRect = ref.current?.getBoundingClientRect()
       if (!helpersRect || !nodeRect) return
       if (unmountRef.current) return
-      setPositin(
+      setPosition(
         getYInViewport(nodeRect, helpersRect) +
           '-' +
           getXInViewport(nodeRect, helpersRect)
@@ -97,12 +97,8 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
 
   if (!nodeRect || !node) return null
 
-  const helpersId = {
-    [designer.props?.nodeHelpersIdAttrName]: node.id,
-  }
   return (
     <div
-      {...helpersId}
       className={cls(prefix, {
         [position]: true,
       })}
@@ -111,7 +107,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       <div className={cls(prefix + '-content')}>
         <Selector node={node} />
         {node?.allowClone() === false ? null : <Copy node={node} />}
-        {node?.allowDrag() === false ? null : <DragFocus node={node} />}
+        {node?.allowDrag() === false ? null : <DragHandler node={node} />}
         {node?.allowDelete() === false ? null : <Delete node={node} />}
       </div>
     </div>

@@ -49,7 +49,10 @@ export class Selection {
 
   select(id: string | TreeNode, fromUser?: boolean) {
     if (isStr(id)) {
-      if (this.selected.length === 1 && this.selected.includes(id)) return
+      if (this.selected.length === 1 && this.selected.includes(id)) {
+        this.trigger(SelectNodeEvent, fromUser)
+        return
+      }
       this.selected = [id]
       this.trigger(SelectNodeEvent, fromUser)
     } else {

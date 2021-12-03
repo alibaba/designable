@@ -15,12 +15,12 @@ export const Select = {
           tooltip: '弹层内容为空的文案',
         },
         showDataSourceChildren: {
-          title: '展示数据源子节点',
+          title: '展示可选项子节点',
         },
         hasSelectAll: '多选模式下是否可全选',
         cacheValue: {
           title: '缓存选中值',
-          tooltip: '数据源变化的时是否保留已选的内容',
+          tooltip: '可选项变化的时是否保留已选的内容',
         },
         tagInline: '标签行内展示',
         tagClosable: '标签可关闭',

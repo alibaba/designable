@@ -19,16 +19,12 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
 }) => {
   const prefix = usePrefix('main-panel')
   const position = usePosition()
+  const classNameBase = cls('root', position, props.className)
   if (logo || actions) {
     return (
       <div
         {...props}
-        className={cls(
-          prefix + '-container',
-          'root',
-          position,
-          props.className
-        )}
+        className={cls(`${prefix}-container`, classNameBase)}
       >
         <div className={prefix + '-header'}>
           <div className={prefix + '-header-logo'}>{logo}</div>
@@ -39,7 +35,7 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
     )
   }
   return (
-    <div {...props} className={cls(prefix, 'root', position)}>
+    <div {...props} className={cls(prefix, classNameBase)}>
       {props.children}
     </div>
   )
@@ -47,7 +43,11 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
 
 export const StudioPanel: React.FC<IStudioPanelProps> = (props) => {
   return (
-    <Layout theme={props.theme} prefixCls={props.prefixCls}>
+    <Layout
+      theme={props.theme}
+      prefixCls={props.prefixCls}
+      position={props.position}
+    >
       <StudioPanelInternal {...props} />
     </Layout>
   )
