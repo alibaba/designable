@@ -13,7 +13,7 @@ interface IPrettierModule {
 }
 
 const prettier: Promise<IPrettierModule> = new Function(
-  'return import("https://cdn.jsdelivr.net/npm/prettier@2.3.2/esm/standalone.mjs")'
+  'return import("https://cdn.jsdelivr.net/npm/prettier@2.x/esm/standalone.mjs")'
 )()
 
 export const format = async (language: string, source: string) => {
