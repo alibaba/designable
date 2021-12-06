@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0-beta.38(2021-12-03)
+
+### :tada: Enhancements
+
+1. [feat: support resizable to designerProps](https://github.com/alibaba/designable/commit/0215c27) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix position props in StudioPanel (#155)](https://github.com/alibaba/designable/commit/30aa824) :point_right: ( [vimvinter](https://github.com/vimvinter) )
+
+1. [fix(react): fix component-tree styles](https://github.com/alibaba/designable/commit/a9943dd) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore: improve node reisze](https://github.com/alibaba/designable/commit/f71a1f4) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.37(2021-12-01)
 
 ### :tada: Enhancements
@@ -325,9 +341,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v0.5.27(2021-08-31)
-
-### :beetle: Bug Fixes
-
-1. [fix(core): fix component/source locale registry](https://github.com/alibaba/designable/commit/0017ac0) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
