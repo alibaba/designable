@@ -1,10 +1,6 @@
-import React from 'react'
-import { IconWidget } from '../widgets/IconWidget'
-
 export const DragLeftSourceAnimation = {
-  light: (
-    <IconWidget.ShadowSVG
-      content={`
+  light: {
+    shadow: `
       <style>
 @keyframes helper-drag-rec_w { 0% { width: 210px; } 54.5455% { width: 210px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { width: 540px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { width: 520px; } 100% { width: 520px; } }
 @keyframes helper-drag-rec_h { 0% { height: 100px; } 54.5455% { height: 100px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { height: 560px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { height: 540px; } 100% { height: 540px; } }
@@ -53,12 +49,10 @@ export const DragLeftSourceAnimation = {
         <path fill="#b6b6b6" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(45) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a10_d;"/>
         <path fill="#b6b6b6" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(90) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a11_d;"/>
     </g>
-`}
-    />
-  ),
-  dark: (
-    <IconWidget.ShadowSVG
-      content={`
+`,
+  },
+  dark: {
+    shadow: `
         <style>
         @keyframes helper-drag-rec_w { 0% { width: 210px; } 54.5455% { width: 210px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { width: 540px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { width: 520px; } 100% { width: 520px; } }
         @keyframes helper-drag-rec_h { 0% { height: 100px; } 54.5455% { height: 100px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { height: 560px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { height: 540px; } 100% { height: 540px; } }
@@ -107,15 +101,13 @@ export const DragLeftSourceAnimation = {
                 <path fill="#808080" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(45) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a10_d;"/>
                 <path fill="#808080" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(90) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a11_d;"/>
             </g>
-        `}
-    />
-  ),
+        `,
+  },
 }
 
 export const DragRightSourceAnimation = {
-  light: (
-    <IconWidget.ShadowSVG
-      content={`
+  light: {
+    shadow: `
 <style>
 @keyframes helper-rec_w { 0% { width: 210px; } 54.5455% { width: 210px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { width: 540px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { width: 520px; } 100% { width: 520px; } }
 @keyframes helper-rec_h { 0% { height: 100px; } 54.5455% { height: 100px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { height: 560px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { height: 540px; } 100% { height: 540px; } }
@@ -164,12 +156,10 @@ export const DragRightSourceAnimation = {
         <path fill="#b6b6b6" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(45) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a10_d;"/>
         <path fill="#b6b6b6" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(90) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a11_d;"/>
     </g>
-  `}
-    />
-  ),
-  dark: (
-    <IconWidget.ShadowSVG
-      content={`
+  `,
+  },
+  dark: {
+    shadow: `
 <style>
 @keyframes helper-rec_w { 0% { width: 210px; } 54.5455% { width: 210px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { width: 540px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { width: 520px; } 100% { width: 520px; } }
 @keyframes helper-rec_h { 0% { height: 100px; } 54.5455% { height: 100px; animation-timing-function: cubic-bezier(0.904,0,0.726,0.668); } 66.6667% { height: 560px; animation-timing-function: cubic-bezier(0.214,0.499,0.52,0.867); } 72.7273% { height: 540px; } 100% { height: 540px; } }
@@ -217,15 +207,13 @@ export const DragRightSourceAnimation = {
         <path fill="#808080" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a9_d;"/>
         <path fill="#808080" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(45) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a10_d;"/>
         <path fill="#808080" opacity="1" stroke="none" d="M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z" transform="translate(-15.4435,22) rotate(90) scale(2,2) translate(-2,-14)" style="animation: 3.3s linear infinite both a11_d;"/>
-    </g>`}
-    />
-  ),
+    </g>`,
+  },
 }
 
 export const BatchDragAnimation = {
-  light: (
-    <IconWidget.ShadowSVG
-      content={`
+  light: {
+    shadow: `
         <style>
         @keyframes helper-batch-drag-boomrightup_o { 0% { opacity: 0; } 60% { opacity: 0; } 64% { opacity: 1; } 72% { opacity: 1; } 76% { opacity: 0; } 100% { opacity: 0; } }
         @keyframes a0_d { 0% { d: path('M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z'); } 60% { d: path('M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z'); animation-timing-function: cubic-bezier(0.455,0.03,0.515,0.955); } 68% { d: path('M1,-15L3,-15C3.55228,-15,4,-14.5523,4,-14L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,-14C0,-14.5523,0.447715,-15,1,-15Z'); animation-timing-function: cubic-bezier(0.455,0.03,0.515,0.955); } 76% { d: path('M1,-10L3,-10C3.55228,-10,4,-9.55228,4,-9L4,-7C4,-6.44772,3.55228,-6,3,-6L1,-6C0.447715,-6,0,-6.44772,0,-7L0,-9C0,-9.55228,0.447715,-10,1,-10Z'); } 100% { d: path('M1,-10L3,-10C3.55228,-10,4,-9.55228,4,-9L4,-7C4,-6.44772,3.55228,-6,3,-6L1,-6C0.447715,-6,0,-6.44772,0,-7L0,-9C0,-9.55228,0.447715,-10,1,-10Z'); } }
@@ -277,12 +265,10 @@ export const BatchDragAnimation = {
             <g id="helper-batch-drag-mouse" fill="#000000" fill-rule="nonzero" opacity="1" style="transform: scale(2,2) translate(-14px,-14px); animation: 2.5s linear infinite both helper-batch-drag-mouse_mo; offset-path: path('M286.5,744L286.5,378L286.5,396L286.5,396C474.045,416.166,638.679,477.076,744.5,633.126L744.5,633.126'); offset-rotate: 0deg;">
                 <path id="helper-batch-drag-mouse-path" d="M27.9059,13.8023L23.4402,10.278C23.364,10.218,23.2602,10.2069,23.173,10.2494C23.0858,10.2919,23.0305,10.3805,23.0308,10.4775L23.0308,12.7418L15.2614,12.7418L15.2614,4.9723L17.5292,4.9723C17.7392,4.9723,17.8582,4.72732,17.7287,4.56283L14.201,0.0971035C14.1537,0.0358608,14.0806,0,14.0032,0C13.9258,0,13.8528,0.0358608,13.8055,0.0971035L10.2778,4.56283C10.2178,4.63907,10.2067,4.74288,10.2492,4.83009C10.2917,4.91729,10.3803,4.97254,10.4773,4.9723L12.7416,4.9723L12.7416,12.7418L4.97221,12.7418L4.97221,10.474C4.97221,10.264,4.72723,10.145,4.56274,10.2745L0.0971017,13.8023C0.0358601,13.8496,0,13.9226,0,14C0,14.0774,0.0358601,14.1504,0.0971017,14.1977L4.55924,17.7255C4.72373,17.855,4.96871,17.7395,4.96871,17.526L4.96871,15.2617L12.7381,15.2617L12.7381,23.0312L10.4703,23.0312C10.2603,23.0312,10.1413,23.2762,10.2708,23.4407L13.7985,27.9029C13.9,28.0324,14.096,28.0324,14.194,27.9029L17.7217,23.4407C17.8512,23.2762,17.7357,23.0312,17.5222,23.0312L15.2614,23.0312L15.2614,15.2617L23.0308,15.2617L23.0308,17.5295C23.0308,17.7395,23.2757,17.8585,23.4402,17.729L27.9024,14.2012C27.9634,14.1533,27.9993,14.0802,28,14.0026C28.0007,13.925,27.966,13.8513,27.9059,13.8023L27.9059,13.8023Z" transform="translate(14,14) translate(-14,-14)"/>
             </g>
-          `}
-    />
-  ),
-  dark: (
-    <IconWidget.ShadowSVG
-      content={`
+          `,
+  },
+  dark: {
+    shadow: `
         <style>
         @keyframes helper-batch-drag-boomrightup_o { 0% { opacity: 0; } 60% { opacity: 0; } 64% { opacity: 1; } 72% { opacity: 1; } 76% { opacity: 0; } 100% { opacity: 0; } }
         @keyframes a0_d { 0% { d: path('M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z'); } 60% { d: path('M1,0L3,0C3.55228,0,4,0.447715,4,1L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,1C0,0.447715,0.447715,0,1,0Z'); animation-timing-function: cubic-bezier(0.455,0.03,0.515,0.955); } 68% { d: path('M1,-15L3,-15C3.55228,-15,4,-14.5523,4,-14L4,3C4,3.55228,3.55228,4,3,4L1,4C0.447715,4,0,3.55228,0,3L0,-14C0,-14.5523,0.447715,-15,1,-15Z'); animation-timing-function: cubic-bezier(0.455,0.03,0.515,0.955); } 76% { d: path('M1,-10L3,-10C3.55228,-10,4,-9.55228,4,-9L4,-7C4,-6.44772,3.55228,-6,3,-6L1,-6C0.447715,-6,0,-6.44772,0,-7L0,-9C0,-9.55228,0.447715,-10,1,-10Z'); } 100% { d: path('M1,-10L3,-10C3.55228,-10,4,-9.55228,4,-9L4,-7C4,-6.44772,3.55228,-6,3,-6L1,-6C0.447715,-6,0,-6.44772,0,-7L0,-9C0,-9.55228,0.447715,-10,1,-10Z'); } }
@@ -334,7 +320,6 @@ export const BatchDragAnimation = {
             <g id="helper-batch-drag-mouse" fill="#000000" fill-rule="nonzero" opacity="1" style="transform: scale(2,2) translate(-14px,-14px); animation: 2.5s linear infinite both helper-batch-drag-mouse_mo; offset-path: path('M286.5,744L286.5,378L286.5,396L286.5,396C474.045,416.166,638.679,477.076,744.5,633.126L744.5,633.126'); offset-rotate: 0deg;">
                 <path id="helper-batch-drag-mouse-path" d="M27.9059,13.8023L23.4402,10.278C23.364,10.218,23.2602,10.2069,23.173,10.2494C23.0858,10.2919,23.0305,10.3805,23.0308,10.4775L23.0308,12.7418L15.2614,12.7418L15.2614,4.9723L17.5292,4.9723C17.7392,4.9723,17.8582,4.72732,17.7287,4.56283L14.201,0.0971035C14.1537,0.0358608,14.0806,0,14.0032,0C13.9258,0,13.8528,0.0358608,13.8055,0.0971035L10.2778,4.56283C10.2178,4.63907,10.2067,4.74288,10.2492,4.83009C10.2917,4.91729,10.3803,4.97254,10.4773,4.9723L12.7416,4.9723L12.7416,12.7418L4.97221,12.7418L4.97221,10.474C4.97221,10.264,4.72723,10.145,4.56274,10.2745L0.0971017,13.8023C0.0358601,13.8496,0,13.9226,0,14C0,14.0774,0.0358601,14.1504,0.0971017,14.1977L4.55924,17.7255C4.72373,17.855,4.96871,17.7395,4.96871,17.526L4.96871,15.2617L12.7381,15.2617L12.7381,23.0312L10.4703,23.0312C10.2603,23.0312,10.1413,23.2762,10.2708,23.4407L13.7985,27.9029C13.9,28.0324,14.096,28.0324,14.194,27.9029L17.7217,23.4407C17.8512,23.2762,17.7357,23.0312,17.5222,23.0312L15.2614,23.0312L15.2614,15.2617L23.0308,15.2617L23.0308,17.5295C23.0308,17.7395,23.2757,17.8585,23.4402,17.729L27.9024,14.2012C27.9634,14.1533,27.9993,14.0802,28,14.0026C28.0007,13.925,27.966,13.8513,27.9059,13.8023L27.9059,13.8023Z" fill="#ffffff" transform="translate(14,14) translate(-14,-14)"/>
             </g>
-            `}
-    />
-  ),
+            `,
+  },
 }

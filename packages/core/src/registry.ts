@@ -15,7 +15,7 @@ import {
 import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
 import { isBehaviorHost } from './externals'
 import { TreeNode } from './models'
-import { isBehaviorList } from '.'
+import { isBehaviorList } from './externals'
 
 const getISOCode = (language: string) => {
   let isoCode = DESIGNER_LANGUAGE_STORE.value
@@ -144,5 +144,4 @@ const DESIGNER_GlobalRegistry = {
 
 export type IDesignerRegistry = typeof DESIGNER_GlobalRegistry
 
-export const GlobalRegistry: IDesignerRegistry =
-  window['__DESIGNER_GlobalRegistry__'] || DESIGNER_GlobalRegistry
+export const GlobalRegistry: IDesignerRegistry = DESIGNER_GlobalRegistry

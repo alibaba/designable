@@ -1,5 +1,14 @@
-export * from './externals'
-export * from './registry'
-export * from './models'
-export * from './events'
-export * from './types'
+import * as Core from './exports'
+export * from './exports'
+
+if (window?.['Designable']?.['Core']) {
+  if (module.exports) {
+    module.exports = {
+      __esModule: true,
+      ...window['Designable']['Core'],
+    }
+  }
+} else {
+  window['Designable'] = window['Designable'] || {}
+  window['Designable'].Core = Core
+}

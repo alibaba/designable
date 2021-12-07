@@ -31,7 +31,6 @@ export const Content = () => (
             style={{
               background: '#eee',
               border: '1px solid #ddd',
-              width: '100%',
               display: 'flex',
               padding: 10,
               height: props.children ? 'auto' : 150,

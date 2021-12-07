@@ -1,9 +1,5 @@
-import { useContext } from 'react'
-import { DesignerLayoutContext } from '../context'
-import { IDesignerLayoutContext } from '../types'
+import { useLayout } from './useLayout'
 
-export const useTheme = (): IDesignerLayoutContext['theme'] => {
-  return (
-    window['__DESINGER_THEME__'] || useContext(DesignerLayoutContext)?.theme
-  )
+export const useTheme = () => {
+  return useLayout()?.theme
 }

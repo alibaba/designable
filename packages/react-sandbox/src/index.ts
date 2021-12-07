@@ -3,8 +3,7 @@ import { isFn } from '@designable/shared'
 import {
   useDesigner,
   useWorkspace,
-  useRegistry,
-  useTheme,
+  useLayout,
   usePrefix,
 } from '@designable/react'
 import ReactDOM from 'react-dom'
@@ -21,8 +20,7 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
   const appCls = usePrefix('app')
   const designer = useDesigner()
   const workspace = useWorkspace()
-  const registry = useRegistry()
-  const theme = useTheme()
+  const layout = useLayout()
   const cssAssets = props.cssAssets || []
   const jsAssets = props.jsAssets || []
   const getCSSVar = (name: string) => {
@@ -42,12 +40,12 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
           return `<script src="${js}" type="text/javascript" ></script>`
         })
         .join('\n')
-      ref.current.contentWindow['__DESINGER_SANDBOX_SCOPE__'] = props.scope
-      ref.current.contentWindow['__DESINGER_THEME__'] = theme
-      ref.current.contentWindow['__DESINGER_ENGINE__'] = designer
-      ref.current.contentWindow['__DESINGER_WORKSPACE__'] = workspace
-      ref.current.contentWindow['__DESIGNER_REGISTRY__'] = registry
+      ref.current.contentWindow['__DESIGNABLE_SANDBOX_SCOPE__'] = props.scope
+      ref.current.contentWindow['__DESIGNABLE_LAYOUT__'] = layout
+      ref.current.contentWindow['__DESIGNABLE_ENGINE__'] = designer
+      ref.current.contentWindow['__DESIGNABLE_WORKSPACE__'] = workspace
       ref.current.contentWindow['Formily'] = window['Formily']
+      ref.current.contentWindow['Designable'] = window['Designable']
       ref.current.contentDocument.open()
       ref.current.contentDocument.write(`
       <!DOCTYPE html>
@@ -76,7 +74,7 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
             overflow-anchor: none;
             user-select:none;
             background-color:${
-              theme === 'light' ? '#fff' : 'transparent'
+              layout.theme === 'light' ? '#fff' : 'transparent'
             } !important;
           }
           html{
@@ -106,7 +104,7 @@ if (window.frameElement) {
 }
 
 export const useSandboxScope = () => {
-  return window['__DESINGER_SANDBOX_SCOPE__']
+  return window['__DESIGNABLE_SANDBOX_SCOPE__']
 }
 
 export const renderSandboxContent = (render: (scope?: any) => JSX.Element) => {

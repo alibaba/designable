@@ -25,12 +25,10 @@ import {
   createBehavior,
   GlobalRegistry,
 } from '@designable/core'
-import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-//import { Sandbox } from '@designable/react-sandbox'
+import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
-import './theme.less'
 
 const RootBehavior = createBehavior({
   name: 'Root',
@@ -350,12 +348,24 @@ const App = () => {
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
-              <ViewToolsWidget />{' '}
+              <ViewToolsWidget />
             </ToolbarPanel>
             <ViewportPanel>
-              <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
+              <ViewPanel type="DESIGNABLE">
+                {() => (
+                  <Sandbox
+                    jsAssets={[
+                      'https://unpkg.com/moment/min/moment-with-locales.js',
+                      'https://unpkg.com/react/umd/react.development.js',
+                      'https://unpkg.com/react-dom/umd/react-dom.development.js',
+                      'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                      './sandbox.bundle.js',
+                    ]}
+                  />
+                )}
+              </ViewPanel>
               <ViewPanel type="JSONTREE">
-                {(tree) => {
+                {() => {
                   return (
                     <div style={{ overflow: 'hidden', height: '100%' }}>
                       <MonacoInput

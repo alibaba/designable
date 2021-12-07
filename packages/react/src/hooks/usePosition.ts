@@ -1,7 +1,5 @@
-import { useContext } from 'react'
-import { DesignerLayoutContext } from '../context'
-import { IDesignerLayoutContext } from '../types'
+import { useLayout } from './useLayout'
 
-export const usePosition = (): IDesignerLayoutContext['position'] => {
-  return useContext(DesignerLayoutContext)?.position
+export const usePosition = () => {
+  return useLayout()?.position
 }

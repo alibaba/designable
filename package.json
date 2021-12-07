@@ -6,7 +6,8 @@
   },
   "workspaces": [
     "packages/*",
-    "formily/*"
+    "formily/*",
+    "examples/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -14,7 +15,9 @@
     "build": "rimraf -rf packages/*/{lib,esm} && lerna run build",
     "build:docs": "dumi build",
     "start": "dumi dev",
-    "start:playground": "cd packages/playground && npm run start",
+    "start:playground": "npm run start:basic",
+    "start:basic": "yarn workspace @designable/basic-example start",
+    "start:sandbox": "yarn workspace @designable/sandbox-example start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",

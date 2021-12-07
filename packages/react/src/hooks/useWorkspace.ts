@@ -8,6 +8,7 @@ export const useWorkspace = (id?: string): Workspace => {
   if (workspaceId) {
     return designer.workbench.findWorkspaceById(workspaceId)
   }
-  if (window['__DESINGER_WORKSPACE__']) return window['__DESINGER_WORKSPACE__']
+  if (window['__DESIGNABLE_WORKSPACE__'])
+    return window['__DESIGNABLE_WORKSPACE__']
   return designer.workbench.currentWorkspace
 }
