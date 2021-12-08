@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.39(2021-12-06)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): create attach-shadow repeatedly (#161)](https://github.com/alibaba/designable/commit/f8cbc7a) :point_right: ( [WhiteSJ](https://github.com/WhiteSJ) )
+
 ## v1.0.0-beta.38(2021-12-03)
 
 ### :tada: Enhancements
@@ -331,13 +337,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix: Displaying the default DesignableFiled, all the time when prompted by text does not realise the real component name. (#58)](https://github.com/alibaba/designable/commit/1928f04) :point_right: ( [呆鸡](https://github.com/呆鸡) )
-
-## v0.5.28(2021-09-13)
-
-### :tada: Enhancements
-
-1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(core): remove sourceName feature](https://github.com/alibaba/designable/commit/78263ec) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
