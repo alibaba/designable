@@ -1,4 +1,4 @@
-import { IEngineContext } from '../../types'
+import { IDesignerContext } from '../../types'
 
 export interface IViewportEventData {
   scrollX: number
@@ -13,7 +13,7 @@ export interface IViewportEventData {
 
 export class AbstractViewportEvent {
   data: IViewportEventData
-  context: IEngineContext
+  context: IDesignerContext
   constructor(data: IViewportEventData) {
     this.data = data || {
       scrollX: window.scrollX,

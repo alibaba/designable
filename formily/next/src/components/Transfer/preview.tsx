@@ -1,7 +1,7 @@
 import React from 'react'
 import { Transfer as FormilyTransfer } from '@formily/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -9,14 +9,14 @@ import { AllLocales } from '../../locales'
 export const Transfer: DnFC<React.ComponentProps<typeof FormilyTransfer>> =
   FormilyTransfer
 
-Transfer.Behavior = createBehavior({
+Transfer.Metadata = createMetadata({
   name: 'Transfer',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Transfer',
-  designerProps: {
+  behavior: {
     propsSchema: createFieldSchema(AllSchemas.Transfer),
   },
-  designerLocales: AllLocales.Transfer,
+  locales: AllLocales.Transfer,
 })
 
 Transfer.Resource = createResource({

@@ -24,9 +24,7 @@ module.exports = {
     '/lib/',
     'package.json',
     '/demo/',
-    '/packages/builder/src/__tests__/',
-    '/packages/builder/src/components/',
-    '/packages/builder/src/configs/',
+    '/packages/*/src/__tests__/',
     'package-lock.json',
   ],
 }

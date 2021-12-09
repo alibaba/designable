@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TextWidget, usePrefix } from '@designable/react'
+import { TextWidget, usePrefix } from '@designable/react-page'
 import { Menu } from 'antd'
 import { MonacoInput } from '@designable/react-settings-form'
 import { isPlainObj, reduce } from '@formily/shared'

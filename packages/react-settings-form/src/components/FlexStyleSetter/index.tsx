@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, useField, observer } from '@formily/react'
 import { Radio } from '@formily/antd'
-import { usePrefix, IconWidget } from '@designable/react'
+import { usePrefix, IconWidget } from '@designable/react-page'
 import { InputItems } from '../InputItems'
 import cls from 'classnames'
 import './styles.less'

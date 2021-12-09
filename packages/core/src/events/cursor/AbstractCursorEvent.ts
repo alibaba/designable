@@ -1,4 +1,4 @@
-import { IEngineContext } from '../../types'
+import { IDesignerContext } from '../../types'
 
 export interface ICursorEventOriginData {
   clientX: number
@@ -19,7 +19,7 @@ export interface ICursorEventData extends ICursorEventOriginData {
 export class AbstractCursorEvent {
   data: ICursorEventData
 
-  context: IEngineContext
+  context: IDesignerContext
 
   constructor(data: ICursorEventOriginData) {
     this.data = data || {

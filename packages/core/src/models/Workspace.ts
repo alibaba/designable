@@ -1,4 +1,4 @@
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
@@ -9,7 +9,7 @@ import {
   HistoryUndoEvent,
   HistoryPushEvent,
 } from '../events'
-import { IEngineContext } from '../types'
+import { IDesignerContext } from '../types'
 export interface IViewportMatcher {
   contentWindow?: Window
   viewportElement?: HTMLElement
@@ -38,7 +38,7 @@ export class Workspace {
 
   description: string
 
-  engine: Engine
+  designer: Designer
 
   viewport: Viewport
 
@@ -50,25 +50,25 @@ export class Workspace {
 
   props: IWorkspaceProps
 
-  constructor(engine: Engine, props: IWorkspaceProps) {
-    this.engine = engine
+  constructor(designer: Designer, props: IWorkspaceProps) {
+    this.designer = designer
     this.props = props
     this.id = props.id || uid()
     this.title = props.title
     this.description = props.description
     this.viewport = new Viewport({
-      engine: this.engine,
+      designer: this.designer,
       workspace: this,
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
-      nodeIdAttrName: this.engine.props.nodeIdAttrName,
+      nodeIdAttrName: this.designer.props.nodeIdAttrName,
     })
     this.outline = new Viewport({
-      engine: this.engine,
+      designer: this.designer,
       workspace: this,
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
-      nodeIdAttrName: this.engine.props.outlineNodeIdAttrName,
+      nodeIdAttrName: this.designer.props.outlineNodeIdAttrName,
     })
     this.operation = new Operation(this)
     this.history = new History(this, {
@@ -90,25 +90,25 @@ export class Workspace {
     })
   }
 
-  getEventContext(): IEngineContext {
+  getEventContext(): IDesignerContext {
     return {
-      workbench: this.engine.workbench,
+      workbench: this.designer.workbench,
       workspace: this,
-      engine: this.engine,
+      designer: this.designer,
       viewport: this.viewport,
     }
   }
 
   attachEvents(container: EventContainer, contentWindow: Window) {
-    this.engine.attachEvents(container, contentWindow, this.getEventContext())
+    this.designer.attachEvents(container, contentWindow, this.getEventContext())
   }
 
   detachEvents(container: EventContainer) {
-    this.engine.detachEvents(container)
+    this.designer.detachEvents(container)
   }
 
   dispatch(event: ICustomEvent) {
-    return this.engine.dispatch(event, this.getEventContext())
+    return this.designer.dispatch(event, this.getEventContext())
   }
 
   serialize(): IWorkspace {

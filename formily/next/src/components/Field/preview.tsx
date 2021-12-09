@@ -12,13 +12,13 @@ import {
 } from '@formily/react'
 import { FormItem } from '@formily/next'
 import { each, reduce } from '@formily/shared'
-import { createBehavior } from '@designable/core'
+import { createMetadata } from '@designable/core'
 import {
   useDesigner,
   useTreeNode,
   useComponents,
   DnFC,
-} from '@designable/react'
+} from '@designable/react-page'
 import { isArr, isStr } from '@designable/shared'
 import { Container } from '../../common/Container'
 import { AllLocales } from '../../locales'
@@ -163,8 +163,8 @@ export const Field: DnFC<ISchema> = observer((props) => {
   return <InternalField {...fieldProps} name={node.id} />
 })
 
-Field.Behavior = createBehavior({
+Field.Metadata = createMetadata({
   name: 'Field',
   selector: 'Field',
-  designerLocales: AllLocales.Field,
+  locales: AllLocales.Field,
 })

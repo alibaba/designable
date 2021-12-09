@@ -1,7 +1,7 @@
 import { IEventProps, Event } from '@designable/shared'
 import { ISchema } from '@formily/json-schema'
 import {
-  Engine,
+  Designer,
   ITreeNode,
   ScreenType,
   Shortcut,
@@ -11,7 +11,7 @@ import {
   TreeNode,
 } from './models'
 
-export type IEngineProps<T = Event> = IEventProps<T> & {
+export type IDesignerProps<T = Event> = IEventProps<T> & {
   shortcuts?: Shortcut[]
   sourceIdAttrName?: string //拖拽源Id的dom属性名
   nodeIdAttrName?: string //节点Id的dom属性名
@@ -27,10 +27,10 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   rootComponentName?: string
 }
 
-export type IEngineContext = {
+export type IDesignerContext = {
   workspace: Workspace
   workbench: Workbench
-  engine: Engine
+  designer: Designer
   viewport: Viewport
 }
 
@@ -51,7 +51,7 @@ export type IResizable = {
   }
 }
 
-export interface IDesignerProps {
+export interface IDesignerNodeProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
   version?: string //semver版本号
@@ -77,16 +77,10 @@ export interface IDesignerProps {
   [key: string]: any
 }
 
-export type IDesignerPropsMap = Record<string, IDesignerProps>
+export type IDesignerBehavior =
+  | IDesignerNodeProps
+  | ((node: TreeNode) => IDesignerNodeProps)
 
-export type IDesignerControllerProps =
-  | IDesignerProps
-  | ((node: TreeNode) => IDesignerProps)
-
-export type IDesignerControllerPropsMap = Record<
-  string,
-  IDesignerControllerProps
->
 export interface IDesignerLocales {
   [ISOCode: string]: {
     [key: string]: any
@@ -97,8 +91,8 @@ export interface IDesignerMiniLocales {
   [ISOCode: string]: string
 }
 
-export interface IDesignerBehaviors {
-  [key: string]: IBehaviorHost
+export interface IDesignerMetadatas {
+  [key: string]: IMetadataHost
 }
 
 export interface IDesignerStore<P> {
@@ -109,7 +103,7 @@ export type IDesignerIcons = Record<string, any>
 
 export type IDesignerIconsStore = IDesignerStore<IDesignerIcons>
 export type IDesignerLocaleStore = IDesignerStore<IDesignerLocales>
-export type IDesignerBehaviorStore = IDesignerStore<IBehavior[]>
+export type IDesignerMetadataStore = IDesignerStore<IMetadata[]>
 export type IDesignerLanguageStore = IDesignerStore<string>
 
 export type WorkbenchTypes =
@@ -119,27 +113,27 @@ export type WorkbenchTypes =
   | 'MARKUP'
   | (string & {})
 
-export interface IBehavior {
+export interface IMetadata {
   name: string
   extends?: string[]
   selector: (node: TreeNode) => boolean
-  designerProps?: IDesignerControllerProps
-  designerLocales?: IDesignerLocales
+  behavior?: IDesignerBehavior
+  locales?: IDesignerLocales
 }
 
-export interface IBehaviorCreator {
+export interface IMetadataCreator {
   name: string
   extends?: string[]
   selector: string | ((node: TreeNode) => boolean)
-  designerProps?: IDesignerControllerProps
-  designerLocales?: IDesignerLocales
+  behavior?: IDesignerBehavior
+  locales?: IDesignerLocales
 }
 
-export interface IBehaviorHost {
-  Behavior?: IBehavior[]
+export interface IMetadataHost {
+  Metadata?: IMetadata[]
 }
 
-export type IBehaviorLike = IBehavior[] | IBehaviorHost
+export type IMetadataLike = IMetadata[] | IMetadataHost
 
 export interface IResource {
   title?: string | IDesignerMiniLocales

@@ -1,4 +1,4 @@
-import { Engine, ClosestPosition, CursorType } from '../models'
+import { Designer, ClosestPosition, CursorType } from '../models'
 import {
   DragStartEvent,
   DragMoveEvent,
@@ -7,35 +7,37 @@ import {
 } from '../events'
 import { Point } from '@designable/shared'
 
-export const useDragDropEffect = (engine: Engine) => {
-  engine.subscribeTo(DragStartEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+export const useDragDropEffect = (designer: Designer) => {
+  designer.subscribeTo(DragStartEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Move) return
     const target = event.data.target as HTMLElement
     const el = target?.closest(`
-       *[${engine.props.nodeIdAttrName}],
-       *[${engine.props.sourceIdAttrName}],
-       *[${engine.props.outlineNodeIdAttrName}]
+       *[${designer.props.nodeIdAttrName}],
+       *[${designer.props.sourceIdAttrName}],
+       *[${designer.props.outlineNodeIdAttrName}]
       `)
     const handler = target?.closest(
-      `*[${engine.props.nodeDragHandlerAttrName}]`
+      `*[${designer.props.nodeDragHandlerAttrName}]`
     )
     const helper = handler?.closest(
-      `*[${engine.props.nodeSelectionIdAttrName}]`
+      `*[${designer.props.nodeSelectionIdAttrName}]`
     )
     if (!el?.getAttribute && !handler) return
-    const sourceId = el?.getAttribute(engine.props.sourceIdAttrName)
-    const outlineId = el?.getAttribute(engine.props.outlineNodeIdAttrName)
-    const handlerId = helper?.getAttribute(engine.props.nodeSelectionIdAttrName)
-    const nodeId = el?.getAttribute(engine.props.nodeIdAttrName)
-    engine.workbench.eachWorkspace((currentWorkspace) => {
+    const sourceId = el?.getAttribute(designer.props.sourceIdAttrName)
+    const outlineId = el?.getAttribute(designer.props.outlineNodeIdAttrName)
+    const handlerId = helper?.getAttribute(
+      designer.props.nodeSelectionIdAttrName
+    )
+    const nodeId = el?.getAttribute(designer.props.nodeIdAttrName)
+    designer.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
 
       if (nodeId || outlineId || handlerId) {
-        const node = engine.findNodeById(outlineId || nodeId || handlerId)
+        const node = designer.findNodeById(outlineId || nodeId || handlerId)
         if (node) {
           if (!node.allowDrag()) return
           if (node === node.root) return
-          const validSelected = engine
+          const validSelected = designer
             .getAllSelectedNodes()
             .filter((node) => node.allowDrag())
           if (validSelected.some((selectNode) => selectNode === node)) {
@@ -45,26 +47,26 @@ export const useDragDropEffect = (engine: Engine) => {
           }
         }
       } else if (sourceId) {
-        const sourceNode = engine.findNodeById(sourceId)
+        const sourceNode = designer.findNodeById(sourceId)
         if (sourceNode) {
           if (!sourceNode.allowDrag()) return
           operation.setDragNodes([sourceNode])
         }
       }
     })
-    engine.cursor.setStyle('move')
+    designer.cursor.setStyle('move')
   })
 
-  engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(DragMoveEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Move) return
     const target = event.data.target as HTMLElement
     const el = target?.closest(`
-      *[${engine.props.nodeIdAttrName}],
-      *[${engine.props.outlineNodeIdAttrName}]
+      *[${designer.props.nodeIdAttrName}],
+      *[${designer.props.outlineNodeIdAttrName}]
     `)
-    const nodeId = el?.getAttribute(engine.props.nodeIdAttrName)
-    const outlineId = el?.getAttribute(engine.props.outlineNodeIdAttrName)
-    engine.workbench.eachWorkspace((currentWorkspace) => {
+    const nodeId = el?.getAttribute(designer.props.nodeIdAttrName)
+    const outlineId = el?.getAttribute(designer.props.outlineNodeIdAttrName)
+    designer.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const tree = operation.tree
       const point = new Point(event.data.topClientX, event.data.topClientY)
@@ -75,11 +77,11 @@ export const useDragDropEffect = (engine: Engine) => {
     })
   })
 
-  engine.subscribeTo(ViewportScrollEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(ViewportScrollEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Move) return
     const point = new Point(
-      engine.cursor.position.topClientX,
-      engine.cursor.position.topClientY
+      designer.cursor.position.topClientX,
+      designer.cursor.position.topClientY
     )
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
@@ -91,27 +93,27 @@ export const useDragDropEffect = (engine: Engine) => {
     const viewportTarget = viewport.elementFromPoint(point)
     const outlineTarget = outline.elementFromPoint(point)
     const viewportNodeElement = viewportTarget?.closest(`
-      *[${engine.props.nodeIdAttrName}],
-      *[${engine.props.outlineNodeIdAttrName}]
+      *[${designer.props.nodeIdAttrName}],
+      *[${designer.props.outlineNodeIdAttrName}]
     `)
     const outlineNodeElement = outlineTarget?.closest(`
-    *[${engine.props.nodeIdAttrName}],
-    *[${engine.props.outlineNodeIdAttrName}]
+    *[${designer.props.nodeIdAttrName}],
+    *[${designer.props.outlineNodeIdAttrName}]
   `)
     const nodeId = viewportNodeElement?.getAttribute(
-      engine.props.nodeIdAttrName
+      designer.props.nodeIdAttrName
     )
     const outlineNodeId = outlineNodeElement?.getAttribute(
-      engine.props.outlineNodeIdAttrName
+      designer.props.outlineNodeIdAttrName
     )
     const touchNode = tree.findById(outlineNodeId || nodeId)
     operation.dragWith(point, touchNode)
   })
 
-  engine.subscribeTo(DragStopEvent, () => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(DragStopEvent, () => {
+    if (designer.cursor.type !== CursorType.Move) return
 
-    engine.workbench.eachWorkspace((currentWorkspace) => {
+    designer.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const dragNodes = operation.getDragNodes()
       const closestNode = operation.getClosestNode()
@@ -162,6 +164,6 @@ export const useDragDropEffect = (engine: Engine) => {
       }
       operation.dragClean()
     })
-    engine.cursor.setStyle('')
+    designer.cursor.setStyle('')
   })
 }

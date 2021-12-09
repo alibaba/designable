@@ -1,4 +1,4 @@
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { Workspace, IWorkspaceProps } from './Workspace'
 import { observable, define, action } from '@formily/reactive'
 import {
@@ -6,7 +6,7 @@ import {
   RemoveWorkspaceEvent,
   SwitchWorkspaceEvent,
 } from '../events'
-import { IEngineContext, WorkbenchTypes } from '../types'
+import { IDesignerContext, WorkbenchTypes } from '../types'
 export class Workbench {
   workspaces: Workspace[]
 
@@ -14,12 +14,12 @@ export class Workbench {
 
   activeWorkspace: Workspace
 
-  engine: Engine
+  designer: Designer
 
   type: WorkbenchTypes = 'DESIGNABLE'
 
-  constructor(engine: Engine) {
-    this.engine = engine
+  constructor(designer: Designer) {
+    this.designer = designer
     this.workspaces = []
     this.currentWorkspace = null
     this.activeWorkspace = null
@@ -40,10 +40,10 @@ export class Workbench {
     })
   }
 
-  getEventContext(): IEngineContext {
+  getEventContext(): IDesignerContext {
     return {
-      engine: this.engine,
-      workbench: this.engine.workbench,
+      designer: this.designer,
+      workbench: this.designer.workbench,
       workspace: null,
       viewport: null,
     }
@@ -53,7 +53,7 @@ export class Workbench {
     const finded = this.findWorkspaceById(id)
     if (finded) {
       this.currentWorkspace = finded
-      this.engine.dispatch(new SwitchWorkspaceEvent(finded))
+      this.designer.dispatch(new SwitchWorkspaceEvent(finded))
     }
     return this.currentWorkspace
   }
@@ -70,9 +70,9 @@ export class Workbench {
   addWorkspace(props: IWorkspaceProps) {
     const finded = this.findWorkspaceById(props.id)
     if (!finded) {
-      this.currentWorkspace = new Workspace(this.engine, props)
+      this.currentWorkspace = new Workspace(this.designer, props)
       this.workspaces.push(this.currentWorkspace)
-      this.engine.dispatch(new AddWorkspaceEvent(this.currentWorkspace))
+      this.designer.dispatch(new AddWorkspaceEvent(this.currentWorkspace))
       return this.currentWorkspace
     }
     return finded
@@ -91,7 +91,7 @@ export class Workbench {
           this.currentWorkspace = this.workspaces[this.workspaces.length - 1]
         }
       }
-      this.engine.dispatch(new RemoveWorkspaceEvent(findedWorkspace))
+      this.designer.dispatch(new RemoveWorkspaceEvent(findedWorkspace))
     }
   }
 

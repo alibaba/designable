@@ -1,21 +1,21 @@
 import React from 'react'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { Container } from '../../common/Container'
 import { AllLocales } from '../../locales'
 
 export const ObjectContainer: DnFC<React.ComponentProps<typeof Container>> =
   Container
-ObjectContainer.Behavior = createBehavior({
+ObjectContainer.Metadata = createMetadata({
   name: 'Object',
   extends: ['Field'],
   selector: (node) => node.props.type === 'object',
-  designerProps: {
+  behavior: {
     droppable: true,
     propsSchema: createFieldSchema(),
   },
-  designerLocales: AllLocales.ObjectLocale,
+  locales: AllLocales.ObjectLocale,
 })
 
 ObjectContainer.Resource = createResource({

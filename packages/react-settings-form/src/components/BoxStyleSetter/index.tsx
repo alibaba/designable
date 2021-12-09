@@ -1,6 +1,6 @@
 import React from 'react'
 import { useField, observer } from '@formily/react'
-import { usePrefix, IconWidget } from '@designable/react'
+import { usePrefix, IconWidget } from '@designable/react-page'
 import { FoldItem } from '../FoldItem'
 import { SizeInput } from '../SizeInput'
 import { InputItems } from '../InputItems'

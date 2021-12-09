@@ -1,5 +1,5 @@
 import { Workspace } from './Workspace'
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { TreeNode, ITreeNode } from './TreeNode'
 import { Selection } from './Selection'
 import { Hover } from './Hover'
@@ -22,7 +22,7 @@ export interface IOperation {
 export class Operation {
   workspace: Workspace
 
-  engine: Engine
+  designer: Designer
 
   tree: TreeNode
 
@@ -39,11 +39,11 @@ export class Operation {
   }
 
   constructor(workspace: Workspace) {
-    this.engine = workspace.engine
+    this.designer = workspace.designer
     this.workspace = workspace
     this.tree = new TreeNode({
-      componentName: this.engine.props.rootComponentName,
-      ...this.engine.props.defaultComponentTree,
+      componentName: this.designer.props.rootComponentName,
+      ...this.designer.props.defaultComponentTree,
       operation: this,
     })
     this.selection = new Selection({
@@ -77,8 +77,8 @@ export class Operation {
 
   setDragNodes(nodes: TreeNode[]) {
     const dragNodes = nodes.reduce((buf, node) => {
-      if (isFn(node?.designerProps?.getDragNodes)) {
-        const transformed = node.designerProps.getDragNodes(node)
+      if (isFn(node?.behavior?.getDragNodes)) {
+        const transformed = node.behavior.getDragNodes(node)
         return transformed ? buf.concat(transformed) : buf
       }
       if (node.componentName === '$$ResourceNode$$')
@@ -99,9 +99,9 @@ export class Operation {
   getDropNodes(parent: TreeNode) {
     const dragNodes = this.getDragNodes()
     return dragNodes.reduce((buf, node) => {
-      if (isFn(node.designerProps?.getDropNodes)) {
+      if (isFn(node.behavior?.getDropNodes)) {
         const cloned = node.isSourceNode ? node.clone(node.parent) : node
-        const transformed = node.designerProps.getDropNodes(cloned, parent)
+        const transformed = node.behavior.getDropNodes(cloned, parent)
         return transformed ? buf.concat(transformed) : buf
       }
       if (node.componentName === '$$ResourceNode$$')

@@ -11,7 +11,7 @@ import {
   useWorkbench,
   IconWidget,
   NodePathWidget,
-} from '@designable/react'
+} from '@designable/react-page'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './shared/context'
@@ -34,15 +34,15 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const node = useCurrentNode(currentWorkspaceId)
     const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
-    const schema = node?.designerProps?.propsSchema
+    const schema = node?.behavior?.propsSchema
     const isEmpty = !(
       node &&
-      node.designerProps?.propsSchema &&
+      node.behavior?.propsSchema &&
       selected.length === 1
     )
     const form = useMemo(() => {
       return createForm({
-        initialValues: node?.designerProps?.defaultProps,
+        initialValues: node?.behavior?.defaultProps,
         values: node?.props,
         effects(form) {
           useLocales(node)

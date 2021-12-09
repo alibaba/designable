@@ -5,14 +5,14 @@ import {
   CollapseProps,
   PanelProps as CollapsePanelProps,
 } from '@alifd/next/types/collapse'
-import { TreeNode, createBehavior, createResource } from '@designable/core'
+import { TreeNode, createMetadata, createResource } from '@designable/core'
 import {
   useTreeNode,
   useNodeIdProps,
   TreeNodeWidget,
   DroppableWidget,
   DnFC,
-} from '@designable/react'
+} from '@designable/react-page'
 import { toArr } from '@formily/shared'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
@@ -135,12 +135,12 @@ FormCollapse.CollapsePanel = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
 
-FormCollapse.Behavior = createBehavior(
+FormCollapse.Metadata = createMetadata(
   {
     name: 'FormCollapse',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormCollapse',
-    designerProps: {
+    behavior: {
       droppable: true,
       allowAppend: (target, source) =>
         target.children.length === 0 ||
@@ -149,19 +149,19 @@ FormCollapse.Behavior = createBehavior(
         ),
       propsSchema: createVoidFieldSchema(AllSchemas.FormCollapse),
     },
-    designerLocales: AllLocales.FormCollapse,
+    locales: AllLocales.FormCollapse,
   },
   {
     name: 'FormCollapse.CollapsePanel',
     extends: ['Field'],
     selector: (node) =>
       node.props['x-component'] === 'FormCollapse.CollapsePanel',
-    designerProps: {
+    behavior: {
       droppable: true,
       allowDrop: (node) => node.props['x-component'] === 'FormCollapse',
       propsSchema: createVoidFieldSchema(AllSchemas.FormCollapse.CollapsePanel),
     },
-    designerLocales: AllLocales.FormCollapsePanel,
+    locales: AllLocales.FormCollapsePanel,
   }
 )
 

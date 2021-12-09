@@ -1,4 +1,4 @@
-import { Engine, CursorStatus } from '../models'
+import { Designer, CursorStatus } from '../models'
 import {
   MouseMoveEvent,
   DragStartEvent,
@@ -7,54 +7,54 @@ import {
 } from '../events'
 import { requestIdle } from '@designable/shared'
 
-export const useCursorEffect = (engine: Engine) => {
-  engine.subscribeTo(MouseMoveEvent, (event) => {
-    engine.cursor.setStatus(
-      engine.cursor.status === CursorStatus.Dragging ||
-        engine.cursor.status === CursorStatus.DragStart
-        ? engine.cursor.status
+export const useCursorEffect = (designer: Designer) => {
+  designer.subscribeTo(MouseMoveEvent, (event) => {
+    designer.cursor.setStatus(
+      designer.cursor.status === CursorStatus.Dragging ||
+        designer.cursor.status === CursorStatus.DragStart
+        ? designer.cursor.status
         : CursorStatus.Normal
     )
-    engine.cursor.setPosition(event.data)
+    designer.cursor.setPosition(event.data)
   })
-  engine.subscribeTo(DragStartEvent, (event) => {
-    engine.cursor.setStatus(CursorStatus.DragStart)
-    engine.cursor.setDragStartPosition(event.data)
+  designer.subscribeTo(DragStartEvent, (event) => {
+    designer.cursor.setStatus(CursorStatus.DragStart)
+    designer.cursor.setDragStartPosition(event.data)
   })
   let cleanStatusRequest = null
-  engine.subscribeTo(DragMoveEvent, () => {
-    engine.cursor.setStatus(CursorStatus.Dragging)
+  designer.subscribeTo(DragMoveEvent, () => {
+    designer.cursor.setStatus(CursorStatus.Dragging)
     clearTimeout(cleanStatusRequest)
     cleanStatusRequest = setTimeout(() => {
-      engine.cursor.setStatus(CursorStatus.Normal)
+      designer.cursor.setStatus(CursorStatus.Normal)
     }, 1000)
   })
-  engine.subscribeTo(DragStopEvent, (event) => {
+  designer.subscribeTo(DragStopEvent, (event) => {
     clearTimeout(cleanStatusRequest)
-    engine.cursor.setStatus(CursorStatus.DragStop)
-    engine.cursor.setDragEndPosition(event.data)
+    designer.cursor.setStatus(CursorStatus.DragStop)
+    designer.cursor.setDragEndPosition(event.data)
     requestIdle(() => {
-      engine.cursor.setStatus(CursorStatus.Normal)
+      designer.cursor.setStatus(CursorStatus.Normal)
     })
   })
-  engine.subscribeTo(MouseMoveEvent, (event) => {
+  designer.subscribeTo(MouseMoveEvent, (event) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
     const operation = currentWorkspace.operation
-    if (engine.cursor.status !== CursorStatus.Normal) {
+    if (designer.cursor.status !== CursorStatus.Normal) {
       operation.hover.clear()
       return
     }
     const target = event.data.target as HTMLElement
     const el = target?.closest?.(`
-      *[${engine.props.nodeIdAttrName}],
-      *[${engine.props.outlineNodeIdAttrName}]
+      *[${designer.props.nodeIdAttrName}],
+      *[${designer.props.outlineNodeIdAttrName}]
     `)
     if (!el?.getAttribute) {
       return
     }
-    const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
-    const outlineNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName)
+    const nodeId = el.getAttribute(designer.props.nodeIdAttrName)
+    const outlineNodeId = el.getAttribute(designer.props.outlineNodeIdAttrName)
     const node = operation.tree.findById(nodeId || outlineNodeId)
     if (node) {
       operation.hover.setHover(node)

@@ -1,5 +1,5 @@
 import { EventDriver } from '@designable/shared'
-import { Engine } from '../models/Engine'
+import { Designer } from '../models/Designer'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 
 const GlobalState = {
@@ -9,7 +9,7 @@ const GlobalState = {
   moveEvent: null,
 }
 
-export class DragDropDriver extends EventDriver<Engine> {
+export class DragDropDriver extends EventDriver<Designer> {
   mouseDownTimer = null
 
   startEvent: MouseEvent

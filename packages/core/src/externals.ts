@@ -1,27 +1,27 @@
 import { isFn, isArr } from '@designable/shared'
 import { untracked } from '@formily/reactive'
 import { DEFAULT_DRIVERS, DEFAULT_EFFECTS, DEFAULT_SHORTCUTS } from './presets'
-import { Engine, TreeNode } from './models'
+import { Designer, TreeNode } from './models'
 import {
-  IEngineProps,
+  IDesignerProps,
   IResourceCreator,
-  IBehaviorCreator,
+  IMetadataCreator,
   IDesignerLocales,
   IResource,
-  IBehavior,
-  IBehaviorHost,
+  IMetadata,
+  IMetadataHost,
   IResourceHost,
 } from './types'
 import { mergeLocales } from './internals'
 
-export const isBehaviorHost = (val: any): val is IBehaviorHost =>
-  val?.Behavior && isBehaviorList(val.Behavior)
+export const isMetadataHost = (val: any): val is IMetadataHost =>
+  val?.Metadata && isMetadataList(val.Metadata)
 
-export const isBehaviorList = (val: any): val is IBehavior[] =>
-  Array.isArray(val) && val.every(isBehavior)
+export const isMetadataList = (val: any): val is IMetadata[] =>
+  Array.isArray(val) && val.every(isMetadata)
 
-export const isBehavior = (val: any): val is IBehavior =>
-  isFn(val?.selector) && (!!val?.designerProps || !!val?.designerLocales)
+export const isMetadata = (val: any): val is IMetadata =>
+  isFn(val?.selector) && (!!val?.behavior || !!val?.locales)
 
 export const isResourceHost = (val: any): val is IResourceHost =>
   val?.Resource && isResourceList(val.Resource)
@@ -40,11 +40,11 @@ export const createLocales = (...packages: IDesignerLocales[]) => {
   return results
 }
 
-export const createBehavior = (
-  ...behaviors: Array<IBehaviorCreator | IBehaviorCreator[]>
-): IBehavior[] => {
+export const createMetadata = (
+  ...behaviors: Array<IMetadataCreator | IMetadataCreator[]>
+): IMetadata[] => {
   return behaviors.reduce((buf: any[], behavior) => {
-    if (isArr(behavior)) return buf.concat(createBehavior(...behavior))
+    if (isArr(behavior)) return buf.concat(createMetadata(...behavior))
     const { selector } = behavior || {}
     if (!selector) return buf
     if (typeof selector === 'string') {
@@ -67,13 +67,13 @@ export const createResource = (...sources: IResourceCreator[]): IResource[] => {
   }, [])
 }
 
-export const createDesigner = (props: IEngineProps<Engine> = {}) => {
+export const createDesigner = (props: IDesignerProps<Designer> = {}) => {
   const drivers = props.drivers || []
   const effects = props.effects || []
   const shortcuts = props.shortcuts || []
   return untracked(
     () =>
-      new Engine({
+      new Designer({
         ...props,
         effects: [...effects, ...DEFAULT_EFFECTS],
         drivers: [...drivers, ...DEFAULT_DRIVERS],

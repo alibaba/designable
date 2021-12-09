@@ -1,7 +1,7 @@
 import React from 'react'
 import { Password as FormilyPassword } from '@formily/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -9,14 +9,14 @@ import { AllLocales } from '../../locales'
 export const Password: DnFC<React.ComponentProps<typeof FormilyPassword>> =
   FormilyPassword
 
-Password.Behavior = createBehavior({
+Password.Metadata = createMetadata({
   name: 'Password',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Password',
-  designerProps: {
+  behavior: {
     propsSchema: createFieldSchema(AllSchemas.Password),
   },
-  designerLocales: AllLocales.Password,
+  locales: AllLocales.Password,
 })
 
 Password.Resource = createResource({

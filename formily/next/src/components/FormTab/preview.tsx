@@ -2,14 +2,14 @@ import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Tab } from '@alifd/next'
 import { TabProps, ItemProps as TabItemProps } from '@alifd/next/types/tab'
-import { TreeNode, createBehavior, createResource } from '@designable/core'
+import { TreeNode, createMetadata, createResource } from '@designable/core'
 import {
   useNodeIdProps,
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
   DnFC,
-} from '@designable/react'
+} from '@designable/react-page'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'
@@ -134,30 +134,30 @@ FormTab.TabPane = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
 
-FormTab.Behavior = createBehavior(
+FormTab.Metadata = createMetadata(
   {
     name: 'FormTab',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab',
-    designerProps: {
+    behavior: {
       droppable: true,
       allowAppend: (target, source) =>
         target.children.length === 0 ||
         source.every((node) => node.props['x-component'] === 'FormTab.TabPane'),
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab),
     },
-    designerLocales: AllLocales.FormTab,
+    locales: AllLocales.FormTab,
   },
   {
     name: 'FormTab.TabPane',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab.TabPane',
-    designerProps: {
+    behavior: {
       droppable: true,
       allowDrop: (node) => node.props['x-component'] === 'FormTab',
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab.TabPane),
     },
-    designerLocales: AllLocales.FormTabPane,
+    locales: AllLocales.FormTabPane,
   }
 )
 

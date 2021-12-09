@@ -1,8 +1,8 @@
-import { IEngineContext } from '../../types'
+import { IDesignerContext } from '../../types'
 
 export class AbstractHistoryEvent {
   data: any
-  context: IEngineContext
+  context: IDesignerContext
   constructor(data: any) {
     this.data = data
   }

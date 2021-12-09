@@ -1,7 +1,7 @@
 import { EventDriver } from '@designable/shared'
-import { Engine } from '../models/Engine'
+import { Designer } from '../models/Designer'
 import { MouseMoveEvent } from '../events'
-export class MouseMoveDriver extends EventDriver<Engine> {
+export class MouseMoveDriver extends EventDriver<Designer> {
   request = null
 
   onMouseMove = (e: MouseEvent) => {

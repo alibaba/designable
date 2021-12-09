@@ -1,10 +1,10 @@
-import { Engine } from '../models'
+import { Designer } from '../models'
 import { ICustomEvent } from '@designable/shared'
-import { IEngineContext } from '../types'
+import { IDesignerContext } from '../types'
 import { SelectNodeEvent } from '../events'
 
-export const useWorkspaceEffect = (engine: Engine) => {
-  engine.subscribeWith<ICustomEvent<any, IEngineContext>>(
+export const useWorkspaceEffect = (designer: Designer) => {
+  designer.subscribeWith<ICustomEvent<any, IDesignerContext>>(
     [
       'append:node',
       'insert:after',
@@ -21,12 +21,12 @@ export const useWorkspaceEffect = (engine: Engine) => {
     ],
     (event) => {
       if (event.context?.workbench) {
-        engine.workbench.setActiveWorkspace(event.context.workspace)
+        designer.workbench.setActiveWorkspace(event.context.workspace)
       }
     }
   )
-  engine.subscribeTo(SelectNodeEvent, (event) => {
-    engine.workbench.eachWorkspace((workspace) => {
+  designer.subscribeTo(SelectNodeEvent, (event) => {
+    designer.workbench.eachWorkspace((workspace) => {
       if (workspace !== event.context.workspace) {
         workspace.operation.selection.clear()
       }

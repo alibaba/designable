@@ -15,8 +15,8 @@ import {
   FromNodeEvent,
 } from '../events'
 import {
-  IDesignerControllerProps,
-  IDesignerProps,
+  IDesignerBehavior,
+  IDesignerNodeProps,
   IDesignerLocales,
 } from '../types'
 import { GlobalRegistry } from '../registry'
@@ -39,7 +39,7 @@ export interface INodeFinder {
 
 const TreeNodes = new Map<string, TreeNode>()
 
-const CommonDesignerPropsMap = new Map<string, IDesignerControllerProps>()
+const CommonDesignerPropsMap = new Map<string, IDesignerBehavior>()
 
 const removeNode = (node: TreeNode) => {
   if (node.parent) {
@@ -84,7 +84,7 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
     }
     if (!TreeNodes.has(node.id)) {
       TreeNodes.set(node.id, node)
-      CommonDesignerPropsMap.set(node.componentName, node.designerProps)
+      CommonDesignerPropsMap.set(node.componentName, node.behavior)
     }
     return node
   })
@@ -94,10 +94,7 @@ const resetParent = (node: TreeNode, parent: TreeNode) => {
   return resetNodesParent([node], parent)[0]
 }
 
-const resolveDesignerProps = (
-  node: TreeNode,
-  props: IDesignerControllerProps
-) => {
+const resolveDesignerProps = (node: TreeNode, props: IDesignerBehavior) => {
   if (isFn(props)) return props(node)
   return props
 }
@@ -153,8 +150,8 @@ export class TreeNode {
       props: observable,
       hidden: observable.ref,
       children: observable.shallow,
-      designerProps: observable.computed,
-      designerLocales: observable.computed,
+      behavior: observable.computed,
+      locales: observable.computed,
       wrap: action,
       prepend: action,
       append: action,
@@ -167,27 +164,24 @@ export class TreeNode {
     })
   }
 
-  get designerProps(): IDesignerProps {
-    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
-    const designerProps: IDesignerProps = behaviors.reduce((buf, pattern) => {
-      if (!pattern.designerProps) return buf
-      Object.assign(buf, resolveDesignerProps(this, pattern.designerProps))
+  get behavior(): IDesignerNodeProps {
+    const behaviors = GlobalRegistry.getDesignerMetadatas(this)
+    const behavior: IDesignerNodeProps = behaviors.reduce((buf, pattern) => {
+      if (!pattern.behavior) return buf
+      Object.assign(buf, resolveDesignerProps(this, pattern.behavior))
       return buf
     }, {})
-    return designerProps
+    return behavior
   }
 
-  get designerLocales(): IDesignerLocales {
-    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
-    const designerLocales: IDesignerLocales = behaviors.reduce(
-      (buf, pattern) => {
-        if (!pattern.designerLocales) return buf
-        mergeLocales(buf, pattern.designerLocales)
-        return buf
-      },
-      {}
-    )
-    return designerLocales
+  get locales(): IDesignerLocales {
+    const behaviors = GlobalRegistry.getDesignerMetadatas(this)
+    const locales: IDesignerLocales = behaviors.reduce((buf, pattern) => {
+      if (!pattern.locales) return buf
+      mergeLocales(buf, pattern.locales)
+      return buf
+    }, {})
+    return locales
   }
 
   get previous() {
@@ -267,7 +261,7 @@ export class TreeNode {
   }
 
   getMessage(token: string) {
-    return GlobalRegistry.getDesignerMessage(token, this.designerLocales)
+    return GlobalRegistry.getDesignerMessage(token, this.locales)
   }
 
   isMyAncestor(node: TreeNode) {
@@ -358,18 +352,18 @@ export class TreeNode {
   }
 
   allowSibling(nodes: TreeNode[]) {
-    if (this.designerProps?.allowSiblings?.(this, nodes) === false) return false
+    if (this.behavior?.allowSiblings?.(this, nodes) === false) return false
     return this.parent?.allowAppend(nodes)
   }
 
   allowDrop(parent: TreeNode) {
-    if (!isFn(this.designerProps.allowDrop)) return true
-    return this.designerProps.allowDrop(parent)
+    if (!isFn(this.behavior.allowDrop)) return true
+    return this.behavior.allowDrop(parent)
   }
 
   allowAppend(nodes: TreeNode[]) {
-    if (!this.designerProps?.droppable) return false
-    if (this.designerProps?.allowAppend?.(this, nodes) === false) return false
+    if (!this.behavior?.droppable) return false
+    if (this.behavior?.allowAppend?.(this, nodes) === false) return false
     if (nodes.some((node) => !node.allowDrop(this))) return false
     if (this.root === this) return true
     return true
@@ -377,17 +371,17 @@ export class TreeNode {
 
   allowClone() {
     if (this === this.root) return false
-    return this.designerProps.cloneable ?? true
+    return this.behavior.cloneable ?? true
   }
 
   allowDrag() {
     if (this === this.root && !this.isSourceNode) return false
-    return this.designerProps.draggable ?? true
+    return this.behavior.draggable ?? true
   }
 
   allowResize(): false | Array<'x' | 'y'> {
     if (this === this.root && !this.isSourceNode) return false
-    const { resizable } = this.designerProps
+    const { resizable } = this.behavior
     if (!resizable) return false
     if (resizable.width && resizable.height) return ['x', 'y']
     if (resizable.width) return ['x']
@@ -396,7 +390,7 @@ export class TreeNode {
 
   allowDelete() {
     if (this === this.root) return false
-    return this.designerProps.deletable ?? true
+    return this.behavior.deletable ?? true
   }
 
   findById(id: string) {

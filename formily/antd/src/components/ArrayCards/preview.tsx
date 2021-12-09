@@ -7,7 +7,7 @@ import {
   DroppableWidget,
   useNodeIdProps,
   DnFC,
-} from '@designable/react'
+} from '@designable/react-page'
 import { ArrayBase } from '@formily/antd'
 import { observer } from '@formily/react'
 import { LoadTemplate } from '../../common/LoadTemplate'
@@ -19,7 +19,7 @@ import {
   findNodeByComponentPath,
   createNodeId,
 } from '../../shared'
-import { createArrayBehavior } from '../ArrayBase'
+import { createArrayMetadata } from '../ArrayBase'
 import cls from 'classnames'
 import './styles.less'
 
@@ -252,7 +252,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
 
 ArrayBase.mixin(ArrayCards)
 
-ArrayCards.Behavior = createArrayBehavior('ArrayCards')
+ArrayCards.Metadata = createArrayMetadata('ArrayCards')
 
 ArrayCards.Resource = createResource({
   icon: 'ArrayCardsSource',

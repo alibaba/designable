@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from 'react'
-import { usePrefix } from '@designable/react'
+import { usePrefix } from '@designable/react-page'
 import { camelCase } from '@formily/shared'
 import { Select } from '@formily/antd'
 import { observable } from '@formily/reactive'

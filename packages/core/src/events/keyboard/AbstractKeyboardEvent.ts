@@ -1,9 +1,9 @@
 import { getKeyCodeFromEvent, KeyCode } from '@designable/shared'
-import { IEngineContext } from '../../types'
+import { IDesignerContext } from '../../types'
 
 export class AbstractKeyboardEvent {
   data: KeyCode
-  context: IEngineContext
+  context: IDesignerContext
   originEvent: KeyboardEvent
   constructor(e: KeyboardEvent) {
     this.data = getKeyCodeFromEvent(e)

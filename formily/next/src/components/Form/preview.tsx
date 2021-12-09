@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
-import { createBehavior, createResource } from '@designable/core'
+import { createMetadata, createResource } from '@designable/core'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/react'
 import { Form as FormilyForm } from '@formily/next'
-import { usePrefix, DnFC } from '@designable/react'
+import { usePrefix, DnFC } from '@designable/react-page'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 import './styles.scss'
@@ -31,10 +31,10 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
   }
 )
 
-Form.Behavior = createBehavior({
+Form.Metadata = createMetadata({
   name: 'Form',
   selector: (node) => node.componentName === 'Form',
-  designerProps(node) {
+  behavior(node) {
     return {
       draggable: !node.isRoot,
       cloneable: !node.isRoot,
@@ -53,7 +53,7 @@ Form.Behavior = createBehavior({
       },
     }
   },
-  designerLocales: AllLocales.Form,
+  locales: AllLocales.Form,
 })
 
 Form.Resource = createResource({

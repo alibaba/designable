@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePrefix } from '@designable/react'
+import { usePrefix } from '@designable/react-page'
 import { useField, observer } from '@formily/react'
 import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'

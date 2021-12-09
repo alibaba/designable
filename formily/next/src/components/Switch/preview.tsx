@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch as NextSwitch } from '@alifd/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnComponent } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnComponent } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -9,14 +9,14 @@ import { AllLocales } from '../../locales'
 export const Switch: DnComponent<React.ComponentProps<typeof NextSwitch>> =
   NextSwitch
 
-Switch.Behavior = createBehavior({
+Switch.Metadata = createMetadata({
   name: 'Switch',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Switch',
-  designerProps: {
+  behavior: {
     propsSchema: createFieldSchema(AllSchemas.Switch),
   },
-  designerLocales: AllLocales.Switch,
+  locales: AllLocales.Switch,
 })
 
 Switch.Resource = createResource({

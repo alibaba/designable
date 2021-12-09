@@ -1,17 +1,17 @@
 import { isFn, KeyCode } from '@designable/shared'
-import { IEngineContext } from '../types'
+import { IDesignerContext } from '../types'
 
 export { KeyCode }
 
 export interface IShortcutProps {
   codes?: KeyCode[] | KeyCode[][]
   matcher?: (codes: KeyCode[]) => boolean
-  handler?: (context: IEngineContext) => void
+  handler?: (context: IDesignerContext) => void
 }
 
 export class Shortcut {
   codes: KeyCode[][]
-  handler: (context: IEngineContext) => void
+  handler: (context: IDesignerContext) => void
   matcher: (codes: KeyCode[]) => boolean
   constructor(props: IShortcutProps) {
     this.codes = this.parseCodes(props.codes)
@@ -46,14 +46,14 @@ export class Shortcut {
     return false
   }
 
-  matched(matched: boolean, context: IEngineContext) {
+  matched(matched: boolean, context: IDesignerContext) {
     if (isFn(this.handler) && matched) {
       this.handler(context)
     }
     return matched
   }
 
-  match(codes: KeyCode[], context: IEngineContext) {
+  match(codes: KeyCode[], context: IDesignerContext) {
     return this.codes.some((sequence) => {
       const sortedSelf = Shortcut.sortCodes(sequence)
       const sortedTarget: KeyCode[] = Shortcut.sortCodes(codes)

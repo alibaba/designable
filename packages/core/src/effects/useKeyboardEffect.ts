@@ -1,20 +1,20 @@
-import { Engine } from '../models'
+import { Designer } from '../models'
 import { KeyDownEvent, KeyUpEvent } from '../events'
 
-export const useKeyboardEffect = (engine: Engine) => {
-  engine.subscribeTo(KeyDownEvent, (event) => {
-    const keyboard = engine.keyboard
+export const useKeyboardEffect = (designer: Designer) => {
+  designer.subscribeTo(KeyDownEvent, (event) => {
+    const keyboard = designer.keyboard
     if (!keyboard) return
     const workspace =
-      engine.workbench.activeWorkspace || engine.workbench.currentWorkspace
+      designer.workbench.activeWorkspace || designer.workbench.currentWorkspace
     keyboard.handleKeyboard(event, workspace.getEventContext())
   })
 
-  engine.subscribeTo(KeyUpEvent, (event) => {
-    const keyboard = engine.keyboard
+  designer.subscribeTo(KeyUpEvent, (event) => {
+    const keyboard = designer.keyboard
     if (!keyboard) return
     const workspace =
-      engine.workbench.activeWorkspace || engine.workbench.currentWorkspace
+      designer.workbench.activeWorkspace || designer.workbench.currentWorkspace
     keyboard.handleKeyboard(event, workspace.getEventContext())
   })
 }

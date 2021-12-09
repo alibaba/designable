@@ -96,15 +96,15 @@ export default {
     },
     {
       foreground: 'cfcfc2',
-      token: 'meta.structure.dictionary.json string.quoted.double.json',
+      token: 'behavior.structure.dictionary.json string.quoted.double.json',
     },
     {
       foreground: '75715e',
-      token: 'meta.diff',
+      token: 'behavior.diff',
     },
     {
       foreground: '75715e',
-      token: 'meta.diff.header',
+      token: 'behavior.diff.header',
     },
     {
       foreground: 'f92672',

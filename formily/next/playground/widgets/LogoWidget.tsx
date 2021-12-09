@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTheme } from '@designable/react'
+import { useTheme } from '@designable/react-page'
 
 const logo = {
   dark: '//img.alicdn.com/imgextra/i2/O1CN01NTUDi81fHLQvZCPnc_!!6000000003981-55-tps-1141-150.svg',

@@ -1,6 +1,6 @@
 import React from 'react'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -28,14 +28,14 @@ export const Text: DnFC<IDesignableTextProps> = (props) => {
   )
 }
 
-Text.Behavior = createBehavior({
+Text.Metadata = createMetadata({
   name: 'Text',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Text',
-  designerProps: {
+  behavior: {
     propsSchema: createVoidFieldSchema(AllSchemas.Text),
   },
-  designerLocales: AllLocales.Text,
+  locales: AllLocales.Text,
 })
 
 Text.Resource = createResource({

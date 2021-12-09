@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card as NextCard } from '@alifd/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -26,15 +26,15 @@ export const Card: DnFC<React.ComponentProps<typeof NextCard>> = (props) => {
   )
 }
 
-Card.Behavior = createBehavior({
+Card.Metadata = createMetadata({
   name: 'Card',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Card',
-  designerProps: {
+  behavior: {
     droppable: true,
     propsSchema: createVoidFieldSchema(AllSchemas.Card),
   },
-  designerLocales: AllLocales.Card,
+  locales: AllLocales.Card,
 })
 
 Card.Resource = createResource({

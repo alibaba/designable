@@ -30,8 +30,7 @@ const presets = () => {
     '@formily/react': 'Formily.React',
     '@designable/shared': 'Designable.Shared',
     '@designable/core': 'Designable.Core',
-    '@designable/react': 'Designable.React',
-    '@designable/react-sandbox': 'Designable.ReactSandbox',
+    '@designable/react-page': 'Designable.React',
     '@designable/react-settings-form': 'Designable.ReactSettingsForm',
   }
   return [

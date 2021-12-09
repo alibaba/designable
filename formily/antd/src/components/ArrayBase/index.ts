@@ -1,79 +1,79 @@
-import { createBehavior } from '@designable/core'
+import { createMetadata } from '@designable/core'
 import { createFieldSchema, createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const createArrayBehavior = (name: string) => {
-  return createBehavior(
+export const createArrayMetadata = (name: string) => {
+  return createMetadata(
     {
       name,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === name,
-      designerProps: {
+      behavior: {
         droppable: true,
         propsSchema: createFieldSchema(AllSchemas[name]),
       },
-      designerLocales: AllLocales[name],
+      locales: AllLocales[name],
     },
     {
       name: `${name}.Addition`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Addition`,
-      designerProps: {
+      behavior: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
         propsSchema: createVoidFieldSchema(AllSchemas[name].Addition),
       },
-      designerLocales: AllLocales.ArrayAddition,
+      locales: AllLocales.ArrayAddition,
     },
     {
       name: `${name}.Remove`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Remove`,
-      designerProps: {
+      behavior: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
         propsSchema: createVoidFieldSchema(),
       },
-      designerLocales: AllLocales.ArrayRemove,
+      locales: AllLocales.ArrayRemove,
     },
     {
       name: `${name}.Index`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Index`,
-      designerProps: {
+      behavior: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
         propsSchema: createVoidFieldSchema(),
       },
-      designerLocales: AllLocales.ArrayIndex,
+      locales: AllLocales.ArrayIndex,
     },
     {
       name: `${name}.MoveUp`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveUp`,
-      designerProps: {
+      behavior: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
         propsSchema: createVoidFieldSchema(),
       },
-      designerLocales: AllLocales.ArrayMoveUp,
+      locales: AllLocales.ArrayMoveUp,
     },
     {
       name: `${name}.MoveDown`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveDown`,
-      designerProps: {
+      behavior: {
         allowDrop(parent) {
           return parent.props['x-component'] === 'ArrayCards'
         },
         propsSchema: createVoidFieldSchema(),
       },
-      designerLocales: AllLocales.ArrayMoveDown,
+      locales: AllLocales.ArrayMoveDown,
     }
   )
 }

@@ -1,4 +1,4 @@
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { action, define, observable } from '@formily/reactive'
 
 export enum CursorStatus {
@@ -76,7 +76,7 @@ const setCursorStyle = (contentWindow: Window, style: string) => {
 }
 
 export class Cursor {
-  engine: Engine
+  designer: Designer
 
   type: CursorType | string = CursorType.Move
 
@@ -94,8 +94,8 @@ export class Cursor {
 
   view: Window = window
 
-  constructor(engine: Engine) {
-    this.engine = engine
+  constructor(designer: Designer) {
+    this.designer = designer
     this.makeObservable()
   }
 
@@ -125,7 +125,7 @@ export class Cursor {
   }
 
   setStyle(style: string) {
-    this.engine.workbench.eachWorkspace((workspace) => {
+    this.designer.workbench.eachWorkspace((workspace) => {
       setCursorStyle(workspace.viewport.contentWindow, style)
     })
   }

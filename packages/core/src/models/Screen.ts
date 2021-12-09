@@ -1,4 +1,4 @@
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { action, define, observable } from '@formily/reactive'
 
 export enum ScreenType {
@@ -12,12 +12,12 @@ export class Screen {
   scale = 1
   width: number | string = '100%'
   height: number | string = '100%'
-  engine: Engine
+  designer: Designer
   background = ''
   flip = false
-  constructor(engine: Engine) {
-    this.engine = engine
-    this.type = engine.props.defaultScreenType
+  constructor(designer: Designer) {
+    this.designer = designer
+    this.type = designer.props.defaultScreenType
     this.makeObservable()
   }
 

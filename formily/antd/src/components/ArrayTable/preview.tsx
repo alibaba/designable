@@ -1,13 +1,13 @@
 import React from 'react'
 import { Table, TableProps } from 'antd'
-import { TreeNode, createBehavior, createResource } from '@designable/core'
+import { TreeNode, createMetadata, createResource } from '@designable/core'
 import {
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
   useNodeIdProps,
   DnFC,
-} from '@designable/react'
+} from '@designable/react-page'
 import { ArrayBase } from '@formily/antd'
 import { observer } from '@formily/react'
 import { LoadTemplate } from '../../common/LoadTemplate'
@@ -19,7 +19,7 @@ import {
   createEnsureTypeItemsNode,
 } from '../../shared'
 import { useDropTemplate } from '../../hooks'
-import { createArrayBehavior } from '../ArrayBase'
+import { createArrayMetadata } from '../ArrayBase'
 import './styles.less'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -431,18 +431,18 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
 
 ArrayBase.mixin(ArrayTable)
 
-ArrayTable.Behavior = createBehavior(createArrayBehavior('ArrayTable'), {
+ArrayTable.Metadata = createMetadata(createArrayMetadata('ArrayTable'), {
   name: 'ArrayTable.Column',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'ArrayTable.Column',
-  designerProps: {
+  behavior: {
     droppable: true,
     allowDrop: (node) =>
       node.props['type'] === 'object' &&
       node.parent?.props?.['x-component'] === 'ArrayTable',
     propsSchema: createVoidFieldSchema(AllSchemas.ArrayTable.Column),
   },
-  designerLocales: AllLocales.ArrayTableColumn,
+  locales: AllLocales.ArrayTableColumn,
 })
 
 ArrayTable.Resource = createResource({

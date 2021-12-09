@@ -1,5 +1,5 @@
 import { DragStopEvent } from '../events'
-import { Engine, CursorType, TreeNode } from '../models'
+import { Designer, CursorType, TreeNode } from '../models'
 import {
   calcRectByStartEndPoint,
   isCrossRectInRect,
@@ -7,25 +7,25 @@ import {
   Point,
 } from '@designable/shared'
 
-export const useFreeSelectionEffect = (engine: Engine) => {
-  engine.subscribeTo(DragStopEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Selection) return
-    engine.workbench.eachWorkspace((workspace) => {
+export const useFreeSelectionEffect = (designer: Designer) => {
+  designer.subscribeTo(DragStopEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Selection) return
+    designer.workbench.eachWorkspace((workspace) => {
       const viewport = workspace.viewport
       const dragStartPoint = new Point(
-        engine.cursor.dragStartPosition.topClientX,
-        engine.cursor.dragStartPosition.topClientY
+        designer.cursor.dragStartPosition.topClientX,
+        designer.cursor.dragStartPosition.topClientY
       )
       const dragStartOffsetPoint = viewport.getOffsetPoint(
         new Point(
-          engine.cursor.dragStartPosition.topClientX,
-          engine.cursor.dragStartPosition.topClientY
+          designer.cursor.dragStartPosition.topClientX,
+          designer.cursor.dragStartPosition.topClientY
         )
       )
       const dragEndOffsetPoint = viewport.getOffsetPoint(
         new Point(
-          engine.cursor.position.topClientX,
-          engine.cursor.position.topClientY
+          designer.cursor.position.topClientX,
+          designer.cursor.position.topClientY
         )
       )
       if (!viewport.isPointInViewport(dragStartPoint, false)) return
@@ -33,8 +33,8 @@ export const useFreeSelectionEffect = (engine: Engine) => {
       const selectionRect = calcRectByStartEndPoint(
         dragStartOffsetPoint,
         dragEndOffsetPoint,
-        viewport.scrollX - engine.cursor.dragStartScrollOffset.scrollX,
-        viewport.scrollY - engine.cursor.dragStartScrollOffset.scrollY
+        viewport.scrollX - designer.cursor.dragStartScrollOffset.scrollX,
+        viewport.scrollY - designer.cursor.dragStartScrollOffset.scrollY
       )
       const selected: [TreeNode, DOMRect][] = []
       tree.eachChildren((node) => {
@@ -56,6 +56,6 @@ export const useFreeSelectionEffect = (engine: Engine) => {
       )
       workspace.operation.selection.batchSafeSelect(selectedNodes)
     })
-    engine.cursor.setType(CursorType.Move)
+    designer.cursor.setType(CursorType.Move)
   })
 }

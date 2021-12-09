@@ -1,4 +1,4 @@
-import { Engine, CursorType } from '../models'
+import { Designer, CursorType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
 import { Point } from '@designable/shared'
@@ -15,23 +15,25 @@ type ResizeStore = {
   value?: ResizeData
 }
 
-export const useResizeEffect = (engine: Engine) => {
+export const useResizeEffect = (designer: Designer) => {
   const findStartNodeHandler = (target: HTMLElement): ResizeData => {
     const handler = target?.closest(
-      `*[${engine.props.nodeResizeHandlerAttrName}]`
+      `*[${designer.props.nodeResizeHandlerAttrName}]`
     )
     if (handler) {
-      const type = handler.getAttribute(engine.props.nodeResizeHandlerAttrName)
+      const type = handler.getAttribute(
+        designer.props.nodeResizeHandlerAttrName
+      )
       if (type) {
         const element = handler.closest(
-          `*[${engine.props.nodeSelectionIdAttrName}]`
+          `*[${designer.props.nodeSelectionIdAttrName}]`
         )
         if (element) {
           const nodeId = element.getAttribute(
-            engine.props.nodeSelectionIdAttrName
+            designer.props.nodeSelectionIdAttrName
           )
           if (nodeId) {
-            const node = engine.findNodeById(nodeId)
+            const node = designer.findNodeById(nodeId)
             if (node) {
               const axis = type.includes('x') ? 'x' : 'y'
               return { axis, type, node, element }
@@ -45,8 +47,8 @@ export const useResizeEffect = (engine: Engine) => {
 
   const store: ResizeStore = {}
 
-  engine.subscribeTo(DragStartEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(DragStartEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Move) return
     const target = event.data.target as HTMLElement
     const data = findStartNodeHandler(target)
     if (data) {
@@ -56,20 +58,20 @@ export const useResizeEffect = (engine: Engine) => {
         point,
       }
       if (data.axis === 'x') {
-        engine.cursor.setStyle('ew-resize')
+        designer.cursor.setStyle('ew-resize')
       } else if (data.axis === 'y') {
-        engine.cursor.setStyle('ns-resize')
+        designer.cursor.setStyle('ns-resize')
       }
     }
   })
 
-  engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(DragMoveEvent, (event) => {
+    if (designer.cursor.type !== CursorType.Move) return
     if (store.value) {
       const { axis, type, node, element, point } = store.value
       const allowResize = node.allowResize()
       if (!allowResize) return
-      const resizable = node.designerProps.resizable
+      const resizable = node.behavior.resizable
       const rect = element.getBoundingClientRect()
       const current = new Point(event.data.clientX, event.data.clientY)
       const plusX = type === 'x-end' ? current.x > point.x : current.x < point.x
@@ -110,11 +112,11 @@ export const useResizeEffect = (engine: Engine) => {
     }
   })
 
-  engine.subscribeTo(DragStopEvent, () => {
-    if (engine.cursor.type !== CursorType.Move) return
+  designer.subscribeTo(DragStopEvent, () => {
+    if (designer.cursor.type !== CursorType.Move) return
     if (store.value) {
       store.value = null
-      engine.cursor.setStyle('')
+      designer.cursor.setStyle('')
     }
   })
 }

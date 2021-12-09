@@ -1,6 +1,6 @@
 import { Path } from '@formily/path'
 import { requestIdle } from '@designable/shared'
-import { Engine, TreeNode } from '../models'
+import { Designer, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 
 type GlobalState = {
@@ -51,7 +51,7 @@ function createCaretCache(el: Element) {
   }
 }
 
-export const useContentEditableEffect = (engine: Engine) => {
+export const useContentEditableEffect = (designer: Designer) => {
   const globalState: GlobalState = {
     activeElements: new Map(),
     queue: [],
@@ -78,7 +78,7 @@ export const useContentEditableEffect = (engine: Engine) => {
         const restore = createCaretCache(target)
         Path.setIn(
           node.props,
-          this.getAttribute(engine.props.contentEditableAttrName),
+          this.getAttribute(designer.props.contentEditableAttrName),
           target?.textContent
         )
         requestIdle(() => {
@@ -119,17 +119,17 @@ export const useContentEditableEffect = (engine: Engine) => {
   function findTargetNodeId(element: Element) {
     if (!element) return
     const nodeId = element.getAttribute(
-      engine.props.contentEditableNodeIdAttrName
+      designer.props.contentEditableNodeIdAttrName
     )
     if (nodeId) return nodeId
-    const parent = element.closest(`*[${engine.props.nodeIdAttrName}]`)
-    if (parent) return parent.getAttribute(engine.props.nodeIdAttrName)
+    const parent = element.closest(`*[${designer.props.nodeIdAttrName}]`)
+    if (parent) return parent.getAttribute(designer.props.nodeIdAttrName)
   }
 
-  engine.subscribeTo(MouseClickEvent, (event) => {
+  designer.subscribeTo(MouseClickEvent, (event) => {
     const target = event.data.target as Element
     const editableElement = target?.closest?.(
-      `*[${engine.props.contentEditableAttrName}]`
+      `*[${designer.props.contentEditableAttrName}]`
     )
     if (
       editableElement &&
@@ -149,12 +149,12 @@ export const useContentEditableEffect = (engine: Engine) => {
     })
   })
 
-  engine.subscribeTo(MouseDoubleClickEvent, (event) => {
+  designer.subscribeTo(MouseDoubleClickEvent, (event) => {
     const target = event.data.target as Element
     const editableElement = target?.closest?.(
-      `*[${engine.props.contentEditableAttrName}]`
+      `*[${designer.props.contentEditableAttrName}]`
     ) as HTMLInputElement
-    const workspace = engine.workbench.activeWorkspace
+    const workspace = designer.workbench.activeWorkspace
     const tree = workspace.operation.tree
     if (editableElement) {
       const editable = editableElement.getAttribute('contenteditable')

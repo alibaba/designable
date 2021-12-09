@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input as FormilyInput } from '@formily/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -9,24 +9,24 @@ import { AllLocales } from '../../locales'
 export const Input: DnFC<React.ComponentProps<typeof FormilyInput>> =
   FormilyInput
 
-Input.Behavior = createBehavior(
+Input.Metadata = createMetadata(
   {
     name: 'Input',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Input',
-    designerProps: {
+    behavior: {
       propsSchema: createFieldSchema(AllSchemas.Input),
     },
-    designerLocales: AllLocales.Input,
+    locales: AllLocales.Input,
   },
   {
     name: 'Input.TextArea',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Input.TextArea',
-    designerProps: {
+    behavior: {
       propsSchema: createFieldSchema(AllSchemas.Input.TextArea),
     },
-    designerLocales: AllLocales.TextArea,
+    locales: AllLocales.TextArea,
   }
 )
 

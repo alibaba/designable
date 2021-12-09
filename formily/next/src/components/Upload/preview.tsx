@@ -1,7 +1,7 @@
 import React from 'react'
 import { Upload as FormilyUpload } from '@formily/next'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -9,24 +9,24 @@ import { AllLocales } from '../../locales'
 export const Upload: DnFC<React.ComponentProps<typeof FormilyUpload>> =
   FormilyUpload
 
-Upload.Behavior = createBehavior(
+Upload.Metadata = createMetadata(
   {
     name: 'Upload',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Upload',
-    designerProps: {
+    behavior: {
       propsSchema: createFieldSchema(AllSchemas.Upload),
     },
-    designerLocales: AllLocales.Upload,
+    locales: AllLocales.Upload,
   },
   {
     name: 'Upload.Dragger',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'Upload.Dragger',
-    designerProps: {
+    behavior: {
       propsSchema: createFieldSchema(AllSchemas.Upload.Dragger),
     },
-    designerLocales: AllLocales.UploadDragger,
+    locales: AllLocales.UploadDragger,
   }
 )
 

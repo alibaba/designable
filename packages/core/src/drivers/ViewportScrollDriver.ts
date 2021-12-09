@@ -1,8 +1,8 @@
 import { EventDriver } from '@designable/shared'
-import { Engine } from '../models/Engine'
+import { Designer } from '../models/Designer'
 import { ViewportScrollEvent } from '../events'
 
-export class ViewportScrollDriver extends EventDriver<Engine> {
+export class ViewportScrollDriver extends EventDriver<Designer> {
   request = null
 
   onScroll = (e: UIEvent) => {

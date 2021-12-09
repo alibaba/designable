@@ -57,7 +57,7 @@ export default {
     },
     {
       foreground: 'aa0d91',
-      token: 'meta.tag',
+      token: 'behavior.tag',
     },
     {
       foreground: 'aa0d91',
@@ -83,7 +83,7 @@ export default {
     },
     {
       foreground: '333333',
-      token: 'meta.tag.preprocessor.xml',
+      token: 'behavior.tag.preprocessor.xml',
     },
     {
       foreground: '994500',

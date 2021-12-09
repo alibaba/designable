@@ -1,7 +1,7 @@
 import React from 'react'
 import { Content } from './content'
-import { renderSandboxContent } from '@designable/react-sandbox'
+import { SandboxWidget } from '@designable/react-page'
 
-renderSandboxContent(() => {
+SandboxWidget.render(() => {
   return <Content />
 })

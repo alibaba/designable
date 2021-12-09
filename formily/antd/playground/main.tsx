@@ -17,7 +17,7 @@ import {
   ViewPanel,
   SettingsPanel,
   ComponentTreeWidget,
-} from '@designable/react'
+} from '@designable/react-page'
 import { SettingsForm } from '@designable/react-settings-form'
 import {
   createDesigner,
@@ -91,7 +91,7 @@ GlobalRegistry.registerDesignerLocales({
 })
 
 const App = () => {
-  const engine = useMemo(
+  const designer = useMemo(
     () =>
       createDesigner({
         shortcuts: [
@@ -101,7 +101,7 @@ const App = () => {
               [KeyCode.Control, KeyCode.S],
             ],
             handler(ctx) {
-              saveSchema(ctx.engine)
+              saveSchema(ctx.designer)
             },
           }),
         ],
@@ -110,7 +110,7 @@ const App = () => {
     []
   )
   return (
-    <Designer engine={engine}>
+    <Designer designer={designer}>
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">

@@ -1,8 +1,8 @@
 import { EventDriver } from '@designable/shared'
-import { Engine } from '../models/Engine'
+import { Designer } from '../models/Designer'
 import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
 
-export class MouseClickDriver extends EventDriver<Engine> {
+export class MouseClickDriver extends EventDriver<Designer> {
   onMouseClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement
     if (

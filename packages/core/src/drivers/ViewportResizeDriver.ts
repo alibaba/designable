@@ -1,8 +1,8 @@
 import { EventDriver } from '@designable/shared'
-import { Engine } from '../models/Engine'
+import { Designer } from '../models/Designer'
 import { ViewportResizeEvent } from '../events'
 import { ResizeObserver } from '@juggle/resize-observer'
-export class ViewportResizeDriver extends EventDriver<Engine> {
+export class ViewportResizeDriver extends EventDriver<Designer> {
   request = null
 
   resizeObserver: ResizeObserver = null

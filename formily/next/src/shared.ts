@@ -1,4 +1,4 @@
-import { TreeNode, Engine } from '@designable/core'
+import { TreeNode, Designer } from '@designable/core'
 
 export type ComponentNameMatcher =
   | string
@@ -89,7 +89,7 @@ export const matchArrayItemsNode = (node: TreeNode) => {
   )
 }
 
-export const createNodeId = (designer: Engine, id: string) => {
+export const createNodeId = (designer: Designer, id: string) => {
   return {
     [designer.props.nodeIdAttrName]: id,
   }

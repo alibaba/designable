@@ -2,20 +2,20 @@ import { each } from '@designable/shared'
 import { Path } from '@formily/path'
 import { observable } from '@formily/reactive'
 import {
-  IDesignerBehaviorStore,
+  IDesignerMetadataStore,
   IDesignerIconsStore,
   IDesignerLocaleStore,
   IDesignerLanguageStore,
-  IDesignerBehaviors,
+  IDesignerMetadatas,
   IDesignerLocales,
   IDesignerIcons,
-  IBehaviorLike,
-  IBehavior,
+  IMetadataLike,
+  IMetadata,
 } from './types'
 import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
-import { isBehaviorHost } from './externals'
+import { isMetadataHost } from './externals'
 import { TreeNode } from './models'
-import { isBehaviorList } from './externals'
+import { isMetadataList } from './externals'
 
 const getISOCode = (language: string) => {
   let isoCode = DESIGNER_LANGUAGE_STORE.value
@@ -32,28 +32,28 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
-  const findTargetBehavior = (behavior: IBehavior) => target.includes(behavior)
-  const findSourceBehavior = (name: string) => {
+const reSortMetadatas = (target: IMetadata[], sources: IDesignerMetadatas) => {
+  const findTargetMetadata = (behavior: IMetadata) => target.includes(behavior)
+  const findSourceMetadata = (name: string) => {
     for (let key in sources) {
-      const { Behavior } = sources[key]
-      for (let i = 0; i < Behavior.length; i++) {
-        if (Behavior[i].name === name) return Behavior[i]
+      const { Metadata } = sources[key]
+      for (let i = 0; i < Metadata.length; i++) {
+        if (Metadata[i].name === name) return Metadata[i]
       }
     }
   }
   each(sources, (item) => {
     if (!item) return
-    if (!isBehaviorHost(item)) return
-    const { Behavior } = item
-    each(Behavior, (behavior) => {
-      if (findTargetBehavior(behavior)) return
+    if (!isMetadataHost(item)) return
+    const { Metadata } = item
+    each(Metadata, (behavior) => {
+      if (findTargetMetadata(behavior)) return
       const name = behavior.name
       each(behavior.extends, (dep) => {
-        const behavior = findSourceBehavior(dep)
+        const behavior = findSourceMetadata(dep)
         if (!behavior)
           throw new Error(`No ${dep} behavior that ${name} depends on`)
-        if (!findTargetBehavior(behavior)) {
+        if (!findTargetMetadata(behavior)) {
           target.unshift(behavior)
         }
       })
@@ -62,7 +62,7 @@ const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
   })
 }
 
-const DESIGNER_BEHAVIORS_STORE: IDesignerBehaviorStore = observable.ref([])
+const DESIGNER_BEHAVIORS_STORE: IDesignerMetadataStore = observable.ref([])
 
 const DESIGNER_ICONS_STORE: IDesignerIconsStore = observable.ref({})
 
@@ -77,12 +77,12 @@ const DESIGNER_GlobalRegistry = {
     DESIGNER_LANGUAGE_STORE.value = lang
   },
 
-  setDesignerBehaviors: (behaviors: IBehaviorLike[]) => {
-    DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IBehavior[]>(
+  setDesignerMetadatas: (behaviors: IMetadataLike[]) => {
+    DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IMetadata[]>(
       (buf, behavior) => {
-        if (isBehaviorHost(behavior)) {
-          return buf.concat(behavior.Behavior)
-        } else if (isBehaviorList(behavior)) {
+        if (isMetadataHost(behavior)) {
+          return buf.concat(behavior.Metadata)
+        } else if (isMetadataList(behavior)) {
           return buf.concat(behavior)
         }
         return buf
@@ -91,7 +91,7 @@ const DESIGNER_GlobalRegistry = {
     )
   },
 
-  getDesignerBehaviors: (node: TreeNode) => {
+  getDesignerMetadatas: (node: TreeNode) => {
     return DESIGNER_BEHAVIORS_STORE.value.filter((pattern) =>
       pattern.selector(node)
     )
@@ -131,10 +131,10 @@ const DESIGNER_GlobalRegistry = {
     })
   },
 
-  registerDesignerBehaviors: (...packages: IDesignerBehaviors[]) => {
-    const results: IBehavior[] = []
+  registerDesignerMetadatas: (...packages: IDesignerMetadatas[]) => {
+    const results: IMetadata[] = []
     packages.forEach((sources) => {
-      reSortBehaviors(results, sources)
+      reSortMetadatas(results, sources)
     })
     if (results.length) {
       DESIGNER_BEHAVIORS_STORE.value = results

@@ -1,4 +1,4 @@
-import { Engine, CursorStatus, CursorType, Viewport } from '../models'
+import { Designer, CursorStatus, CursorType, Viewport } from '../models'
 import { DragMoveEvent, DragStartEvent, DragStopEvent } from '../events'
 import {
   calcAutoScrollBasicInfo,
@@ -8,14 +8,14 @@ import {
   Point,
 } from '@designable/shared'
 
-export const useAutoScrollEffect = (engine: Engine) => {
+export const useAutoScrollEffect = (designer: Designer) => {
   let xScroller: IAutoScrollBasicInfo = null
   let yScroller: IAutoScrollBasicInfo = null
   let xScrollerAnimationStop = null
   let yScrollerAnimationStop = null
 
   const scrolling = (point: IPoint, viewport: Viewport) => {
-    if (engine.cursor.status === CursorStatus.Dragging) {
+    if (designer.cursor.status === CursorStatus.Dragging) {
       xScroller = calcAutoScrollBasicInfo(point, 'x', viewport.rect)
       yScroller = calcAutoScrollBasicInfo(point, 'y', viewport.rect)
       if (xScroller) {
@@ -51,13 +51,13 @@ export const useAutoScrollEffect = (engine: Engine) => {
     }
   }
 
-  engine.subscribeTo(DragStartEvent, (event) => {
+  designer.subscribeTo(DragStartEvent, (event) => {
     if (
-      engine.cursor.type !== CursorType.Move &&
-      engine.cursor.type !== CursorType.Selection
+      designer.cursor.type !== CursorType.Move &&
+      designer.cursor.type !== CursorType.Selection
     )
       return
-    engine.workbench.eachWorkspace((workspace) => {
+    designer.workbench.eachWorkspace((workspace) => {
       const viewport = workspace.viewport
       const outline = workspace.outline
       const point = new Point(event.data.topClientX, event.data.topClientY)
@@ -66,20 +66,20 @@ export const useAutoScrollEffect = (engine: Engine) => {
         !outline.isPointInViewport(point)
       )
         return
-      engine.cursor.setDragStartScrollOffset({
+      designer.cursor.setDragStartScrollOffset({
         scrollX: viewport.scrollX,
         scrollY: viewport.scrollY,
       })
     })
   })
 
-  engine.subscribeTo(DragMoveEvent, (event) => {
+  designer.subscribeTo(DragMoveEvent, (event) => {
     if (
-      engine.cursor.type !== CursorType.Move &&
-      engine.cursor.type !== CursorType.Selection
+      designer.cursor.type !== CursorType.Move &&
+      designer.cursor.type !== CursorType.Selection
     )
       return
-    engine.workbench.eachWorkspace((workspace) => {
+    designer.workbench.eachWorkspace((workspace) => {
       const viewport = workspace.viewport
       const outline = workspace.outline
       const point = new Point(event.data.topClientX, event.data.topClientY)
@@ -90,10 +90,10 @@ export const useAutoScrollEffect = (engine: Engine) => {
       }
     })
   })
-  engine.subscribeTo(DragStopEvent, () => {
+  designer.subscribeTo(DragStopEvent, () => {
     if (
-      engine.cursor.type !== CursorType.Move &&
-      engine.cursor.type !== CursorType.Selection
+      designer.cursor.type !== CursorType.Move &&
+      designer.cursor.type !== CursorType.Selection
     )
       return
     xScroller = null

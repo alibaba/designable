@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from '@formily/reactive-react'
-import { DroppableWidget } from '@designable/react'
+import { DroppableWidget } from '@designable/react-page'
 import './styles.less'
 
 export const Container: React.FC = observer((props) => {

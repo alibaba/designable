@@ -1,21 +1,21 @@
 import React from 'react'
 import { Rate as AntdRate } from 'antd'
-import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
+import { createMetadata, createResource } from '@designable/core'
+import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
 export const Rate: DnFC<React.ComponentProps<typeof AntdRate>> = AntdRate
 
-Rate.Behavior = createBehavior({
+Rate.Metadata = createMetadata({
   name: 'Rate',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Rate',
-  designerProps: {
+  behavior: {
     propsSchema: createFieldSchema(AllSchemas.Rate),
   },
-  designerLocales: AllLocales.Rate,
+  locales: AllLocales.Rate,
 })
 
 Rate.Resource = createResource({

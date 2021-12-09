@@ -9,12 +9,12 @@ import {
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { TreeNode } from './TreeNode'
 import { Selector } from './Selector'
 
 export interface IViewportProps {
-  engine: Engine
+  designer: Designer
   workspace: Workspace
   viewportElement: HTMLElement
   contentWindow: Window
@@ -29,7 +29,7 @@ export class Viewport {
 
   selector: Selector
 
-  engine: Engine
+  designer: Designer
 
   contentWindow: Window
 
@@ -49,7 +49,7 @@ export class Viewport {
 
   constructor(props: IViewportProps) {
     this.workspace = props.workspace
-    this.engine = props.engine
+    this.designer = props.designer
     this.viewportElement = props.viewportElement
     this.contentWindow = props.contentWindow
     this.nodeIdAttrName = props.nodeIdAttrName
@@ -171,10 +171,10 @@ export class Viewport {
   }
 
   attachEvents() {
-    const engine = this.engine
+    const designer = this.designer
     cancelIdle(this.attachRequest)
     this.attachRequest = requestIdle(() => {
-      if (!engine) return
+      if (!designer) return
       if (this.isIframe) {
         this.workspace.attachEvents(this.contentWindow, this.contentWindow)
       } else if (isHTMLElement(this.viewportElement)) {
@@ -412,7 +412,7 @@ export class Viewport {
 
   getValidNodeLayout(node: TreeNode) {
     if (!node) return 'vertical'
-    if (node.parent?.designerProps?.inlineChildrenLayout) return 'horizontal'
+    if (node.parent?.behavior?.inlineChildrenLayout) return 'horizontal'
     return calcElementLayout(this.findElementById(node.id))
   }
 }

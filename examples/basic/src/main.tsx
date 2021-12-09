@@ -16,28 +16,27 @@ import {
   ViewportPanel,
   SettingsPanel,
   HistoryWidget,
-} from '@designable/react'
+} from '@designable/react-page'
 import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
   createResource,
-  createBehavior,
+  createMetadata,
   GlobalRegistry,
 } from '@designable/core'
 import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-//import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
 
-const RootBehavior = createBehavior({
+const RootMetadata = createMetadata({
   name: 'Root',
   selector: 'Root',
-  designerProps: {
+  behavior: {
     droppable: true,
   },
-  designerLocales: {
+  locales: {
     'zh-CN': {
       title: '根组件',
     },
@@ -50,11 +49,11 @@ const RootBehavior = createBehavior({
   },
 })
 
-const InputBehavior = createBehavior({
+const InputMetadata = createMetadata({
   name: 'Input',
   selector: (node) =>
     node.componentName === 'Field' && node.props['x-component'] === 'Input',
-  designerProps: {
+  behavior: {
     propsSchema: {
       type: 'object',
       $namespace: 'Field',
@@ -143,7 +142,7 @@ const InputBehavior = createBehavior({
       },
     },
   },
-  designerLocales: {
+  locales: {
     'zh-CN': {
       title: '输入框',
       settings: {
@@ -207,13 +206,13 @@ const InputBehavior = createBehavior({
   },
 })
 
-const CardBehavior = createBehavior({
+const CardMetadata = createMetadata({
   name: 'Card',
   selector: 'Card',
-  designerProps: {
+  behavior: {
     droppable: true,
   },
-  designerLocales: {
+  locales: {
     'zh-CN': {
       title: '卡片',
     },
@@ -226,7 +225,7 @@ const CardBehavior = createBehavior({
   },
 })
 
-GlobalRegistry.setDesignerBehaviors([RootBehavior, InputBehavior, CardBehavior])
+GlobalRegistry.setDesignerMetadatas([RootMetadata, InputMetadata, CardMetadata])
 
 const Input = createResource({
   title: {
@@ -321,10 +320,10 @@ const Actions = observer(() => (
   </Space>
 ))
 
-const engine = createDesigner()
+const designer = createDesigner()
 const App = () => {
   return (
-    <Designer engine={engine}>
+    <Designer designer={designer}>
       <Workbench>
         <StudioPanel logo={<Logo />} actions={<Actions />}>
           <CompositePanel>

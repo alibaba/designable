@@ -1,36 +1,36 @@
 import { observable, define, action } from '@formily/reactive'
 import { KeyCode } from '@designable/shared'
-import { Engine } from './Engine'
+import { Designer } from './Designer'
 import { Shortcut } from './Shortcut'
 import { AbstractKeyboardEvent } from '../events/keyboard/AbstractKeyboardEvent'
-import { IEngineContext } from '../types'
+import { IDesignerContext } from '../types'
 
 const Modifiers: [string, KeyCode][] = [
-  ['metaKey', KeyCode.Meta],
+  ['metaKey', KeyCode.Metadata],
   ['shiftKey', KeyCode.Shift],
   ['ctrlKey', KeyCode.Control],
   ['altKey', KeyCode.Alt],
 ]
 
 export interface IKeyboard {
-  engine: Engine
+  designer: Designer
 }
 
 export class Keyboard {
-  engine: Engine
+  designer: Designer
   shortcuts: Shortcut[] = []
   sequence: KeyCode[] = []
   keyDown: KeyCode = null
   modifiers = {}
   requestTimer = null
 
-  constructor(engine?: Engine) {
-    this.engine = engine
-    this.shortcuts = engine.props?.shortcuts || []
+  constructor(designer?: Designer) {
+    this.designer = designer
+    this.shortcuts = designer.props?.shortcuts || []
     this.makeObservable()
   }
 
-  matchCodes(context: IEngineContext) {
+  matchCodes(context: IDesignerContext) {
     for (let i = 0; i < this.shortcuts.length; i++) {
       const shortcut = this.shortcuts[i]
       if (shortcut.match(this.sequence, context)) {
@@ -82,7 +82,7 @@ export class Keyboard {
     })
   }
 
-  handleKeyboard(event: AbstractKeyboardEvent, context: IEngineContext) {
+  handleKeyboard(event: AbstractKeyboardEvent, context: IDesignerContext) {
     if (event.eventType === 'keydown') {
       this.keyDown = event.data
       this.addKeyCode(this.keyDown)

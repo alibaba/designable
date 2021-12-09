@@ -160,7 +160,7 @@
 
 1. [fix(react): fix CompositePanel styles](https://github.com/alibaba/designable/commit/7e2d15f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
-1. [fix(react): fix conflict of registerDesignerBehaviors](https://github.com/alibaba/designable/commit/a88611a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+1. [fix(react): fix conflict of registerDesignerMetas](https://github.com/alibaba/designable/commit/a88611a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 ## v1.0.0-beta.23(2021-10-15)
 

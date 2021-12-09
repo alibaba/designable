@@ -1,6 +1,6 @@
 import React from 'react'
 import { TreeNode } from '@designable/core'
-import { useCurrentNode } from '@designable/react'
+import { useCurrentNode } from '@designable/react-page'
 import { TreeSelectProps, TreeSelect } from 'antd'
 
 export interface IPathSelectorProps
@@ -68,7 +68,7 @@ const transformDataSource = (node: TreeNode) => {
         node.props.title ||
         node.props['x-component-props']?.title ||
         node.props.name ||
-        node.designerProps.title
+        node.behavior.title
       const value = arrayNode
         ? transformRelativePath(arrayNode, node)
         : currentPath.join('.')

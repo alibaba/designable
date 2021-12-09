@@ -1,8 +1,8 @@
-import { Engine } from '../models'
+import { Designer } from '../models'
 import { ViewportResizeEvent, ViewportScrollEvent } from '../events'
 
-export const useViewportEffect = (engine: Engine) => {
-  engine.subscribeTo(ViewportResizeEvent, (event) => {
+export const useViewportEffect = (designer: Designer) => {
+  designer.subscribeTo(ViewportResizeEvent, (event) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
     const viewport = currentWorkspace.viewport
@@ -14,7 +14,7 @@ export const useViewportEffect = (engine: Engine) => {
       outline.digestViewport()
     }
   })
-  engine.subscribeTo(ViewportScrollEvent, (event) => {
+  designer.subscribeTo(ViewportScrollEvent, (event) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
     const viewport = currentWorkspace.viewport

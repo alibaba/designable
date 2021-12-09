@@ -1,9 +1,9 @@
 import { Workspace } from '../../models'
-import { IEngineContext } from '../../types'
+import { IDesignerContext } from '../../types'
 
 export class AbstractWorkspaceEvent {
   data: Workspace
-  context: IEngineContext
+  context: IDesignerContext
   constructor(data: Workspace) {
     this.data = data
   }
