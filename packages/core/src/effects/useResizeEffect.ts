@@ -71,7 +71,7 @@ export const useResizeEffect = (designer: Designer) => {
       const { axis, type, node, element, point } = store.value
       const allowResize = node.allowResize()
       if (!allowResize) return
-      const resizable = node.behavior.resizable
+      const resizable = node.descriptor.resizable
       const rect = element.getBoundingClientRect()
       const current = new Point(event.data.clientX, event.data.clientY)
       const plusX = type === 'x-end' ? current.x > point.x : current.x < point.x

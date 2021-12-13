@@ -1,5 +1,5 @@
 import React from 'react'
-import { Designer, IResource, IMetadata } from '@designable/core'
+import { Designer, IResource, IFeature } from '@designable/core'
 
 export interface IDesignerLayoutProps {
   prefixCls?: string
@@ -29,10 +29,10 @@ export interface IWorkspaceContext {
 
 export type DnFC<P = {}> = React.FC<P> & {
   Resource?: IResource[]
-  Metadata?: IMetadata[]
+  Feature?: IFeature[]
 }
 
 export type DnComponent<P = {}> = React.ComponentType<P> & {
   Resource?: IResource[]
-  Metadata?: IMetadata[]
+  Feature?: IFeature[]
 }

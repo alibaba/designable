@@ -20,21 +20,21 @@ export interface ITreeNodeWidgetProps {
 
 export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
   (props: ITreeNodeWidgetProps) => {
-    const designer = useDesigner(props.node?.behavior?.effects)
+    const designer = useDesigner(props.node?.descriptor?.effects)
     const components = useComponents()
     const node = props.node
     const renderChildren = () => {
-      if (node?.behavior?.selfRenderChildren) return []
+      if (node?.descriptor?.selfRenderChildren) return []
       return node?.children?.map((child) => {
         return <TreeNodeWidget key={child.id} node={child} />
       })
     }
     const renderProps = (extendsProps: any = {}) => {
       const props = {
-        ...node.behavior?.defaultProps,
+        ...node.descriptor?.defaultProps,
         ...extendsProps,
         ...node.props,
-        ...node.behavior?.getComponentProps?.(node),
+        ...node.descriptor?.getComponentProps?.(node),
       }
       if (node.depth === 0) {
         delete props.style
@@ -81,7 +81,7 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
       dataId[designer?.props?.nodeIdAttrName] = tree.id
     }
     useEffect(() => {
-      GlobalRegistry.registerDesignerMetadatas(props.components)
+      GlobalRegistry.registerDesignerFeatures(props.components)
     }, [])
     return (
       <div

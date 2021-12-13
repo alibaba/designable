@@ -1,6 +1,6 @@
 import React from 'react'
 import { Range as NextRange } from '@alifd/next'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnComponent } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,11 +9,11 @@ import { AllLocales } from '../../locales'
 export const Range: DnComponent<React.ComponentProps<typeof NextRange>> =
   NextRange
 
-Range.Metadata = createMetadata({
+Range.Feature = createFeature({
   name: 'Range',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Range',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.Range),
   },
   locales: AllLocales.Range,

@@ -1,7 +1,7 @@
 import { KeyCode, Shortcut } from '../models'
 
 export const SelectNodes = new Shortcut({
-  codes: [[KeyCode.Metadata], [KeyCode.Control]],
+  codes: [[KeyCode.Meta], [KeyCode.Control]],
 })
 
 export const SelectSameTypeNodes = new Shortcut({
@@ -10,14 +10,14 @@ export const SelectSameTypeNodes = new Shortcut({
 
 export const PreventCommandX = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.X],
+    [KeyCode.Meta, KeyCode.X],
     [KeyCode.Control, KeyCode.X],
   ],
 })
 
 export const SelectAllNodes = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.A],
+    [KeyCode.Meta, KeyCode.A],
     [KeyCode.Control, KeyCode.A],
   ],
   handler(context) {

@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Collapse } from 'antd'
 import { CollapseProps, CollapsePanelProps } from 'antd/lib/collapse'
-import { TreeNode, createMetadata, createResource } from '@designable/core'
+import { TreeNode, createFeature, createResource } from '@designable/core'
 import {
   useTreeNode,
   useNodeIdProps,
@@ -145,12 +145,12 @@ FormCollapse.CollapsePanel = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
 
-FormCollapse.Metadata = createMetadata(
+FormCollapse.Feature = createFeature(
   {
     name: 'FormCollapse',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormCollapse',
-    behavior: {
+    descriptor: {
       droppable: true,
       allowAppend: (target, source) =>
         target.children.length === 0 ||
@@ -166,7 +166,7 @@ FormCollapse.Metadata = createMetadata(
     extends: ['Field'],
     selector: (node) =>
       node.props['x-component'] === 'FormCollapse.CollapsePanel',
-    behavior: {
+    descriptor: {
       droppable: true,
       allowDrop: (node) => node.props['x-component'] === 'FormCollapse',
       propsSchema: createVoidFieldSchema(AllSchemas.FormCollapse.CollapsePanel),

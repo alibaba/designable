@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, TableProps } from 'antd'
-import { TreeNode, createMetadata, createResource } from '@designable/core'
+import { TreeNode, createFeature, createResource } from '@designable/core'
 import {
   useTreeNode,
   TreeNodeWidget,
@@ -19,7 +19,7 @@ import {
   createEnsureTypeItemsNode,
 } from '../../shared'
 import { useDropTemplate } from '../../hooks'
-import { createArrayMetadata } from '../ArrayBase'
+import { createArrayFeature } from '../ArrayBase'
 import './styles.less'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -431,11 +431,11 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
 
 ArrayBase.mixin(ArrayTable)
 
-ArrayTable.Metadata = createMetadata(createArrayMetadata('ArrayTable'), {
+ArrayTable.Feature = createFeature(createArrayFeature('ArrayTable'), {
   name: 'ArrayTable.Column',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'ArrayTable.Column',
-  behavior: {
+  descriptor: {
     droppable: true,
     allowDrop: (node) =>
       node.props['type'] === 'object' &&

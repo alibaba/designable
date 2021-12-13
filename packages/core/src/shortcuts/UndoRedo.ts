@@ -2,7 +2,7 @@ import { KeyCode, Shortcut } from '../models'
 
 export const UndoMutation = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.Z],
+    [KeyCode.Meta, KeyCode.Z],
     [KeyCode.Control, KeyCode.Z],
   ],
   handler(context) {
@@ -16,7 +16,7 @@ export const UndoMutation = new Shortcut({
 
 export const RedoMutation = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.Shift, KeyCode.Z],
+    [KeyCode.Meta, KeyCode.Shift, KeyCode.Z],
     [KeyCode.Control, KeyCode.Shift, KeyCode.Z],
   ],
   handler(context) {

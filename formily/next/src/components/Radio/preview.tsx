@@ -1,6 +1,6 @@
 import React from 'react'
 import { Radio as FormilyRadio } from '@formily/next'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,11 +9,11 @@ import { AllLocales } from '../../locales'
 export const Radio: DnFC<React.ComponentProps<typeof FormilyRadio>> =
   FormilyRadio
 
-Radio.Metadata = createMetadata({
+Radio.Feature = createFeature({
   name: 'Radio.Group',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Radio.Group',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.Radio.Group),
   },
   locales: AllLocales.RadioGroup,

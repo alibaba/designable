@@ -1,6 +1,6 @@
 import React from 'react'
 import { Space as FormilySpace } from '@formily/antd'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createVoidFieldSchema } from '../Field'
 import { withContainer } from '../../common/Container'
@@ -10,11 +10,11 @@ import { AllLocales } from '../../locales'
 export const Space: DnFC<React.ComponentProps<typeof FormilySpace>> =
   withContainer(FormilySpace)
 
-Space.Metadata = createMetadata({
+Space.Feature = createFeature({
   name: 'Space',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Space',
-  behavior: {
+  descriptor: {
     droppable: true,
     inlineChildrenLayout: true,
     propsSchema: createVoidFieldSchema(AllSchemas.Space),

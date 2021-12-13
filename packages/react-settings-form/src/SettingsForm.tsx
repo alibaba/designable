@@ -34,15 +34,15 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const node = useCurrentNode(currentWorkspaceId)
     const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
-    const schema = node?.behavior?.propsSchema
+    const schema = node?.descriptor?.propsSchema
     const isEmpty = !(
       node &&
-      node.behavior?.propsSchema &&
+      node.descriptor?.propsSchema &&
       selected.length === 1
     )
     const form = useMemo(() => {
       return createForm({
-        initialValues: node?.behavior?.defaultProps,
+        initialValues: node?.descriptor?.defaultProps,
         values: node?.props,
         effects(form) {
           useLocales(node)

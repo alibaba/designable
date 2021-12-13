@@ -1,15 +1,15 @@
-import { createMetadata } from '@designable/core'
+import { createFeature } from '@designable/core'
 import { createFieldSchema, createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const createArrayMetadata = (name: string) => {
-  return createMetadata(
+export const createArrayFeature = (name: string) => {
+  return createFeature(
     {
       name,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === name,
-      behavior: {
+      descriptor: {
         droppable: true,
         propsSchema: createFieldSchema(AllSchemas[name]),
       },
@@ -19,7 +19,7 @@ export const createArrayMetadata = (name: string) => {
       name: `${name}.Addition`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Addition`,
-      behavior: {
+      descriptor: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
@@ -31,7 +31,7 @@ export const createArrayMetadata = (name: string) => {
       name: `${name}.Remove`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Remove`,
-      behavior: {
+      descriptor: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
@@ -43,7 +43,7 @@ export const createArrayMetadata = (name: string) => {
       name: `${name}.Index`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.Index`,
-      behavior: {
+      descriptor: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
@@ -55,7 +55,7 @@ export const createArrayMetadata = (name: string) => {
       name: `${name}.MoveUp`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveUp`,
-      behavior: {
+      descriptor: {
         allowDrop(parent) {
           return parent.props['x-component'] === name
         },
@@ -67,7 +67,7 @@ export const createArrayMetadata = (name: string) => {
       name: `${name}.MoveDown`,
       extends: ['Field'],
       selector: (node) => node.props['x-component'] === `${name}.MoveDown`,
-      behavior: {
+      descriptor: {
         allowDrop(parent) {
           return parent.props['x-component'] === 'ArrayCards'
         },

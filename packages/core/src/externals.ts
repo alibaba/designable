@@ -5,23 +5,23 @@ import { Designer, TreeNode } from './models'
 import {
   IDesignerProps,
   IResourceCreator,
-  IMetadataCreator,
+  IFeatureFactory,
   IDesignerLocales,
   IResource,
-  IMetadata,
-  IMetadataHost,
+  IFeature,
+  IFeatureHost,
   IResourceHost,
 } from './types'
 import { mergeLocales } from './internals'
 
-export const isMetadataHost = (val: any): val is IMetadataHost =>
-  val?.Metadata && isMetadataList(val.Metadata)
+export const isFeatureHost = (val: any): val is IFeatureHost =>
+  val?.Feature && isFeatureList(val.Feature)
 
-export const isMetadataList = (val: any): val is IMetadata[] =>
-  Array.isArray(val) && val.every(isMetadata)
+export const isFeatureList = (val: any): val is IFeature[] =>
+  Array.isArray(val) && val.every(isFeature)
 
-export const isMetadata = (val: any): val is IMetadata =>
-  isFn(val?.selector) && (!!val?.behavior || !!val?.locales)
+export const isFeature = (val: any): val is IFeature =>
+  isFn(val?.selector) && (!!val?.descriptor || !!val?.locales)
 
 export const isResourceHost = (val: any): val is IResourceHost =>
   val?.Resource && isResourceList(val.Resource)
@@ -40,17 +40,17 @@ export const createLocales = (...packages: IDesignerLocales[]) => {
   return results
 }
 
-export const createMetadata = (
-  ...behaviors: Array<IMetadataCreator | IMetadataCreator[]>
-): IMetadata[] => {
-  return behaviors.reduce((buf: any[], behavior) => {
-    if (isArr(behavior)) return buf.concat(createMetadata(...behavior))
-    const { selector } = behavior || {}
+export const createFeature = (
+  ...descriptors: Array<IFeatureFactory | IFeatureFactory[]>
+): IFeature[] => {
+  return descriptors.reduce((buf: any[], descriptor) => {
+    if (isArr(descriptor)) return buf.concat(createFeature(...descriptor))
+    const { selector } = descriptor || {}
     if (!selector) return buf
     if (typeof selector === 'string') {
-      behavior.selector = (node) => node.componentName === selector
+      descriptor.selector = (node) => node.componentName === selector
     }
-    return buf.concat(behavior)
+    return buf.concat(descriptor)
   }, [])
 }
 

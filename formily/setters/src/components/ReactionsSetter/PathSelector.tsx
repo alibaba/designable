@@ -68,7 +68,7 @@ const transformDataSource = (node: TreeNode) => {
         node.props.title ||
         node.props['x-component-props']?.title ||
         node.props.name ||
-        node.behavior.title
+        node.descriptor.title
       const value = arrayNode
         ? transformRelativePath(arrayNode, node)
         : currentPath.join('.')

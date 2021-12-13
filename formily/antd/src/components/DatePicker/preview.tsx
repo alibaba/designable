@@ -1,6 +1,6 @@
 import React from 'react'
 import { DatePicker as FormilyDatePicker } from '@formily/antd'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,12 +9,12 @@ import { AllLocales } from '../../locales'
 export const DatePicker: DnFC<React.ComponentProps<typeof FormilyDatePicker>> =
   FormilyDatePicker
 
-DatePicker.Metadata = createMetadata(
+DatePicker.Feature = createFeature(
   {
     name: 'DatePicker',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'DatePicker',
-    behavior: {
+    descriptor: {
       propsSchema: createFieldSchema(AllSchemas.DatePicker),
     },
     locales: AllLocales.DatePicker,
@@ -23,7 +23,7 @@ DatePicker.Metadata = createMetadata(
     name: 'DatePicker.RangePicker',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'DatePicker.RangePicker',
-    behavior: {
+    descriptor: {
       propsSchema: createFieldSchema(AllSchemas.DatePicker.RangePicker),
     },
     locales: AllLocales.DateRangePicker,

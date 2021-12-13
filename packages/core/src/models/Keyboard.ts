@@ -6,7 +6,7 @@ import { AbstractKeyboardEvent } from '../events/keyboard/AbstractKeyboardEvent'
 import { IDesignerContext } from '../types'
 
 const Modifiers: [string, KeyCode][] = [
-  ['metaKey', KeyCode.Metadata],
+  ['metaKey', KeyCode.Meta],
   ['shiftKey', KeyCode.Shift],
   ['ctrlKey', KeyCode.Control],
   ['altKey', KeyCode.Alt],

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NumberPicker as FormilyNumberPicker } from '@formily/next'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -10,11 +10,11 @@ export const NumberPicker: DnFC<
   React.ComponentProps<typeof FormilyNumberPicker>
 > = FormilyNumberPicker
 
-NumberPicker.Metadata = createMetadata({
+NumberPicker.Feature = createFeature({
   name: 'NumberPicker',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'NumberPicker',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.NumberPicker),
   },
   locales: AllLocales.NumberPicker,

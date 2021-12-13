@@ -24,7 +24,7 @@ const Clipboard: IClipboard = {
 
 export const CopyNodes = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.C],
+    [KeyCode.Meta, KeyCode.C],
     [KeyCode.Control, KeyCode.C],
   ],
   handler(context) {
@@ -37,7 +37,7 @@ export const CopyNodes = new Shortcut({
 
 export const PasteNodes = new Shortcut({
   codes: [
-    [KeyCode.Metadata, KeyCode.V],
+    [KeyCode.Meta, KeyCode.V],
     [KeyCode.Control, KeyCode.V],
   ],
   handler(context) {

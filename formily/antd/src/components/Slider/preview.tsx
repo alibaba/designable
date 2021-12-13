@@ -1,6 +1,6 @@
 import React from 'react'
 import { Slider as AntdSlider } from 'antd'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -8,11 +8,11 @@ import { AllLocales } from '../../locales'
 
 export const Slider: DnFC<React.ComponentProps<typeof AntdSlider>> = AntdSlider
 
-Slider.Metadata = createMetadata({
+Slider.Feature = createFeature({
   name: 'Slider',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Slider',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.Slider),
   },
   locales: AllLocales.Slider,

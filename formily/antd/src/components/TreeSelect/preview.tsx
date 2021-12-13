@@ -1,6 +1,6 @@
 import React from 'react'
 import { TreeSelect as FormilyTreeSelect } from '@formily/antd'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,11 +9,11 @@ import { AllLocales } from '../../locales'
 export const TreeSelect: DnFC<React.ComponentProps<typeof FormilyTreeSelect>> =
   FormilyTreeSelect
 
-TreeSelect.Metadata = createMetadata({
+TreeSelect.Feature = createFeature({
   name: 'TreeSelect',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'TreeSelect',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.TreeSelect),
   },
   locales: AllLocales.TreeSelect,

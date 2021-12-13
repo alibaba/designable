@@ -47,13 +47,13 @@ export const Selector: React.FC<ISelectorProps> = observer(({ node }) => {
   const selection = useSelection()
   const prefix = usePrefix('aux-selector')
   const renderIcon = (node: TreeNode) => {
-    const icon = node.behavior.icon
+    const icon = node.descriptor.icon
     if (icon) {
       return <IconWidget infer={icon} />
     }
     if (node === node.root) {
       return <IconWidget infer="Page" />
-    } else if (node.behavior?.droppable) {
+    } else if (node.descriptor?.droppable) {
       return <IconWidget infer="Container" />
     }
     return <IconWidget infer="Component" />

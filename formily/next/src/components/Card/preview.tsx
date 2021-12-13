@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card as NextCard } from '@alifd/next'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -26,11 +26,11 @@ export const Card: DnFC<React.ComponentProps<typeof NextCard>> = (props) => {
   )
 }
 
-Card.Metadata = createMetadata({
+Card.Feature = createFeature({
   name: 'Card',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Card',
-  behavior: {
+  descriptor: {
     droppable: true,
     propsSchema: createVoidFieldSchema(AllSchemas.Card),
   },

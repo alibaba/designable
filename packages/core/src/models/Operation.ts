@@ -77,8 +77,8 @@ export class Operation {
 
   setDragNodes(nodes: TreeNode[]) {
     const dragNodes = nodes.reduce((buf, node) => {
-      if (isFn(node?.behavior?.getDragNodes)) {
-        const transformed = node.behavior.getDragNodes(node)
+      if (isFn(node?.descriptor?.getDragNodes)) {
+        const transformed = node.descriptor.getDragNodes(node)
         return transformed ? buf.concat(transformed) : buf
       }
       if (node.componentName === '$$ResourceNode$$')
@@ -99,9 +99,9 @@ export class Operation {
   getDropNodes(parent: TreeNode) {
     const dragNodes = this.getDragNodes()
     return dragNodes.reduce((buf, node) => {
-      if (isFn(node.behavior?.getDropNodes)) {
+      if (isFn(node.descriptor?.getDropNodes)) {
         const cloned = node.isSourceNode ? node.clone(node.parent) : node
-        const transformed = node.behavior.getDropNodes(cloned, parent)
+        const transformed = node.descriptor.getDropNodes(cloned, parent)
         return transformed ? buf.concat(transformed) : buf
       }
       if (node.componentName === '$$ResourceNode$$')

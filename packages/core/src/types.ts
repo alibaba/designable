@@ -51,7 +51,7 @@ export type IResizable = {
   }
 }
 
-export interface IDesignerNodeProps {
+export interface IDesignerDescriptorProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
   version?: string //semver版本号
@@ -77,9 +77,9 @@ export interface IDesignerNodeProps {
   [key: string]: any
 }
 
-export type IDesignerBehavior =
-  | IDesignerNodeProps
-  | ((node: TreeNode) => IDesignerNodeProps)
+export type IDesignerDescriptor =
+  | IDesignerDescriptorProps
+  | ((node: TreeNode) => IDesignerDescriptorProps)
 
 export interface IDesignerLocales {
   [ISOCode: string]: {
@@ -91,8 +91,8 @@ export interface IDesignerMiniLocales {
   [ISOCode: string]: string
 }
 
-export interface IDesignerMetadatas {
-  [key: string]: IMetadataHost
+export interface IDesignerFeatures {
+  [key: string]: IFeatureHost
 }
 
 export interface IDesignerStore<P> {
@@ -103,7 +103,7 @@ export type IDesignerIcons = Record<string, any>
 
 export type IDesignerIconsStore = IDesignerStore<IDesignerIcons>
 export type IDesignerLocaleStore = IDesignerStore<IDesignerLocales>
-export type IDesignerMetadataStore = IDesignerStore<IMetadata[]>
+export type IDesignerFeatureStore = IDesignerStore<IFeature[]>
 export type IDesignerLanguageStore = IDesignerStore<string>
 
 export type WorkbenchTypes =
@@ -113,27 +113,27 @@ export type WorkbenchTypes =
   | 'MARKUP'
   | (string & {})
 
-export interface IMetadata {
+export interface IFeature {
   name: string
   extends?: string[]
   selector: (node: TreeNode) => boolean
-  behavior?: IDesignerBehavior
+  descriptor?: IDesignerDescriptor
   locales?: IDesignerLocales
 }
 
-export interface IMetadataCreator {
+export interface IFeatureFactory {
   name: string
   extends?: string[]
   selector: string | ((node: TreeNode) => boolean)
-  behavior?: IDesignerBehavior
+  descriptor?: IDesignerDescriptor
   locales?: IDesignerLocales
 }
 
-export interface IMetadataHost {
-  Metadata?: IMetadata[]
+export interface IFeatureHost {
+  Feature?: IFeature[]
 }
 
-export type IMetadataLike = IMetadata[] | IMetadataHost
+export type IFeatureLike = IFeature[] | IFeatureHost
 
 export interface IResource {
   title?: string | IDesignerMiniLocales

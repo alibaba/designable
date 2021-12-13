@@ -1,6 +1,6 @@
 import React from 'react'
 import { Checkbox as FormilyCheckbox } from '@formily/next'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,11 +9,11 @@ import { AllLocales } from '../../locales'
 export const Checkbox: DnFC<React.ComponentProps<typeof FormilyCheckbox>> =
   FormilyCheckbox
 
-Checkbox.Metadata = createMetadata({
+Checkbox.Feature = createFeature({
   name: 'Checkbox.Group',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Checkbox.Group',
-  behavior: {
+  descriptor: {
     propsSchema: createFieldSchema(AllSchemas.Checkbox.Group),
   },
   locales: AllLocales.CheckboxGroup,

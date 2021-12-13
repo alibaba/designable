@@ -97,13 +97,13 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
     if (!node) return null
 
     const renderIcon = (node: TreeNode) => {
-      const icon = node.behavior.icon
+      const icon = node.descriptor.icon
       if (icon) {
         return <IconWidget infer={icon} size={12} />
       }
       if (node === node?.root) {
         return <IconWidget infer="Page" size={12} />
-      } else if (node.behavior?.droppable) {
+      } else if (node.descriptor?.droppable) {
         return <IconWidget infer="Container" size={12} />
       }
       return <IconWidget infer="Component" size={12} />

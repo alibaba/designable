@@ -39,7 +39,7 @@ export const useSelectionEffect = (designer: Designer) => {
     if (node) {
       designer.keyboard.requestClean()
       if (
-        designer.keyboard.isKeyDown(KeyCode.Metadata) ||
+        designer.keyboard.isKeyDown(KeyCode.Meta) ||
         designer.keyboard.isKeyDown(KeyCode.Control)
       ) {
         if (selection.has(node)) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TimePicker as FormilyTimePicker } from '@formily/antd'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { DnFC } from '@designable/react-page'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
@@ -9,12 +9,12 @@ import { AllLocales } from '../../locales'
 export const TimePicker: DnFC<React.ComponentProps<typeof FormilyTimePicker>> =
   FormilyTimePicker
 
-TimePicker.Metadata = createMetadata(
+TimePicker.Feature = createFeature(
   {
     name: 'TimePicker',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'TimePicker',
-    behavior: {
+    descriptor: {
       propsSchema: createFieldSchema(AllSchemas.TimePicker),
     },
     locales: AllLocales.TimePicker,
@@ -23,7 +23,7 @@ TimePicker.Metadata = createMetadata(
     name: 'TimePicker.RangePicker',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'TimePicker.RangePicker',
-    behavior: {
+    descriptor: {
       propsSchema: createFieldSchema(AllSchemas.TimePicker.RangePicker),
     },
     locales: AllLocales.TimeRangePicker,

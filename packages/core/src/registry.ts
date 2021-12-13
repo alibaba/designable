@@ -2,20 +2,20 @@ import { each } from '@designable/shared'
 import { Path } from '@formily/path'
 import { observable } from '@formily/reactive'
 import {
-  IDesignerMetadataStore,
+  IDesignerFeatureStore,
   IDesignerIconsStore,
   IDesignerLocaleStore,
   IDesignerLanguageStore,
-  IDesignerMetadatas,
+  IDesignerFeatures,
   IDesignerLocales,
   IDesignerIcons,
-  IMetadataLike,
-  IMetadata,
+  IFeatureLike,
+  IFeature,
 } from './types'
 import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
-import { isMetadataHost } from './externals'
+import { isFeatureHost } from './externals'
 import { TreeNode } from './models'
-import { isMetadataList } from './externals'
+import { isFeatureList } from './externals'
 
 const getISOCode = (language: string) => {
   let isoCode = DESIGNER_LANGUAGE_STORE.value
@@ -32,37 +32,38 @@ const getISOCode = (language: string) => {
   return isoCode
 }
 
-const reSortMetadatas = (target: IMetadata[], sources: IDesignerMetadatas) => {
-  const findTargetMetadata = (behavior: IMetadata) => target.includes(behavior)
-  const findSourceMetadata = (name: string) => {
+const reSortFeatures = (target: IFeature[], sources: IDesignerFeatures) => {
+  const findTargetFeature = (descriptor: IFeature) =>
+    target.includes(descriptor)
+  const findSourceFeature = (name: string) => {
     for (let key in sources) {
-      const { Metadata } = sources[key]
-      for (let i = 0; i < Metadata.length; i++) {
-        if (Metadata[i].name === name) return Metadata[i]
+      const { Feature } = sources[key]
+      for (let i = 0; i < Feature.length; i++) {
+        if (Feature[i].name === name) return Feature[i]
       }
     }
   }
   each(sources, (item) => {
     if (!item) return
-    if (!isMetadataHost(item)) return
-    const { Metadata } = item
-    each(Metadata, (behavior) => {
-      if (findTargetMetadata(behavior)) return
-      const name = behavior.name
-      each(behavior.extends, (dep) => {
-        const behavior = findSourceMetadata(dep)
-        if (!behavior)
-          throw new Error(`No ${dep} behavior that ${name} depends on`)
-        if (!findTargetMetadata(behavior)) {
-          target.unshift(behavior)
+    if (!isFeatureHost(item)) return
+    const { Feature } = item
+    each(Feature, (descriptor) => {
+      if (findTargetFeature(descriptor)) return
+      const name = descriptor.name
+      each(descriptor.extends, (dep) => {
+        const descriptor = findSourceFeature(dep)
+        if (!descriptor)
+          throw new Error(`No ${dep} descriptor that ${name} depends on`)
+        if (!findTargetFeature(descriptor)) {
+          target.unshift(descriptor)
         }
       })
-      target.push(behavior)
+      target.push(descriptor)
     })
   })
 }
 
-const DESIGNER_BEHAVIORS_STORE: IDesignerMetadataStore = observable.ref([])
+const DESIGNER_BEHAVIORS_STORE: IDesignerFeatureStore = observable.ref([])
 
 const DESIGNER_ICONS_STORE: IDesignerIconsStore = observable.ref({})
 
@@ -77,13 +78,13 @@ const DESIGNER_GlobalRegistry = {
     DESIGNER_LANGUAGE_STORE.value = lang
   },
 
-  setDesignerMetadatas: (behaviors: IMetadataLike[]) => {
-    DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IMetadata[]>(
-      (buf, behavior) => {
-        if (isMetadataHost(behavior)) {
-          return buf.concat(behavior.Metadata)
-        } else if (isMetadataList(behavior)) {
-          return buf.concat(behavior)
+  setDesignerFeatures: (descriptors: IFeatureLike[]) => {
+    DESIGNER_BEHAVIORS_STORE.value = descriptors.reduce<IFeature[]>(
+      (buf, descriptor) => {
+        if (isFeatureHost(descriptor)) {
+          return buf.concat(descriptor.Feature)
+        } else if (isFeatureList(descriptor)) {
+          return buf.concat(descriptor)
         }
         return buf
       },
@@ -91,7 +92,7 @@ const DESIGNER_GlobalRegistry = {
     )
   },
 
-  getDesignerMetadatas: (node: TreeNode) => {
+  getDesignerFeatures: (node: TreeNode) => {
     return DESIGNER_BEHAVIORS_STORE.value.filter((pattern) =>
       pattern.selector(node)
     )
@@ -131,10 +132,10 @@ const DESIGNER_GlobalRegistry = {
     })
   },
 
-  registerDesignerMetadatas: (...packages: IDesignerMetadatas[]) => {
-    const results: IMetadata[] = []
+  registerDesignerFeatures: (...packages: IDesignerFeatures[]) => {
+    const results: IFeature[] = []
     packages.forEach((sources) => {
-      reSortMetadatas(results, sources)
+      reSortFeatures(results, sources)
     })
     if (results.length) {
       DESIGNER_BEHAVIORS_STORE.value = results

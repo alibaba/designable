@@ -23,17 +23,17 @@ import { observer } from '@formily/react'
 import {
   createDesigner,
   createResource,
-  createMetadata,
+  createFeature,
   GlobalRegistry,
 } from '@designable/core'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.less'
 
-const RootMetadata = createMetadata({
+const RootFeature = createFeature({
   name: 'Root',
   selector: 'Root',
-  behavior: {
+  descriptor: {
     droppable: true,
   },
   locales: {
@@ -49,11 +49,11 @@ const RootMetadata = createMetadata({
   },
 })
 
-const InputMetadata = createMetadata({
+const InputFeature = createFeature({
   name: 'Input',
   selector: (node) =>
     node.componentName === 'Field' && node.props['x-component'] === 'Input',
-  behavior: {
+  descriptor: {
     propsSchema: {
       type: 'object',
       $namespace: 'Field',
@@ -206,10 +206,10 @@ const InputMetadata = createMetadata({
   },
 })
 
-const CardMetadata = createMetadata({
+const CardFeature = createFeature({
   name: 'Card',
   selector: 'Card',
-  behavior: {
+  descriptor: {
     droppable: true,
   },
   locales: {
@@ -225,7 +225,7 @@ const CardMetadata = createMetadata({
   },
 })
 
-GlobalRegistry.setDesignerMetadatas([RootMetadata, InputMetadata, CardMetadata])
+GlobalRegistry.setDesignerFeatures([RootFeature, InputFeature, CardFeature])
 
 const Input = createResource({
   title: {

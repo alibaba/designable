@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { createMetadata, createResource } from '@designable/core'
+import { createFeature, createResource } from '@designable/core'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/react'
 import { Form as FormilyForm } from '@formily/next'
@@ -31,10 +31,10 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
   }
 )
 
-Form.Metadata = createMetadata({
+Form.Feature = createFeature({
   name: 'Form',
   selector: (node) => node.componentName === 'Form',
-  behavior(node) {
+  descriptor(node) {
     return {
       draggable: !node.isRoot,
       cloneable: !node.isRoot,

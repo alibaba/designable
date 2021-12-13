@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGrid as FormilyGird } from '@formily/antd'
-import { TreeNode, createMetadata, createResource } from '@designable/core'
+import { TreeNode, createFeature, createResource } from '@designable/core'
 import {
   DnFC,
   useTreeNode,
@@ -68,12 +68,12 @@ FormGrid.GridColumn = observer((props) => {
   )
 })
 
-FormGrid.Metadata = createMetadata(
+FormGrid.Feature = createFeature(
   {
     name: 'FormGrid',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormGrid',
-    behavior: {
+    descriptor: {
       droppable: true,
       allowDrop: (node) => node.props['x-component'] !== 'FormGrid',
       propsSchema: createFieldSchema(AllSchemas.FormGrid),
@@ -84,7 +84,7 @@ FormGrid.Metadata = createMetadata(
     name: 'FormGrid.GridColumn',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormGrid.GridColumn',
-    behavior: {
+    descriptor: {
       droppable: true,
       resizable: {
         width(node) {

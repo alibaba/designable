@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Tab } from '@alifd/next'
 import { TabProps, ItemProps as TabItemProps } from '@alifd/next/types/tab'
-import { TreeNode, createMetadata, createResource } from '@designable/core'
+import { TreeNode, createFeature, createResource } from '@designable/core'
 import {
   useNodeIdProps,
   useTreeNode,
@@ -134,12 +134,12 @@ FormTab.TabPane = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
 
-FormTab.Metadata = createMetadata(
+FormTab.Feature = createFeature(
   {
     name: 'FormTab',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab',
-    behavior: {
+    descriptor: {
       droppable: true,
       allowAppend: (target, source) =>
         target.children.length === 0 ||
@@ -152,7 +152,7 @@ FormTab.Metadata = createMetadata(
     name: 'FormTab.TabPane',
     extends: ['Field'],
     selector: (node) => node.props['x-component'] === 'FormTab.TabPane',
-    behavior: {
+    descriptor: {
       droppable: true,
       allowDrop: (node) => node.props['x-component'] === 'FormTab',
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab.TabPane),

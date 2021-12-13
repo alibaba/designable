@@ -20,7 +20,7 @@ import {
   findNodeByComponentPath,
   createNodeId,
 } from '../../shared'
-import { createArrayMetadata } from '../ArrayBase'
+import { createArrayFeature } from '../ArrayBase'
 import cls from 'classnames'
 import './styles.less'
 
@@ -254,7 +254,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
 
 ArrayBase.mixin(ArrayCards)
 
-ArrayCards.Metadata = createArrayMetadata('ArrayCards')
+ArrayCards.Feature = createArrayFeature('ArrayCards')
 
 ArrayCards.Resource = createResource({
   icon: 'ArrayCardsSource',

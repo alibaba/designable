@@ -12,7 +12,7 @@ import {
 } from '@formily/react'
 import { FormItem } from '@formily/antd'
 import { each, reduce } from '@formily/shared'
-import { createMetadata } from '@designable/core'
+import { createFeature } from '@designable/core'
 import {
   useDesigner,
   useTreeNode,
@@ -163,7 +163,7 @@ export const Field: DnFC<ISchema> = observer((props) => {
   return <InternalField {...fieldProps} name={node.id} />
 })
 
-Field.Metadata = createMetadata({
+Field.Feature = createFeature({
   name: 'Field',
   selector: 'Field',
   locales: AllLocales.Field,
