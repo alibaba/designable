@@ -19,6 +19,7 @@
     "start:basic": "yarn workspace @designable/basic-example start",
     "start:sandbox": "yarn workspace @designable/sandbox-example start",
     "start:multi-workspace": "yarn workspace @designable/multi-workspace-example start",
+    "start:sandbox-multi-workspace": "yarn workspace @designable/sandbox-multi-workspace-example start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",
