@@ -258,13 +258,13 @@ export class Viewport {
   getOffsetPoint(topPoint: IPoint) {
     if (this.isIframe) {
       return {
-        x: topPoint.x - this.offsetX + this.contentWindow.scrollX,
-        y: topPoint.y - this.offsetY + this.contentWindow.scrollY,
+        x: topPoint.x - this.offsetX + (this.contentWindow?.scrollX ?? 0),
+        y: topPoint.y - this.offsetY + (this.contentWindow?.scrollY ?? 0),
       }
     } else {
       return {
-        x: topPoint.x - this.offsetX + this.viewportElement.scrollLeft,
-        y: topPoint.y - this.offsetY + this.viewportElement.scrollTop,
+        x: topPoint.x - this.offsetX + (this.viewportElement?.scrollLeft ?? 0),
+        y: topPoint.y - this.offsetY + (this.viewportElement?.scrollTop ?? 0),
       }
     }
   }

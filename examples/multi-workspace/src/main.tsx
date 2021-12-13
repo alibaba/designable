@@ -4,6 +4,7 @@ import {
   Designer,
   IconWidget,
   Workbench,
+  Workspace,
   ViewPanel,
   DesignerToolsWidget,
   ViewToolsWidget,
@@ -345,28 +346,54 @@ const App = () => {
               <HistoryWidget />
             </CompositePanel.Item>
           </CompositePanel>
-          <WorkspacePanel>
-            <ToolbarPanel>
-              <DesignerToolsWidget />
-              <ViewToolsWidget />{' '}
-            </ToolbarPanel>
-            <ViewportPanel>
-              <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
-              <ViewPanel type="JSONTREE">
-                {() => {
-                  return (
-                    <div style={{ overflow: 'hidden', height: '100%' }}>
-                      <MonacoInput
-                        language="javascript"
-                        helpCode="//hello world"
-                        defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
-                      />
-                    </div>
-                  )
-                }}
-              </ViewPanel>
-            </ViewportPanel>
-          </WorkspacePanel>
+          <Workspace id="form-1">
+            <WorkspacePanel>
+              <ToolbarPanel>
+                <DesignerToolsWidget />
+                <ViewToolsWidget />{' '}
+              </ToolbarPanel>
+              <ViewportPanel>
+                <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
+                <ViewPanel type="JSONTREE">
+                  {() => {
+                    return (
+                      <div style={{ overflow: 'hidden', height: '100%' }}>
+                        <MonacoInput
+                          language="javascript"
+                          helpCode="//hello world"
+                          defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
+                        />
+                      </div>
+                    )
+                  }}
+                </ViewPanel>
+              </ViewportPanel>
+            </WorkspacePanel>
+          </Workspace>
+          <Workspace id="form-2">
+            <WorkspacePanel>
+              <ToolbarPanel>
+                <DesignerToolsWidget />
+                <ViewToolsWidget />{' '}
+              </ToolbarPanel>
+              <ViewportPanel>
+                <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
+                <ViewPanel type="JSONTREE">
+                  {() => {
+                    return (
+                      <div style={{ overflow: 'hidden', height: '100%' }}>
+                        <MonacoInput
+                          language="javascript"
+                          helpCode="//hello world"
+                          defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
+                        />
+                      </div>
+                    )
+                  }}
+                </ViewPanel>
+              </ViewportPanel>
+            </WorkspacePanel>
+          </Workspace>
           <SettingsPanel title="panels.PropertySettings">
             <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
           </SettingsPanel>

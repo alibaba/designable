@@ -13,7 +13,8 @@ export const useSelectionEffect = (designer: Designer) => {
     const isHelpers = target?.closest?.(
       `*[${designer.props.nodeSelectionIdAttrName}]`
     )
-    const currentWorkspace = designer.workbench.activeWorkspace
+    const currentWorkspace =
+      event.context.workspace ?? designer.workbench.activeWorkspace
     if (!currentWorkspace) return
     if (!el?.getAttribute) {
       const point = new Point(event.data.topClientX, event.data.topClientY)
