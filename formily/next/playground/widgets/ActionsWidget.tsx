@@ -11,6 +11,12 @@ export const ActionsWidget = observer(() => {
   useEffect(() => {
     loadInitialSchema(designer)
   }, [])
+  const supportLocales = ['zh-cn', 'en-us', 'ko-kr']
+  useEffect(() => {
+    if (!supportLocales.includes(GlobalRegistry.getDesignerLanguage())) {
+      GlobalRegistry.setDesignerLanguage('zh-cn')
+    }
+  }, [])
   return (
     <Space style={{ marginRight: 10 }}>
       <Button href="https://designable-antd.formilyjs.org">Ant Design</Button>
