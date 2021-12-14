@@ -21,7 +21,11 @@ export const isBehaviorList = (val: any): val is IBehavior[] =>
   Array.isArray(val) && val.every(isBehavior)
 
 export const isBehavior = (val: any): val is IBehavior =>
-  isFn(val?.selector) && (!!val?.designerProps || !!val?.designerLocales)
+  val?.name ||
+  val?.selector ||
+  val?.extends ||
+  val?.designerProps ||
+  val?.designerLocales
 
 export const isResourceHost = (val: any): val is IResourceHost =>
   val?.Resource && isResourceList(val.Resource)

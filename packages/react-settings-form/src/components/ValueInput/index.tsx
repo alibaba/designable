@@ -71,12 +71,12 @@ export const ValueInput = createPolyInput([
     },
     checker: isExpression,
     toInputValue: (value) => {
-      if (value === '{{}}') return
+      if (!value || value === '{{}}') return
       const matched = String(value).match(EXPRESSION_REX)
       return matched?.[1] || value || ''
     },
     toChangeValue: (value) => {
-      if (value === '{{}}') return
+      if (!value || value === '{{}}') return
       const matched = String(value).match(EXPRESSION_REX)
       return `{{${matched?.[1] || value || ''}}}`
     },
