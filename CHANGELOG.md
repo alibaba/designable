@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.0-beta.40(2021-12-08)
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix NodePathWidget style](https://github.com/alibaba/designable/commit/814e5e6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(react): fix prettier cdn version](https://github.com/alibaba/designable/commit/e6e0180) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+### :blush: Other Changes
+
+1. [chore: add sandbox example](https://github.com/alibaba/designable/commit/624076f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.39(2021-12-06)
 
 ### :beetle: Bug Fixes
@@ -331,9 +343,3 @@
 1. [refactor(react): MainPanel -> StudioPanel](https://github.com/alibaba/designable/commit/74b344f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [refactor(project): redesign Registry/DragSource (#59)](https://github.com/alibaba/designable/commit/764e7ec) :point_right: ( [Janry](https://github.com/Janry) )
-
-## v0.5.29(2021-09-13)
-
-### :beetle: Bug Fixes
-
-1. [fix: Displaying the default DesignableFiled, all the time when prompted by text does not realise the real component name. (#58)](https://github.com/alibaba/designable/commit/1928f04) :point_right: ( [呆鸡](https://github.com/呆鸡) )

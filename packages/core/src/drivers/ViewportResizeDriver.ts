@@ -27,10 +27,10 @@ export class ViewportResizeDriver extends EventDriver<Engine> {
   }
 
   attach() {
-    if (this.contentWindow !== window) {
+    if (this.contentWindow && this.contentWindow !== window) {
       this.addEventListener('resize', this.onResize)
     } else {
-      if (this.container !== document) {
+      if (this.container && this.container !== document) {
         this.resizeObserver = new ResizeObserver(this.onResize)
         this.resizeObserver.observe(this.container as HTMLElement)
       }
@@ -38,10 +38,10 @@ export class ViewportResizeDriver extends EventDriver<Engine> {
   }
 
   detach() {
-    if (this.contentWindow !== window) {
+    if (this.contentWindow && this.contentWindow !== window) {
       this.removeEventListener('resize', this.onResize)
     } else if (this.resizeObserver) {
-      if (this.container !== document) {
+      if (this.container && this.container !== document) {
         this.resizeObserver.unobserve(this.container as HTMLElement)
         this.resizeObserver.disconnect()
       }
