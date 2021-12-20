@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-
+import { getNpmCDNRegistry } from '../../registry'
 interface IPrettierModule {
   default: {
     format(
@@ -13,7 +13,7 @@ interface IPrettierModule {
 }
 
 const prettier: Promise<IPrettierModule> = new Function(
-  'return import("https://cdn.jsdelivr.net/npm/prettier@2.x/esm/standalone.mjs")'
+  `return import("${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs")`
 )()
 
 export const format = async (language: string, source: string) => {

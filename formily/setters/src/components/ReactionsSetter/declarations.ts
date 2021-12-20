@@ -1,4 +1,4 @@
-import { MonacoInput } from '@designable/react-settings-form'
+import { MonacoInput, getNpmCDNRegistry } from '@designable/react-settings-form'
 
 export interface IDependency {
   name: string
@@ -10,7 +10,7 @@ const loadDependencies = async (deps: IDependency[]) => {
     deps.map(async ({ name, path }) => ({
       name,
       path,
-      library: await fetch(`//cdn.jsdelivr.net/npm/${name}/${path}`).then(
+      library: await fetch(`${getNpmCDNRegistry()}/${name}/${path}`).then(
         (res) => res.text()
       ),
     }))

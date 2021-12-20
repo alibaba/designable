@@ -1,3 +1,4 @@
+import { getNpmCDNRegistry } from '../registry'
 export interface ILoadScriptProps {
   package: string
   entry: string
@@ -7,7 +8,7 @@ export interface ILoadScriptProps {
 
 export const loadScript = async (props: ILoadScriptProps) => {
   const options: ILoadScriptProps = {
-    base: '//cdn.jsdelivr.net/npm',
+    base: getNpmCDNRegistry(),
     ...props,
   }
   if (window[props.root]) return window[options.root]

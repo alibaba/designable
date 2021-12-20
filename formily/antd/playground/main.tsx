@@ -18,7 +18,10 @@ import {
   SettingsPanel,
   ComponentTreeWidget,
 } from '@designable/react'
-import { SettingsForm } from '@designable/react-settings-form'
+import {
+  SettingsForm,
+  setNpmCDNRegistry,
+} from '@designable/react-settings-form'
 import {
   createDesigner,
   GlobalRegistry,
@@ -62,6 +65,8 @@ import {
   FormLayout,
   FormGrid,
 } from '../src'
+
+setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
