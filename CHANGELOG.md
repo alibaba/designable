@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-beta.41(2021-12-16)
+
+### :beetle: Bug Fixes
+
+1. [fix: fix isBehavior](https://github.com/alibaba/designable/commit/fc88f3b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [fix(formily): set default language (#163)](https://github.com/alibaba/designable/commit/b7668b4) :point_right: ( [Minfee](https://github.com/Minfee) )
+
+1. [fix(react): remove the cleanup of ShadowSVG's effect (#162)](https://github.com/alibaba/designable/commit/b982a2e) :point_right: ( [JuFeng Zhang](https://github.com/JuFeng Zhang) )
+
 ## v1.0.0-beta.40(2021-12-08)
 
 ### :beetle: Bug Fixes
@@ -335,11 +345,3 @@
 1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
 
 1. [chore: update playground](https://github.com/alibaba/designable/commit/8a5b3f7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.1(2021-09-20)
-
-### :rose: Improve code quality
-
-1. [refactor(react): MainPanel -> StudioPanel](https://github.com/alibaba/designable/commit/74b344f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [refactor(project): redesign Registry/DragSource (#59)](https://github.com/alibaba/designable/commit/764e7ec) :point_right: ( [Janry](https://github.com/Janry) )
