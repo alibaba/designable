@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.42(2021-12-20)
+
+### :tada: Enhancements
+
+1. [feat: support setNpmCDNRegistry](https://github.com/alibaba/designable/commit/4c38484) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.41(2021-12-16)
 
 ### :beetle: Bug Fixes
@@ -329,19 +335,3 @@
 ### :blush: Other Changes
 
 1. [chore: support remount engine](https://github.com/alibaba/designable/commit/021668c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.2(2021-09-20)
-
-### :tada: Enhancements
-
-1. [feat(react): support move StudioPanel to root node](https://github.com/alibaba/designable/commit/9a54259) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
-
-### :blush: Other Changes
-
-1. [chore: fix repository url (#61)](https://github.com/alibaba/designable/commit/d0399b8) :point_right: ( [nnecec](https://github.com/nnecec) )
-
-1. [chore: update playground](https://github.com/alibaba/designable/commit/8a5b3f7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
