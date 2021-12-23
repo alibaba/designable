@@ -9,6 +9,7 @@ import { format } from './format'
 import cls from 'classnames'
 import './styles.less'
 import './config'
+import { initMonaco } from './config'
 
 export type Monaco = typeof monaco
 export interface MonacoInputProps extends EditorProps {
@@ -53,6 +54,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
 
   useEffect(() => {
     unmountedRef.current = false
+    initMonaco()
     return () => {
       if (extraLibRef.current) {
         extraLibRef.current.dispose()
