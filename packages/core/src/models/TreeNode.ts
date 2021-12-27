@@ -394,10 +394,10 @@ export class TreeNode {
     return ['y']
   }
 
-  allowFreeLayout(): boolean {
+  allowTranslate(): boolean {
     if (this === this.root && !this.isSourceNode) return false
-    const { freeLayout } = this.designerProps
-    if (freeLayout?.horizontal && freeLayout?.vertical) return true
+    const { translatable } = this.designerProps
+    if (translatable?.x && translatable?.y) return true
     return false
   }
 

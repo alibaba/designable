@@ -101,7 +101,7 @@ export class Engine extends Event {
     nodeDragHandlerAttrName: 'data-designer-node-handler',
     nodeResizeHandlerAttrName: 'data-designer-node-resize-handler',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
-    nodeFreeLayoutAttrName: 'data-designer-node-free-layout',
+    nodeTranslateAttrName: 'data-designer-node-free-layout',
     defaultScreenType: ScreenType.PC,
   }
 }

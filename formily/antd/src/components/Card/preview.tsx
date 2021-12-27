@@ -53,14 +53,14 @@ Card.Behavior = createBehavior({
         }
       },
     },
-    freeLayout: {
-      horizontal(node, element, diffX) {
+    translatable: {
+      x(node, element, diffX) {
         const left =
           parseInt(
             node.props['x-component-props']?.style?.left ?? element?.style.left
           ) || 0
         return {
-          setFreeLayout: () => {
+          translate: () => {
             node.props['x-component-props'] =
               node.props['x-component-props'] || {}
             node.props['x-component-props'].style =
@@ -70,13 +70,13 @@ Card.Behavior = createBehavior({
           },
         }
       },
-      vertical(node, element, diffY) {
+      y(node, element, diffY) {
         const top =
           parseInt(
             node.props['x-component-props']?.style?.top ?? element?.style.top
           ) || 0
         return {
-          setFreeLayout: () => {
+          translate: () => {
             node.props['x-component-props'] =
               node.props['x-component-props'] || {}
             node.props['x-component-props'].style =

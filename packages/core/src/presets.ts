@@ -17,7 +17,7 @@ import {
   useWorkspaceEffect,
   useFreeSelectionEffect,
   useContentEditableEffect,
-  useFreeLayoutEffect,
+  useTranslateEffect,
 } from './effects'
 import {
   SelectNodes,
@@ -45,7 +45,7 @@ export const DEFAULT_EFFECTS = [
   useWorkspaceEffect,
   useFreeSelectionEffect,
   useContentEditableEffect,
-  useFreeLayoutEffect,
+  useTranslateEffect,
 ]
 
 export const DEFAULT_DRIVERS = [

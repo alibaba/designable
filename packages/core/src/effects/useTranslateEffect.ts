@@ -3,21 +3,21 @@ import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
 import { Point } from '@designable/shared'
 
-type FreeLayoutData = {
+type TranslateData = {
   element?: HTMLElement
   node?: TreeNode
   point?: Point
 }
 
-type FreeLayoutStore = {
-  value?: FreeLayoutData
+type TranslateStore = {
+  value?: TranslateData
 }
 
-export const useFreeLayoutEffect = (engine: Engine) => {
-  const findStartNodeHandler = (target: HTMLElement): FreeLayoutData => {
-    const handler = target?.closest(`*[${engine.props.nodeFreeLayoutAttrName}]`)
+export const useTranslateEffect = (engine: Engine) => {
+  const findStartNodeHandler = (target: HTMLElement): TranslateData => {
+    const handler = target?.closest(`*[${engine.props.nodeTranslateAttrName}]`)
     if (handler) {
-      const type = handler.getAttribute(engine.props.nodeFreeLayoutAttrName)
+      const type = handler.getAttribute(engine.props.nodeTranslateAttrName)
       if (type) {
         const element = handler.closest(
           `*[${engine.props.nodeSelectionIdAttrName}]`
@@ -38,7 +38,7 @@ export const useFreeLayoutEffect = (engine: Engine) => {
     return
   }
 
-  const store: FreeLayoutStore = {}
+  const store: TranslateStore = {}
 
   engine.subscribeTo(DragStartEvent, (event) => {
     if (engine.cursor.type !== CursorType.Move) return
@@ -57,16 +57,16 @@ export const useFreeLayoutEffect = (engine: Engine) => {
     if (engine.cursor.type !== CursorType.Move) return
     if (store.value) {
       const { node, element, point } = store.value
-      const allowFreeLayout = node.allowFreeLayout()
-      if (!allowFreeLayout) return
-      const freeLayout = node.designerProps.freeLayout
+      const allowTranslate = node.allowTranslate()
+      if (!allowTranslate) return
+      const translatable = node.designerProps.translatable
       const current = new Point(event.data.clientX, event.data.clientY)
       const diffX = current.x - point?.x
       const diffY = current.y - point?.y
-      const horizontal = freeLayout.horizontal?.(node, element, diffX)
-      const vertical = freeLayout.vertical?.(node, element, diffY)
-      horizontal.setFreeLayout()
-      vertical.setFreeLayout()
+      const horizontal = translatable.x?.(node, element, diffX)
+      const vertical = translatable.y?.(node, element, diffY)
+      horizontal.translate()
+      vertical.translate()
       store.value.point = current
     }
   })
