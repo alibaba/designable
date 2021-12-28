@@ -134,7 +134,7 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     type: string | string[],
     subscriber: ISubscriber<T>
   ) {
-    return this.subscribeWith(type, subscriber)
+    return this.engine.subscribeWith(type, subscriber)
   }
 
   attach(container: EventDriverContainer) {
