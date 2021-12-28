@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card as AntdCard } from 'antd'
-
+import { SourceIcon } from './sourceIcon'
 import { createBehavior, createResource } from '@designable/core'
 import { DnFC } from '@designable/react'
 import { createVoidFieldSchema } from '../Field'
@@ -92,7 +92,7 @@ Card.Behavior = createBehavior({
 })
 
 Card.Resource = createResource({
-  icon: 'CardSource',
+  icon: <SourceIcon />,
   elements: [
     {
       componentName: 'Field',
