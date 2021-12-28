@@ -394,6 +394,13 @@ export class TreeNode {
     return ['y']
   }
 
+  allowTranslate(): boolean {
+    if (this === this.root && !this.isSourceNode) return false
+    const { translatable } = this.designerProps
+    if (translatable?.x && translatable?.y) return true
+    return false
+  }
+
   allowDelete() {
     if (this === this.root) return false
     return this.designerProps.deletable ?? true

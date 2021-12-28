@@ -12,6 +12,7 @@ import {
 } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { TreeNode } from '@designable/core'
+import { TranslateHandler } from './TranslateHandler'
 export interface ISelectionBoxProps {
   node: TreeNode
   showHelpers: boolean
@@ -48,6 +49,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
     <div {...selectionId} className={prefix} style={createSelectionStyle()}>
       <div className={innerPrefix}></div>
       <ResizeHandler node={props.node} />
+      <TranslateHandler node={props.node} />
       {props.showHelpers && (
         <Helpers {...props} node={props.node} nodeRect={nodeRect} />
       )}
