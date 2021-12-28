@@ -9,7 +9,7 @@ export interface ITranslateHandlerProps {
 
 export const TranslateHandler: React.FC<ITranslateHandlerProps> = (props) => {
   const designer = useDesigner()
-  const prefix = usePrefix('aux-node-free-layout-handler')
+  const prefix = usePrefix('aux-node-translate-handler')
   const createHandler = (value: string) => {
     return {
       [designer.props.nodeTranslateAttrName]: value,
@@ -20,7 +20,7 @@ export const TranslateHandler: React.FC<ITranslateHandlerProps> = (props) => {
   if (!allowTranslate) return null
   return (
     <>
-      <div {...createHandler('free')}>Free</div>
+      <div {...createHandler('translate')}>Free</div>
     </>
   )
 }
