@@ -2909,11 +2909,6 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@uiw/react-split@^5.8.4":
-  version "5.8.4"
-  resolved "https://registry.yarnpkg.com/@uiw/react-split/-/react-split-5.8.4.tgz#a10b478dac56433c47c8fbc90ae315b17aba0250"
-  integrity sha512-hx429JGcNHRhtF3ftZpn0EKuE4RAMhJMwveTMM2OqH3aHW/XeZfgy445xjs0klkwQ0yYNhYVA8+J/wuDSFPmXw==
-
 "@umijs/ast@3.5.20":
   version "3.5.20"
   resolved "https://registry.yarnpkg.com/@umijs/ast/-/ast-3.5.20.tgz#f07bebddccc99b50146250de52d89aa1e612518c"
