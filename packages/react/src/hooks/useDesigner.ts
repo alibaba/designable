@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Engine } from '@designable/core'
 import { DesignerEngineContext } from '../context'
-import { isFn } from '@designable/shared'
+import { isFn, window } from '@designable/shared'
 export interface IEffects {
   (engine: Engine): void
 }

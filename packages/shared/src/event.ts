@@ -1,5 +1,6 @@
 import { isArr, isWindow } from './types'
 import { Subscribable, ISubscriber } from './subscribable'
+import { window } from './window'
 
 const ATTACHED_SYMBOL = Symbol('ATTACHED_SYMBOL')
 const EVENTS_SYMBOL = Symbol('__EVENTS_SYMBOL__')

@@ -2,6 +2,7 @@ import { Path } from '@formily/path'
 import { requestIdle } from '@designable/shared'
 import { Engine, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
+import { window } from '@designable/shared'
 
 type GlobalState = {
   activeElements: Map<HTMLInputElement, TreeNode>

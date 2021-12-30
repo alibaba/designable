@@ -1,5 +1,6 @@
 import * as Core from './exports'
 export * from './exports'
+import { window } from '@designable/shared'
 
 if (window?.['Designable']?.['Core']) {
   if (module.exports) {

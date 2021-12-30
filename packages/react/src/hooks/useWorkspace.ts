@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import { useDesigner } from './useDesigner'
 import { WorkspaceContext } from '../context'
 import { Workspace } from '@designable/core'
+import { window } from '@designable/shared'
+
 export const useWorkspace = (id?: string): Workspace => {
   const designer = useDesigner()
   const workspaceId = id || useContext(WorkspaceContext)?.id

@@ -6,6 +6,7 @@ import {
   IPoint,
   requestIdle,
   cancelIdle,
+  window,
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'

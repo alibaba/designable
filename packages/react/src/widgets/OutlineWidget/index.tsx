@@ -6,6 +6,7 @@ import { OutlineTreeNode } from './OutlineNode'
 import { Insertion } from './Insertion'
 import { TreeNode, Viewport } from '@designable/core'
 import { NodeContext } from './context'
+import { window } from '@designable/shared'
 
 export interface IOutlineTreeWidgetProps {
   className?: string
