@@ -22,6 +22,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   nodeSelectionIdAttrName?: string //节点工具栏属性名
   nodeDragHandlerAttrName?: string //节点拖拽手柄属性名
   nodeResizeHandlerAttrName?: string //节点尺寸拖拽手柄属性名
+  nodeTranslateAttrName?: string // 节点自由布局的属性名
   defaultComponentTree?: ITreeNode //默认组件树
   defaultScreenType?: ScreenType
   rootComponentName?: string
@@ -51,6 +52,23 @@ export type IResizable = {
   }
 }
 
+export type ITranslate = {
+  x: (
+    node: TreeNode,
+    element: HTMLElement,
+    diffX: string | number
+  ) => {
+    translate: () => void
+  }
+  y: (
+    node: TreeNode,
+    element: HTMLElement,
+    diffY: string | number
+  ) => {
+    translate: () => void
+  }
+}
+
 export interface IDesignerProps {
   package?: string //npm包名
   registry?: string //web npm注册平台地址
@@ -64,6 +82,7 @@ export interface IDesignerProps {
   deletable?: boolean //是否可删除，默认为true
   cloneable?: boolean //是否可拷贝，默认为true
   resizable?: IResizable
+  translatable?: ITranslate // 自由布局
   inlineChildrenLayout?: boolean //子节点内联，用于指定复杂布局容器，强制内联
   selfRenderChildren?: boolean //是否自己渲染子节点
   propsSchema?: ISchema //Formily JSON Schema
