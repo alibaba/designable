@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { isFn } from '@designable/shared'
+import { isFn, window } from '@designable/shared'
 import {
   useDesigner,
   useWorkspace,

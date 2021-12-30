@@ -1,6 +1,7 @@
 import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
 import { ViewportScrollEvent } from '../events'
+import { window } from '@designable/shared'
 
 export class ViewportScrollDriver extends EventDriver<Engine> {
   request = null

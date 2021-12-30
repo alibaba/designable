@@ -1,4 +1,5 @@
 import { each, isPlainObj } from '@designable/shared'
+import { window } from '@designable/shared'
 
 export const lowerSnake = (str: string) => {
   return String(str).replace(/\s+/g, '_').toLocaleLowerCase()

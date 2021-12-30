@@ -1,4 +1,5 @@
 import 'requestidlecallback'
+import { window } from './window'
 
 export interface IIdleDeadline {
   didTimeout: boolean

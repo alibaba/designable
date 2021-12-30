@@ -1,5 +1,6 @@
 import { Engine } from './Engine'
 import { action, define, observable } from '@formily/reactive'
+import { window } from '@designable/shared'
 
 export enum CursorStatus {
   Normal = 'NORMAL',

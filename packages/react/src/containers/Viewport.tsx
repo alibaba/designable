@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { usePrefix, useViewport } from '../hooks'
 import { AuxToolWidget, EmptyWidget } from '../widgets'
 import { Viewport as ViewportType } from '@designable/core'
-import { requestIdle } from '@designable/shared'
+import { requestIdle, window } from '@designable/shared'
 import cls from 'classnames'
 export interface IViewportProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'placeholder'> {

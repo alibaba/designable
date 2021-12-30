@@ -1,4 +1,5 @@
 import { IEngineContext } from '../../types'
+import { window } from '@designable/shared'
 
 export interface IViewportEventData {
   scrollX: number

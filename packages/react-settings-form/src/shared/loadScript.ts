@@ -1,4 +1,5 @@
 import { getNpmCDNRegistry } from '../registry'
+import { window } from '@designable/shared'
 export interface ILoadScriptProps {
   package: string
   entry: string
