@@ -6,7 +6,7 @@ import {
   IPoint,
   requestIdle,
   cancelIdle,
-  window,
+  globalThisPolyfill,
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
@@ -97,7 +97,7 @@ export class Viewport {
   }
 
   get isMaster() {
-    return this.contentWindow === window
+    return this.contentWindow === globalThisPolyfill
   }
 
   get isIframe() {

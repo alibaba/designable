@@ -1,12 +1,12 @@
-function globalThisPolyfill() {
+function getGlobalThis() {
   try {
     if (typeof self !== 'undefined') {
       return self
     }
   } catch (e) {}
   try {
-    if (typeof window !== 'undefined') {
-      return window
+    if (typeof globalThisPolyfill !== 'undefined') {
+      return globalThisPolyfill
     }
   } catch (e) {}
   try {
@@ -16,4 +16,4 @@ function globalThisPolyfill() {
   } catch (e) {}
   return Function('return this')()
 }
-export const window: Window = globalThisPolyfill()
+export const globalThisPolyfill: Window = getGlobalThis()

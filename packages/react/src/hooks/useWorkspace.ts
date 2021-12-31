@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useDesigner } from './useDesigner'
 import { WorkspaceContext } from '../context'
 import { Workspace } from '@designable/core'
-import { window } from '@designable/shared'
+import { globalThisPolyfill } from '@designable/shared'
 
 export const useWorkspace = (id?: string): Workspace => {
   const designer = useDesigner()
@@ -10,7 +10,7 @@ export const useWorkspace = (id?: string): Workspace => {
   if (workspaceId) {
     return designer.workbench.findWorkspaceById(workspaceId)
   }
-  if (window['__DESIGNABLE_WORKSPACE__'])
-    return window['__DESIGNABLE_WORKSPACE__']
+  if (globalThisPolyfill['__DESIGNABLE_WORKSPACE__'])
+    return globalThisPolyfill['__DESIGNABLE_WORKSPACE__']
   return designer.workbench.currentWorkspace
 }

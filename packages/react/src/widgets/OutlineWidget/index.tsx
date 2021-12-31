@@ -6,7 +6,7 @@ import { OutlineTreeNode } from './OutlineNode'
 import { Insertion } from './Insertion'
 import { TreeNode, Viewport } from '@designable/core'
 import { NodeContext } from './context'
-import { window } from '@designable/shared'
+import { globalThisPolyfill } from '@designable/shared'
 
 export interface IOutlineTreeWidgetProps {
   className?: string
@@ -32,7 +32,7 @@ export const OutlineTreeWidget: React.FC<IOutlineTreeWidgetProps> = observer(
         outlineRef.current.onUnmount()
       }
       if (ref.current && outline) {
-        outline.onMount(ref.current, window)
+        outline.onMount(ref.current, globalThisPolyfill)
       }
       outlineRef.current = outline
       return () => {
