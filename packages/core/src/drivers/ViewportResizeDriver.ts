@@ -2,6 +2,8 @@ import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
 import { ViewportResizeEvent } from '../events'
 import { ResizeObserver } from '@juggle/resize-observer'
+import { globalThisPolyfill } from '@designable/shared'
+
 export class ViewportResizeDriver extends EventDriver<Engine> {
   request = null
 
@@ -27,7 +29,7 @@ export class ViewportResizeDriver extends EventDriver<Engine> {
   }
 
   attach() {
-    if (this.contentWindow && this.contentWindow !== window) {
+    if (this.contentWindow && this.contentWindow !== globalThisPolyfill) {
       this.addEventListener('resize', this.onResize)
     } else {
       if (this.container && this.container !== document) {
@@ -38,7 +40,7 @@ export class ViewportResizeDriver extends EventDriver<Engine> {
   }
 
   detach() {
-    if (this.contentWindow && this.contentWindow !== window) {
+    if (this.contentWindow && this.contentWindow !== globalThisPolyfill) {
       this.removeEventListener('resize', this.onResize)
     } else if (this.resizeObserver) {
       if (this.container && this.container !== document) {

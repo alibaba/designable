@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { isFn } from '@designable/shared'
+import { isFn, globalThisPolyfill } from '@designable/shared'
 import {
   useDesigner,
   useWorkspace,
@@ -44,8 +44,8 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
       ref.current.contentWindow['__DESIGNABLE_LAYOUT__'] = layout
       ref.current.contentWindow['__DESIGNABLE_ENGINE__'] = designer
       ref.current.contentWindow['__DESIGNABLE_WORKSPACE__'] = workspace
-      ref.current.contentWindow['Formily'] = window['Formily']
-      ref.current.contentWindow['Designable'] = window['Designable']
+      ref.current.contentWindow['Formily'] = globalThisPolyfill['Formily']
+      ref.current.contentWindow['Designable'] = globalThisPolyfill['Designable']
       ref.current.contentDocument.open()
       ref.current.contentDocument.write(`
       <!DOCTYPE html>
@@ -96,15 +96,15 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
   return ref
 }
 
-if (window.frameElement) {
+if (globalThisPolyfill.frameElement) {
   //解决iframe内嵌如果iframe被移除，内部React无法回收内存的问题
-  window.addEventListener('unload', () => {
+  globalThisPolyfill.addEventListener('unload', () => {
     ReactDOM.unmountComponentAtNode(document.getElementById('__SANDBOX_ROOT__'))
   })
 }
 
 export const useSandboxScope = () => {
-  return window['__DESIGNABLE_SANDBOX_SCOPE__']
+  return globalThisPolyfill['__DESIGNABLE_SANDBOX_SCOPE__']
 }
 
 export const renderSandboxContent = (render: (scope?: any) => JSX.Element) => {

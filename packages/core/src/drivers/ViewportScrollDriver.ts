@@ -1,4 +1,4 @@
-import { EventDriver } from '@designable/shared'
+import { EventDriver, globalThisPolyfill } from '@designable/shared'
 import { Engine } from '../models/Engine'
 import { ViewportScrollEvent } from '../events'
 
@@ -7,7 +7,7 @@ export class ViewportScrollDriver extends EventDriver<Engine> {
 
   onScroll = (e: UIEvent) => {
     e.preventDefault()
-    this.request = window.requestAnimationFrame(() => {
+    this.request = globalThisPolyfill.requestAnimationFrame(() => {
       this.dispatch(
         new ViewportScrollEvent({
           scrollX: this.contentWindow.scrollX,

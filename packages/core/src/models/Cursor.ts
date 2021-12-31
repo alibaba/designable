@@ -1,5 +1,6 @@
 import { Engine } from './Engine'
 import { action, define, observable } from '@formily/reactive'
+import { globalThisPolyfill } from '@designable/shared'
 
 export enum CursorStatus {
   Normal = 'NORMAL',
@@ -92,7 +93,7 @@ export class Cursor {
 
   dragEndScrollOffset: IScrollOffset = DEFAULT_SCROLL_OFFSET
 
-  view: Window = window
+  view: Window = globalThisPolyfill
 
   constructor(engine: Engine) {
     this.engine = engine

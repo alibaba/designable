@@ -1,4 +1,5 @@
 import { IEngineContext } from '../../types'
+import { globalThisPolyfill } from '@designable/shared'
 
 export interface ICursorEventOriginData {
   clientX: number
@@ -28,14 +29,14 @@ export class AbstractCursorEvent {
       pageX: 0,
       pageY: 0,
       target: null,
-      view: window,
+      view: globalThisPolyfill,
     }
     this.transformCoordinates()
   }
 
   transformCoordinates() {
     const { frameElement } = this.data?.view || {}
-    if (frameElement && this.data.view !== window) {
+    if (frameElement && this.data.view !== globalThisPolyfill) {
       const frameRect = frameElement.getBoundingClientRect()
       const scale = frameRect.width / frameElement['offsetWidth']
       this.data.topClientX = this.data.clientX * scale + frameRect.x

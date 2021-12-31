@@ -1,5 +1,6 @@
 import { isArr, isWindow } from './types'
 import { Subscribable, ISubscriber } from './subscribable'
+import { globalThisPolyfill } from './globalThisPolyfill'
 
 const ATTACHED_SYMBOL = Symbol('ATTACHED_SYMBOL')
 const EVENTS_SYMBOL = Symbol('__EVENTS_SYMBOL__')
@@ -106,7 +107,7 @@ export class EventDriver<Engine extends Event = Event, Context = any>
 
   container: EventDriverContainer = document
 
-  contentWindow: Window = window
+  contentWindow: Window = globalThisPolyfill
 
   context: Context
 
@@ -323,7 +324,7 @@ export class Event extends Subscribable<ICustomEvent<any>> {
 
   attachEvents(
     container: EventContainer,
-    contentWindow: Window = window,
+    contentWindow: Window = globalThisPolyfill,
     context?: any
   ) {
     if (!container) return

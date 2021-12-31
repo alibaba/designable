@@ -1,14 +1,15 @@
 import * as Core from './exports'
 export * from './exports'
+import { globalThisPolyfill } from '@designable/shared'
 
-if (window?.['Designable']?.['Core']) {
+if (globalThisPolyfill?.['Designable']?.['Core']) {
   if (module.exports) {
     module.exports = {
       __esModule: true,
-      ...window['Designable']['Core'],
+      ...globalThisPolyfill['Designable']['Core'],
     }
   }
 } else {
-  window['Designable'] = window['Designable'] || {}
-  window['Designable'].Core = Core
+  globalThisPolyfill['Designable'] = globalThisPolyfill['Designable'] || {}
+  globalThisPolyfill['Designable'].Core = Core
 }

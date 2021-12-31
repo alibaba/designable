@@ -6,6 +6,7 @@ import {
   IPoint,
   requestIdle,
   cancelIdle,
+  globalThisPolyfill,
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
@@ -96,7 +97,7 @@ export class Viewport {
   }
 
   get isMaster() {
-    return this.contentWindow === window
+    return this.contentWindow === globalThisPolyfill
   }
 
   get isIframe() {
@@ -114,7 +115,10 @@ export class Viewport {
 
   get innerRect() {
     const rect = this.rect
-    return new DOMRect(0, 0, rect?.width, rect?.height)
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(0, 0, rect?.width, rect?.height)
+    )
   }
 
   get offsetX() {
@@ -277,11 +281,14 @@ export class Viewport {
     const offsetHeight = element['offsetHeight']
       ? element['offsetHeight']
       : rect.height
-    return new DOMRect(
-      rect.x,
-      rect.y,
-      this.scale !== 1 ? offsetWidth : rect.width,
-      this.scale !== 1 ? offsetHeight : rect.height
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(
+        rect.x,
+        rect.y,
+        this.scale !== 1 ? offsetWidth : rect.width,
+        this.scale !== 1 ? offsetHeight : rect.height
+      )
     )
   }
 
@@ -296,14 +303,20 @@ export class Viewport {
     )
     if (rect) {
       if (this.isIframe) {
-        return new DOMRect(
-          rect.x + this.offsetX,
-          rect.y + this.offsetY,
-          rect.width,
-          rect.height
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(
+            rect.x + this.offsetX,
+            rect.y + this.offsetY,
+            rect.width,
+            rect.height
+          )
         )
       } else {
-        return new DOMRect(rect.x, rect.y, rect.width, rect.height)
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(rect.x, rect.y, rect.width, rect.height)
+        )
       }
     }
   }
@@ -320,20 +333,26 @@ export class Viewport {
     )
     if (elementRect) {
       if (this.isIframe) {
-        return new DOMRect(
-          elementRect.x + this.contentWindow.scrollX,
-          elementRect.y + this.contentWindow.scrollY,
-          elementRect.width,
-          elementRect.height
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(
+            elementRect.x + this.contentWindow.scrollX,
+            elementRect.y + this.contentWindow.scrollY,
+            elementRect.width,
+            elementRect.height
+          )
         )
       } else {
-        return new DOMRect(
-          (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
-            this.scale,
-          (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
-            this.scale,
-          elementRect.width,
-          elementRect.height
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(
+            (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
+              this.scale,
+            (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
+              this.scale,
+            elementRect.width,
+            elementRect.height
+          )
         )
       }
     }

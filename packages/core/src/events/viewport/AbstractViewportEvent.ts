@@ -1,4 +1,5 @@
 import { IEngineContext } from '../../types'
+import { globalThisPolyfill } from '@designable/shared'
 
 export interface IViewportEventData {
   scrollX: number
@@ -16,14 +17,14 @@ export class AbstractViewportEvent {
   context: IEngineContext
   constructor(data: IViewportEventData) {
     this.data = data || {
-      scrollX: window.scrollX,
-      scrollY: window.scrollY,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      innerWidth: window.innerWidth,
-      innerHeight: window.innerHeight,
-      view: window,
-      target: window,
+      scrollX: globalThisPolyfill.scrollX,
+      scrollY: globalThisPolyfill.scrollY,
+      width: globalThisPolyfill.innerWidth,
+      height: globalThisPolyfill.innerHeight,
+      innerWidth: globalThisPolyfill.innerWidth,
+      innerHeight: globalThisPolyfill.innerHeight,
+      view: globalThisPolyfill,
+      target: globalThisPolyfill,
     }
   }
 }

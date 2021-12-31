@@ -1,4 +1,5 @@
 import { each, isPlainObj } from '@designable/shared'
+import { globalThisPolyfill } from '@designable/shared'
 
 export const lowerSnake = (str: string) => {
   return String(str).replace(/\s+/g, '_').toLocaleLowerCase()
@@ -25,10 +26,12 @@ export const mergeLocales = (target: any, source: any) => {
 
 export const getBrowserLanguage = () => {
   /* istanbul ignore next */
-  if (!window.navigator) {
+  if (!globalThisPolyfill.navigator) {
     return 'en'
   }
   return (
-    window.navigator['browserlanguage'] || window.navigator?.language || 'en'
+    globalThisPolyfill.navigator['browserlanguage'] ||
+    globalThisPolyfill.navigator?.language ||
+    'en'
   )
 }

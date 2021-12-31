@@ -1,5 +1,5 @@
 import { Path } from '@formily/path'
-import { requestIdle } from '@designable/shared'
+import { requestIdle, globalThisPolyfill } from '@designable/shared'
 import { Engine, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 
@@ -27,17 +27,17 @@ function setEndOfContenteditable(contentEditableElement: Element) {
   const range = document.createRange()
   range.selectNodeContents(contentEditableElement)
   range.collapse(false)
-  const selection = window.getSelection()
+  const selection = globalThisPolyfill.getSelection()
   selection.removeAllRanges()
   selection.addRange(range)
 }
 
 function createCaretCache(el: Element) {
-  const currentSelection = window.getSelection()
+  const currentSelection = globalThisPolyfill.getSelection()
   if (currentSelection.containsNode(el)) return
   const ranges = getAllRanges(currentSelection)
   return () => {
-    const sel = window.getSelection()
+    const sel = globalThisPolyfill.getSelection()
     const firstNode = el.childNodes[0]
     if (!firstNode) return
     sel.removeAllRanges()

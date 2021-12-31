@@ -188,7 +188,9 @@ export function calcBoundingRect(rects: IRect[]) {
   let minLeft = Infinity
   let maxRight = -Infinity
   rects.forEach((item) => {
-    const rect = new DOMRect(item.x, item.y, item.width, item.height)
+    const rect =
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(item.x, item.y, item.width, item.height)
     if (rect.top <= minTop) {
       minTop = rect.top
     }
@@ -202,7 +204,10 @@ export function calcBoundingRect(rects: IRect[]) {
       maxRight = rect.right
     }
   })
-  return new DOMRect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop)
+  return (
+    typeof DOMRect !== 'undefined' &&
+    new DOMRect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop)
+  )
 }
 
 export function calcRectByStartEndPoint(
@@ -220,11 +225,14 @@ export function calcRectByStartEndPoint(
     //4象限
     drawStartX = startPoint.x
     drawStartY = startPoint.y
-    return new DOMRect(
-      drawStartX - scrollX,
-      drawStartY - scrollY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(
+        drawStartX - scrollX,
+        drawStartY - scrollY,
+        Math.abs(endPoint.x - startPoint.x + scrollX),
+        Math.abs(endPoint.y - startPoint.y + scrollY)
+      )
     )
   } else if (
     endPoint.x + scrollX < startPoint.x &&
@@ -233,11 +241,14 @@ export function calcRectByStartEndPoint(
     //1象限
     drawStartX = endPoint.x
     drawStartY = endPoint.y
-    return new DOMRect(
-      drawStartX,
-      drawStartY,
-      Math.abs(endPoint.x - startPoint.x) - scrollX,
-      Math.abs(endPoint.y - startPoint.y) - scrollY
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(
+        drawStartX,
+        drawStartY,
+        Math.abs(endPoint.x - startPoint.x) - scrollX,
+        Math.abs(endPoint.y - startPoint.y) - scrollY
+      )
     )
   } else if (
     endPoint.x + scrollX < startPoint.x &&
@@ -246,21 +257,27 @@ export function calcRectByStartEndPoint(
     //3象限
     drawStartX = endPoint.x
     drawStartY = startPoint.y
-    return new DOMRect(
-      drawStartX - scrollX,
-      drawStartY - scrollY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(
+        drawStartX - scrollX,
+        drawStartY - scrollY,
+        Math.abs(endPoint.x - startPoint.x + scrollX),
+        Math.abs(endPoint.y - startPoint.y + scrollY)
+      )
     )
   } else {
     //2象限
     drawStartX = startPoint.x
     drawStartY = endPoint.y
-    return new DOMRect(
-      drawStartX,
-      drawStartY,
-      Math.abs(endPoint.x - startPoint.x) - scrollX,
-      Math.abs(endPoint.y - startPoint.y) - scrollY
+    return (
+      typeof DOMRect !== 'undefined' &&
+      new DOMRect(
+        drawStartX,
+        drawStartY,
+        Math.abs(endPoint.x - startPoint.x) - scrollX,
+        Math.abs(endPoint.y - startPoint.y) - scrollY
+      )
     )
   }
 }
