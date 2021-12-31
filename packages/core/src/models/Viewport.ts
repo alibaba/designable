@@ -147,10 +147,10 @@ export class Viewport {
       this.width = this.contentWindow?.innerWidth || 0
       this.height = this.contentWindow?.innerHeight || 0
     } else if (this.viewportElement) {
-      this.scrollX = this.viewportElement?.scrollLeft || 0
-      this.scrollY = this.viewportElement?.scrollTop || 0
-      this.width = this.viewportElement?.clientWidth || 0
-      this.height = this.viewportElement?.clientHeight || 0
+      this.scrollX = this.viewportElement.scrollLeft || 0
+      this.scrollY = this.viewportElement.scrollTop || 0
+      this.width = this.viewportElement.clientWidth || 0
+      this.height = this.viewportElement.clientHeight || 0
     }
   }
 
