@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormGrid as FormilyGird } from '@formily/antd'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
@@ -26,9 +26,12 @@ export const FormGrid: DnFC<React.ComponentProps<formilyGrid>> & {
     (buf, child) => buf + (child.props?.['x-component-props']?.gridSpan ?? 1),
     0
   )
+
+  const key = new Date().getTime()
+
   return (
     <div {...nodeId} className="dn-grid">
-      <FormilyGird {...props} key={totalColumns}>
+      <FormilyGird {...props} key={key}>
         {props.children}
       </FormilyGird>
       <LoadTemplate
