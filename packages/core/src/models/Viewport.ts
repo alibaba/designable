@@ -191,6 +191,8 @@ export class Viewport {
     if (this.isIframe) {
       this.workspace.detachEvents(this.contentWindow)
       this.workspace.detachEvents(this.viewportElement)
+    } else {
+      this.workspace.detachEvents(this.viewportElement)
     }
   }
 

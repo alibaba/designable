@@ -351,7 +351,7 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       })
       return
     }
-    if (container instanceof Window) {
+    if (isWindow(container)) {
       return this.detachEvents(container.document)
     }
     if (!container[ATTACHED_SYMBOL]) return
