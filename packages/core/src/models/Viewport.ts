@@ -405,8 +405,8 @@ export class Viewport {
     if (!node) return
     const rect = this.getElementRectById(node.id)
     if (node && node === node.root) {
-      if (!rect) return this.innerRect
-      return calcBoundingRect([this.innerRect, rect])
+      if (!rect) return this.rect
+      return calcBoundingRect([this.rect, rect])
     }
 
     if (rect) {
