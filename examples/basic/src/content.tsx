@@ -24,16 +24,18 @@ export const Content = () => (
           </span>
         )
       }),
-      Card: (props) => {
+      Card: observer((props) => {
         return (
           <div
             {...props}
             style={{
+              width: 400,
+              height: 400,
+              ...props.style,
               background: '#eee',
               border: '1px solid #ddd',
               display: 'flex',
               padding: 10,
-              height: props.children ? 'auto' : 150,
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -41,7 +43,7 @@ export const Content = () => (
             {props.children ? props.children : <span>拖拽字段进入该区域</span>}
           </div>
         )
-      },
+      }),
     }}
   />
 )
