@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { usePrefix, useViewport } from '../hooks'
 import { AuxToolWidget, EmptyWidget } from '../widgets'
 import { Viewport as ViewportType } from '@designable/core'
@@ -21,7 +21,7 @@ export const Viewport: React.FC<IViewportProps> = ({
   const ref = useRef<HTMLDivElement>()
   const viewportRef = useRef<ViewportType>()
   const isFrameRef = useRef(false)
-  useEffect(() => {
+  useLayoutEffect(() => {
     const frameElement = ref.current.querySelector('iframe')
     if (!viewport) return
     if (viewportRef.current && viewportRef.current !== viewport) {

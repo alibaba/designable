@@ -32,7 +32,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   }, [viewport, node])
 
   useEffect(() => {
-    if (!element) return
+    if (!element || !element.isConnected) return
     if (observerRef.current) {
       observerRef.current.disconnect()
     }
