@@ -89,7 +89,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
     }
   }
   const renderTooltips = (children: React.ReactElement): React.ReactElement => {
-    if (!isStr(props.infer) && context.tooltip) return children as any
+    if (!isStr(props.infer) && context?.tooltip) return children as any
     const tooltip =
       props.tooltip || registry.getDesignerMessage(`icons.${props.infer}`)
     if (tooltip) {
