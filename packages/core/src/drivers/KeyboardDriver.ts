@@ -5,10 +5,13 @@ function filter(event: KeyboardEvent) {
   const target: any = event.target
   const { tagName } = target
   let flag = true
-  // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>
+  // ignore: isContentEditable === 'true', <input> and <textarea> when readOnly state is false, <select>、Web Components
   if (
     target['isContentEditable'] ||
-    ((tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') &&
+    ((tagName === 'INPUT' ||
+      tagName === 'TEXTAREA' ||
+      tagName === 'SELECT' ||
+      customElements.get(tagName.toLocaleLowerCase())) &&
       !target.readOnly)
   ) {
     flag = false
