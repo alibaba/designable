@@ -135,7 +135,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
                   <TreeNodeWidget key={node.id} node={node} />
                 ))
               ) : (
-                <DroppableWidget />
+                <DroppableWidget hasChildren={false} />
               )}
             </div>
           </Card>
