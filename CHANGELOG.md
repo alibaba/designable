@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0-beta.43(2021-12-23)
+
+### :tada: Enhancements
+
+1. [feat(react): add some icons](https://github.com/alibaba/designable/commit/341422b) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.42(2021-12-20)
 
 ### :tada: Enhancements
@@ -329,9 +335,3 @@
 ### :tada: Enhancements
 
 1. [feat: support HistoryPushEvent](https://github.com/alibaba/designable/commit/cfec592) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.3(2021-09-20)
-
-### :blush: Other Changes
-
-1. [chore: support remount engine](https://github.com/alibaba/designable/commit/021668c) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
