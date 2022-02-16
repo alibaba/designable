@@ -272,14 +272,14 @@ export class Operation {
       this.tree.from(operation.tree)
     }
     if (operation.selected) {
-      this.selection.batchSelect(operation.selected)
+      this.selection.selected = operation.selected
     }
   }
 
   serialize(): IOperation {
     return {
       tree: this.tree.serialize(),
-      selected: this.selection.selected,
+      selected: [this.tree.id],
     }
   }
 }
