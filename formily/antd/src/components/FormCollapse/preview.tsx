@@ -67,7 +67,7 @@ export const FormCollapse: DnFC<CollapseProps> & {
           : node.id === activeKey
       )
     )
-      return activeKey
+      return tabs.map((item) => item.id)
     return tabs[tabs.length - 1].id
   }
   const panels = parseCollapse(node)
