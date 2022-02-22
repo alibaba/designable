@@ -35,34 +35,31 @@ export class Selection {
     })
   }
 
-  trigger(type = SelectNodeEvent, fromUser = false) {
+  trigger(type = SelectNodeEvent) {
     return this.operation.dispatch(
       new type({
         target: this.operation.tree,
         source: this.operation.getSelectedNodes(),
-        extra: {
-          fromUser,
-        },
       })
     )
   }
 
-  select(id: string | TreeNode, fromUser?: boolean) {
+  select(id: string | TreeNode) {
     if (isStr(id)) {
       if (this.selected.length === 1 && this.selected.includes(id)) {
-        this.trigger(SelectNodeEvent, fromUser)
+        this.trigger(SelectNodeEvent)
         return
       }
       this.selected = [id]
-      this.trigger(SelectNodeEvent, fromUser)
+      this.trigger(SelectNodeEvent)
     } else {
-      this.select(id?.id, fromUser)
+      this.select(id?.id)
     }
   }
 
-  safeSelect(id: string | TreeNode, fromUser?: boolean) {
+  safeSelect(id: string | TreeNode) {
     if (!id) return
-    this.select(id, fromUser)
+    this.select(id)
   }
 
   mapIds(ids: any) {
@@ -71,14 +68,14 @@ export class Selection {
       : []
   }
 
-  batchSelect(ids: string[] | TreeNode[], fromUser?: boolean) {
+  batchSelect(ids: string[] | TreeNode[]) {
     this.selected = this.mapIds(ids)
-    this.trigger(SelectNodeEvent, fromUser)
+    this.trigger(SelectNodeEvent)
   }
 
-  batchSafeSelect(ids: string[] | TreeNode[], fromUser?: boolean) {
+  batchSafeSelect(ids: string[] | TreeNode[]) {
     if (!ids?.length) return
-    this.batchSelect(ids, fromUser)
+    this.batchSelect(ids)
   }
 
   get first() {

@@ -12,7 +12,7 @@ export interface IDesignerProps extends IDesignerLayoutProps {
 }
 
 export interface IDesignerComponents {
-  [key: string]: DnFC<any>
+  [key: string]: DnFC<any> | DnComponent<any>
 }
 
 export interface IDesignerLayoutContext {

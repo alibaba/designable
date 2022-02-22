@@ -59,10 +59,10 @@ export const useSelectionEffect = (engine: Engine) => {
           selection.crossAddTo(node)
         }
       } else {
-        selection.select(node, true)
+        selection.select(node)
       }
     } else {
-      selection.select(tree, true)
+      selection.select(tree)
     }
   })
 }
