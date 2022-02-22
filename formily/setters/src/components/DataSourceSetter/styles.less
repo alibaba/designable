@@ -1,4 +1,5 @@
-@import '~antd/lib/style/themes/default.less';
+@root-entry-name: 'default';
+@import (reference) '~antd/es/style/themes/index.less';
 
 .dn-data-source-setter {
   ::-webkit-scrollbar {
@@ -36,7 +37,7 @@
     border: 1px solid @border-color-split;
     border-radius: 3px;
 
-    .ant-tree-treenode {
+    .@{ant-prefix}-tree-treenode {
       padding-right: 10px;
       white-space: nowrap;
 
