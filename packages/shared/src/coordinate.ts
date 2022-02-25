@@ -92,7 +92,7 @@ export function isCrossRectInRect(target: IRect, source: IRect) {
  * @param point
  * @param rect
  */
-export function calcQuadrantOfPonitToRect(point: IPoint, rect: IRect) {
+export function calcQuadrantOfPointToRect(point: IPoint, rect: IRect) {
   const isInner = isPointInRect(point, rect)
   if (point.x <= rect.x + rect.width / 2) {
     if (point.y <= rect.y + rect.height / 2) {
@@ -173,7 +173,7 @@ export function calcRelativeOfPointToRect(
   rect: IRect
 ): IPointToRectRelative {
   const distance = calcDistanceOfPointToRect(point, rect)
-  const quadrant = calcQuadrantOfPonitToRect(point, rect)
+  const quadrant = calcQuadrantOfPointToRect(point, rect)
   return {
     quadrant,
     distance,
