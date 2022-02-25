@@ -1,6 +1,6 @@
 {
   "name": "@designable/react",
-  "version": "1.0.0-beta.44",
+  "version": "1.0.0-beta.45",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -33,8 +33,8 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.44",
-    "@designable/shared": "1.0.0-beta.44",
+    "@designable/core": "1.0.0-beta.45",
+    "@designable/shared": "1.0.0-beta.45",
     "@juggle/resize-observer": "^3.3.1",
     "dateformat": "^4.5.1"
   },

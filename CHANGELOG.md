@@ -1,5 +1,41 @@
 # Changelog
 
+## v1.0.0-beta.44(2022-02-16)
+
+### :tada: Enhancements
+
+1. [feat: add hasChildren parameter for DroppableWidget (#219)](https://github.com/alibaba/designable/commit/d04cf3a) :point_right: ( [JuFeng Zhang](https://github.com/JuFeng Zhang) )
+
+1. [feat: add ssr support (#186)](https://github.com/alibaba/designable/commit/6851c71) :point_right: ( [月落音阑](https://github.com/月落音阑) )
+
+1. [feat(core/react/playground): add freelayout feature. add custom source icon feature (#184)](https://github.com/alibaba/designable/commit/171c64f) :point_right: ( [jinphic](https://github.com/jinphic) )
+
+### :beetle: Bug Fixes
+
+1. [fix(react): fix IconWidget side errors(#205)](https://github.com/alibaba/designable/commit/29df2e2) :point_right: ( [yun zhou](https://github.com/yun zhou) )
+
+1. [fix(core): fix web components compatibility in KeyboardDriver (#213)](https://github.com/alibaba/designable/commit/ba7dc10) :point_right: ( [febugcoder](https://github.com/febugcoder) )
+
+1. [fix(core/react): some bug fix about viewport (#198)](https://github.com/alibaba/designable/commit/40abbc2) :point_right: ( [coder-byte](https://github.com/coder-byte) )
+
+1. [fix(playground): fix browser compatibility (#192)](https://github.com/alibaba/designable/commit/57036b9) :point_right: ( [翁立鑫](https://github.com/翁立鑫) )
+
+1. [fix(formily-antd): fix form-grid stuck with repeat key](https://github.com/alibaba/designable/commit/1f9a758) :point_right: ( [yuanxiaoyu](https://github.com/yuanxiaoyu) )
+
+1. [fix(shared/event): fix call subscribeWith infinite recursion (#178)](https://github.com/alibaba/designable/commit/dd06bfa) :point_right: ( [QYW](https://github.com/QYW) )
+
+### :memo: Documents Changes
+
+1. [docs: update package readme](https://github.com/alibaba/designable/commit/118205c) :point_right: ( [Janry](https://github.com/Janry) )
+
+### :blush: Other Changes
+
+1. [chore: reset selected to top tree when redo](https://github.com/alibaba/designable/commit/3b3f5c3) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore: update schema configs](https://github.com/alibaba/designable/commit/432a89f) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
+1. [chore: add translate example code](https://github.com/alibaba/designable/commit/c45fea6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
+
 ## v1.0.0-beta.43(2021-12-23)
 
 ### :tada: Enhancements
@@ -329,9 +365,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): update NodePathWidget dependencies](https://github.com/alibaba/designable/commit/87d801e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.4(2021-09-20)
-
-### :tada: Enhancements
-
-1. [feat: support HistoryPushEvent](https://github.com/alibaba/designable/commit/cfec592) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

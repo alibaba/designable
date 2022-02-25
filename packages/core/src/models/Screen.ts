@@ -5,6 +5,13 @@ export enum ScreenType {
   PC = 'PC',
   Responsive = 'Responsive',
   Mobile = 'Mobile',
+  Sketch = 'Sketch',
+}
+
+export enum ScreenStatus {
+  Normal = 'Normal',
+  Resizing = 'Resizing',
+  Zooming = 'Zooming',
 }
 
 export class Screen {
@@ -15,6 +22,7 @@ export class Screen {
   engine: Engine
   background = ''
   flip = false
+  status = ScreenStatus.Normal
   constructor(engine: Engine) {
     this.engine = engine
     this.type = engine.props.defaultScreenType
@@ -27,6 +35,7 @@ export class Screen {
       scale: observable.ref,
       width: observable.ref,
       height: observable.ref,
+      status: observable.ref,
       flip: observable.ref,
       background: observable.ref,
       setType: action,
@@ -36,6 +45,10 @@ export class Screen {
       setBackground: action,
       setFlip: action,
     })
+  }
+
+  setStatus(status: ScreenStatus) {
+    this.status = status
   }
 
   setType(type: ScreenType) {
