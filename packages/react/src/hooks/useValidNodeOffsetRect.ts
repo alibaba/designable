@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { TreeNode } from '@designable/core'
+import { TreeNode, CursorStatus } from '@designable/core'
 import { requestIdle, cancelIdle } from '@designable/shared'
 import { ResizeObserver } from '@juggle/resize-observer'
 import { useViewport } from './useViewport'
@@ -24,6 +24,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
 
   const compute = useCallback(() => {
     if (unmountRef.current) return
+    if (viewport.engine.cursor.status !== CursorStatus.Normal) return
     const nextRect = viewport.getValidNodeOffsetRect(node)
     if (!isEqualRect(rectRef.current, nextRect) && nextRect) {
       rectRef.current = nextRect
