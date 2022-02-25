@@ -82,7 +82,7 @@ export default (filename, targetName, ...plugins) => [
     input: 'src/index.ts',
     output: {
       format: 'umd',
-      file: `dist/${filename}.umd.development.js`,
+      file: `dist/${filename}.umd.production.min.js`,
       name: targetName,
     },
     plugins: [...presets(filename, targetName), ...plugins],

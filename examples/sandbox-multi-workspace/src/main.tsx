@@ -358,8 +358,8 @@ const App = () => {
                     <Sandbox
                       jsAssets={[
                         'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.development.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.development.js',
+                        'https://unpkg.com/react/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
                         'https://unpkg.com/antd/dist/antd-with-locales.min.js',
                         './sandbox.bundle.js',
                       ]}
@@ -394,8 +394,8 @@ const App = () => {
                     <Sandbox
                       jsAssets={[
                         'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.development.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.development.js',
+                        'https://unpkg.com/react/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
                         'https://unpkg.com/antd/dist/antd-with-locales.min.js',
                         './sandbox.bundle.js',
                       ]}
