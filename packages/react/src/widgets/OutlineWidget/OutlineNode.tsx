@@ -86,13 +86,16 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
             ref.current.classList.remove('selected')
           }
         }
-        if (cursor.status === CursorStatus.Dragging) {
+        if (
+          cursor.status === CursorStatus.Dragging &&
+          outlineDragon?.dragNodes?.length
+        ) {
           if (ref.current.classList.contains('selected')) {
             ref.current.classList.remove('selected')
           }
         }
       })
-    }, [node, selection])
+    }, [node, selection, outlineDragon])
 
     if (!node) return null
 

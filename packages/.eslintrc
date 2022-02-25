@@ -27,6 +27,7 @@
     // don't force es6 functions to include space before paren
     "space-before-function-paren": 0,
     "react/prop-types": 0,
+    "react/jsx-key": 0,
     "react/no-find-dom-node": 0,
     "react/display-name": 0,
     // allow specifying true explicitly for boolean props
