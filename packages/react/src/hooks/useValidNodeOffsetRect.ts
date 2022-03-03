@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { TreeNode, CursorStatus, ScreenStatus } from '@designable/core'
+import { TreeNode, CursorStatus, CursorDragType } from '@designable/core'
 import { requestIdle, cancelIdle } from '@designable/shared'
 import { ResizeObserver } from '@juggle/resize-observer'
 import { useViewport } from './useViewport'
@@ -28,7 +28,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
     if (unmountRef.current) return
     if (
       engine.cursor.status !== CursorStatus.Normal &&
-      engine.screen.status === ScreenStatus.Normal
+      engine.cursor.dragType === CursorDragType.Normal
     )
       return
     const nextRect = viewport.getValidNodeOffsetRect(node)

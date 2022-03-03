@@ -96,6 +96,10 @@ export class Operation {
     return this.viewportDragon.dragNodes
   }
 
+  hasDragNodes() {
+    return this.getDragNodes()?.length > 0
+  }
+
   getDropNodes(parent: TreeNode) {
     const dragNodes = this.getDragNodes()
     return dragNodes.reduce((buf, node) => {

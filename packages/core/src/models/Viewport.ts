@@ -275,6 +275,7 @@ export class Viewport {
     }
   }
 
+  //相对于页面
   getElementRect(element: HTMLElement | Element) {
     const rect = element.getBoundingClientRect()
     const offsetWidth = element['offsetWidth']
@@ -294,10 +295,7 @@ export class Viewport {
     )
   }
 
-  /**
-   * 相对于主屏幕
-   * @param id
-   */
+  //相对于页面
   getElementRectById(id: string) {
     const elements = this.findElementsById(id)
     const rect = calcBoundingRect(
@@ -323,10 +321,7 @@ export class Viewport {
     }
   }
 
-  /**
-   * 相对于视口
-   * @param id
-   */
+  //相对于视口
   getElementOffsetRectById(id: string) {
     const elements = this.findElementsById(id)
     if (!elements.length) return

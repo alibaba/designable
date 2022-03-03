@@ -31,6 +31,7 @@
     "react/display-name": 0,
     // allow specifying true explicitly for boolean props
     "react/jsx-boolean-value": 0,
+    "react/jsx-key": 0,
     "react/no-did-update-set-state": 0,
     // maybe we should no-public
     "@typescript-eslint/explicit-member-accessibility": 0,

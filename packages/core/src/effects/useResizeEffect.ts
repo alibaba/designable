@@ -1,4 +1,4 @@
-import { Engine, CursorType } from '../models'
+import { Engine, CursorType, CursorDragType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
 import { Point } from '@designable/shared'
@@ -46,7 +46,7 @@ export const useResizeEffect = (engine: Engine) => {
   const store: ResizeStore = {}
 
   engine.subscribeTo(DragStartEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+    if (engine.cursor.type !== CursorType.Normal) return
     const target = event.data.target as HTMLElement
     const data = findStartNodeHandler(target)
     if (data) {
@@ -55,6 +55,7 @@ export const useResizeEffect = (engine: Engine) => {
         ...data,
         point,
       }
+      engine.cursor.setDragType(CursorDragType.Resize)
       if (data.axis === 'x') {
         engine.cursor.setStyle('ew-resize')
       } else if (data.axis === 'y') {
@@ -64,7 +65,7 @@ export const useResizeEffect = (engine: Engine) => {
   })
 
   engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+    if (engine.cursor.type !== CursorType.Normal) return
     if (store.value) {
       const { axis, type, node, element, point } = store.value
       const allowResize = node.allowResize()
@@ -111,9 +112,10 @@ export const useResizeEffect = (engine: Engine) => {
   })
 
   engine.subscribeTo(DragStopEvent, () => {
-    if (engine.cursor.type !== CursorType.Move) return
+    if (engine.cursor.type !== CursorType.Normal) return
     if (store.value) {
       store.value = null
+      engine.cursor.setDragType(CursorDragType.Normal)
       engine.cursor.setStyle('')
     }
   })

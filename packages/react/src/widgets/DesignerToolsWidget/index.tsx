@@ -62,9 +62,9 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
         <Button.Group size="small" style={{ marginRight: 20 }}>
           <Button
             size="small"
-            disabled={cursor.type === CursorType.Move}
+            disabled={cursor.type === CursorType.Normal}
             onClick={() => {
-              cursor.setType(CursorType.Move)
+              cursor.setType(CursorType.Normal)
             }}
           >
             <IconWidget infer="Move" />

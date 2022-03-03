@@ -1,4 +1,4 @@
-import { Engine, CursorType } from '../models'
+import { Engine, CursorType, CursorDragType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
 import { Point } from '@designable/shared'
@@ -41,7 +41,6 @@ export const useTranslateEffect = (engine: Engine) => {
   const store: TranslateStore = {}
 
   engine.subscribeTo(DragStartEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
     const target = event.data.target as HTMLElement
     const data = findStartNodeHandler(target)
     if (data) {
@@ -50,11 +49,12 @@ export const useTranslateEffect = (engine: Engine) => {
         ...data,
         point,
       }
+      engine.cursor.setDragType(CursorDragType.Translate)
     }
   })
 
   engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Move) return
+    if (engine.cursor.type !== CursorType.Normal) return
     if (store.value) {
       const { node, element, point } = store.value
       const allowTranslate = node.allowTranslate()
@@ -72,9 +72,9 @@ export const useTranslateEffect = (engine: Engine) => {
   })
 
   engine.subscribeTo(DragStopEvent, () => {
-    if (engine.cursor.type !== CursorType.Move) return
     if (store.value) {
       store.value = null
+      engine.cursor.setDragType(CursorDragType.Normal)
     }
   })
 }
