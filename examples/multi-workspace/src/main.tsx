@@ -392,6 +392,7 @@ const App = () => {
                     )
                   }}
                 </ViewPanel>
+                <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
               </ViewportPanel>
             </WorkspacePanel>
           </Workspace>
