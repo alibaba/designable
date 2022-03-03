@@ -7,7 +7,7 @@ import {
   requestIdle,
   cancelIdle,
   globalThisPolyfill,
-} from '@designable/shared'
+} from '@inbiz/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
 import { Engine } from './Engine'

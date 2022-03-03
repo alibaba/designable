@@ -1,4 +1,4 @@
-import { ICustomEvent } from '@designable/shared'
+import { ICustomEvent } from '@inbiz/shared'
 import { AbstractCursorEvent } from './AbstractCursorEvent'
 
 export class MouseMoveEvent

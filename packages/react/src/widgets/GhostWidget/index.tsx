@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useCursor, usePrefix, useDesigner } from '../../hooks'
-import { CursorStatus } from '@designable/core'
+import { CursorStatus } from '@inbiz/core'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-react'
 import { NodeTitleWidget } from '../NodeTitleWidget'

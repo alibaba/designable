@@ -6,7 +6,7 @@ import React from 'react'
 import { createPolyInput } from '../PolyInput'
 import { Input, Button, Popover, InputNumber, Select } from 'antd'
 import { MonacoInput } from '../MonacoInput'
-import { TextWidget } from '@designable/react'
+import { TextWidget } from '@inbiz/react'
 
 const STARTTAG_REX =
   /<([-A-Za-z0-9_]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/

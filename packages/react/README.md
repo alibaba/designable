@@ -1,1 +1,1 @@
-# @designable/react
+# @inbiz/react

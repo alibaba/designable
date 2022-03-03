@@ -12,7 +12,7 @@ import {
   IPoint,
   isFn,
   requestIdle,
-} from '@designable/shared'
+} from '@inbiz/shared'
 
 export interface IOperation {
   tree?: ITreeNode

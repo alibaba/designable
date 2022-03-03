@@ -1,7 +1,7 @@
 import React, { Fragment, useRef } from 'react'
 import { Button, InputNumber } from 'antd'
 import { observer } from '@formily/reactive-react'
-import { CursorType, ScreenType } from '@designable/core'
+import { CursorType, ScreenType } from '@inbiz/core'
 import {
   useCursor,
   useHistory,

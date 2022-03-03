@@ -1,7 +1,7 @@
 import { Engine, CursorType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
-import { Point } from '@designable/shared'
+import { Point } from '@inbiz/shared'
 
 type ResizeData = {
   element?: Element

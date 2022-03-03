@@ -1,1 +1,1 @@
-# @designable/core
+# @inbiz/core

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useOutlineDragon, usePrefix } from '../../hooks'
-import { ClosestPosition } from '@designable/core'
+import { ClosestPosition } from '@inbiz/core'
 import { observer } from '@formily/reactive-react'
 
 export interface IInsertionProps {

@@ -1,5 +1,5 @@
 import { action, define, observable, toJS } from '@formily/reactive'
-import { uid, isFn } from '@designable/shared'
+import { uid, isFn } from '@inbiz/shared'
 import { Operation } from './Operation'
 import {
   InsertBeforeEvent,

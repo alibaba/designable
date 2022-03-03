@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { TreeNode } from '@designable/core'
+import { TreeNode } from '@inbiz/core'
 import { useHover, useSelection, usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { NodeTitleWidget } from '../NodeTitleWidget'

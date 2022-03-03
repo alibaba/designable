@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { requestIdle } from '@designable/shared'
+import { requestIdle } from '@inbiz/shared'
 import { observer } from '@formily/reactive-react'
 import { TextWidget, IconWidget } from '../widgets'
 import { usePrefix, useWorkbench } from '../hooks'

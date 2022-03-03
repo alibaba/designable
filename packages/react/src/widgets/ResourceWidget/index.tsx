@@ -4,8 +4,8 @@ import {
   isResourceList,
   IResourceLike,
   IResource,
-} from '@designable/core'
-import { isFn } from '@designable/shared'
+} from '@inbiz/core'
+import { isFn } from '@inbiz/shared'
 import { observer } from '@formily/reactive-react'
 import { usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'

@@ -1,7 +1,7 @@
 import React from 'react'
 import cls from 'classnames'
 import { useDesigner, usePrefix } from '../../hooks'
-import { TreeNode } from '@designable/core'
+import { TreeNode } from '@inbiz/core'
 
 export interface IResizeHandlerProps {
   node: TreeNode

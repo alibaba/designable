@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { TreeNode } from '@designable/core'
-import { requestIdle, cancelIdle } from '@designable/shared'
+import { TreeNode } from '@inbiz/core'
+import { requestIdle, cancelIdle } from '@inbiz/shared'
 import { ResizeObserver } from '@juggle/resize-observer'
 import { useViewport } from './useViewport'
 

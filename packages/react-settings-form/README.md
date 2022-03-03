@@ -1,1 +1,1 @@
-# @designable/react-settings-form
+# @inbiz/react-settings-form

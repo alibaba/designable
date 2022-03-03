@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, Fragment } from 'react'
 import { useDesigner } from '../hooks'
 import { WorkspaceContext } from '../context'
-import { uid } from '@designable/shared'
+import { uid } from '@inbiz/shared'
 export interface IWorkspaceProps {
   id?: string
   title?: string

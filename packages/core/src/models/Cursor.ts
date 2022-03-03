@@ -1,6 +1,6 @@
 import { Engine } from './Engine'
 import { action, define, observable } from '@formily/reactive'
-import { globalThisPolyfill } from '@designable/shared'
+import { globalThisPolyfill } from '@inbiz/shared'
 
 export enum CursorStatus {
   Normal = 'NORMAL',

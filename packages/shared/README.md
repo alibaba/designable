@@ -1,1 +1,1 @@
-# @designable/shared
+# @inbiz/shared

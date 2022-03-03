@@ -1,4 +1,4 @@
-import { ICustomEvent } from '@designable/shared'
+import { ICustomEvent } from '@inbiz/shared'
 import { AbstractMutationNodeEvent } from './AbstractMutationNodeEvent'
 
 export class InsertAfterEvent

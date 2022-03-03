@@ -4,7 +4,7 @@ import { Workbench } from './Workbench'
 import { Cursor } from './Cursor'
 import { Keyboard } from './Keyboard'
 import { Screen, ScreenType } from './Screen'
-import { Event, uid, globalThisPolyfill } from '@designable/shared'
+import { Event, uid, globalThisPolyfill } from '@inbiz/shared'
 
 /**
  * 设计器引擎

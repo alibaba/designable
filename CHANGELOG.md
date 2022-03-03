@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.2(2022-03-03)
+
+### No Change Log
+
 ## v1.0.1(2022-03-03)
 
 ### No Change Log
@@ -359,13 +363,3 @@
 1. [fix(core): fix event driver conflict](https://github.com/alibaba/designable/commit/af41004) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
 
 1. [fix(formily): fix FormLayout locales](https://github.com/alibaba/designable/commit/ea2648a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.8(2021-09-22)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix Workspace will throw error when designer is undefined](https://github.com/alibaba/designable/commit/611e9e6) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :rose: Improve code quality
-
-1. [refactor(core): change defaultComponentTree type ITreeNode[] to ITreeNode](https://github.com/alibaba/designable/commit/40b2af7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

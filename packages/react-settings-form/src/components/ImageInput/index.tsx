@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { InputProps } from 'antd/lib/input'
 import { Input, Upload } from 'antd'
-import { usePrefix, IconWidget } from '@designable/react'
+import { usePrefix, IconWidget } from '@inbiz/react'
 import { SettingsFormContext } from '../../shared/context'
 import cls from 'classnames'
 import './styles.less'

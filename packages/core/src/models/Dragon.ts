@@ -7,7 +7,7 @@ import {
   isNearAfter,
   isPointInRect,
   IPoint,
-} from '@designable/shared'
+} from '@inbiz/shared'
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
 
