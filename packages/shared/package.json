@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/shared",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -20,5 +20,5 @@
   "dependencies": {
     "requestidlecallback": "^0.3.0"
   },
-  "gitHead": "216dd0174fee8238d3e173080a93c630bcc66ece"
+  "gitHead": "4a00c298a559de83765ccf60da04a778065589c8"
 }

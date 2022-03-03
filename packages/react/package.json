@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -25,13 +25,13 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@inbiz/core": "1.0.1",
-    "@inbiz/shared": "1.0.1",
+    "@inbiz/core": "1.0.2",
+    "@inbiz/shared": "1.0.2",
     "@juggle/resize-observer": "^3.3.1",
     "dateformat": "^4.5.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "216dd0174fee8238d3e173080a93c630bcc66ece"
+  "gitHead": "4a00c298a559de83765ccf60da04a778065589c8"
 }

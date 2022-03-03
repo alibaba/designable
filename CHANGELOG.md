@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.1(2022-03-03)
+
+### No Change Log
+
 ## v1.0.0(2022-03-03)
 
 ### No Change Log
@@ -365,9 +369,3 @@
 ### :rose: Improve code quality
 
 1. [refactor(core): change defaultComponentTree type ITreeNode[] to ITreeNode](https://github.com/alibaba/designable/commit/40b2af7) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.7(2021-09-22)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix ui can not refresh with top rerender](https://github.com/alibaba/designable/commit/cf63e82) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
