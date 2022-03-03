@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.0(2022-03-03)
+
+### No Change Log
+
 ## v1.0.0-beta.45(2022-02-25)
 
 ### :beetle: Bug Fixes
@@ -367,9 +371,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix ui can not refresh with top rerender](https://github.com/alibaba/designable/commit/cf63e82) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.6(2021-09-22)
-
-### :blush: Other Changes
-
-1. [chore(project): move formily deps to peerDeps](https://github.com/alibaba/designable/commit/ee19f25) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
