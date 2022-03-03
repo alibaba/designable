@@ -5,7 +5,8 @@
     "node": "8.x || 9.x || 10.x || 11.x"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "examples/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -14,10 +15,7 @@
     "build:docs": "dumi build",
     "start": "dumi dev",
     "start:playground": "npm run start:basic",
-    "start:basic": "yarn workspace @designable/basic-example start",
-    "start:sandbox": "yarn workspace @designable/sandbox-example start",
-    "start:multi-workspace": "yarn workspace @designable/multi-workspace-example start",
-    "start:sandbox-multi-workspace": "yarn workspace @designable/sandbox-multi-workspace-example start",
+    "start:basic": "yarn workspace @inbiz/basic-example start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",

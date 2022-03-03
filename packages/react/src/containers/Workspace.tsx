@@ -36,6 +36,9 @@ export const Workspace: React.FC<IWorkspaceProps> = ({
       <WorkspaceContext.Provider value={workspace}>
         {props.children}
       </WorkspaceContext.Provider>
+      <WorkspaceContext.Provider value={workspace}>
+        {props.children}
+      </WorkspaceContext.Provider>
     </Fragment>
   )
 }

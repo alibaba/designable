@@ -11,24 +11,24 @@ import {
   ResourceWidget,
   StudioPanel,
   CompositePanel,
+  Workspace,
   WorkspacePanel,
   ToolbarPanel,
   ViewportPanel,
   SettingsPanel,
   HistoryWidget,
-} from '@designable/react'
-import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
+} from '@inbiz/react'
+import { SettingsForm, MonacoInput } from '@inbiz/react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
   createResource,
   createBehavior,
   GlobalRegistry,
-} from '@designable/core'
+} from '@inbiz/core'
 import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-//import { Sandbox } from '@designable/react-sandbox'
 import 'antd/dist/antd.less'
 
 const RootBehavior = createBehavior({
@@ -357,11 +357,8 @@ GlobalRegistry.registerDesignerLocales({
 })
 
 const Logo: React.FC = () => (
-  <div style={{ display: 'flex', alignItems: 'center', fontSize: 14 }}>
-    <IconWidget
-      infer="Logo"
-      style={{ margin: 10, height: 24, width: 'auto' }}
-    />
+  <div style={{ display: 'flex', alignItems: 'center', fontSize: 16 }}>
+    inbiz
   </div>
 )
 
@@ -387,7 +384,7 @@ const Actions = observer(() => {
           GlobalRegistry.setDesignerLanguage(e.target.value)
         }}
       />
-      <Button href="https://github.com/alibaba/designable" target="_blank">
+      <Button href="https://github.com/sprint-zhang/designable" target="_blank">
         <GithubOutlined />
         Github
       </Button>
@@ -422,13 +419,18 @@ const App = () => {
               <HistoryWidget />
             </CompositePanel.Item>
           </CompositePanel>
+
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
               <ViewToolsWidget />{' '}
             </ToolbarPanel>
             <ViewportPanel>
-              <ViewPanel type="DESIGNABLE">{() => <Content />}</ViewPanel>
+              <ViewPanel type="DESIGNABLE">
+                {() => {
+                  return <Content />
+                }}
+              </ViewPanel>
               <ViewPanel type="JSONTREE">
                 {() => {
                   return (
@@ -444,6 +446,7 @@ const App = () => {
               </ViewPanel>
             </ViewportPanel>
           </WorkspacePanel>
+
           <SettingsPanel title="panels.PropertySettings">
             <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
           </SettingsPanel>

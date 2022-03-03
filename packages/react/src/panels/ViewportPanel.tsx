@@ -5,6 +5,8 @@ export const ViewportPanel: React.FC<IWorkspaceItemProps> = (props) => {
   return (
     <WorkspacePanel.Item {...props} flexable>
       <Simulator>{props.children}</Simulator>
+      <Simulator>{props.children}</Simulator>
+      <Simulator>{props.children}</Simulator>
     </WorkspacePanel.Item>
   )
 }

@@ -9,6 +9,7 @@ export interface IPCSimulatorProps
 }
 export const PCSimulator: React.FC<IPCSimulatorProps> = (props) => {
   const prefix = usePrefix('pc-simulator')
+  console.log(props)
   return (
     <div {...props} className={cls(prefix, props.className)}>
       {props.children}

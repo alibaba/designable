@@ -1,1 +1,1 @@
-# @designable/playground
+# @inbiz/playground
