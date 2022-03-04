@@ -246,8 +246,8 @@ export function calcRectByStartEndPoint(
       new DOMRect(
         drawStartX,
         drawStartY,
-        Math.abs(endPoint.x - startPoint.x) - scrollX,
-        Math.abs(endPoint.y - startPoint.y) - scrollY
+        Math.abs(endPoint.x - startPoint.x + scrollX),
+        Math.abs(endPoint.y - startPoint.y + scrollY)
       )
     )
   } else if (
@@ -275,8 +275,8 @@ export function calcRectByStartEndPoint(
       new DOMRect(
         drawStartX,
         drawStartY,
-        Math.abs(endPoint.x - startPoint.x) - scrollX,
-        Math.abs(endPoint.y - startPoint.y) - scrollY
+        Math.abs(endPoint.x - startPoint.x + scrollX),
+        Math.abs(endPoint.y - startPoint.y + scrollY)
       )
     )
   }

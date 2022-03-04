@@ -48,8 +48,8 @@ export const useFreeSelectionEffect = (engine: Engine) => {
       const selectionRect = calcRectByStartEndPoint(
         dragStartOffsetPoint,
         dragEndOffsetPoint,
-        viewport.scrollX - engine.cursor.dragStartScrollOffset.scrollX,
-        viewport.scrollY - engine.cursor.dragStartScrollOffset.scrollY
+        viewport.dragScrollXDelta,
+        viewport.dragScrollYDelta
       )
       const selected: [TreeNode, DOMRect][] = []
       tree.eachChildren((node) => {

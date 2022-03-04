@@ -41,11 +41,6 @@ export interface ICursorPosition {
   topClientY?: number
 }
 
-export interface IScrollOffset {
-  scrollX?: number
-  scrollY?: number
-}
-
 export interface ICursor {
   status?: CursorStatus
 
@@ -69,11 +64,6 @@ const DEFAULT_POSITION = {
   topClientY: 0,
 }
 
-const DEFAULT_SCROLL_OFFSET = {
-  scrollX: 0,
-  scrollY: 0,
-}
-
 const setCursorStyle = (contentWindow: Window, style: string) => {
   const currentRoot = document?.getElementsByTagName?.('html')?.[0]
   const root = contentWindow?.document?.getElementsByTagName('html')?.[0]
@@ -83,6 +73,16 @@ const setCursorStyle = (contentWindow: Window, style: string) => {
   if (currentRoot && currentRoot.style.cursor !== style) {
     currentRoot.style.cursor = style
   }
+}
+
+const createPositionDelta = (
+  end: ICursorPosition,
+  start: ICursorPosition
+): ICursorPosition => {
+  return Object.keys(end || {}).reduce((buf, key) => {
+    buf[key] = end[key] - start[key]
+    return buf
+  }, {})
 }
 
 export class Cursor {
@@ -98,11 +98,7 @@ export class Cursor {
 
   dragStartPosition: ICursorPosition = DEFAULT_POSITION
 
-  dragStartScrollOffset: IScrollOffset = DEFAULT_SCROLL_OFFSET
-
   dragEndPosition: ICursorPosition = DEFAULT_POSITION
-
-  dragEndScrollOffset: IScrollOffset = DEFAULT_SCROLL_OFFSET
 
   view: Window = globalThisPolyfill
 
@@ -118,15 +114,17 @@ export class Cursor {
       status: observable.ref,
       position: observable.ref,
       dragStartPosition: observable.ref,
-      dragStartScrollOffset: observable.ref,
       dragEndPosition: observable.ref,
-      dragEndScrollOffset: observable.ref,
       view: observable.ref,
       setStyle: action,
       setPosition: action,
       setStatus: action,
       setType: action,
     })
+  }
+
+  get dragOffsetDelta() {
+    return createPositionDelta(this.dragStartPosition, this.dragEndPosition)
   }
 
   setStatus(status: CursorStatus) {
@@ -153,28 +151,18 @@ export class Cursor {
       ...position,
     }
   }
+
   setDragStartPosition(position?: ICursorPosition) {
     this.dragStartPosition = {
       ...this.dragStartPosition,
       ...position,
     }
   }
+
   setDragEndPosition(position?: ICursorPosition) {
     this.dragEndPosition = {
       ...this.dragEndPosition,
       ...position,
-    }
-  }
-  setDragStartScrollOffset(offset?: IScrollOffset) {
-    this.dragStartScrollOffset = {
-      ...this.dragStartScrollOffset,
-      ...offset,
-    }
-  }
-  setDragEndScrollOffset(offset?: IScrollOffset) {
-    this.dragEndScrollOffset = {
-      ...this.dragEndScrollOffset,
-      ...offset,
     }
   }
 }

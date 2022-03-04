@@ -22,8 +22,8 @@ export const FreeSelection = observer(() => {
     const rect = calcRectByStartEndPoint(
       startDragPoint,
       currentPoint,
-      viewport.scrollX - cursor.dragStartScrollOffset.scrollX,
-      viewport.scrollY - cursor.dragStartScrollOffset.scrollY
+      viewport.dragScrollXDelta,
+      viewport.dragScrollYDelta
     )
     const baseStyle: React.CSSProperties = {
       position: 'absolute',

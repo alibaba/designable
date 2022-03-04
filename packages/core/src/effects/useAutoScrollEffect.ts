@@ -53,11 +53,7 @@ export const useAutoScrollEffect = (engine: Engine) => {
 
   engine.subscribeTo(DragStartEvent, () => {
     engine.workbench.eachWorkspace((workspace) => {
-      const viewport = workspace.viewport
-      engine.cursor.setDragStartScrollOffset({
-        scrollX: viewport.scrollX,
-        scrollY: viewport.scrollY,
-      })
+      workspace.viewport.takeDragStart()
     })
   })
 
