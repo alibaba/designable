@@ -6,11 +6,11 @@ export interface IWorkspaceItemProps {
   flexable?: boolean
 }
 
-export const WorkspacePanel: React.FC & {
+export const WorkspacePanel: React.FC<IWorkspaceItemProps> & {
   Item?: React.FC<IWorkspaceItemProps>
 } = (props) => {
   const prefix = usePrefix('workspace-panel')
-  return <div className={prefix}>{props.children}</div>
+  return <div className={prefix} {...props} style={props.flexable ? (props.style ? { ...props.style } : { flexGrow: 1 }) : {}} >{props.children}</div>
 }
 
 WorkspacePanel.Item = (props) => {

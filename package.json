@@ -5,8 +5,7 @@
     "node": "8.x || 9.x || 10.x || 11.x"
   },
   "workspaces": [
-    "packages/*",
-    "examples/*"
+    "packages/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -16,6 +15,7 @@
     "start": "dumi dev",
     "start:playground": "npm run start:basic",
     "start:basic": "yarn workspace @inbiz/basic-example start",
+    "start:inbiz": "yarn workspace @inbiz/editor start",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:prod": "jest --coverage --silent",

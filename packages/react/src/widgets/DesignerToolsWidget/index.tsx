@@ -25,6 +25,7 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
   observer((props) => {
     const screen = useScreen()
     const cursor = useCursor()
+
     const workbench = useWorkbench()
     const history = useHistory()
     const sizeRef = useRef<{ width?: any; height?: any }>({})
@@ -146,7 +147,7 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
           >
             <IconWidget infer="PC" />
           </Button>
-          <Button
+          {/* <Button
             size="small"
             disabled={screen.type === ScreenType.Mobile}
             onClick={() => {
@@ -154,7 +155,7 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
             }}
           >
             <IconWidget infer="Mobile" />
-          </Button>
+          </Button> */}
           <Button
             size="small"
             disabled={screen.type === ScreenType.Responsive}
@@ -193,9 +194,9 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
     return (
       <div style={props.style} className={cls(prefix, props.className)}>
         {renderHistoryController()}
-        {renderCursorController()}
-        {renderScreenTypeController()}
-        {renderMobileController()}
+        {/* {renderCursorController()} */}
+        {/* {renderScreenTypeController()} */}
+        {/* {renderMobileController()} */}
         {renderResponsiveController()}
       </div>
     )

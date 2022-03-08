@@ -19,9 +19,10 @@ export const Workspace: React.FC<IWorkspaceProps> = ({
   const workspace = useMemo(() => {
     if (!designer) return
     if (oldId.current && oldId.current !== id) {
-      const old = designer.workbench.findWorkspaceById(oldId.current)
+      const old = designer.workbench.findWorkspaceById(id)
       if (old) old.viewport.detachEvents()
     }
+
     const workspace = {
       id: id || 'index',
       title,
@@ -31,11 +32,9 @@ export const Workspace: React.FC<IWorkspaceProps> = ({
     oldId.current = workspace.id
     return workspace
   }, [id, designer])
+    
   return (
     <Fragment>
-      <WorkspaceContext.Provider value={workspace}>
-        {props.children}
-      </WorkspaceContext.Provider>
       <WorkspaceContext.Provider value={workspace}>
         {props.children}
       </WorkspaceContext.Provider>

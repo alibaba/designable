@@ -7,6 +7,7 @@ import cls from 'classnames'
 export interface IViewportProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'placeholder'> {
   placeholder?: React.ReactNode
+  flexable?: boolean
   dragTipsDirection?: 'left' | 'right'
 }
 
@@ -61,9 +62,14 @@ export const Viewport: React.FC<IViewportProps> = ({
     >
       {props.children}
       <AuxToolWidget />
-      <EmptyWidget dragTipsDirection={dragTipsDirection}>
-        {placeholder}
-      </EmptyWidget>
+      {
+        props.flexable && (
+          <EmptyWidget dragTipsDirection={dragTipsDirection}>
+            {placeholder}
+          </EmptyWidget>
+        )
+      }
+
     </div>
   )
 }

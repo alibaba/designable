@@ -5,7 +5,8 @@ import { Workspace } from './Workspace'
 
 export const Workbench: React.FC = observer((props) => {
   const workbench = useWorkbench()
+
   return (
-    <Workspace id={workbench.currentWorkspace?.id}>{props.children}</Workspace>
+    <Workspace id={workbench.currentWorkspace?.id} {...props}>{props.children}</Workspace>
   )
 })
