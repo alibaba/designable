@@ -1,15 +1,11 @@
 import { Engine } from '@inbiz/core'
-import {
-  transformToSchema,
-  transformToTreeNode,
-} from '@inbiz/shared'
+import { transformToSchema, transformToTreeNode } from '@inbiz/transformer'
 import { message } from 'antd'
-
 
 const getAllTree = (workbench) => {
   const schema = {}
   workbench.eachWorkspace((workspace) => {
-    schema[workspace.id] = transformToSchema(workspace.operation.tree);
+    schema[workspace.id] = transformToSchema(workspace.operation.tree)
   })
 
   return schema
@@ -24,7 +20,6 @@ const setAllTree = (workbench) => {
 }
 
 export const saveSchema = (designer: Engine) => {
-
   localStorage.setItem(
     'formily-schema',
     JSON.stringify(getAllTree(designer.workbench))
@@ -35,5 +30,5 @@ export const saveSchema = (designer: Engine) => {
 export const loadInitialSchema = (designer: Engine) => {
   try {
     setAllTree(designer.workbench)
-  } catch { }
+  } catch {}
 }
