@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@inbiz/core": "1.0.3",
+    "@inbiz/transformer": "1.0.3",
     "@inbiz/react": "1.0.3"
   },
   "publishConfig": {
