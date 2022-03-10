@@ -40,7 +40,10 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
   }
   if (workbench.type === 'DESIGNABLE')
     return (
-      <Viewport dragTipsDirection={props.dragTipsDirection} flexable={props.flexable}>
+      <Viewport
+        dragTipsDirection={props.dragTipsDirection}
+        flexable={props.flexable}
+      >
         {render()}
       </Viewport>
     )
@@ -49,8 +52,6 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
       style={{
         overflow: props.scrollable ? 'overlay' : 'hidden',
         height: '100%',
-        minWidth: 200,
-        minHeight: 200,
         cursor: 'auto',
         userSelect: 'text',
       }}

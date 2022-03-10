@@ -12,7 +12,7 @@ const getAllTree = (workbench) => {
 }
 
 const setAllTree = (workbench) => {
-  const schema = JSON.parse(localStorage.getItem('formily-schema'))
+  const schema = JSON.parse(localStorage.getItem('inbiz-schema'))
   debugger
   workbench.eachWorkspace((workspace) => {
     workspace.operation.tree.from(transformToTreeNode(schema[workspace.id]))
@@ -21,7 +21,7 @@ const setAllTree = (workbench) => {
 
 export const saveSchema = (designer: Engine) => {
   localStorage.setItem(
-    'formily-schema',
+    'inbiz-schema',
     JSON.stringify(getAllTree(designer.workbench))
   )
   message.success('Save Success')

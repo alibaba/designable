@@ -10,7 +10,21 @@ export const WorkspacePanel: React.FC<IWorkspaceItemProps> & {
   Item?: React.FC<IWorkspaceItemProps>
 } = (props) => {
   const prefix = usePrefix('workspace-panel')
-  return <div className={prefix} {...props} style={props.flexable ? (props.style ? { ...props.style } : { flexGrow: 1 }) : {}} >{props.children}</div>
+  return (
+    <div
+      className={prefix}
+      {...props}
+      style={
+        props.flexable
+          ? props.style
+            ? { ...props.style }
+            : { flexGrow: 1 }
+          : {}
+      }
+    >
+      {props.children}
+    </div>
+  )
 }
 
 WorkspacePanel.Item = (props) => {
@@ -20,7 +34,7 @@ WorkspacePanel.Item = (props) => {
       className={prefix}
       style={{
         ...props.style,
-        flexGrow: props.flexable ? 1 : 0,
+        flexGrow: 1,
         flexShrink: props.flexable ? 1 : 0,
       }}
     >

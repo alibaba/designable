@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  transformToSchema,
-  transformToTreeNode,
-} from '@inbiz/shared'
+import { transformToSchema, transformToTreeNode } from '@inbiz/transformer'
 import { TreeNode, ITreeNode } from '@inbiz/core'
 import { MonacoInput } from '@inbiz/react-settings-form'
 

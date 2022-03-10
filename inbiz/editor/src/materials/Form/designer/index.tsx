@@ -50,7 +50,10 @@ Form.Behavior = createBehavior({
       },
       defaultProps: {
         labelCol: 6,
-        wrapperCol: 12
+        wrapperCol: 12,
+        style: {
+          width: '200px',
+        },
       },
     }
   },

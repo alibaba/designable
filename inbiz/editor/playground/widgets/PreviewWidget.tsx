@@ -31,7 +31,7 @@ import {
 } from '@formily/antd'
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@inbiz/core'
-import { transformToSchema } from '@inbiz/shared'
+import { transformToSchema } from '@inbiz/transformer'
 
 const Text: React.FC<{
   value?: string

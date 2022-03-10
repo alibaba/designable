@@ -9,7 +9,6 @@ import { loadInitialSchema, saveSchema } from '../service'
 export const ActionsWidget = observer(() => {
   const designer = useDesigner()
 
-  
   useEffect(() => {
     loadInitialSchema(designer)
   }, [])
@@ -27,7 +26,7 @@ export const ActionsWidget = observer(() => {
         options={[
           { label: 'English', value: 'en-us' },
           { label: '简体中文', value: 'zh-cn' },
-          { label: '한국어', value: 'ko-kr' },
+          // { label: '한국어', value: 'ko-kr' },
         ]}
         onChange={(e) => {
           GlobalRegistry.setDesignerLanguage(e.target.value)
