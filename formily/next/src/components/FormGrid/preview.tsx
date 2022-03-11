@@ -22,15 +22,10 @@ export const FormGrid: DnFC<React.ComponentProps<formilyGrid>> & {
   const node = useTreeNode()
   const nodeId = useNodeIdProps()
   if (node.children.length === 0) return <DroppableWidget {...props} />
-  const totalColumns = node.children.reduce(
-    (buf, child) => buf + (child.props?.['x-component-props']?.gridSpan ?? 1),
-    0
-  )
+
   return (
     <div {...nodeId} className="dn-grid">
-      <FormilyGird {...props} key={totalColumns}>
-        {props.children}
-      </FormilyGird>
+      <FormilyGird {...props}>{props.children}</FormilyGird>
       <LoadTemplate
         actions={[
           {
@@ -58,6 +53,7 @@ FormGrid.GridColumn = observer((props) => {
     <DroppableWidget
       {...props}
       data-span={props.gridSpan}
+      data-grid-span={props.gridSpan}
       style={{
         ...props['style'],
         gridColumnStart: `span ${props.gridSpan || 1}`,
