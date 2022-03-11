@@ -1,4 +1,4 @@
-import { DragMoveEvent, DragStopEvent } from '../events'
+import { DragStopEvent } from '../events'
 import { Engine, CursorType, TreeNode, CursorDragType } from '../models'
 import {
   calcRectByStartEndPoint,
@@ -8,20 +8,7 @@ import {
 } from '@designable/shared'
 
 export const useFreeSelectionEffect = (engine: Engine) => {
-  let isMovingNode = false
-  //自由选框支持在普通拖拽模式出选框，前提是普通拖拽模式是无节点拖拽
-  engine.subscribeTo(DragMoveEvent, () => {
-    engine.workbench.eachWorkspace((workspace) => {
-      if (workspace.operation.hasDragNodes()) {
-        isMovingNode = true
-      }
-    })
-  })
   engine.subscribeTo(DragStopEvent, (event) => {
-    if (isMovingNode) {
-      isMovingNode = false
-      return
-    }
     if (engine.cursor.dragType !== CursorDragType.Normal) {
       return
     }

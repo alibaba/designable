@@ -1,4 +1,4 @@
-import { Engine, ClosestPosition, CursorType } from '../models'
+import { Engine, ClosestPosition, CursorType, CursorDragType } from '../models'
 import {
   DragStartEvent,
   DragMoveEvent,
@@ -110,7 +110,7 @@ export const useDragDropEffect = (engine: Engine) => {
 
   engine.subscribeTo(DragStopEvent, () => {
     if (engine.cursor.type !== CursorType.Normal) return
-
+    if (engine.cursor.dragType !== CursorDragType.Normal) return
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const dragNodes = operation.getDragNodes()

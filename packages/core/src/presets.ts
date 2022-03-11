@@ -35,6 +35,7 @@ import {
 } from './shortcuts'
 
 export const DEFAULT_EFFECTS = [
+  useFreeSelectionEffect,
   useCursorEffect,
   useViewportEffect,
   useDragDropEffect,
@@ -43,7 +44,6 @@ export const DEFAULT_EFFECTS = [
   useKeyboardEffect,
   useAutoScrollEffect,
   useWorkspaceEffect,
-  useFreeSelectionEffect,
   useContentEditableEffect,
   useTranslateEffect,
 ]

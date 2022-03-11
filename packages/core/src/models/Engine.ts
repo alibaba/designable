@@ -98,7 +98,7 @@ export class Engine extends Event {
     contentEditableNodeIdAttrName: 'data-content-editable-node-id',
     clickStopPropagationAttrName: 'data-click-stop-propagation',
     nodeSelectionIdAttrName: 'data-designer-node-helpers-id',
-    nodeDragHandlerAttrName: 'data-designer-node-handler',
+    nodeDragHandlerAttrName: 'data-designer-node-drag-handler',
     screenResizeHandlerAttrName: 'data-designer-screen-resize-handler',
     nodeResizeHandlerAttrName: 'data-designer-node-resize-handler',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
