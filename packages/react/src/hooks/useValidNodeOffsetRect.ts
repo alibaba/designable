@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { TreeNode, CursorStatus, CursorDragType } from '@designable/core'
-import { requestIdle, cancelIdle } from '@designable/shared'
-import { ResizeObserver } from '@juggle/resize-observer'
+import { LayoutObserver } from '@designable/shared'
 import { useViewport } from './useViewport'
 import { useDesigner } from './useDesigner'
 
@@ -19,9 +18,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   const viewport = useViewport()
   const [, forceUpdate] = useState(null)
   const rectRef = useRef<DOMRect>(viewport.getValidNodeOffsetRect(node))
-  const idleTaskRef = useRef(null)
   const unmountRef = useRef(false)
-  const observerRef = useRef(null)
   const element = viewport.findElementById(node?.id)
 
   const compute = useCallback(() => {
@@ -40,33 +37,12 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
 
   useEffect(() => {
     if (!element || !element.isConnected) return
-    if (observerRef.current) {
-      observerRef.current.disconnect()
-    }
-    observerRef.current = new ResizeObserver(() => {
-      compute()
-    })
-    observerRef.current.observe(element)
+    const layoutObserver = new LayoutObserver(compute)
+    layoutObserver.observe(element)
     return () => {
-      observerRef.current.disconnect()
+      layoutObserver.disconnect()
     }
   }, [element, viewport])
-
-  useEffect(() => {
-    unmountRef.current = false
-    const requestIdleTask = () => {
-      cancelIdle(idleTaskRef.current)
-      idleTaskRef.current = requestIdle(() => {
-        compute()
-        requestIdleTask()
-      })
-    }
-    requestIdleTask()
-    return () => {
-      unmountRef.current = true
-      cancelIdle(idleTaskRef.current)
-    }
-  }, [node])
 
   return rectRef.current
 }

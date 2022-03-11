@@ -21,6 +21,7 @@ export type IEngineProps<T = Event> = IEventProps<T> & {
   outlineNodeIdAttrName?: string //大纲树节点ID的dom属性名
   nodeSelectionIdAttrName?: string //节点工具栏属性名
   nodeDragHandlerAttrName?: string //节点拖拽手柄属性名
+  screenResizeHandlerAttrName?: string
   nodeResizeHandlerAttrName?: string //节点尺寸拖拽手柄属性名
   nodeTranslateAttrName?: string // 节点自由布局的属性名
   defaultComponentTree?: ITreeNode //默认组件树

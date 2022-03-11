@@ -238,6 +238,26 @@ export class TreeNode {
     return this.root.isSelfSourceNode
   }
 
+  get viewport() {
+    return this.root?.operation?.workspace?.viewport
+  }
+
+  get outline() {
+    return this.root?.operation?.workspace?.outline
+  }
+
+  getElement(area: 'viewport' | 'outline' = 'viewport') {
+    return this[area]?.findElementById?.(this.id)
+  }
+
+  getElementRect(area: 'viewport' | 'outline' = 'viewport') {
+    return this[area]?.getElementRect(this.getElement(area))
+  }
+
+  getElementOffsetRect(area: 'viewport' | 'outline' = 'viewport') {
+    return this[area]?.getElementOffsetRect(this.getElement(area))
+  }
+
   getPrevious(step = 1) {
     return this.parent.children[this.index - step]
   }

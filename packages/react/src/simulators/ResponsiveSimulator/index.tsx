@@ -63,11 +63,11 @@ const useResizeEffect = (
   engine.subscribeTo(DragStartEvent, (e) => {
     if (!engine.workbench.currentWorkspace?.viewport) return
     const target = e.data.target as HTMLElement
-    if (target?.closest('*[data-designer-resize-handle]')) {
+    if (target?.closest(`*[${engine.props.screenResizeHandlerAttrName}]`)) {
       const rect = content.current?.getBoundingClientRect()
       if (!rect) return
       status = target.getAttribute(
-        'data-designer-resize-handle'
+        engine.props.screenResizeHandlerAttrName
       ) as ResizeHandleType
       engine.cursor.setStyle(getStyle(status))
       startX = e.data.topClientX

@@ -86,18 +86,26 @@ export class Viewport {
         this.contentWindow?.document?.body?.scrollWidth
       )
     } else if (this.viewportElement) {
-      return this.width + this.scrollX >= this.viewportElement?.scrollWidth
+      return (
+        this.viewportElement.offsetWidth + this.scrollX >=
+        this.viewportElement.scrollWidth
+      )
     }
   }
 
   get isScrollBottom() {
     if (this.isIframe) {
+      if (!this.contentWindow?.document?.body) return false
       return (
-        this.height + this.scrollY >=
-        this.contentWindow?.document?.body?.scrollHeight
+        this.height + this.contentWindow.screenTop >=
+        this.contentWindow.document.body.scrollHeight
       )
     } else if (this.viewportElement) {
-      return this.height + this.scrollY >= this.viewportElement?.scrollHeight
+      if (!this.viewportElement) return false
+      return (
+        this.viewportElement.offsetHeight + this.viewportElement.scrollTop >=
+        this.viewportElement.scrollHeight
+      )
     }
   }
 
@@ -341,6 +349,36 @@ export class Viewport {
         return (
           typeof DOMRect !== 'undefined' &&
           new DOMRect(rect.x, rect.y, rect.width, rect.height)
+        )
+      }
+    }
+  }
+
+  //相对于视口
+  getElementOffsetRect(element: HTMLElement | Element) {
+    const elementRect = element.getBoundingClientRect()
+    if (elementRect) {
+      if (this.isIframe) {
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(
+            elementRect.x + this.contentWindow.scrollX,
+            elementRect.y + this.contentWindow.scrollY,
+            elementRect.width,
+            elementRect.height
+          )
+        )
+      } else {
+        return (
+          typeof DOMRect !== 'undefined' &&
+          new DOMRect(
+            (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
+              this.scale,
+            (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
+              this.scale,
+            elementRect.width,
+            elementRect.height
+          )
         )
       }
     }

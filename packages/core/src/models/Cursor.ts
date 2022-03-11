@@ -100,6 +100,12 @@ export class Cursor {
 
   dragEndPosition: ICursorPosition = DEFAULT_POSITION
 
+  dragCurrentDelta: ICursorPosition
+
+  dragStartToCurrentDelta: ICursorPosition
+
+  dragStartToEndDelta: ICursorPosition
+
   view: Window = globalThisPolyfill
 
   constructor(engine: Engine) {
@@ -123,7 +129,11 @@ export class Cursor {
     })
   }
 
-  get dragOffsetDelta() {
+  get dragendDelta() {
+    return createPositionDelta(this.dragStartPosition, this.dragEndPosition)
+  }
+
+  get draggingDelta() {
     return createPositionDelta(this.dragStartPosition, this.dragEndPosition)
   }
 
@@ -146,10 +156,15 @@ export class Cursor {
   }
 
   setPosition(position?: ICursorPosition) {
+    this.dragCurrentDelta = createPositionDelta(this.position, position)
     this.position = {
       ...this.position,
       ...position,
     }
+    this.dragStartToCurrentDelta = createPositionDelta(
+      this.dragStartPosition,
+      this.position
+    )
   }
 
   setDragStartPosition(position?: ICursorPosition) {
@@ -164,5 +179,9 @@ export class Cursor {
       ...this.dragEndPosition,
       ...position,
     }
+    this.dragStartToEndDelta = createPositionDelta(
+      this.dragStartPosition,
+      this.dragEndPosition
+    )
   }
 }

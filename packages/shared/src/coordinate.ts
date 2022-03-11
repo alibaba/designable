@@ -281,3 +281,17 @@ export function calcRectByStartEndPoint(
     )
   }
 }
+
+/**
+ * 计算对齐线
+ * @param rect1
+ * @param rect2
+ */
+export function calcSnapLine(rect1: IRect, rect2: IRect) {}
+
+/**
+ * 计算距离线
+ * @param rect1
+ * @param rect2
+ */
+export function calcDistanceLine(rect1: IRect, rect2: IRect) {}
