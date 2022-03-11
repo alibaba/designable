@@ -30,7 +30,7 @@ export const ImageInput: React.FC<ImageInputProps> = ({
             itemRender={() => null}
             maxCount={1}
             onChange={(params) => {
-              const response = params.file?.response
+              const response: any = params.file?.response
               const url =
                 response?.url ||
                 response?.downloadURL ||

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.5(2022-03-09)
+
+### No Change Log
+
 ## v1.0.4(2022-03-08)
 
 ### No Change Log
@@ -347,13 +351,3 @@
 ### :tada: Enhancements
 
 1. [feat(react): add more source icons](https://github.com/alibaba/designable/commit/75963da) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.11(2021-09-29)
-
-### :tada: Enhancements
-
-1. [feat(react): support normalize DroppableWidget](https://github.com/alibaba/designable/commit/729410a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :beetle: Bug Fixes
-
-1. [fix: fix controlled props can not update](https://github.com/alibaba/designable/commit/dcffdeb) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

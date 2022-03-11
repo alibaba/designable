@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -25,8 +25,8 @@
     "react": "16.x || 17.x"
   },
   "dependencies": {
-    "@inbiz/core": "1.0.5",
-    "@inbiz/shared": "1.0.5",
+    "@inbiz/core": "1.0.6",
+    "@inbiz/shared": "1.0.6",
     "@juggle/resize-observer": "^3.3.1",
     "dateformat": "^4.5.1"
   },
