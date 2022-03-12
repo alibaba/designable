@@ -48,17 +48,9 @@ export const FormGrid: DnFC<React.ComponentProps<formilyGrid>> & {
   )
 })
 
-FormGrid.GridColumn = observer((props) => {
+FormGrid.GridColumn = observer(({ gridSpan, ...props }) => {
   return (
-    <DroppableWidget
-      {...props}
-      data-span={props.gridSpan}
-      data-grid-span={props.gridSpan}
-      style={{
-        ...props['style'],
-        gridColumnStart: `span ${props.gridSpan || 1}`,
-      }}
-    >
+    <DroppableWidget {...props} data-grid-span={gridSpan}>
       {props.children}
     </DroppableWidget>
   )
