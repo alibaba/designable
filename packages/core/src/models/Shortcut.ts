@@ -34,7 +34,7 @@ export class Shortcut {
   preventCodes(codes: KeyCode[]) {
     if (this.codes.length) {
       for (let i = 0; i < codes.length; i++) {
-        const sequence = this.codes[i]
+        const sequence = this.codes[i] ?? []
         for (let j = 0; j < sequence.length; j++) {
           if (!Shortcut.matchCode(codes[j], sequence[j])) {
             return false
