@@ -13,7 +13,6 @@ import {
   DroppableWidget,
   DnFC,
 } from '@designable/react'
-import { toArr } from '@formily/shared'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'
@@ -59,13 +58,7 @@ export const FormCollapse: DnFC<CollapseProps> & {
   const renderCollapse = () => {
     if (!node.children?.length) return <DroppableWidget />
     return (
-      <Collapse
-        {...props}
-        expandedKeys={expandedKeys}
-        onExpand={(expandedKeys) => {
-          setExpandedKeys(toArr(expandedKeys))
-        }}
-      >
+      <Collapse {...props} expandedKeys={panels.map((tab) => tab.id)}>
         {panels.map((panel) => {
           const props = panel.props['x-component-props'] || {}
           return (

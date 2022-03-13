@@ -50,31 +50,11 @@ export const FormCollapse: DnFC<CollapseProps> & {
     setActiveKey(toArr(activeKey).concat(panelNode.id))
     return [panelNode]
   })
-  const getCorrectActiveKey = (
-    activeKey: string[] | string,
-    tabs: TreeNode[]
-  ) => {
-    if (!tabs.length || !activeKey?.length) {
-      if (props.accordion) {
-        return tabs[0]?.id
-      }
-      return tabs.map((item) => item.id)
-    }
-    if (
-      tabs.some((node) =>
-        Array.isArray(activeKey)
-          ? activeKey.includes(node.id)
-          : node.id === activeKey
-      )
-    )
-      return activeKey
-    return tabs[tabs.length - 1].id
-  }
   const panels = parseCollapse(node)
   const renderCollapse = () => {
     if (!node.children?.length) return <DroppableWidget />
     return (
-      <Collapse {...props} activeKey={getCorrectActiveKey(activeKey, panels)}>
+      <Collapse {...props} activeKey={panels.map((tab) => tab.id)}>
         {panels.map((panel) => {
           const props = panel.props['x-component-props'] || {}
           return (
