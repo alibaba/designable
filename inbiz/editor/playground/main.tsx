@@ -19,16 +19,8 @@ import {
   SettingsPanel,
   ComponentTreeWidget,
 } from '@inbiz/react'
-import {
-  SettingsForm,
-  setNpmCDNRegistry,
-} from '@inbiz/react-settings-form'
-import {
-  createDesigner,
-  GlobalRegistry,
-  Shortcut,
-  KeyCode,
-} from '@inbiz/core'
+import { SettingsForm, setNpmCDNRegistry } from '@inbiz/react-settings-form'
+import { createDesigner, GlobalRegistry, Shortcut, KeyCode } from '@inbiz/core'
 import {
   LogoWidget,
   ActionsWidget,
@@ -37,14 +29,8 @@ import {
   MarkupSchemaWidget,
 } from './widgets'
 import { saveSchema } from './service'
-import {
-  Form,
-  Field,
-  FormTab,
-  FormCollapse,
-  FormGrid,
-} from '../src/materials'
-import { TopBottomFixed, TopLeftBottomFixed } from './layout'
+import { Form, Field, FormTab, FormCollapse, FormGrid } from '../src/materials'
+import { TopBottomFixed, TopLeftBottomFixed, LeftRightFixed } from './layout'
 
 setNpmCDNRegistry('//unpkg.com')
 
@@ -99,24 +85,12 @@ const App = () => {
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
-            <ResourceWidget
-              title="sources.Inputs"
-              sources={[
-
-              ]}
-            />
+            <ResourceWidget title="sources.Inputs" sources={[]} />
             <ResourceWidget
               title="sources.Layouts"
-              sources={[
-                FormGrid,
-                FormTab,
-                FormCollapse,
-              ]}
+              sources={[FormGrid, FormTab, FormCollapse]}
             />
-            <ResourceWidget
-              title="sources.Arrays"
-              sources={[]}
-            />
+            <ResourceWidget title="sources.Arrays" sources={[]} />
             <ResourceWidget title="sources.Displays" sources={[Text]} />
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
@@ -126,13 +100,13 @@ const App = () => {
             <HistoryWidget />
           </CompositePanel.Item>
         </CompositePanel>
-        <TopLeftBottomFixed
+        <LeftRightFixed
           components={{
             Field,
             Form,
             FormGrid,
             FormTab,
-            FormCollapse
+            FormCollapse,
           }}
         />
         <SettingsPanel title="panels.PropertySettings">
