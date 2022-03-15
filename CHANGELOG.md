@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.7(2022-03-14)
+
+### No Change Log
+
 ## v1.0.6(2022-03-11)
 
 ### No Change Log
@@ -343,9 +347,3 @@
 ### :blush: Other Changes
 
 1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/51a0fde) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.13(2021-10-04)
-
-### :blush: Other Changes
-
-1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/f45572d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

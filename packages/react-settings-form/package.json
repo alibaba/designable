@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/react-settings-form",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@inbiz/core": "1.0.7",
-    "@inbiz/react": "1.0.7",
-    "@inbiz/shared": "1.0.7",
+    "@inbiz/core": "1.0.8",
+    "@inbiz/react": "1.0.8",
+    "@inbiz/shared": "1.0.8",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.25.2",
     "prettier": "^2.3.2",

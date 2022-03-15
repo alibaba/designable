@@ -29,9 +29,15 @@ import {
   MarkupSchemaWidget,
 } from './widgets'
 import { saveSchema } from './service'
-import { Form, Field, FormTab, FormCollapse, FormGrid } from '../src/materials'
-import { TopBottomFixed, TopLeftBottomFixed, LeftRightFixed } from './layout'
-
+import {
+  Form,
+  Field,
+  FormTab,
+  FormCollapse,
+  FormGrid,
+  Test,
+} from '../src/materials'
+import { TopBottomFixed, TopLeftBottomFixed } from './layout'
 setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
@@ -85,7 +91,7 @@ const App = () => {
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
-            <ResourceWidget title="sources.Inputs" sources={[]} />
+            <ResourceWidget title="sources.Inputs" sources={[Test]} />
             <ResourceWidget
               title="sources.Layouts"
               sources={[FormGrid, FormTab, FormCollapse]}
@@ -100,13 +106,14 @@ const App = () => {
             <HistoryWidget />
           </CompositePanel.Item>
         </CompositePanel>
-        <LeftRightFixed
+        <TopBottomFixed
           components={{
             Field,
             Form,
             FormGrid,
             FormTab,
             FormCollapse,
+            Test,
           }}
         />
         <SettingsPanel title="panels.PropertySettings">

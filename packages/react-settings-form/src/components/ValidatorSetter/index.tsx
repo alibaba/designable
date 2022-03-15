@@ -46,14 +46,14 @@ const ValidatorSchema: ISchema = {
             'x-decorator': 'FormItem',
             'x-component': 'Select',
           },
-          validator: {
-            type: 'string',
-            'x-decorator': 'FormItem',
-            'x-component': 'ValueInput',
-            'x-component-props': {
-              include: ['EXPRESSION'],
-            },
-          },
+          // validator: {
+          //   type: 'string',
+          //   'x-decorator': 'FormItem',
+          //   'x-component': 'ValueInput',
+          //   'x-component-props': {
+          //     include: ['EXPRESSION'],
+          //   },
+          // },
           message: {
             type: 'string',
             'x-decorator': 'FormItem',

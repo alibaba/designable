@@ -27,10 +27,10 @@ export const CollapseItem: React.FC<ICollapseItemProps> = observer((props) => {
           setExpand(!expand)
         }}
       >
+        <div className={prefix + '-header-content'}>{field.title}</div>
         <div className={prefix + '-header-expand'}>
           <IconWidget infer="Expand" size={10} />
         </div>
-        <div className={prefix + '-header-content'}>{field.title}</div>
       </div>
       <div className={prefix + '-content'}>{props.children}</div>
     </div>
