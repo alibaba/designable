@@ -19,16 +19,8 @@ import {
   SettingsPanel,
   ComponentTreeWidget,
 } from '@inbiz/react'
-import {
-  SettingsForm,
-  setNpmCDNRegistry,
-} from '@inbiz/react-settings-form'
-import {
-  createDesigner,
-  GlobalRegistry,
-  Shortcut,
-  KeyCode,
-} from '@inbiz/core'
+import { SettingsForm, setNpmCDNRegistry } from '@inbiz/react-settings-form'
+import { createDesigner, GlobalRegistry, Shortcut, KeyCode } from '@inbiz/core'
 import {
   LogoWidget,
   ActionsWidget,
@@ -43,9 +35,9 @@ import {
   FormTab,
   FormCollapse,
   FormGrid,
+  Test,
 } from '../src/materials'
 import { TopBottomFixed, TopLeftBottomFixed } from './layout'
-
 setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
@@ -99,24 +91,12 @@ const App = () => {
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
-            <ResourceWidget
-              title="sources.Inputs"
-              sources={[
-
-              ]}
-            />
+            <ResourceWidget title="sources.Inputs" sources={[Test]} />
             <ResourceWidget
               title="sources.Layouts"
-              sources={[
-                FormGrid,
-                FormTab,
-                FormCollapse,
-              ]}
+              sources={[FormGrid, FormTab, FormCollapse]}
             />
-            <ResourceWidget
-              title="sources.Arrays"
-              sources={[]}
-            />
+            <ResourceWidget title="sources.Arrays" sources={[]} />
             <ResourceWidget title="sources.Displays" sources={[Text]} />
           </CompositePanel.Item>
           <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
@@ -132,7 +112,8 @@ const App = () => {
             Form,
             FormGrid,
             FormTab,
-            FormCollapse
+            FormCollapse,
+            Test,
           }}
         />
         <SettingsPanel title="panels.PropertySettings">

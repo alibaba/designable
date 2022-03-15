@@ -1,6 +1,10 @@
 export const Field = {
   'zh-CN': {
     settings: {
+      base: '基础配置',
+      validator: '验证',
+      'component-style': '组件样式',
+      soure: '数据源-查询',
       name: '字段标识',
       title: '标题',
       required: '必填',
@@ -25,6 +29,13 @@ export const Field = {
       'component-style-group': '组件样式',
       'decorator-style-group': '容器样式',
       'x-component-props': {
+        className: '扩展样式名称',
+        model: '绑定模型',
+        sourcetype: {
+          title: '数据源类型',
+          dataSource: ['模型', 'api'],
+        },
+        sourceModel: '查询数据源',
         size: { title: '尺寸', dataSource: ['大', '小', '默认', '继承'] },
         allowClear: '允许清除内容',
         autoFocus: '自动获取焦点',

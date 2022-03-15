@@ -68,7 +68,7 @@
   }
 
   .@{ant-prefix}-formily-item {
-    border-bottom: 1px solid @border-color-split;
+    // border-bottom: 1px solid @border-color-split;
     padding-bottom: 8px;
     margin-bottom: 8px;
     margin-top: 8px;
@@ -82,7 +82,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      &>.@{ant-prefix}-radio-group {
+      & > .@{ant-prefix}-radio-group {
         display: flex !important;
         width: 100%;
 
@@ -95,13 +95,13 @@
         }
       }
 
-      &>.@{ant-prefix}-slider {
+      & > .@{ant-prefix}-slider {
         flex-shrink: 0;
         min-width: 0;
         width: 100%;
       }
 
-      &>.@{ant-prefix}-select {
+      & > .@{ant-prefix}-select {
         max-width: 140px;
       }
     }

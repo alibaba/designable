@@ -13,12 +13,7 @@ import {
 import { FormItem } from '@formily/antd'
 import { each, reduce } from '@formily/shared'
 import { createBehavior } from '@inbiz/core'
-import {
-  useDesigner,
-  useTreeNode,
-  useComponents,
-  DnFC,
-} from '@inbiz/react'
+import { useDesigner, useTreeNode, useComponents, DnFC } from '@inbiz/react'
 import { isArr, isStr } from '@inbiz/shared'
 import { Container } from '../common/Container'
 import { Field as FieldLocales } from './locale'
@@ -111,7 +106,6 @@ const toDesignableFieldProps = (
     schema['x-component'] && FormPath.getIn(components, schema['x-component'])
   const decoratorProps = schema['x-decorator-props'] || {}
   const componentProps = schema['x-component-props'] || {}
-
   if (decorator) {
     results.decorator = [decorator, toJS(decoratorProps)]
   }
