@@ -1,9 +1,10 @@
+import { action, define } from '@formily/reactive'
 import { Workspace } from './Workspace'
 import { Engine } from './Engine'
 import { TreeNode, ITreeNode } from './TreeNode'
 import { Selection } from './Selection'
 import { Hover } from './Hover'
-import { action, define, observable } from '@formily/reactive'
+import { DragLine } from './DragLine'
 import { Dragon } from './Dragon'
 import {
   cancelIdle,
@@ -34,6 +35,8 @@ export class Operation {
 
   hover: Hover
 
+  dragLine: DragLine
+
   requests = {
     snapshot: null,
   }
@@ -46,10 +49,13 @@ export class Operation {
       ...this.engine.props.defaultComponentTree,
       operation: this,
     })
-    this.selection = new Selection({
+    this.hover = new Hover({
       operation: this,
     })
-    this.hover = new Hover({
+    this.dragLine = new DragLine({
+      operation: this,
+    })
+    this.selection = new Selection({
       operation: this,
     })
     this.outlineDragon = new Dragon({
@@ -125,12 +131,7 @@ export class Operation {
     )
   }
 
-  setTouchNode(node: TreeNode) {
-    this.outlineDragon.setTouchNode(node)
-    this.viewportDragon.setTouchNode(node)
-  }
-
-  dragWith(point: IPoint, touchNode?: TreeNode) {
+  dragMove(point: IPoint, touchNode?: TreeNode) {
     const viewport = this.workspace.viewport
     const outline = this.workspace.outline
     if (outline.isPointInViewport(point, false)) {
@@ -154,7 +155,8 @@ export class Operation {
         closestDirection: this.viewportDragon.closestDirection,
       })
     } else {
-      this.setTouchNode(null)
+      this.outlineDragon.setTouchNode(null)
+      this.viewportDragon.setTouchNode(null)
     }
   }
 
@@ -251,7 +253,6 @@ export class Operation {
 
   makeObservable() {
     define(this, {
-      hover: observable.ref,
       removeNodes: action,
       cloneNodes: action,
     })

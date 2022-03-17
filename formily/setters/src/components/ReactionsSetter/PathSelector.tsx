@@ -1,6 +1,6 @@
 import React from 'react'
 import { TreeNode } from '@designable/core'
-import { useCurrentNode } from '@designable/react'
+import { useSelectedNode } from '@designable/react'
 import { TreeSelectProps, TreeSelect } from 'antd'
 
 export interface IPathSelectorProps
@@ -88,7 +88,7 @@ const transformDataSource = (node: TreeNode) => {
 }
 
 export const PathSelector: React.FC<IPathSelectorProps> = (props) => {
-  const baseNode = useCurrentNode()
+  const baseNode = useSelectedNode()
   const dataSource = transformDataSource(baseNode)
   const findNode = (dataSource: any[], value: string) => {
     for (let i = 0; i < dataSource.length; i++) {

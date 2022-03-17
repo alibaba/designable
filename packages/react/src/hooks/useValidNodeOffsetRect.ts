@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { TreeNode, CursorStatus, CursorDragType } from '@designable/core'
 import { LayoutObserver } from '@designable/shared'
 import { useViewport } from './useViewport'
@@ -17,12 +17,14 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   const engine = useDesigner()
   const viewport = useViewport()
   const [, forceUpdate] = useState(null)
-  const rectRef = useRef<DOMRect>(viewport.getValidNodeOffsetRect(node))
-  const unmountRef = useRef(false)
+  const rectRef = useMemo(
+    () => ({ current: viewport.getValidNodeOffsetRect(node) }),
+    [viewport]
+  )
+
   const element = viewport.findElementById(node?.id)
 
   const compute = useCallback(() => {
-    if (unmountRef.current) return
     if (
       engine.cursor.status !== CursorStatus.Normal &&
       engine.cursor.dragType === CursorDragType.Normal
@@ -31,18 +33,16 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
     const nextRect = viewport.getValidNodeOffsetRect(node)
     if (!isEqualRect(rectRef.current, nextRect) && nextRect) {
       rectRef.current = nextRect
-      forceUpdate(nextRect)
+      forceUpdate([])
     }
   }, [viewport, node])
 
   useEffect(() => {
-    if (!element || !element.isConnected) return
     const layoutObserver = new LayoutObserver(compute)
-    layoutObserver.observe(element)
+    if (element) layoutObserver.observe(element)
     return () => {
       layoutObserver.disconnect()
     }
-  }, [element, viewport])
-
+  }, [node, viewport, element])
   return rectRef.current
 }

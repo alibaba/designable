@@ -43,13 +43,11 @@ export class Viewport {
 
   viewportElement: HTMLElement
 
+  dragStartSnapshot: IViewportData
+
   scrollX = 0
 
-  dragStartScrollX = 0
-
   scrollY = 0
-
-  dragStartScrollY = 0
 
   width = 0
 
@@ -82,7 +80,7 @@ export class Viewport {
   get isScrollRight() {
     if (this.isIframe) {
       return (
-        this.width + this.scrollX >=
+        this.width + this.contentWindow.scrollX >=
         this.contentWindow?.document?.body?.scrollWidth
       )
     } else if (this.viewportElement) {
@@ -97,7 +95,7 @@ export class Viewport {
     if (this.isIframe) {
       if (!this.contentWindow?.document?.body) return false
       return (
-        this.height + this.contentWindow.screenTop >=
+        this.height + this.contentWindow.scrollY >=
         this.contentWindow.document.body.scrollHeight
       )
     } else if (this.viewportElement) {
@@ -156,15 +154,16 @@ export class Viewport {
     if (!this.viewportElement) return 1
     const clientRect = this.viewportElement.getBoundingClientRect()
     const offsetWidth = this.viewportElement.offsetWidth
+    if (!clientRect.width || !offsetWidth) return 1
     return Math.round(clientRect.width / offsetWidth)
   }
 
   get dragScrollXDelta() {
-    return this.scrollX - this.dragStartScrollX
+    return this.scrollX - this.dragStartSnapshot.scrollX
   }
 
   get dragScrollYDelta() {
-    return this.scrollY - this.dragStartScrollY
+    return this.scrollY - this.dragStartSnapshot.scrollY
   }
 
   getCurrentData() {
@@ -183,10 +182,8 @@ export class Viewport {
     return data
   }
 
-  takeDragStart() {
-    const data = this.getCurrentData()
-    this.dragStartScrollX = data.scrollX
-    this.dragStartScrollY = data.scrollY
+  takeDragStartSnapshot() {
+    this.dragStartSnapshot = this.getCurrentData()
   }
 
   digestViewport() {

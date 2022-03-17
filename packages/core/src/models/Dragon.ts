@@ -188,10 +188,6 @@ export class Dragon {
     }
   }
 
-  setClosestPosition(direction: ClosestPosition) {
-    this.closestDirection = direction
-  }
-
   /**
    * 拖拽过程中最近的节点
    *
@@ -226,10 +222,6 @@ export class Dragon {
     return null
   }
 
-  setClosestNode(node: TreeNode) {
-    this.closestNode = node
-  }
-
   /**
    * 从最近的节点中计算出节点矩形
    *
@@ -252,10 +244,6 @@ export class Dragon {
     }
   }
 
-  setClosestRect(rect: DOMRect) {
-    this.closestRect = rect
-  }
-
   getClosestOffsetRect(): DOMRect {
     const closestNode = this.closestNode
     const closestDirection = this.closestDirection
@@ -269,10 +257,6 @@ export class Dragon {
     } else {
       return closestRect
     }
-  }
-
-  setClosestOffsetRect(rect: DOMRect) {
-    this.closestOffsetRect = rect
   }
 
   setDragNodes(dragNodes: TreeNode[] = []) {
@@ -340,10 +324,6 @@ export class Dragon {
       setDragNodes: action,
       setTouchNode: action,
       setDropNode: action,
-      setClosestNode: action,
-      setClosestPosition: action,
-      setClosestOffsetRect: action,
-      setClosestRect: action,
       clear: action,
       calculate: action,
     })

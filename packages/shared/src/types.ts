@@ -23,3 +23,5 @@ export const isNum = isType<number>('Number')
 export const isObj = (val: unknown): val is object => typeof val === 'object'
 export const isRegExp = isType<RegExp>('RegExp')
 export const isValid = (val: any) => val !== null && val !== undefined
+export const isValidNumber = (val: any): val is number =>
+  !isNaN(val) && isNum(val)

@@ -49,9 +49,9 @@ export const DEFAULT_EFFECTS = [
 ]
 
 export const DEFAULT_DRIVERS = [
+  MouseMoveDriver,
   DragDropDriver,
   MouseClickDriver,
-  MouseMoveDriver,
   ViewportResizeDriver,
   ViewportScrollDriver,
   KeyboardDriver,

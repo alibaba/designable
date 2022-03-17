@@ -1,6 +1,9 @@
-export type SelectorStore = Map<string, WeakMap<object, Element[] | Element>>
+export type SelectorStore = Map<
+  string,
+  WeakMap<object, HTMLElement[] | HTMLElement>
+>
 
-export type ElementResults = { current: Element[] | Element }
+export type ElementResults = { current: HTMLElement[] | HTMLElement }
 
 const toArray = <T>(target: Iterable<T> | ArrayLike<T>) =>
   Array.from(target || [])
@@ -8,9 +11,9 @@ const toArray = <T>(target: Iterable<T> | ArrayLike<T>) =>
 export class Selector {
   private store: SelectorStore = new Map()
 
-  private _queryAll(target: Element | HTMLDocument, selector: string) {
+  private _queryAll(target: Element | Document, selector: string) {
     if (!target) return []
-    const results = toArray(target?.querySelectorAll(selector))
+    const results = toArray(target?.querySelectorAll(selector)) as any
     const cacheKey = selector + '@ALL'
     const caches = this.store.get(cacheKey)
     if (caches) {
@@ -21,26 +24,29 @@ export class Selector {
     return results
   }
 
-  private _query(target: Element | HTMLDocument, selector: string) {
+  private _query(
+    target: Element | HTMLElement | Document,
+    selector: string
+  ): HTMLElement {
     if (!target) return
-    const results = target?.querySelector(selector)
+    const results = target?.querySelector(selector) as any
     const caches = this.store.get(selector)
     if (caches) {
       caches.set(target, results)
     } else {
       this.store.set(selector, new WeakMap([[target, results]]))
     }
-    return results
+    return results as HTMLElement
   }
 
-  private _clean(target: Element | HTMLDocument, key: string) {
+  private _clean(target: Element | HTMLElement | Document, key: string) {
     const caches = this.store.get(key)
     if (caches) {
       caches.delete(target)
     }
   }
 
-  queryAll(target: Element | HTMLDocument, selector: string) {
+  queryAll(target: Element | Document, selector: string) {
     const cacheKey = selector + '@ALL'
     const caches = this.store.get(cacheKey)
     const results: ElementResults = { current: null }
@@ -63,7 +69,7 @@ export class Selector {
     }
   }
 
-  query(target: Element | HTMLDocument, selector: string) {
+  query(target: Element | HTMLElement | Document, selector: string) {
     const caches = this.store.get(selector)
     const results: ElementResults = { current: null }
     if (caches) {

@@ -1,6 +1,33 @@
+import { isValidNumber } from './types'
 export interface IPoint {
   x: number
   y: number
+}
+
+export interface ILineSegment {
+  start: IPoint
+  end: IPoint
+}
+
+export type IAlignLineSegment<ExtendsProperty = {}> = {
+  distance?: number
+  start: IPoint
+  end: IPoint
+} & ExtendsProperty
+
+export function isPoint(val: any): val is IPoint {
+  return isValidNumber(val?.x) && isValidNumber(val?.y)
+}
+
+export function isLineSegment(val: any): val is ILineSegment {
+  return isPoint(val?.start) && isPoint(val?.end)
+}
+
+export function isAlignLineSegment(val: any): val is IAlignLineSegment {
+  return (
+    isLineSegment(val) &&
+    (val.start.x === val.end.x || val.start.y === val.end.y)
+  )
 }
 
 export class Point implements IPoint {
@@ -283,15 +310,201 @@ export function calcRectByStartEndPoint(
 }
 
 /**
- * 计算对齐线
- * @param rect1
- * @param rect2
+ * 计算目标矩形与当前矩形最近的边的对齐线
+ * @param current
+ * @param target
  */
-export function calcSnapLine(rect1: IRect, rect2: IRect) {}
+export function calcAlignLineSegmentOfEdgeToRectAndCursor<
+  T extends IAlignLineSegment
+>(current: IRect, target: IRect): { vertical: T; horizontal: T } {
+  const currentEdges = calcEdgeLinesOfRect(current)
+  const targetEdges = calcEdgeLinesOfRect(target)
+  const xDistances = calcMinIndex(
+    calcEdgeLinesDistance(currentEdges.x, targetEdges.x)
+  )
+  const yDistances = calcMinIndex(
+    calcEdgeLinesDistance(currentEdges.y, targetEdges.y)
+  )
+  const verticalLine = {
+    distance: xDistances.value,
+    start: {
+      x: targetEdges.x[xDistances.indexes[1]],
+      y: Math.min(current.y, target.y),
+    },
+    end: {
+      x: targetEdges.x[xDistances.indexes[1]],
+      y: Math.max(target.y + target.height, current.y + current.height),
+    },
+  }
+  const horizontalLine = {
+    distance: yDistances.value,
+    start: {
+      y: targetEdges.y[yDistances.indexes[1]],
+      x: Math.min(current.x, target.x),
+    },
+    end: {
+      y: targetEdges.y[yDistances.indexes[1]],
+      x: Math.max(target.x + target.width, current.x + current.width),
+    },
+  }
+  return {
+    vertical: verticalLine as any,
+    horizontal: horizontalLine as any,
+  }
+
+  function calcMinIndex(values: { value: number; indexes: number[] }[]) {
+    let min = values[0]
+    for (let i = 0; i < values.length; i++) {
+      const distance = values[i]
+      if (distance.value <= min.value) {
+        min = distance
+      }
+    }
+    return min
+  }
+
+  function calcEdgeLinesDistance(
+    currentEdges: number[],
+    targetEdges: number[]
+  ) {
+    return targetEdges.reduce((buf, val2, index2) => {
+      return buf.concat(
+        currentEdges.map((val1, index1) => {
+          return { value: Math.abs(val2 - val1), indexes: [index1, index2] }
+        })
+      )
+    }, [])
+  }
+}
+
+export function calcEdgeLinesOfRect(rect: IRect) {
+  return {
+    x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
+    y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
+  }
+}
+
+export function calcOffsetOfAlignLineSegmentToEdge(
+  line: IAlignLineSegment,
+  current: IRect
+) {
+  if (!isAlignLineSegment(line)) return
+  const edges = calcEdgeLinesOfRect(current)
+  const isVerticalLine = line.start.x === line.end.x
+  if (isVerticalLine) {
+    return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
+  }
+  function calcMinDistanceValue(edges: number[], targetValue: number) {
+    let minDistance = Infinity,
+      minDistanceIndex = -1
+    for (let i = 0; i < edges.length; i++) {
+      const distance = Math.abs(edges[i] - targetValue)
+      if (minDistance > distance) {
+        minDistance = distance
+        minDistanceIndex = i
+      }
+    }
+    return edges[minDistanceIndex]
+  }
+
+  return { x: 0, y: calcMinDistanceValue(edges.y, line.start.y) - current.y }
+}
+
+/**
+ * 计算目标对齐线与当前矩形边最近投影距离
+ * @param current
+ * @param line
+ */
+export function calcDistanceOfEdgeToAlignLineSegment(
+  current: IRect,
+  line: IAlignLineSegment
+) {
+  if (!isAlignLineSegment(line)) return Infinity
+  const edges = calcEdgeLinesOfRect(current)
+  const isVerticalLine = line.start.x === line.end.x
+  if (isVerticalLine) {
+    return calcDistances(edges.x, line.start.x)
+  }
+  function calcDistances(edges: number[], targetValue: number) {
+    const distances = []
+    for (let i = 0; i < edges.length; i++) {
+      distances.push(Math.abs(edges[i] - targetValue))
+    }
+    return Math.min(...distances)
+  }
+  return calcDistances(edges.y, line.start.y)
+}
+
+export function isEqualPoint(point1: IPoint, point2: IPoint) {
+  if (!isPoint(point1) || !isPoint(point2)) return false
+  return point1.x === point2.x && point1.y === point2.y
+}
+
+export function isEqualLineSegment(line1: ILineSegment, line2: ILineSegment) {
+  if (!isLineSegment(line1) || !isLineSegment(line2)) return false
+  return (
+    isEqualPoint(line1.start, line2.start) && isEqualPoint(line1.end, line2.end)
+  )
+}
+
+export function clonePoint(point: IPoint) {
+  return {
+    x: point?.x,
+    y: point?.y,
+  }
+}
+
+export function cloneLineSegment(line: ILineSegment): ILineSegment {
+  return {
+    start: clonePoint(line?.start),
+    end: clonePoint(line?.end),
+  }
+}
+
+export function cloneAlignLineSegment<Line extends IAlignLineSegment>(
+  line: Line
+): Line {
+  return {
+    ...line,
+    distance: line?.distance,
+    start: clonePoint(line?.start),
+    end: clonePoint(line?.end),
+  }
+}
+
+/**
+ * 计算坐标线的小矩形
+ * @param line
+ * @returns
+ */
+export function calcRectOfAxisLineSegment(line: ILineSegment) {
+  if (!isLineSegment(line)) return
+  const isXAxis = line.start.x === line.end.x
+  return new DOMRect(
+    line.start.x,
+    line.start.y,
+    isXAxis ? 0 : line.end.x - line.start.x,
+    isXAxis ? line.end.y - line.start.y : 0
+  )
+}
 
 /**
  * 计算距离线
  * @param rect1
  * @param rect2
  */
-export function calcDistanceLine(rect1: IRect, rect2: IRect) {}
+export function calcDistanceLineSegment(rect1: IRect, rect2: IRect) {}
+
+/**
+ * 解析DOM元素偏移值坐标
+ * @param element
+ * @returns
+ */
+export const parseTranslatePoint = (element: HTMLElement) => {
+  const [x, y] = element?.style?.transform
+    ?.match(
+      /translate(?:3d)?\(\s*([-\d.]+)[a-z]+?[\s,]+([-\d.]+)[a-z]+?(?:[\s,]+([-\d.]+))?[a-z]+?\s*\)/
+    )
+    ?.slice(1, 3) ?? [0, 0]
+  return new Point(Number(x), Number(y))
+}

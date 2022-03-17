@@ -1,12 +1,11 @@
-import { Engine, CursorType, CursorDragType } from '../models'
+import { Engine, CursorDragType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
-import { Point } from '@designable/shared'
+import { IPoint, parseTranslatePoint } from '@designable/shared'
 
 type TranslateData = {
-  element?: HTMLElement
+  startPoint?: IPoint
   node?: TreeNode
-  point?: Point
 }
 
 type TranslateStore = {
@@ -19,17 +18,22 @@ export const useTranslateEffect = (engine: Engine) => {
     if (handler) {
       const type = handler.getAttribute(engine.props.nodeTranslateAttrName)
       if (type) {
-        const element = handler.closest(
+        const selectionElement = handler.closest(
           `*[${engine.props.nodeSelectionIdAttrName}]`
         ) as HTMLElement
-        if (element) {
-          const nodeId = element.getAttribute(
+        if (selectionElement) {
+          const nodeId = selectionElement.getAttribute(
             engine.props.nodeSelectionIdAttrName
           )
           if (nodeId) {
             const node = engine.findNodeById(nodeId)
             if (node) {
-              return { node, element }
+              const element = node.getElement()
+              node.markCursorOffset()
+              return {
+                node,
+                startPoint: parseTranslatePoint(element),
+              }
             }
           }
         }
@@ -44,35 +48,40 @@ export const useTranslateEffect = (engine: Engine) => {
     const target = event.data.target as HTMLElement
     const data = findStartNodeHandler(target)
     if (data) {
-      const point = new Point(event.data.clientX, event.data.clientY)
-      store.value = {
-        ...data,
-        point,
-      }
+      store.value = data
       engine.cursor.setDragType(CursorDragType.Translate)
     }
   })
 
-  engine.subscribeTo(DragMoveEvent, (event) => {
-    if (engine.cursor.type !== CursorType.Normal) return
+  engine.subscribeTo(DragMoveEvent, () => {
+    if (engine.cursor.dragType !== CursorDragType.Translate) return
     if (store.value) {
-      const { node, element, point } = store.value
+      const { node, startPoint } = store.value
       const allowTranslate = node.allowTranslate()
       if (!allowTranslate) return
-      const translatable = node.designerProps.translatable
-      const current = new Point(event.data.clientX, event.data.clientY)
-      const diffX = current.x - point?.x
-      const diffY = current.y - point?.y
-      const horizontal = translatable.x?.(node, element, diffX)
-      const vertical = translatable.y?.(node, element, diffY)
-      horizontal.translate()
-      vertical.translate()
-      store.value.point = current
+      const element = node.getElement()
+      const deltaX = engine.cursor.dragStartToCurrentDelta.clientX
+      const deltaY = engine.cursor.dragStartToCurrentDelta.clientY
+      const dragLine = node.operation.dragLine
+      const alignVLine = node.getAlignVLineFromVertex()
+      const alignHLine = node.getAlignHLineFromVertex()
+      let translateX = startPoint.x + deltaX,
+        translateY = startPoint.y + deltaY
+      if (dragLine.isKissingAlignHLine) {
+        translateY = alignHLine.start.y
+      }
+      if (dragLine.isKissingAlignVLine) {
+        translateX = alignVLine.start.x
+      }
+      element.style.position = 'absolute'
+      element.style.transform = `translate3d(${translateX}px,${translateY}px,0)`
+      dragLine.calcDragLine([node])
     }
   })
 
   engine.subscribeTo(DragStopEvent, () => {
     if (store.value) {
+      store.value.node.operation.dragLine.clean()
       store.value = null
       engine.cursor.setDragType(CursorDragType.Normal)
     }
