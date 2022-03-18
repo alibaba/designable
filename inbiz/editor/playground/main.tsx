@@ -67,6 +67,23 @@ GlobalRegistry.registerDesignerLocales({
   },
 })
 
+const components = {
+  Field,
+  Form,
+  FormGrid,
+  FormTab,
+  FormCollapse,
+  Test,
+}
+const componentIcon = {}
+Object.values(components).reduce((pre, next) => {
+  const name = next.Behavior?.[0].name
+  const icon = next.Resource?.[0].icon
+  if (name && icon) {
+    pre[name] = icon
+  }
+  return pre
+}, componentIcon)
 const App = () => {
   const engine = useMemo(
     () =>
@@ -86,6 +103,7 @@ const App = () => {
       }),
     []
   )
+
   return (
     <Designer engine={engine}>
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
@@ -106,18 +124,9 @@ const App = () => {
             <HistoryWidget />
           </CompositePanel.Item>
         </CompositePanel>
-        <TopBottomFixed
-          components={{
-            Field,
-            Form,
-            FormGrid,
-            FormTab,
-            FormCollapse,
-            Test,
-          }}
-        />
+        <TopLeftBottomFixed components={components} />
         <SettingsPanel title="panels.PropertySettings">
-          <SettingsForm />
+          <SettingsForm componentIcon={componentIcon} />
         </SettingsPanel>
       </StudioPanel>
     </Designer>

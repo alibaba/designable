@@ -1,5 +1,6 @@
 import React from 'react'
-import { Breadcrumb } from 'antd'
+import { Breadcrumb, Tooltip } from 'antd'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import { useCurrentNode, useSelection, usePrefix, useHover } from '../../hooks'
 import { IconWidget } from '../IconWidget'
 import { NodeTitleWidget } from '../NodeTitleWidget'
@@ -9,6 +10,7 @@ import './styles.less'
 export interface INodePathWidgetProps {
   workspaceId?: string
   maxItems?: number
+  componentIcon?: { [key: string]: typeof IconWidget }
 }
 
 export const NodePathWidget: React.FC<INodePathWidgetProps> = observer(
@@ -24,31 +26,45 @@ export const NodePathWidget: React.FC<INodePathWidgetProps> = observer(
       .slice(0, maxItems - 1)
       .reverse()
       .concat(selected)
+    const describe = selected.getMessage('describe')
+    const infer =
+      props.componentIcon?.[selected.props?.['x-component']] || 'Position'
     return (
-      <Breadcrumb className={prefix}>
-        {nodes.map((node, key) => {
-          return (
-            <Breadcrumb.Item key={key}>
-              {key === 0 && (
-                <IconWidget infer="Position" style={{ marginRight: 3 }} />
-              )}
-              <a
-                href=""
-                onMouseEnter={() => {
-                  hover.setHover(node)
-                }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  selection.select(node)
-                }}
-              >
-                <NodeTitleWidget node={node} />
-              </a>
-            </Breadcrumb.Item>
-          )
-        })}
-      </Breadcrumb>
+      <div className={prefix + '-box'}>
+        <Breadcrumb className={prefix}>
+          {nodes.map((node, key) => {
+            return (
+              <Breadcrumb.Item key={key}>
+                {key === 0 && (
+                  <IconWidget infer={infer} style={{ marginRight: 3 }} />
+                )}
+                <a
+                  href=""
+                  onMouseEnter={() => {
+                    hover.setHover(node)
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    selection.select(node)
+                  }}
+                >
+                  <NodeTitleWidget node={node} />
+                </a>
+              </Breadcrumb.Item>
+            )
+          })}
+        </Breadcrumb>
+        {describe && (
+          <Tooltip
+            placement="left"
+            title={describe}
+            className={prefix + '-tip'}
+          >
+            <QuestionCircleOutlined style={{ fontSize: 15 }} />
+          </Tooltip>
+        )}
+      </div>
     )
   }
 )

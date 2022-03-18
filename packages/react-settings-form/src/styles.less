@@ -101,15 +101,15 @@
         width: 100%;
       }
 
-      & > .@{ant-prefix}-select {
-        max-width: 140px;
-      }
+      // & > .@{ant-prefix}-select {
+      //   max-width: 140px;
+      // }
     }
   }
 }
 
 .dn-settings-form {
-  padding: 0 20px;
+  // padding: 0 20px;
 
   &-empty {
     display: flex;
@@ -118,5 +118,17 @@
     justify-content: center;
     height: 100%;
     color: #888;
+  }
+  .ant-tabs-nav-list,
+  .ant-formily-item,
+  .dn-collapse-item {
+    padding: 0 20px;
+  }
+  .dn-collapse-item .ant-formily-item {
+    padding: 0;
+  }
+  // 分类在最后一个不显示下边框
+  .ant-tabs-tabpane .dn-collapse-item:last-child {
+    border-bottom: 0;
   }
 }

@@ -54,6 +54,9 @@ Test.Behavior = createBehavior({
             type: 'string',
             'x-decorator': 'FormItem',
             'x-component': 'Input',
+            'x-component-props': {
+              tab: '${default}',
+            },
             // 'x-reactions': {
             //   dependencies: ['.isShow'],
             //   fulfill: {
@@ -66,10 +69,13 @@ Test.Behavior = createBehavior({
           test3: {
             type: 'void',
             'x-decorator': 'FormItem',
+            'x-component-props': {
+              tab: '${default}',
+            },
             'x-component': (props) => {
               // 表单内所有数据
-              console.log(useForm(), useField())
               window.formu = useForm()
+              window.uf = useField()
               return <div {...props}>11111</div>
             },
           },
@@ -89,6 +95,7 @@ Test.Behavior = createBehavior({
   designerLocales: {
     'zh-CN': {
       title: 'eform示例',
+      describe: '2222',
       settings: {
         'x-component-props': {
           defaultType: {
@@ -99,6 +106,7 @@ Test.Behavior = createBehavior({
           test: {
             title: 'aaaa',
             tooltip: '提示提示',
+            default: '999',
           },
           test3: '自定义test3',
           labelAlign: {
