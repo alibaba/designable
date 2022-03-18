@@ -9,3 +9,5 @@ gh-pages
 weex
 build.ts
 docs
+packages/*
+inbiz/*

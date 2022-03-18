@@ -234,12 +234,19 @@
   display: flex;
   flex-direction: column;
   z-index: 2;
-  width: 300px;
+  width: 0;
   background: var(--dn-composite-panel-tabs-content-bg-color);
   border-left: 1px solid var(--dn-panel-border-color);
   height: 100%;
   box-sizing: content-box;
   user-select: none;
+  transition: all 0.3s ease-in-out;
+  &.visible {
+    width: 300px;
+    .@{prefix-cls}-settings-panel-body {
+      opacity: 1;
+    }
+  }
 
   &.pinning {
     position: absolute;
@@ -298,13 +305,15 @@
     flex-shrink: 2;
     overflow: overlay;
     height: 100%;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
   }
 
   &-opener {
     position: absolute;
-    right: 0;
+    left: 0;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-100%, -50%);
     z-index: 2;
     background: var(--dn-composite-panel-tabs-content-bg-color);
     border: 1px solid var(--dn-panel-border-color);
@@ -314,16 +323,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 16px;
+    height: 32px;
     cursor: pointer;
 
-    .dn-icon {
-      transition: all 0.15s ease-in-out;
-    }
+    // .dn-icon {
+    //   transition: all 0.15s ease-in-out;
+    // }
 
-    &:hover .dn-icon {
-      transform: rotate(45deg);
-    }
+    // &:hover .dn-icon {
+    //   transform: rotate(45deg);
+    // }
   }
 }

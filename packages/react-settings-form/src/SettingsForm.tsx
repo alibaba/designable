@@ -24,7 +24,9 @@ const GlobalState = {
   idleRequest: null,
 }
 
-export const SettingsForm: React.FC<ISettingFormProps> = observer(
+export const SettingsForm: React.FC<
+  ISettingFormProps & { componentIcon?: { [key: string]: typeof IconWidget } }
+> = observer(
   (props) => {
     const workbench = useWorkbench()
     const currentWorkspace =
@@ -51,7 +53,6 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
         },
       })
     }, [node, node?.props, schema, operation, isEmpty])
-
     const render = () => {
       if (!isEmpty) {
         return (
@@ -64,7 +65,8 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
               <Form
                 form={form}
                 colon={false}
-                labelWidth={120}
+                labelCol={8}
+                wrapperCol={16}
                 labelAlign="left"
                 wrapperAlign="right"
                 feedbackLayout="none"
@@ -86,11 +88,15 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
         </div>
       )
     }
-
     return (
       <IconWidget.Provider tooltip>
         <div className={prefix + '-wrapper'}>
-          {!isEmpty && <NodePathWidget workspaceId={currentWorkspaceId} />}
+          {!isEmpty && (
+            <NodePathWidget
+              workspaceId={currentWorkspaceId}
+              componentIcon={props.componentIcon}
+            />
+          )}
           <div className={prefix + '-content'}>{render()}</div>
         </div>
       </IconWidget.Provider>

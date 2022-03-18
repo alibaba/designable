@@ -24,12 +24,12 @@ const mapEnum = (dataSource: any[]) => (item: any, index: number) => {
     ),
   }
 }
-
+const reg = /^\$\{(.+)\}$/
 export const useLocales = (node: TreeNode) => {
   onFieldReact('*', (field) => {
     const path = field.path.toString().replace(/\.[\d+]/g, '')
-    const takeMessage = (prop?: string) => {
-      const token = `settings.${path}${prop ? `.${prop}` : ''}`
+    const takeMessage = (prop?: string, isPath?: boolean) => {
+      const token = !isPath ? `settings.${path}${prop ? `.${prop}` : ''}` : prop
       return node.getMessage(token) || GlobalRegistry.getDesignerMessage(token)
     }
     const title = takeMessage('title') || takeMessage()
@@ -37,6 +37,19 @@ export const useLocales = (node: TreeNode) => {
     const tooltip = takeMessage('tooltip')
     const dataSource = takeMessage('dataSource')
     const placeholder = takeMessage('placeholder')
+    // 转换 x-component-props中的多语言 如 'x-component-props': {tab: '${default}'}
+    if (field.component[1]) {
+      Object.keys(field.componentProps).forEach((key) => {
+        const value = field.componentProps[key]
+        if (typeof value === 'string' && reg.test(value)) {
+          field.componentProps[key] = takeMessage(
+            value.replace(reg, '$1').trim()
+          )
+        }
+      })
+    }
+    //@ts-ignore
+    field.takeMessage = takeMessage
     if (title) {
       field.title = title
     }

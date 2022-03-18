@@ -29,7 +29,7 @@ export const CollapseItem: React.FC<ICollapseItemProps> = observer((props) => {
       >
         <div className={prefix + '-header-content'}>{field.title}</div>
         <div className={prefix + '-header-expand'}>
-          <IconWidget infer="Expand" size={10} />
+          <IconWidget infer="Expand" size={12} />
         </div>
       </div>
       <div className={prefix + '-content'}>{props.children}</div>

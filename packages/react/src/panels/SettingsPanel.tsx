@@ -13,7 +13,7 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
   const prefix = usePrefix('settings-panel')
   const workbench = useWorkbench()
   const [innerVisible, setInnerVisible] = useState(true)
-  const [pinning, setPinning] = useState(false)
+  // const [pinning, setPinning] = useState(false)
   const [visible, setVisible] = useState(true)
   useEffect(() => {
     if (visible || workbench.type === 'DESIGNABLE') {
@@ -26,26 +26,31 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
       }
     }
   }, [visible, workbench.type])
+
   if (workbench.type !== 'DESIGNABLE') {
     if (innerVisible) setInnerVisible(false)
     return null
   }
-  if (!visible) {
-    if (innerVisible) setInnerVisible(false)
-    return (
-      <div
-        className={prefix + '-opener'}
-        onClick={() => {
-          setVisible(true)
-        }}
-      >
-        <IconWidget infer="Setting" size={20} />
-      </div>
-    )
-  }
+  // if (!visible) {
+  //   if (innerVisible) setInnerVisible(false)
+  //   return (
+  //     <div
+  //       className={prefix + '-opener'}
+  //       onClick={() => {
+  //         setVisible(true)
+  //       }}
+  //     >
+  //       <IconWidget infer="Setting" size={20} />
+  //     </div>
+  //   )
+  // }
+
   return (
-    <div className={cls(prefix, { pinning })}>
-      <div className={prefix + '-header'}>
+    <div className={cls(prefix, { visible })}>
+      <div className={prefix + '-opener'} onClick={() => setVisible(!visible)}>
+        <IconWidget infer={visible ? 'ArrowRight' : 'ArrowLeft'} size={20} />
+      </div>
+      {/* <div className={prefix + '-header'}>
         <div className={prefix + '-header-title'}>
           <TextWidget>{props.title}</TextWidget>
         </div>
@@ -77,7 +82,7 @@ export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {
             }}
           />
         </div>
-      </div>
+      </div> */}
       <div className={prefix + '-body'}>{innerVisible && props.children}</div>
     </div>
   )

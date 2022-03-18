@@ -1,18 +1,25 @@
 @import '~antd/lib/style/themes/default.less';
 
-.dn-node-path {
-  padding: 4px 10px !important;
+.dn-settings-form-wrapper .dn-node-path-box {
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid var(--dn-panel-border-color);
+  .dn-node-path {
+    padding: 4px 10px !important;
+    flex: 1;
+    .dn-icon {
+      font-size: 11px;
+    }
 
-  .dn-icon {
-    font-size: 11px;
-  }
+    .@{ant-prefix}-breadcrumb-separator {
+      margin: 0 4px !important;
+    }
 
-  .@{ant-prefix}-breadcrumb-separator {
-    margin: 0 4px !important;
-  }
-
-  a {
-    font-size: 12px;
+    a {
+      font-size: 12px;
+    }
+    &-tip {
+      margin-right: 10px;
+    }
   }
 }
