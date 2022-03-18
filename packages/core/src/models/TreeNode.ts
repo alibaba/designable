@@ -271,7 +271,7 @@ export class TreeNode {
   }
 
   getAlignHLineFromVertex() {
-    return this.operation?.dragLine.getAlignVLineFromVertex(this)
+    return this.operation?.dragLine.getAlignHLineFromVertex(this)
   }
 
   getElement(area: 'viewport' | 'outline' = 'viewport') {
