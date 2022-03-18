@@ -126,7 +126,10 @@ const App = () => {
         </CompositePanel>
         <TopLeftBottomFixed components={components} />
         <SettingsPanel title="panels.PropertySettings">
-          <SettingsForm componentIcon={componentIcon} />
+          <SettingsForm
+            componentIcon={componentIcon}
+            appInfo={{ appId: '22222' }}
+          />
         </SettingsPanel>
       </StudioPanel>
     </Designer>

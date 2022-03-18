@@ -23,9 +23,14 @@ import './styles.less'
 const GlobalState = {
   idleRequest: null,
 }
-
+type appInfo = {
+  appId: string
+}
 export const SettingsForm: React.FC<
-  ISettingFormProps & { componentIcon?: { [key: string]: typeof IconWidget } }
+  ISettingFormProps & {
+    appInfo?: appInfo
+    componentIcon?: { [key: string]: typeof IconWidget }
+  }
 > = observer(
   (props) => {
     const workbench = useWorkbench()
@@ -43,7 +48,7 @@ export const SettingsForm: React.FC<
       selected.length === 1
     )
     const form = useMemo(() => {
-      return createForm({
+      const form = createForm({
         initialValues: node?.designerProps?.defaultProps,
         values: node?.props,
         effects(form) {
@@ -52,7 +57,9 @@ export const SettingsForm: React.FC<
           props.effects?.(form)
         },
       })
-    }, [node, node?.props, schema, operation, isEmpty])
+      ;(form as typeof form & { appInfo?: appInfo }).appInfo = props.appInfo
+      return form
+    }, [node, node?.props, schema, operation, isEmpty, props.appInfo])
     const render = () => {
       if (!isEmpty) {
         return (
