@@ -3,28 +3,18 @@ import {
   calcRectOfAxisLineSegment,
   IAlignLineSegment,
   ILineSegment,
-  cloneAlignLineSegment,
   isAlignLineSegment,
-  isValidNumber,
   calcDistanceOfEdgeToAlignLineSegment,
   calcOffsetOfAlignLineSegmentToEdge,
   Point,
   IPoint,
+  uid,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
 
-const SNAP_LINE_BOUNDARY = 5
-
-const NODE_SNAP_HORIZONTAL_LINE_TYPE = '$$NODE_SNAP_HORIZONTAL_LINE$$'
-
-const NODE_SNAP_VERTICAL_LINE_TYPE = '$$NODE_SNAP_VERTICAL_LINE$$'
-
-const isNodeAlignLine = (line: IDynamicAlignLine) =>
-  isAlignLineSegment(line) &&
-  (line.id === NODE_SNAP_HORIZONTAL_LINE_TYPE ||
-    line.id === NODE_SNAP_VERTICAL_LINE_TYPE)
+const ALIGN_LINE_LIMIT_BOUNDARY = 5
 
 const isKissingAlignLine = (
   line: IDynamicAlignLine,
@@ -33,17 +23,17 @@ const isKissingAlignLine = (
   if (line && bufferLine) {
     const offset = line.node?.getDraggingVertexOffset()
     const outerOffset = offset?.x === 0 && offset?.y === 0
-    const isNear = line.distance < SNAP_LINE_BOUNDARY
+    const isNear = line.distance < ALIGN_LINE_LIMIT_BOUNDARY
     if (bufferLine.distance > line.distance && isNear && outerOffset) {
       return true
     } else if (isNear) {
       const isVertical = line.start.x === line.end.x
       if (isVertical) {
-        if (Math.abs(offset?.x) > SNAP_LINE_BOUNDARY + 3) {
+        if (Math.abs(offset?.x) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
           return false
         }
       } else {
-        if (Math.abs(offset?.y) > SNAP_LINE_BOUNDARY + 3) {
+        if (Math.abs(offset?.y) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
           return false
         }
       }
@@ -56,18 +46,111 @@ const isKissingAlignLine = (
 
 export type IDynamicAlignLine = IAlignLineSegment<{
   id?: string
-  isKissing?: boolean
   node?: TreeNode
 }>
 
 export interface IDragLineProps {
   operation: Operation
 }
+export class AlignLine {
+  _id: string
+  _distance: number
+  node: TreeNode
+  start: IPoint
+  end: IPoint
+  ctx: DragLine
+  isKissing = false
+  constructor(ctx: DragLine, line: IDynamicAlignLine) {
+    this.ctx = ctx
+    this._id = line.id
+    this.node = line.node
+    this.start = { ...line.start }
+    this.end = { ...line.end }
+    this.distance = line.distance
+  }
+
+  get id() {
+    return (
+      this._id ?? `${this.start.x}-${this.start.y}-${this.end.x}-${this.end.y}`
+    )
+  }
+
+  get direction() {
+    if (this.start?.x === this.end?.x) return 'v'
+    return 'h'
+  }
+
+  get closest() {
+    return this.distance < ALIGN_LINE_LIMIT_BOUNDARY
+  }
+
+  get rect() {
+    return calcRectOfAxisLineSegment(this)
+  }
+
+  get relativeFromNodeVertex() {
+    if (!this.node || !this.node?.parent) return
+    const node = this.node
+    const parent = this.node.parent
+    const selfRef = node.getValidElementOffsetRect()
+    const parentRect = parent.getValidElementOffsetRect()
+    const edgeOffset = calcOffsetOfAlignLineSegmentToEdge(this, selfRef)
+    return new AlignLine(this.ctx, {
+      ...this,
+      start: {
+        x: this.start.x - parentRect.x - edgeOffset.x,
+        y: this.start.y - parentRect.y - edgeOffset.y,
+      },
+      end: {
+        x: this.end.x - parentRect.x - edgeOffset.x,
+        y: this.end.y - parentRect.y - edgeOffset.y,
+      },
+    })
+  }
+
+  get vertexOffset() {
+    return this.node?.getDraggingVertexOffset()
+  }
+
+  set distance(distance: number) {
+    const oldDistance = this.ctx.alignLineDistances[this.id]
+    const offset = this.vertexOffset
+    const isUnSucking = offset?.x === 0 && offset?.y === 0
+    const allowSuck = distance < ALIGN_LINE_LIMIT_BOUNDARY
+    if (oldDistance !== undefined) {
+      if (oldDistance > distance && allowSuck && isUnSucking) {
+        this.isKissing = true
+      } else {
+        if (this.direction === 'v') {
+          if (Math.abs(offset?.x) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
+            this.isKissing = false
+          } else {
+            this.isKissing = true
+          }
+        } else {
+          if (Math.abs(offset?.y) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
+            this.isKissing = false
+          } else {
+            this.isKissing = true
+          }
+        }
+      }
+    }
+    this.ctx.alignLineDistances[this.id] = distance
+    this._distance = distance
+  }
+
+  get distance() {
+    return this._distance
+  }
+}
 
 export class DragLine {
   operation: Operation
 
-  alignLines: IDynamicAlignLine[] = []
+  fixedAlignLines: AlignLine[] = []
+
+  dynamicAlignLines: AlignLine[] = []
 
   distanceLines: ILineSegment[] = []
 
@@ -75,45 +158,11 @@ export class DragLine {
 
   cursorToVertexOffsets: Record<string, IPoint> = {}
 
+  alignLineDistances: Record<string, number> = {}
+
   constructor(props: IDragLineProps) {
     this.operation = props.operation
     this.makeObservable()
-  }
-
-  get customAlignLines() {
-    return this.alignLines.filter((line) => !isNodeAlignLine(line))
-  }
-
-  get alignVLine() {
-    return this.findAlignLine(NODE_SNAP_VERTICAL_LINE_TYPE)
-  }
-
-  get alignVLineRect() {
-    return calcRectOfAxisLineSegment(this.alignVLine)
-  }
-
-  get alignHLine() {
-    return this.findAlignLine(NODE_SNAP_HORIZONTAL_LINE_TYPE)
-  }
-
-  get alignHLineRect() {
-    return calcRectOfAxisLineSegment(this.alignHLine)
-  }
-
-  get isNearAlignVLine() {
-    return this.alignVLine?.distance < SNAP_LINE_BOUNDARY
-  }
-
-  get isKissingAlignVLine() {
-    return this.alignVLine?.isKissing
-  }
-
-  get isNearAlignHLine() {
-    return this.alignHLine?.distance < SNAP_LINE_BOUNDARY
-  }
-
-  get isKissingAlignHLine() {
-    return this.alignHLine?.isKissing
   }
 
   get cursor() {
@@ -121,6 +170,12 @@ export class DragLine {
     return this.operation.workspace.viewport.getOffsetPoint(
       new Point(position.clientX, position.clientY)
     )
+  }
+
+  get kissingAlignLines() {
+    const dynamics = this.dynamicAlignLines.filter((line) => line.isKissing)
+    const fixed = this.fixedAlignLines.filter((line) => line.isKissing)
+    return [...dynamics, ...fixed]
   }
 
   markCursorToVertexOffsets(nodes: TreeNode[] = []) {
@@ -135,11 +190,6 @@ export class DragLine {
 
   clean() {
     this.cursorToVertexOffsets = {}
-    this.alignLines.forEach((line) => {
-      line.distance = Infinity
-      line.isKissing = false
-      line.node = null
-    })
   }
 
   getCursorToVertexOffsets(nodes: TreeNode[] = []) {
@@ -157,146 +207,89 @@ export class DragLine {
     return new Point(unLimit.x - limit.x, unLimit.y - limit.y)
   }
 
-  calcAlignLineOfTree(nodes: TreeNode[] = []) {
+  calcDynamicAlignLines(nodes: TreeNode[] = []) {
     if (!nodes.length) return
-    let minDistanceAlignVLine = null,
-      minDistanceAlignHLine = null
     this.operation.tree.eachTree((target) => {
       if (nodes.includes(target)) return
       nodes.forEach((node) => {
         const { vertical, horizontal } =
-          calcAlignLineSegmentOfEdgeToRectAndCursor<IDynamicAlignLine>(
+          calcAlignLineSegmentOfEdgeToRectAndCursor(
             node.getValidElementOffsetRect(),
             target.getValidElementOffsetRect()
           )
-        if (!minDistanceAlignVLine) {
-          minDistanceAlignVLine = vertical
-          vertical.node = node
-        } else if (vertical.distance < minDistanceAlignVLine.distance) {
-          minDistanceAlignVLine = vertical
-          vertical.node = node
+        if (vertical.distance < ALIGN_LINE_LIMIT_BOUNDARY) {
+          this.dynamicAlignLines.push(
+            new AlignLine(this, {
+              node,
+              ...vertical,
+            })
+          )
         }
-
-        if (!minDistanceAlignHLine) {
-          minDistanceAlignHLine = horizontal
-          horizontal.node = node
-        } else if (horizontal.distance < minDistanceAlignHLine.distance) {
-          minDistanceAlignHLine = horizontal
-          horizontal.node = node
+        if (horizontal.distance < ALIGN_LINE_LIMIT_BOUNDARY) {
+          this.dynamicAlignLines.push(
+            new AlignLine(this, {
+              node,
+              ...horizontal,
+            })
+          )
         }
       })
     })
-
-    this.updateAlignLine(minDistanceAlignHLine, NODE_SNAP_HORIZONTAL_LINE_TYPE)
-    this.updateAlignLine(minDistanceAlignVLine, NODE_SNAP_VERTICAL_LINE_TYPE)
   }
 
-  calcDistanceLineOfTree(nodes: TreeNode[] = []) {}
+  calcDistanceLines(nodes: TreeNode[] = []) {}
 
-  calcCustomAlignLine(nodes: TreeNode[] = []) {
+  calcFixedAlignLines(nodes: TreeNode[] = []) {
     if (!nodes.length) return
-    this.customAlignLines.forEach((line) => {
+    this.fixedAlignLines.forEach((line) => {
       nodes.forEach((node) => {
         const rect = node.getElementOffsetRect()
-        this.updateAlignLine({
-          ...line,
-          distance: calcDistanceOfEdgeToAlignLineSegment(rect, line),
-        })
+        line.distance = calcDistanceOfEdgeToAlignLineSegment(rect, line)
       })
     })
   }
 
-  findAlignLine(id: string) {
-    return this.alignLines.find((item) => item.id === id)
+  findFixedAlignLine(id: string) {
+    return this.fixedAlignLines.find((item) => item.id === id)
   }
 
-  getAlignVLineFromVertex(node: TreeNode) {
-    return this.getAlignLineFromVertex(NODE_SNAP_VERTICAL_LINE_TYPE, node)
-  }
-
-  getAlignHLineFromVertex(node: TreeNode) {
-    return this.getAlignLineFromVertex(NODE_SNAP_HORIZONTAL_LINE_TYPE, node)
-  }
-
-  getAlignLineFromVertex(id: string, node: TreeNode) {
-    const parent = node.parent
-    const line = this.findAlignLine(id)
-    if (line && parent) {
-      const selfRef = node.getValidElementOffsetRect()
-      const parentRect = parent.getValidElementOffsetRect()
-      const edgeOffset = calcOffsetOfAlignLineSegmentToEdge(line, selfRef)
-      return {
-        ...line,
-        start: {
-          x: line.start.x - parentRect.x - edgeOffset.x,
-          y: line.start.y - parentRect.y - edgeOffset.y,
-        },
-        end: {
-          x: line.end.x - parentRect.x - edgeOffset.x,
-          y: line.end.y - parentRect.y - edgeOffset.y,
-        },
-      }
-    }
-  }
-
-  isNearAlignLine(id: string) {
-    return this.findAlignLine(id)?.distance < SNAP_LINE_BOUNDARY
-  }
-
-  updateAlignLine(line: IDynamicAlignLine, id?: string) {
+  addFixedAlignLine(line: IDynamicAlignLine) {
     if (!isAlignLineSegment(line)) return
-    line.id = line.id || id
-    if (!line.id) return
-    const matchedLineIndex = this.alignLines.findIndex(
-      (item) => item.id === line.id
-    )
-    const oldLine = this.alignLines[matchedLineIndex]
-    const newLine = cloneAlignLineSegment(line)
-    if (matchedLineIndex > -1) {
-      newLine.isKissing = isKissingAlignLine(line, oldLine)
-      this.alignLines[matchedLineIndex] = newLine
-    } else {
-      this.alignLines.push(newLine)
-    }
-  }
-
-  addAlignLine(line: IDynamicAlignLine) {
-    if (!isAlignLineSegment(line)) return
-    if (!line.id) return
-    const matchedLineIndex = this.alignLines.findIndex(
+    const matchedLineIndex = this.fixedAlignLines.findIndex(
       (item) => item.id === line.id
     )
     if (matchedLineIndex == -1) {
-      const newLine = cloneAlignLineSegment(line)
-      if (!isValidNumber(newLine.distance)) {
-        newLine.distance = Infinity
-      }
-      this.alignLines.push(newLine)
+      this.fixedAlignLines.push(new AlignLine(this, line))
     }
   }
 
-  removeAlignLine(id: string) {
-    const matchedLineIndex = this.alignLines.findIndex((item) => item.id === id)
+  removeFixedAlignLine(id: string) {
+    const matchedLineIndex = this.fixedAlignLines.findIndex(
+      (item) => item.id === id
+    )
     if (matchedLineIndex > -1) {
-      this.alignLines.splice(matchedLineIndex, 1)
+      this.fixedAlignLines.splice(matchedLineIndex, 1)
     }
   }
 
   calcDragLine(nodes: TreeNode[] = []) {
-    this.calcCustomAlignLine(nodes)
-    this.calcAlignLineOfTree(nodes)
-    this.calcDistanceLineOfTree(nodes)
+    this.dynamicAlignLines = []
+    this.calcDynamicAlignLines(nodes)
+    this.calcFixedAlignLines(nodes)
+    this.calcDistanceLines(nodes)
   }
 
   makeObservable() {
     define(this, {
-      alignLines: observable.shallow,
+      fixedAlignLines: observable.shallow,
+      dynamicAlignLines: observable.shallow,
       spaceLines: observable.shallow,
       distanceLines: observable.shallow,
       calcDragLine: action,
-      calcCustomAlignLine: action,
-      calcAlignLineOfTree: action,
-      calcDistanceLineOfTree: action,
+      calcDistanceLines: action,
+      calcDynamicAlignLines: action,
+      calcFixedAlignLines: action,
+      clean: action,
     })
   }
 }

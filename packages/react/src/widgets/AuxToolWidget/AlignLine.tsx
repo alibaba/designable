@@ -28,18 +28,15 @@ export const AlignLine = observer(() => {
     return null
   return (
     <>
-      {dragLine.isNearAlignVLine ? (
-        <div
-          className={prefix}
-          style={createLineStyle(dragLine.alignVLineRect)}
-        ></div>
-      ) : null}
-      {dragLine.isNearAlignHLine ? (
-        <div
-          className={prefix}
-          style={createLineStyle(dragLine.alignHLineRect)}
-        ></div>
-      ) : null}
+      {dragLine.dynamicAlignLines.map((line, key) => {
+        return (
+          <div
+            key={key}
+            className={prefix}
+            style={createLineStyle(line.rect)}
+          ></div>
+        )
+      })}
     </>
   )
 })
