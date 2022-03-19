@@ -113,27 +113,29 @@ export class AlignLine {
   }
 
   set distance(distance: number) {
-    const oldDistance = this.ctx.alignLineDistances[this.id]
-    const offset = this.vertexOffset
-    const isUnSucking = offset?.x === 0 && offset?.y === 0
+    const oldDistance = this._distance ?? this.ctx.alignLineDistances[this.id]
+    const vertexOffset = this.vertexOffset
     const allowSuck = distance < ALIGN_LINE_LIMIT_BOUNDARY
-    if (oldDistance !== undefined) {
+    if (oldDistance !== undefined && vertexOffset !== undefined) {
+      const isUnSucking = vertexOffset.x === 0 && vertexOffset.y === 0
       if (oldDistance > distance && allowSuck && isUnSucking) {
         this.isKissing = true
-      } else {
+      } else if (allowSuck) {
         if (this.direction === 'v') {
-          if (Math.abs(offset?.x) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
+          if (Math.abs(vertexOffset.x) > ALIGN_LINE_LIMIT_BOUNDARY) {
             this.isKissing = false
           } else {
             this.isKissing = true
           }
         } else {
-          if (Math.abs(offset?.y) > ALIGN_LINE_LIMIT_BOUNDARY + 3) {
+          if (Math.abs(vertexOffset.y) > ALIGN_LINE_LIMIT_BOUNDARY) {
             this.isKissing = false
           } else {
             this.isKissing = true
           }
         }
+      } else {
+        this.isKissing = false
       }
     }
     this.ctx.alignLineDistances[this.id] = distance
@@ -189,7 +191,9 @@ export class DragLine {
   }
 
   clean() {
+    this.dynamicAlignLines = []
     this.cursorToVertexOffsets = {}
+    this.alignLineDistances = {}
   }
 
   getCursorToVertexOffsets(nodes: TreeNode[] = []) {
