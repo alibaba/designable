@@ -63,10 +63,11 @@ export const useTranslateEffect = (engine: Engine) => {
       const deltaX = engine.cursor.dragStartToCurrentDelta.clientX
       const deltaY = engine.cursor.dragStartToCurrentDelta.clientY
       const dragLine = node.operation.dragLine
-      const kissingAlignLines = dragLine.kissingAlignLines
+      const closestAlignLines = dragLine.closestAlignLines
       let translateX = startPoint.x + deltaX,
         translateY = startPoint.y + deltaY
-      kissingAlignLines.forEach((line) => {
+      dragLine.calcDragLine([node])
+      closestAlignLines.forEach((line) => {
         if (line.direction === 'h') {
           translateY = line.relativeFromNodeVertex?.start?.y
         } else {
@@ -75,13 +76,12 @@ export const useTranslateEffect = (engine: Engine) => {
       })
       element.style.position = 'absolute'
       element.style.transform = `translate3d(${translateX}px,${translateY}px,0)`
-      dragLine.calcDragLine([node])
     }
   })
 
   engine.subscribeTo(DragStopEvent, () => {
     if (store.value) {
-      store.value.node.operation.dragLine.clean()
+      store.value.node.operation.dragLine.cleanDragLine()
       store.value = null
       engine.cursor.setDragType(CursorDragType.Normal)
     }

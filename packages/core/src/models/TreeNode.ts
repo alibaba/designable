@@ -258,8 +258,8 @@ export class TreeNode {
     return this.operation?.dragLine.getCursorToVertexOffsets([this])[0]
   }
 
-  getDraggingUnLimitVertex() {
-    return this.operation?.dragLine.getDraggingUnLimitVertex(this)
+  getNodeUnLimitVertex() {
+    return this.operation?.dragLine.getNodeUnLimitVertex(this)
   }
 
   getDraggingVertexOffset() {
