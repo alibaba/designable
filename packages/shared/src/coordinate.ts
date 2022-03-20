@@ -9,11 +9,20 @@ export interface ILineSegment {
   end: IPoint
 }
 
-export type IAlignLineSegment<ExtendsProperty = {}> = {
+export interface IRectEdgeLines {
+  v: IAlignLineSegment[]
+  h: IAlignLineSegment[]
+}
+
+export type IAlignLineSegment = {
   distance?: number
   start: IPoint
   end: IPoint
-} & ExtendsProperty
+}
+
+export function isRect(rect: any): rect is IRect {
+  return rect?.x && rect?.y && rect?.width && rect?.height
+}
 
 export function isPoint(val: any): val is IPoint {
   return isValidNumber(val?.x) && isValidNumber(val?.y)
@@ -36,6 +45,15 @@ export class Point implements IPoint {
   constructor(x: number, y: number) {
     this.x = x
     this.y = y
+  }
+}
+
+export class LineSegment {
+  start: IPoint
+  end: IPoint
+  constructor(start: IPoint, end: IPoint) {
+    this.start = { ...start }
+    this.end = { ...end }
   }
 }
 
@@ -309,90 +327,175 @@ export function calcRectByStartEndPoint(
   }
 }
 
-/**
- * 计算目标矩形与当前矩形最近的边的对齐线
- * @param current
- * @param target
- */
-export function calcAlignLineSegmentOfEdgeToRectAndCursor<
-  T extends IAlignLineSegment
->(current: IRect, target: IRect): { vertical: T; horizontal: T } {
-  const currentEdges = calcEdgeLinesOfRect(current)
-  const targetEdges = calcEdgeLinesOfRect(target)
-  const xDistances = calcMinIndex(
-    calcEdgeLinesDistance(currentEdges.x, targetEdges.x)
-  )
-  const yDistances = calcMinIndex(
-    calcEdgeLinesDistance(currentEdges.y, targetEdges.y)
-  )
-  const verticalLine = {
-    distance: xDistances.value,
-    start: {
-      x: targetEdges.x[xDistances.indexes[1]],
-      y: Math.min(current.y, target.y),
-    },
-    end: {
-      x: targetEdges.x[xDistances.indexes[1]],
-      y: Math.max(target.y + target.height, current.y + current.height),
-    },
-  }
-  const horizontalLine = {
-    distance: yDistances.value,
-    start: {
-      y: targetEdges.y[yDistances.indexes[1]],
-      x: Math.min(current.x, target.x),
-    },
-    end: {
-      y: targetEdges.y[yDistances.indexes[1]],
-      x: Math.max(target.x + target.width, current.x + current.width),
-    },
-  }
+export function calcEdgeLinesOfRect(rect: IRect): IRectEdgeLines {
   return {
-    vertical: verticalLine as any,
-    horizontal: horizontalLine as any,
-  }
-
-  function calcMinIndex(values: { value: number; indexes: number[] }[]) {
-    let min = values[0]
-    for (let i = 0; i < values.length; i++) {
-      const distance = values[i]
-      if (distance.value <= min.value) {
-        min = distance
-      }
-    }
-    return min
-  }
-
-  function calcEdgeLinesDistance(
-    currentEdges: number[],
-    targetEdges: number[]
-  ) {
-    return targetEdges.reduce((buf, val2, index2) => {
-      return buf.concat(
-        currentEdges.map((val1, index1) => {
-          return { value: Math.abs(val2 - val1), indexes: [index1, index2] }
-        })
-      )
-    }, [])
+    v: [
+      new LineSegment(
+        new Point(rect.x, rect.y),
+        new Point(rect.x, rect.y + rect.height)
+      ),
+      new LineSegment(
+        new Point(rect.x + rect.width / 2, rect.y),
+        new Point(rect.x + rect.width / 2, rect.y + rect.height)
+      ),
+      new LineSegment(
+        new Point(rect.x + rect.width, rect.y),
+        new Point(rect.x + rect.width, rect.y + rect.height)
+      ),
+    ],
+    h: [
+      new LineSegment(
+        new Point(rect.x, rect.y),
+        new Point(rect.x + rect.width, rect.y)
+      ),
+      new LineSegment(
+        new Point(rect.x, rect.y + rect.height / 2),
+        new Point(rect.x + rect.width, rect.y + rect.height / 2)
+      ),
+      new LineSegment(
+        new Point(rect.x, rect.y + rect.height),
+        new Point(rect.x + rect.width, rect.y + rect.height)
+      ),
+    ],
   }
 }
 
-export function calcEdgeLinesOfRect(rect: IRect) {
-  return {
-    x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
-    y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
+export function calcCombineAlignLineSegment(
+  target: ILineSegment,
+  source: ILineSegment
+): ILineSegment {
+  if (target.start.x === target.end.x) {
+    return new LineSegment(
+      new Point(
+        target.start.x,
+        target.start.y > source.start.y ? source.start.y : target.start.y
+      ),
+      new Point(
+        target.start.x,
+        target.end.y > source.end.y ? target.end.y : source.end.y
+      )
+    )
   }
+
+  return new LineSegment(
+    new Point(
+      target.start.x > source.start.x ? source.start.x : target.start.x,
+      target.start.y
+    ),
+    new Point(
+      target.end.x > source.end.x ? target.end.x : source.end.x,
+      target.end.y
+    )
+  )
+}
+
+/**
+ * 求与目标矩形的鼠标跟随克隆矩形
+ * @param rect
+ * @param cursor
+ * @param offset
+ * @returns
+ */
+export function calcCursorEdgeLinesOfRect(
+  rect: IRect,
+  cursor: IPoint,
+  offset: IPoint
+): IRectEdgeLines {
+  const vertex = new Point(cursor.x - offset.x, cursor.y - offset.y)
+  return {
+    v: [
+      new LineSegment(
+        new Point(vertex.x, vertex.y),
+        new Point(vertex.x, vertex.y + rect.height)
+      ),
+      new LineSegment(
+        new Point(vertex.x + rect.width / 2, vertex.y),
+        new Point(vertex.x + rect.width / 2, vertex.y + rect.height)
+      ),
+      new LineSegment(
+        new Point(vertex.x + rect.width, vertex.y),
+        new Point(vertex.x + rect.width, vertex.y + rect.height)
+      ),
+    ],
+    h: [
+      new LineSegment(
+        new Point(vertex.x, vertex.y),
+        new Point(vertex.x + rect.width, vertex.y)
+      ),
+      new LineSegment(
+        new Point(vertex.x, vertex.y + rect.height / 2),
+        new Point(vertex.x + rect.width, vertex.y + rect.height / 2)
+      ),
+      new LineSegment(
+        new Point(vertex.x, vertex.y + rect.height),
+        new Point(vertex.x + rect.width, vertex.y + rect.height)
+      ),
+    ],
+  }
+}
+
+export function calcClosestEdgeLines(
+  target: IRectEdgeLines,
+  source: IRectEdgeLines,
+  maxDistance = 5
+): IRectEdgeLines {
+  const h: IAlignLineSegment[] = []
+  const v: IAlignLineSegment[] = []
+
+  target?.h?.forEach((targetLine) => {
+    source?.h?.forEach((sourceLine) => {
+      const distance = Math.abs(targetLine.start.y - sourceLine.start.y)
+      if (distance < maxDistance) {
+        const line: IAlignLineSegment = calcCombineAlignLineSegment(
+          targetLine,
+          sourceLine
+        )
+        line.distance = distance
+        h.push(line)
+      }
+    })
+  })
+
+  target?.v?.forEach((targetLine) => {
+    source?.v?.forEach((sourceLine) => {
+      const distance = Math.abs(targetLine.start.x - sourceLine.start.x)
+      if (distance < maxDistance) {
+        const line: IAlignLineSegment = calcCombineAlignLineSegment(
+          targetLine,
+          sourceLine
+        )
+        line.distance = distance
+        v.push(line)
+      }
+    })
+  })
+  return { h, v }
+}
+
+export function calcDistanceOfLienSegment(
+  target: ILineSegment,
+  source: ILineSegment
+) {
+  if (target.start.x === source.end.x) {
+    return Math.abs(source.start.y - target.start.y)
+  }
+  return Math.abs(source.start.x - target.start.x)
 }
 
 export function calcOffsetOfAlignLineSegmentToEdge(
   line: IAlignLineSegment,
   current: IRect
 ) {
-  if (!isAlignLineSegment(line)) return
   const edges = calcEdgeLinesOfRect(current)
   const isVerticalLine = line.start.x === line.end.x
   if (isVerticalLine) {
     return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
+  }
+  function calcEdgeLinesOfRect(rect: IRect) {
+    return {
+      x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
+      y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
+    }
   }
   function calcMinDistanceValue(edges: number[], targetValue: number) {
     let minDistance = Infinity,
@@ -411,68 +514,6 @@ export function calcOffsetOfAlignLineSegmentToEdge(
 }
 
 /**
- * 计算目标对齐线与当前矩形边最近投影距离
- * @param current
- * @param line
- */
-export function calcDistanceOfEdgeToAlignLineSegment(
-  current: IRect,
-  line: IAlignLineSegment
-) {
-  if (!isAlignLineSegment(line)) return Infinity
-  const edges = calcEdgeLinesOfRect(current)
-  const isVerticalLine = line.start.x === line.end.x
-  if (isVerticalLine) {
-    return calcDistances(edges.x, line.start.x)
-  }
-  function calcDistances(edges: number[], targetValue: number) {
-    const distances = []
-    for (let i = 0; i < edges.length; i++) {
-      distances.push(Math.abs(edges[i] - targetValue))
-    }
-    return Math.min(...distances)
-  }
-  return calcDistances(edges.y, line.start.y)
-}
-
-export function isEqualPoint(point1: IPoint, point2: IPoint) {
-  if (!isPoint(point1) || !isPoint(point2)) return false
-  return point1.x === point2.x && point1.y === point2.y
-}
-
-export function isEqualLineSegment(line1: ILineSegment, line2: ILineSegment) {
-  if (!isLineSegment(line1) || !isLineSegment(line2)) return false
-  return (
-    isEqualPoint(line1.start, line2.start) && isEqualPoint(line1.end, line2.end)
-  )
-}
-
-export function clonePoint(point: IPoint) {
-  return {
-    x: point?.x,
-    y: point?.y,
-  }
-}
-
-export function cloneLineSegment(line: ILineSegment): ILineSegment {
-  return {
-    start: clonePoint(line?.start),
-    end: clonePoint(line?.end),
-  }
-}
-
-export function cloneAlignLineSegment<Line extends IAlignLineSegment>(
-  line: Line
-): Line {
-  return {
-    ...line,
-    distance: line?.distance,
-    start: clonePoint(line?.start),
-    end: clonePoint(line?.end),
-  }
-}
-
-/**
  * 计算坐标线的小矩形
  * @param line
  * @returns
@@ -487,13 +528,6 @@ export function calcRectOfAxisLineSegment(line: ILineSegment) {
     isXAxis ? line.end.y - line.start.y : 0
   )
 }
-
-/**
- * 计算距离线
- * @param rect1
- * @param rect2
- */
-export function calcDistanceLineSegment(rect1: IRect, rect2: IRect) {}
 
 /**
  * 解析DOM元素偏移值坐标

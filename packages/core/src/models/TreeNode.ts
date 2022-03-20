@@ -258,20 +258,12 @@ export class TreeNode {
     return this.operation?.dragLine.getCursorToVertexOffsets([this])[0]
   }
 
-  getDraggingUnLimitVertex() {
-    return this.operation?.dragLine.getDraggingUnLimitVertex(this)
+  getNodeUnLimitVertex() {
+    return this.operation?.dragLine.getNodeUnLimitVertex(this)
   }
 
   getDraggingVertexOffset() {
     return this.operation?.dragLine.getDraggingVertexOffset(this)
-  }
-
-  getAlignVLineFromVertex() {
-    return this.operation?.dragLine.getAlignVLineFromVertex(this)
-  }
-
-  getAlignHLineFromVertex() {
-    return this.operation?.dragLine.getAlignHLineFromVertex(this)
   }
 
   getElement(area: 'viewport' | 'outline' = 'viewport') {
