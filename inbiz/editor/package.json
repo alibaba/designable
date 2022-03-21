@@ -29,7 +29,7 @@
     "@formily/react": "^2.0.2",
     "@formily/reactive": "^2.0.2",
     "@formily/shared": "^2.0.2",
-    "@inbiz/react-settings-form": "1.0.5",
+    "@inbiz/react-settings-form": "1.0.10",
     "autoprefixer": "^9.0",
     "file-loader": "^5.0.2",
     "fs-extra": "^8.1.0",
@@ -60,9 +60,9 @@
     "react-is": ">=16.8.0 || >=17.0.0"
   },
   "dependencies": {
-    "@inbiz/core": "1.0.5",
-    "@inbiz/react": "1.0.5",
-    "@inbiz/transformer": "1.0.5"
+    "@inbiz/core": "1.0.10",
+    "@inbiz/react": "1.0.10",
+    "@inbiz/transformer": "1.0.10"
   },
   "publishConfig": {
     "access": "public"

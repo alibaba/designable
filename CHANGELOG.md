@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.10(2022-03-21)
+
+### :beetle: Bug Fixes
+
+1. [fix: 属性面板添加公共属性](https://github.com/alibaba/designable/commit/9ec4c1a) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
+1. [fix: 属性栏加强](https://github.com/alibaba/designable/commit/8a3f5bb) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
 ## v1.0.9(2022-03-15)
 
 ### :tada: Enhancements
@@ -343,9 +351,3 @@
 ### :blush: Other Changes
 
 1. [chore(core): improve dnd](https://github.com/alibaba/designable/commit/f59b65e) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.15(2021-10-04)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/19df7b2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
