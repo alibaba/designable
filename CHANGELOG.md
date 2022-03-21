@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.9(2022-03-15)
+
+### :tada: Enhancements
+
+1. [feat: update setting-form](https://github.com/alibaba/designable/commit/4aea1b7) :point_right: ( [张春元](https://github.com/张春元) )
+
+1. [feat: 右侧属性懒修改](https://github.com/alibaba/designable/commit/c40d41b) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
 ## v1.0.7(2022-03-14)
 
 ### No Change Log
@@ -341,9 +349,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix styles](https://github.com/alibaba/designable/commit/19df7b2) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.14(2021-10-04)
-
-### :blush: Other Changes
-
-1. [chore(react): improve theme styles](https://github.com/alibaba/designable/commit/51a0fde) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
