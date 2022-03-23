@@ -93,6 +93,7 @@ export class DragLine {
       if (nodes.includes(target)) return
       const targetRect = target.getValidElementOffsetRect()
       nodes.forEach((node) => {
+        if (node.contains(target) || target.contains(node)) return
         const rect = node.getValidElementOffsetRect()
         const targetLines = calcEdgeLinesOfRect(targetRect)
         const cursorLines = calcCursorEdgeLinesOfRect(
