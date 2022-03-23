@@ -1,7 +1,7 @@
 import {
-  IAlignLineSegment,
+  ISnapLineSegment,
   ILineSegment,
-  isAlignLineSegment,
+  isSnapLineSegment,
   Point,
   IPoint,
   calcEdgeLinesOfRect,
@@ -12,9 +12,9 @@ import {
 import { observable, define, action } from '@formily/reactive'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
-import { AlignLine } from './AlignLine'
+import { SnapLine } from './SnapLine'
 
-export type IDynamicAlignLine = IAlignLineSegment & {
+export type IDynamicSnapLine = ISnapLineSegment & {
   id?: string
   node?: TreeNode
 }
@@ -25,9 +25,9 @@ export interface IDragLineProps {
 export class DragLine {
   operation: Operation
 
-  fixedAlignLines: AlignLine[] = []
+  fixedSnapLines: SnapLine[] = []
 
-  dynamicAlignLines: AlignLine[] = []
+  dynamicSnapLines: SnapLine[] = []
 
   distanceLines: ILineSegment[] = []
 
@@ -35,7 +35,7 @@ export class DragLine {
 
   cursorToVertexOffsets: Record<string, IPoint> = {}
 
-  alignLineDistances: Record<string, number> = {}
+  snapLineDistances: Record<string, number> = {}
 
   constructor(props: IDragLineProps) {
     this.operation = props.operation
@@ -49,12 +49,12 @@ export class DragLine {
     )
   }
 
-  get closestAlignLines() {
-    const lines: AlignLine[] = []
-    this.dynamicAlignLines.forEach((line) => {
+  get closestSnapLines() {
+    const lines: SnapLine[] = []
+    this.dynamicSnapLines.forEach((line) => {
       lines.push(line)
     })
-    this.fixedAlignLines.forEach((line) => {
+    this.fixedSnapLines.forEach((line) => {
       if (line.closest) {
         lines.push(line)
       }
@@ -87,7 +87,7 @@ export class DragLine {
     return new Point(unLimit.x - limit.x, unLimit.y - limit.y)
   }
 
-  calcDynamicAlignLines(nodes: TreeNode[] = []) {
+  calcDynamicSnapLines(nodes: TreeNode[] = []) {
     if (!nodes.length) return
     this.operation.tree.eachTree((target) => {
       if (nodes.includes(target)) return
@@ -106,16 +106,16 @@ export class DragLine {
           DragLine.threshold
         )
         combineLines.h.forEach((line) => {
-          this.dynamicAlignLines.push(
-            new AlignLine(this, {
+          this.dynamicSnapLines.push(
+            new SnapLine(this, {
               node,
               ...line,
             })
           )
         })
         combineLines.v.forEach((line) => {
-          this.dynamicAlignLines.push(
-            new AlignLine(this, {
+          this.dynamicSnapLines.push(
+            new SnapLine(this, {
               node,
               ...line,
             })
@@ -127,9 +127,9 @@ export class DragLine {
 
   calcDistanceLines(nodes: TreeNode[] = []) {}
 
-  calcFixedAlignLines(nodes: TreeNode[] = []) {
+  calcFixedSnapLines(nodes: TreeNode[] = []) {
     if (!nodes.length) return
-    this.fixedAlignLines.forEach((fixedLine) => {
+    this.fixedSnapLines.forEach((fixedLine) => {
       nodes.forEach((node) => {
         const rect = node.getElementOffsetRect()
         const cursorLines = calcCursorEdgeLinesOfRect(
@@ -158,55 +158,55 @@ export class DragLine {
     })
   }
 
-  findFixedAlignLine(id: string) {
-    return this.fixedAlignLines.find((item) => item.id === id)
+  findFixedSnapLine(id: string) {
+    return this.fixedSnapLines.find((item) => item.id === id)
   }
 
-  addFixedAlignLine(line: IDynamicAlignLine) {
-    if (!isAlignLineSegment(line)) return
-    const matchedLineIndex = this.fixedAlignLines.findIndex(
+  addFixedSnapLine(line: IDynamicSnapLine) {
+    if (!isSnapLineSegment(line)) return
+    const matchedLineIndex = this.fixedSnapLines.findIndex(
       (item) => item.id === line.id
     )
     if (matchedLineIndex == -1) {
-      this.fixedAlignLines.push(new AlignLine(this, line))
+      this.fixedSnapLines.push(new SnapLine(this, line))
     }
   }
 
-  removeFixedAlignLine(id: string) {
-    const matchedLineIndex = this.fixedAlignLines.findIndex(
+  removeFixedSnapLine(id: string) {
+    const matchedLineIndex = this.fixedSnapLines.findIndex(
       (item) => item.id === id
     )
     if (matchedLineIndex > -1) {
-      this.fixedAlignLines.splice(matchedLineIndex, 1)
+      this.fixedSnapLines.splice(matchedLineIndex, 1)
     }
   }
 
   calcDragLine(nodes: TreeNode[] = []) {
-    this.dynamicAlignLines = []
-    this.calcDynamicAlignLines(nodes)
-    this.calcFixedAlignLines(nodes)
+    this.dynamicSnapLines = []
+    this.calcDynamicSnapLines(nodes)
+    this.calcFixedSnapLines(nodes)
     this.calcDistanceLines(nodes)
   }
 
   cleanDragLine() {
-    this.dynamicAlignLines = []
+    this.dynamicSnapLines = []
     this.cursorToVertexOffsets = {}
-    this.alignLineDistances = {}
+    this.snapLineDistances = {}
   }
 
   makeObservable() {
     define(this, {
-      fixedAlignLines: observable.shallow,
-      dynamicAlignLines: observable.shallow,
+      fixedSnapLines: observable.shallow,
+      dynamicSnapLines: observable.shallow,
       spaceLines: observable.shallow,
       distanceLines: observable.shallow,
       calcDragLine: action,
       calcDistanceLines: action,
-      calcDynamicAlignLines: action,
-      calcFixedAlignLines: action,
+      calcDynamicSnapLines: action,
+      calcFixedSnapLines: action,
       cleanDragLine: action,
     })
   }
 
-  static threshold = 8
+  static threshold = 5
 }

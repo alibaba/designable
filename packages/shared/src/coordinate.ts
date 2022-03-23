@@ -10,11 +10,11 @@ export interface ILineSegment {
 }
 
 export interface IRectEdgeLines {
-  v: IAlignLineSegment[]
-  h: IAlignLineSegment[]
+  v: ISnapLineSegment[]
+  h: ISnapLineSegment[]
 }
 
-export type IAlignLineSegment = {
+export type ISnapLineSegment = {
   distance?: number
   start: IPoint
   end: IPoint
@@ -32,7 +32,7 @@ export function isLineSegment(val: any): val is ILineSegment {
   return isPoint(val?.start) && isPoint(val?.end)
 }
 
-export function isAlignLineSegment(val: any): val is IAlignLineSegment {
+export function isSnapLineSegment(val: any): val is ISnapLineSegment {
   return (
     isLineSegment(val) &&
     (val.start.x === val.end.x || val.start.y === val.end.y)
@@ -360,7 +360,7 @@ export function calcEdgeLinesOfRect(rect: IRect): IRectEdgeLines {
   }
 }
 
-export function calcCombineAlignLineSegment(
+export function calcCombineSnapLineSegment(
   target: ILineSegment,
   source: ILineSegment
 ): ILineSegment {
@@ -439,14 +439,14 @@ export function calcClosestEdgeLines(
   source: IRectEdgeLines,
   maxDistance = 5
 ): IRectEdgeLines {
-  const h: IAlignLineSegment[] = []
-  const v: IAlignLineSegment[] = []
+  const h: ISnapLineSegment[] = []
+  const v: ISnapLineSegment[] = []
 
   target?.h?.forEach((targetLine) => {
     source?.h?.forEach((sourceLine) => {
       const distance = Math.abs(targetLine.start.y - sourceLine.start.y)
       if (distance < maxDistance) {
-        const line: IAlignLineSegment = calcCombineAlignLineSegment(
+        const line: ISnapLineSegment = calcCombineSnapLineSegment(
           targetLine,
           sourceLine
         )
@@ -460,7 +460,7 @@ export function calcClosestEdgeLines(
     source?.v?.forEach((sourceLine) => {
       const distance = Math.abs(targetLine.start.x - sourceLine.start.x)
       if (distance < maxDistance) {
-        const line: IAlignLineSegment = calcCombineAlignLineSegment(
+        const line: ISnapLineSegment = calcCombineSnapLineSegment(
           targetLine,
           sourceLine
         )
@@ -482,8 +482,8 @@ export function calcDistanceOfLienSegment(
   return Math.abs(source.start.x - target.start.x)
 }
 
-export function calcOffsetOfAlignLineSegmentToEdge(
-  line: IAlignLineSegment,
+export function calcOffsetOfSnapLineSegmentToEdge(
+  line: ISnapLineSegment,
   current: IRect
 ) {
   const edges = calcEdgeLinesOfRect(current)
@@ -527,18 +527,4 @@ export function calcRectOfAxisLineSegment(line: ILineSegment) {
     isXAxis ? 0 : line.end.x - line.start.x,
     isXAxis ? line.end.y - line.start.y : 0
   )
-}
-
-/**
- * 解析DOM元素偏移值坐标
- * @param element
- * @returns
- */
-export const parseTranslatePoint = (element: HTMLElement) => {
-  const [x, y] = element?.style?.transform
-    ?.match(
-      /translate(?:3d)?\(\s*([-\d.]+)[a-z]+?[\s,]+([-\d.]+)[a-z]+?(?:[\s,]+([-\d.]+))?[a-z]+?\s*\)/
-    )
-    ?.slice(1, 3) ?? [0, 0]
-  return new Point(Number(x), Number(y))
 }

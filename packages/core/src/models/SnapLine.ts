@@ -1,25 +1,25 @@
 import {
   calcRectOfAxisLineSegment,
-  IAlignLineSegment,
+  ISnapLineSegment,
   IPoint,
-  calcOffsetOfAlignLineSegmentToEdge,
+  calcOffsetOfSnapLineSegmentToEdge,
 } from '@designable/shared'
 import { TreeNode } from './TreeNode'
 import { DragLine } from './DragLine'
 
-export type IDynamicAlignLine = IAlignLineSegment & {
+export type IDynamicSnapLine = ISnapLineSegment & {
   id?: string
   node?: TreeNode
 }
 
-export class AlignLine {
+export class SnapLine {
   _id: string
   distance: number
   node: TreeNode
   start: IPoint
   end: IPoint
   ctx: DragLine
-  constructor(ctx: DragLine, line: IDynamicAlignLine) {
+  constructor(ctx: DragLine, line: IDynamicSnapLine) {
     this.ctx = ctx
     this._id = line.id
     this.node = line.node
@@ -53,8 +53,8 @@ export class AlignLine {
     const parent = this.node.parent
     const selfRef = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfAlignLineSegmentToEdge(this, selfRef)
-    return new AlignLine(this.ctx, {
+    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, selfRef)
+    return new SnapLine(this.ctx, {
       ...this,
       start: {
         x: this.start.x - parentRect.x - edgeOffset.x,

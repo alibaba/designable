@@ -1,7 +1,7 @@
 import { Engine, CursorDragType } from '../models'
 import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
 import { TreeNode } from '../models'
-import { IPoint, parseTranslatePoint } from '@designable/shared'
+import { IPoint, Point } from '@designable/shared'
 
 type TranslateData = {
   startPoint?: IPoint
@@ -10,6 +10,21 @@ type TranslateData = {
 
 type TranslateStore = {
   value?: TranslateData
+}
+
+const parseTranslatePoint = (element: HTMLElement) => {
+  const transform = element?.style?.transform
+  if (transform) {
+    const [x, y] = transform
+      .match(
+        /translate(?:3d)?\(\s*([-\d.]+)[a-z]+?[\s,]+([-\d.]+)[a-z]+?(?:[\s,]+([-\d.]+))?[a-z]+?\s*\)/
+      )
+      ?.slice(1, 3) ?? [0, 0]
+
+    return new Point(Number(x), Number(y))
+  } else {
+    return new Point(Number(element.offsetLeft), Number(element.offsetTop))
+  }
 }
 
 export const useTranslateEffect = (engine: Engine) => {
@@ -63,11 +78,11 @@ export const useTranslateEffect = (engine: Engine) => {
       const deltaX = engine.cursor.dragStartToCurrentDelta.clientX
       const deltaY = engine.cursor.dragStartToCurrentDelta.clientY
       const dragLine = node.operation.dragLine
-      const closestAlignLines = dragLine.closestAlignLines
+      const closestSnapLines = dragLine.closestSnapLines
       let translateX = startPoint.x + deltaX,
         translateY = startPoint.y + deltaY
       dragLine.calcDragLine([node])
-      closestAlignLines.forEach((line) => {
+      closestSnapLines.forEach((line) => {
         if (line.direction === 'h') {
           translateY = line.relativeFromNodeVertex?.start?.y
         } else {
@@ -75,6 +90,8 @@ export const useTranslateEffect = (engine: Engine) => {
         }
       })
       element.style.position = 'absolute'
+      element.style.left = '0px'
+      element.style.top = '0px'
       element.style.transform = `translate3d(${translateX}px,${translateY}px,0)`
     }
   })

@@ -3,7 +3,7 @@ import { useDragLine, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { CursorDragType, CursorStatus } from '@designable/core'
 
-export const AlignLine = observer(() => {
+export const SnapLine = observer(() => {
   const cursor = useCursor()
   const dragLine = useDragLine()
   const prefix = usePrefix('aux-snap-line')
@@ -28,7 +28,7 @@ export const AlignLine = observer(() => {
     return null
   return (
     <>
-      {dragLine.dynamicAlignLines.map((line, key) => {
+      {dragLine.dynamicSnapLines.map((line, key) => {
         return (
           <div
             key={key}
@@ -41,4 +41,4 @@ export const AlignLine = observer(() => {
   )
 })
 
-AlignLine.displayName = 'AlignLine'
+SnapLine.displayName = 'SnapLine'

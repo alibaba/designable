@@ -5,7 +5,7 @@ import { Selection } from './Selection'
 import { FreeSelection } from './FreeSelection'
 import { Cover } from './Cover'
 import { DashedBox } from './DashedBox'
-import { AlignLine } from './AlignLine'
+import { SnapLine } from './SnapLine'
 import './styles.less'
 
 export const AuxToolWidget = () => {
@@ -26,7 +26,7 @@ export const AuxToolWidget = () => {
   return (
     <div ref={ref} className={prefix}>
       <Insertion />
-      <AlignLine />
+      <SnapLine />
       <DashedBox />
       <Selection />
       <Cover />
