@@ -25,6 +25,7 @@ const GlobalState = {
 }
 type appInfo = {
   appId: string
+  [key: string]: string
 }
 export const SettingsForm: React.FC<
   ISettingFormProps & {
