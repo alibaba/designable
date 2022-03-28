@@ -7,7 +7,7 @@ export type ICode = {
   cssCode?: string
 }
 export type ICallBackEvents = {
-  [key: `on${string}`]: Function
+  [key in `on${string}`]: Function
 }
 
 export type IUserInfo = {
