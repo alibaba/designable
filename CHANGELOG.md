@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.2(2022-03-28)
+
+### No Change Log
+
 ## v1.1.1(2022-03-28)
 
 ### :tada: Enhancements
@@ -343,9 +347,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/3708613) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.18(2021-10-08)
-
-### :beetle: Bug Fixes
-
-1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/03eb84d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
