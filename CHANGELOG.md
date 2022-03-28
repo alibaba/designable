@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.1(2022-03-28)
+
+### :tada: Enhancements
+
+1. [feat: 添加 sdk](https://github.com/alibaba/designable/commit/1becd3f) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
+### :beetle: Bug Fixes
+
+1. [fix: 修改 ts](https://github.com/alibaba/designable/commit/7ac17c4) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
+1. [fix: 添加 ts 提示](https://github.com/alibaba/designable/commit/954e378) :point_right: ( [baoxiaoying](https://github.com/baoxiaoying) )
+
 ## v1.1.0(2022-03-21)
 
 ### No Change Log
@@ -337,15 +349,3 @@
 ### :beetle: Bug Fixes
 
 1. [fix(react): fix CompositePanel](https://github.com/alibaba/designable/commit/03eb84d) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-## v1.0.0-beta.17(2021-10-06)
-
-### :tada: Enhancements
-
-1. [feat(react): add source icons](https://github.com/alibaba/designable/commit/de56564) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-### :blush: Other Changes
-
-1. [chore(shared): improve element layout calculator](https://github.com/alibaba/designable/commit/f29ec8a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )
-
-1. [chore(core): improve remove](https://github.com/alibaba/designable/commit/8eeed0a) :point_right: ( [zhili.wzl](https://github.com/zhili.wzl) )

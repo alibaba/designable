@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/react-settings-form",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@inbiz/core": "1.1.1",
-    "@inbiz/react": "1.1.1",
-    "@inbiz/shared": "1.1.1",
+    "@inbiz/core": "1.1.2",
+    "@inbiz/react": "1.1.2",
+    "@inbiz/shared": "1.1.2",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.25.2",
     "prettier": "^2.3.2",
@@ -46,5 +46,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4a00c298a559de83765ccf60da04a778065589c8"
+  "gitHead": "3af6a9300540364766403fc7d079d3d2b10a8616"
 }

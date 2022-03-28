@@ -1,6 +1,6 @@
 {
   "name": "@inbiz/core",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -25,11 +25,11 @@
     "@formily/reactive": "^2.0.2"
   },
   "dependencies": {
-    "@inbiz/shared": "1.1.1",
+    "@inbiz/shared": "1.1.2",
     "@juggle/resize-observer": "^3.3.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4a00c298a559de83765ccf60da04a778065589c8"
+  "gitHead": "3af6a9300540364766403fc7d079d3d2b10a8616"
 }
