@@ -39,7 +39,7 @@ export type IFieldApi = {
   value?: unknown
   display: 'none' | 'hidden' | 'visible'
   [key: string]: any
-  [key: `on${string}`]: Function
+  // [key: `on${string}`]: Function
 }
 
 const observer = (field: GeneralField) => {
