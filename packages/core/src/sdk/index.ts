@@ -1,3 +1,4 @@
+export { default as mitt, Handler } from './utils/mitt'
 import { useMemo } from 'react'
 import PageSDK from './core/Page'
 import LayoutSDK from './core/Layout'
