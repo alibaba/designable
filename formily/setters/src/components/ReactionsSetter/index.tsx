@@ -19,7 +19,7 @@ import { PathSelector } from './PathSelector'
 import { FieldPropertySetter } from './FieldPropertySetter'
 import { FulfillRunHelper } from './helpers'
 import { IReaction } from './types'
-import './declarations'
+import { initDeclaration } from './declarations'
 import './styles.less'
 
 export interface IReactionsSetterProps {
@@ -155,7 +155,9 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
     if (modalVisible) {
       requestIdle(
         () => {
-          setInnerVisible(true)
+          initDeclaration().then(() => {
+            setInnerVisible(true)
+          })
         },
         {
           timeout: 400,
@@ -320,6 +322,7 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
                               const property = field
                                 .query('.property')
                                 .get('inputValues')
+                              if (!property) return
                               property[0] = property[0] || 'value'
                               field.query('.source').take((source) => {
                                 if (isVoidField(source)) return

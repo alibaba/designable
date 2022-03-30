@@ -17,18 +17,19 @@ const loadDependencies = async (deps: IDependency[]) => {
   )
 }
 
-MonacoInput.loader.init().then(async (monaco) => {
-  const deps = await loadDependencies([
-    { name: '@formily/core', path: 'dist/formily.core.all.d.ts' },
-  ])
-  deps?.forEach(({ name, library }) => {
+export const initDeclaration = async () => {
+  return MonacoInput.loader.init().then(async (monaco) => {
+    const deps = await loadDependencies([
+      { name: '@formily/core', path: 'dist/formily.core.all.d.ts' },
+    ])
+    deps?.forEach(({ name, library }) => {
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(
+        `declare module '${name}'{ ${library} }`,
+        `file:///node_modules/${name}/index.d.ts`
+      )
+    })
     monaco.languages.typescript.typescriptDefaults.addExtraLib(
-      `declare module '${name}'{ ${library} }`,
-      `file:///node_modules/${name}/index.d.ts`
-    )
-  })
-  monaco.languages.typescript.typescriptDefaults.addExtraLib(
-    `
+      `
     import { Form, Field } from '@formily/core'
     declare global {
       /*
@@ -61,6 +62,7 @@ MonacoInput.loader.init().then(async (monaco) => {
       declare var $props: (props: any) => void
     }
     `,
-    `file:///node_modules/formily_global.d.ts`
-  )
-})
+      `file:///node_modules/formily_global.d.ts`
+    )
+  })
+}
