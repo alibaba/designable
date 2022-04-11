@@ -18,7 +18,7 @@ import { TreeNode } from './TreeNode'
 import { SnapLine, IDynamicSnapLine } from './SnapLine'
 import { CursorDragType } from './Cursor'
 
-const parseTranslatePoint = (element: HTMLElement) => {
+const parseElementTranslate = (element: HTMLElement) => {
   const transform = element?.style?.transform
   if (transform) {
     const [x, y] = transform
@@ -43,15 +43,15 @@ export class DragLine {
 
   targets: TreeNode[] = []
 
-  drawStartTargetRect: IRect = null
-
   rulerSnapLines: SnapLine[] = []
 
   dynamicSnapLines: SnapLine[] = []
 
-  aroundSpaceBlocks: AroundSpaceBlock
+  drawStartTranslateStore: Record<string, IPoint> = {}
 
-  _translateStore: Record<string, IPoint> = {}
+  aroundSpaceBlocks: AroundSpaceBlock = null
+
+  drawStartTargetRect: IRect = null
 
   constructor(props: IDragLineProps) {
     this.operation = props.operation
@@ -229,8 +229,8 @@ export class DragLine {
   drawStart(nodes: TreeNode[] = []) {
     this.targets = nodes
     this.drawStartTargetRect = this.targetRect
-    this._translateStore = nodes.reduce((buf, node) => {
-      buf[node.id] = parseTranslatePoint(node.getElement())
+    this.drawStartTranslateStore = nodes.reduce((buf, node) => {
+      buf[node.id] = parseElementTranslate(node.getElement())
       return buf
     }, {})
     this.operation.engine.cursor.setDragType(CursorDragType.Translate)
@@ -246,6 +246,7 @@ export class DragLine {
   drawEnd() {
     this.dynamicSnapLines = []
     this.aroundSpaceBlocks = null
+    this.drawStartTargetRect = null
     this.targets = []
     this.operation.engine.cursor.setDragType(CursorDragType.Normal)
   }
@@ -254,7 +255,7 @@ export class DragLine {
     const cursor = this.operation.engine.cursor
     const deltaX = cursor.dragStartToCurrentDelta.clientX
     const deltaY = cursor.dragStartToCurrentDelta.clientY
-    const drawStartTranslate = this._translateStore[node.id] ?? {
+    const drawStartTranslate = this.drawStartTranslateStore[node.id] ?? {
       x: 0,
       y: 0,
     }
