@@ -136,6 +136,13 @@ export class Cursor {
     })
   }
 
+  get speed() {
+    return Math.sqrt(
+      Math.pow(this.dragAtomDelta.clientX, 2) +
+        Math.pow(this.dragAtomDelta.clientY, 2)
+    )
+  }
+
   setStatus(status: CursorStatus) {
     this.status = status
   }

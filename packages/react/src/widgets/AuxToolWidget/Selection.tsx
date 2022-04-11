@@ -29,6 +29,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
       top: 0,
       left: 0,
       boxSizing: 'border-box',
+      zIndex: 4,
     }
     if (nodeRect) {
       baseStyle.transform = `perspective(1px) translate3d(${nodeRect.x}px,${nodeRect.y}px,0)`

@@ -1,5 +1,4 @@
 import {
-  ISnapLineSegment,
   ILineSegment,
   isSnapLineSegment,
   Point,
@@ -8,20 +7,20 @@ import {
   calcCursorEdgeLinesOfRect,
   calcClosestEdgeLines,
   calcDistanceOfLienSegment,
+  calcSpaceBoxOfRect,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
+import { SpaceBox, ISpaceBoxType } from './SpaceBox'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
-import { SnapLine } from './SnapLine'
-
-export type IDynamicSnapLine = ISnapLineSegment & {
-  id?: string
-  node?: TreeNode
-}
+import { SnapLine, IDynamicSnapLine } from './SnapLine'
 
 export interface IDragLineProps {
   operation: Operation
 }
+
+export type AroundSpaceBox = Record<ISpaceBoxType, SpaceBox>
+
 export class DragLine {
   operation: Operation
 
@@ -29,20 +28,29 @@ export class DragLine {
 
   dynamicSnapLines: SnapLine[] = []
 
+  aroundSpaceBoxes: Record<string, AroundSpaceBox> = {}
+
   distanceLines: ILineSegment[] = []
 
   spaceLines: ILineSegment[] = []
 
   cursorToVertexOffsets: Record<string, IPoint> = {}
 
-  snapLineDistances: Record<string, number> = {}
+  requestTimer = null
 
   constructor(props: IDragLineProps) {
     this.operation = props.operation
     this.makeObservable()
   }
 
-  get cursor() {
+  get dragStartPoint() {
+    const position = this.operation.engine.cursor.dragStartPosition
+    return this.operation.workspace.viewport.getOffsetPoint(
+      new Point(position.clientX, position.clientY)
+    )
+  }
+
+  get draggingPoint() {
     const position = this.operation.engine.cursor.position
     return this.operation.workspace.viewport.getOffsetPoint(
       new Point(position.clientX, position.clientY)
@@ -62,12 +70,27 @@ export class DragLine {
     return lines
   }
 
+  get spaceBoxes(): SpaceBox[] {
+    const results = []
+    for (let id in this.aroundSpaceBoxes) {
+      const boxes = this.aroundSpaceBoxes[id]
+      for (let type in boxes) {
+        const box: SpaceBox = boxes[type]
+        if (box.closest.length) {
+          results.push(box)
+          results.push(...box.closest)
+        }
+      }
+    }
+    return results
+  }
+
   markCursorToVertexOffsets(nodes: TreeNode[] = []) {
     nodes.forEach((node) => {
       const rect = node.getValidElementOffsetRect()
       this.cursorToVertexOffsets[node.id] = new Point(
-        this.cursor.x - rect.x,
-        this.cursor.y - rect.y
+        this.dragStartPoint.x - rect.x,
+        this.dragStartPoint.y - rect.y
       )
     })
   }
@@ -78,7 +101,10 @@ export class DragLine {
 
   getNodeUnLimitVertex(node: TreeNode) {
     const offset = node.getCursorOffset()
-    return new Point(this.cursor.x - offset.x, this.cursor.y - offset.y)
+    return new Point(
+      this.draggingPoint.x - offset.x,
+      this.draggingPoint.y - offset.y
+    )
   }
 
   getDraggingVertexOffset(node: TreeNode) {
@@ -87,19 +113,43 @@ export class DragLine {
     return new Point(unLimit.x - limit.x, unLimit.y - limit.y)
   }
 
+  getAroundSpaceBoxes(target: TreeNode): AroundSpaceBox {
+    const targetRect = target.getValidElementOffsetRect()
+    const closestSpaces = {}
+    this.operation.tree.eachTree((refer) => {
+      if (refer === target) return
+      const referRect = refer.getValidElementOffsetRect()
+      const origin = calcSpaceBoxOfRect(targetRect, referRect)
+
+      if (origin) {
+        const spaceBox = new SpaceBox(this, {
+          refer,
+          target,
+          ...origin,
+        })
+        if (!closestSpaces[origin.type]) {
+          closestSpaces[origin.type] = spaceBox
+        } else if (spaceBox.distance < closestSpaces[origin.type].distance) {
+          closestSpaces[origin.type] = spaceBox
+        }
+      }
+    })
+    return closestSpaces as any
+  }
+
   calcDynamicSnapLines(nodes: TreeNode[] = []) {
     if (!nodes.length) return
-    this.operation.tree.eachTree((target) => {
-      if (nodes.includes(target)) return
-      const targetRect = target.getValidElementOffsetRect()
-      nodes.forEach((node) => {
-        if (node.contains(target) || target.contains(node)) return
-        const rect = node.getValidElementOffsetRect()
-        const targetLines = calcEdgeLinesOfRect(targetRect)
+    this.operation.tree.eachTree((refer) => {
+      if (nodes.includes(refer)) return
+      const referRect = refer.getValidElementOffsetRect()
+      nodes.forEach((target) => {
+        if (target.contains(refer)) return
+        const targetRect = target.getValidElementOffsetRect()
+        const targetLines = calcEdgeLinesOfRect(referRect)
         const cursorLines = calcCursorEdgeLinesOfRect(
-          rect,
-          this.cursor,
-          node.getCursorOffset()
+          targetRect,
+          this.draggingPoint,
+          target.getCursorOffset()
         )
         const combineLines = calcClosestEdgeLines(
           targetLines,
@@ -109,7 +159,8 @@ export class DragLine {
         combineLines.h.forEach((line) => {
           this.dynamicSnapLines.push(
             new SnapLine(this, {
-              node,
+              target,
+              refer,
               ...line,
             })
           )
@@ -117,11 +168,13 @@ export class DragLine {
         combineLines.v.forEach((line) => {
           this.dynamicSnapLines.push(
             new SnapLine(this, {
-              node,
+              target,
+              refer,
               ...line,
             })
           )
         })
+        this.aroundSpaceBoxes[target.id] = this.getAroundSpaceBoxes(target)
       })
     })
   }
@@ -135,7 +188,7 @@ export class DragLine {
         const rect = node.getElementOffsetRect()
         const cursorLines = calcCursorEdgeLinesOfRect(
           rect,
-          this.cursor,
+          this.draggingPoint,
           node.getCursorOffset()
         )
         if (fixedLine.direction === 'h') {
@@ -145,7 +198,7 @@ export class DragLine {
             )
           )
           fixedLine.distance = minDistance
-          fixedLine.node = node
+          fixedLine.target = node
         } else {
           const minDistance = Math.min(
             ...cursorLines.v.map((line) =>
@@ -153,7 +206,7 @@ export class DragLine {
             )
           )
           fixedLine.distance = minDistance
-          fixedLine.node = node
+          fixedLine.target = node
         }
       })
     })
@@ -184,6 +237,7 @@ export class DragLine {
 
   calcDragLine(nodes: TreeNode[] = []) {
     this.dynamicSnapLines = []
+    this.aroundSpaceBoxes = {}
     this.calcDynamicSnapLines(nodes)
     this.calcFixedSnapLines(nodes)
     this.calcDistanceLines(nodes)
@@ -191,16 +245,21 @@ export class DragLine {
 
   cleanDragLine() {
     this.dynamicSnapLines = []
+    this.aroundSpaceBoxes = {}
     this.cursorToVertexOffsets = {}
-    this.snapLineDistances = {}
   }
 
   makeObservable() {
     define(this, {
       fixedSnapLines: observable.shallow,
       dynamicSnapLines: observable.shallow,
+      aroundSpaceBoxes: observable.shallow,
       spaceLines: observable.shallow,
       distanceLines: observable.shallow,
+      closestSnapLines: observable.computed,
+      spaceBoxes: observable.computed,
+      draggingPoint: observable.computed,
+      dragStartPoint: observable.computed,
       calcDragLine: action,
       calcDistanceLines: action,
       calcDynamicSnapLines: action,
@@ -209,5 +268,5 @@ export class DragLine {
     })
   }
 
-  static threshold = 5
+  static threshold = 4
 }

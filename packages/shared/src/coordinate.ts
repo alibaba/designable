@@ -528,3 +528,71 @@ export function calcRectOfAxisLineSegment(line: ILineSegment) {
     isXAxis ? line.end.y - line.start.y : 0
   )
 }
+
+export function calcSpaceBoxOfRect(
+  target: IRect,
+  source: IRect,
+  type?: string
+) {
+  const targetRect = new DOMRect(
+    target.x,
+    target.y,
+    target.width,
+    target.height
+  )
+  const sourceRect = new DOMRect(
+    source.x,
+    source.y,
+    source.width,
+    source.height
+  )
+  if (sourceRect.bottom < targetRect.top && sourceRect.left > targetRect.right)
+    return
+  if (sourceRect.top > targetRect.bottom && sourceRect.left > targetRect.right)
+    return
+  if (sourceRect.bottom < targetRect.top && sourceRect.right < targetRect.left)
+    return
+  if (sourceRect.top > targetRect.bottom && sourceRect.right < targetRect.left)
+    return
+  if (sourceRect.bottom < targetRect.top) {
+    const distance = targetRect.top - sourceRect.bottom
+    const left = Math.min(sourceRect.left, targetRect.left)
+    const right = Math.max(sourceRect.right, targetRect.right)
+    if (type && type !== 'top') return
+    return {
+      type: 'top',
+      distance,
+      rect: new DOMRect(left, sourceRect.bottom, right - left, distance),
+    }
+  } else if (sourceRect.top > targetRect.bottom) {
+    const distance = sourceRect.top - targetRect.bottom
+    const left = Math.min(sourceRect.left, targetRect.left)
+    const right = Math.max(sourceRect.right, targetRect.right)
+    if (type && type !== 'bottom') return
+    return {
+      type: 'bottom',
+      distance,
+      rect: new DOMRect(left, targetRect.bottom, right - left, distance),
+    }
+  } else if (sourceRect.right < targetRect.left) {
+    const distance = targetRect.left - sourceRect.right
+    const top = Math.min(sourceRect.top, targetRect.top)
+    const bottom = Math.max(sourceRect.bottom, targetRect.bottom)
+    if (type && type !== 'left') return
+    return {
+      type: 'left',
+      distance,
+      rect: new DOMRect(sourceRect.right, top, distance, bottom - top),
+    }
+  } else if (sourceRect.left > targetRect.right) {
+    const distance = sourceRect.left - targetRect.right
+    const top = Math.min(sourceRect.top, targetRect.top)
+    const bottom = Math.max(sourceRect.bottom, targetRect.bottom)
+    if (type && type !== 'right') return
+    return {
+      type: 'right',
+      distance,
+      rect: new DOMRect(targetRect.right, top, distance, bottom - top),
+    }
+  }
+}

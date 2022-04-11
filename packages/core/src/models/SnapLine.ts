@@ -9,20 +9,23 @@ import { DragLine } from './DragLine'
 
 export type IDynamicSnapLine = ISnapLineSegment & {
   id?: string
-  node?: TreeNode
+  target?: TreeNode
+  refer?: TreeNode
 }
 
 export class SnapLine {
   _id: string
   distance: number
-  node: TreeNode
+  target: TreeNode
+  refer: TreeNode
   start: IPoint
   end: IPoint
   ctx: DragLine
   constructor(ctx: DragLine, line: IDynamicSnapLine) {
     this.ctx = ctx
     this._id = line.id
-    this.node = line.node
+    this.target = line.target
+    this.refer = line.refer
     this.start = { ...line.start }
     this.end = { ...line.end }
     this.distance = line.distance
@@ -48,9 +51,9 @@ export class SnapLine {
   }
 
   get relativeFromNodeVertex() {
-    if (!this.node || !this.node?.parent) return
-    const node = this.node
-    const parent = this.node.parent
+    if (!this.target || !this.target?.parent) return
+    const node = this.target
+    const parent = this.target.parent
     const selfRef = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
     const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, selfRef)
@@ -68,6 +71,6 @@ export class SnapLine {
   }
 
   get vertexOffset() {
-    return this.node?.getDraggingVertexOffset()
+    return this.target?.getDraggingVertexOffset()
   }
 }

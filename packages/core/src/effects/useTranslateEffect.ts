@@ -67,7 +67,6 @@ export const useTranslateEffect = (engine: Engine) => {
       engine.cursor.setDragType(CursorDragType.Translate)
     }
   })
-
   engine.subscribeTo(DragMoveEvent, () => {
     if (engine.cursor.dragType !== CursorDragType.Translate) return
     if (store.value) {
@@ -78,17 +77,18 @@ export const useTranslateEffect = (engine: Engine) => {
       const deltaX = engine.cursor.dragStartToCurrentDelta.clientX
       const deltaY = engine.cursor.dragStartToCurrentDelta.clientY
       const dragLine = node.operation.dragLine
-      const closestSnapLines = dragLine.closestSnapLines
       let translateX = startPoint.x + deltaX,
         translateY = startPoint.y + deltaY
+
       dragLine.calcDragLine([node])
-      closestSnapLines.forEach((line) => {
+      dragLine.closestSnapLines.forEach((line) => {
         if (line.direction === 'h') {
           translateY = line.relativeFromNodeVertex?.start?.y
         } else {
           translateX = line.relativeFromNodeVertex?.start?.x
         }
       })
+
       element.style.position = 'absolute'
       element.style.left = '0px'
       element.style.top = '0px'
