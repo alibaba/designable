@@ -16,7 +16,6 @@ export type IDynamicSnapLine = ISnapLineSegment & {
 export class SnapLine {
   _id: string
   distance: number
-  target: TreeNode
   refer: TreeNode
   start: IPoint
   end: IPoint
@@ -24,7 +23,6 @@ export class SnapLine {
   constructor(ctx: DragLine, line: IDynamicSnapLine) {
     this.ctx = ctx
     this._id = line.id
-    this.target = line.target
     this.refer = line.refer
     this.start = { ...line.start }
     this.end = { ...line.end }
@@ -50,27 +48,16 @@ export class SnapLine {
     return calcRectOfAxisLineSegment(this)
   }
 
-  get relativeFromNodeVertex() {
-    if (!this.target || !this.target?.parent) return
-    const node = this.target
-    const parent = this.target.parent
-    const selfRef = node.getValidElementOffsetRect()
+  getTranslate(node: TreeNode) {
+    if (!node || !node?.parent) return
+    const parent = node.parent
+    const targetRect = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, selfRef)
-    return new SnapLine(this.ctx, {
-      ...this,
-      start: {
-        x: this.start.x - parentRect.x - edgeOffset.x,
-        y: this.start.y - parentRect.y - edgeOffset.y,
-      },
-      end: {
-        x: this.end.x - parentRect.x - edgeOffset.x,
-        y: this.end.y - parentRect.y - edgeOffset.y,
-      },
-    })
-  }
-
-  get vertexOffset() {
-    return this.target?.getDraggingVertexOffset()
+    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, targetRect)
+    if (this.direction === 'h') {
+      return this.start.y - parentRect.y - edgeOffset.y
+    } else {
+      return this.start.x - parentRect.x - edgeOffset.x
+    }
   }
 }

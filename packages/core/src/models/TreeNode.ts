@@ -250,22 +250,6 @@ export class TreeNode {
     return this.operation?.workspace?.outline
   }
 
-  markCursorOffset() {
-    this.operation?.dragLine.markCursorToVertexOffsets([this])
-  }
-
-  getCursorOffset() {
-    return this.operation?.dragLine.getCursorToVertexOffsets([this])[0]
-  }
-
-  getNodeUnLimitVertex() {
-    return this.operation?.dragLine.getNodeUnLimitVertex(this)
-  }
-
-  getDraggingVertexOffset() {
-    return this.operation?.dragLine.getDraggingVertexOffset(this)
-  }
-
   getElement(area: 'viewport' | 'outline' = 'viewport') {
     return this[area]?.findElementById(this.id)
   }

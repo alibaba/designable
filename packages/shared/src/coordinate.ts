@@ -97,6 +97,15 @@ export function isPointInRect(point: IPoint, rect: IRect, sensitive = true) {
   )
 }
 
+export function isEqualRect(target: IRect, source: IRect) {
+  return (
+    target?.x === source?.x &&
+    target.y === source.y &&
+    target.width === source.width &&
+    target.height === source.height
+  )
+}
+
 export function getRectPoints(source: IRect) {
   const p1 = new Point(source.x, source.y)
   const p2 = new Point(source.x + source.width, source.y)
@@ -529,7 +538,7 @@ export function calcRectOfAxisLineSegment(line: ILineSegment) {
   )
 }
 
-export function calcSpaceBoxOfRect(
+export function calcSpaceBlockOfRect(
   target: IRect,
   source: IRect,
   type?: string

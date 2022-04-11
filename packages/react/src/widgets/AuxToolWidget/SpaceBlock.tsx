@@ -3,7 +3,7 @@ import { useDragLine, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { CursorDragType, CursorStatus } from '@designable/core'
 
-export const SpaceBox = observer(() => {
+export const SpaceBlock = observer(() => {
   const cursor = useCursor()
   const dragLine = useDragLine()
   const prefix = usePrefix('aux-space-box')
@@ -28,7 +28,7 @@ export const SpaceBox = observer(() => {
     return null
   return (
     <>
-      {dragLine.spaceBoxes.map(({ rect }, key) => {
+      {dragLine.spaceBlocks.map(({ rect }, key) => {
         return (
           <div key={key} className={prefix} style={createRectStyle(rect)}></div>
         )
@@ -37,4 +37,4 @@ export const SpaceBox = observer(() => {
   )
 })
 
-SpaceBox.displayName = 'SpaceBox'
+SpaceBlock.displayName = 'SpaceBlock'
