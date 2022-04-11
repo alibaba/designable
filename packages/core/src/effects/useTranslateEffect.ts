@@ -38,7 +38,7 @@ export const useTranslateEffect = (engine: Engine) => {
     dragLine.drawing()
     targets.forEach((node) => {
       const element = node.getElement()
-      const translate = dragLine.getSnapTranslate(node)
+      const translate = dragLine.calcSnapTranslate(node)
       element.style.position = 'absolute'
       element.style.left = '0px'
       element.style.top = '0px'

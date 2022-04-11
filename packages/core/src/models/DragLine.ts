@@ -6,13 +6,15 @@ import {
   calcCursorEdgeLinesOfRect,
   calcClosestEdgeLines,
   calcDistanceOfLienSegment,
-  calcSpaceBlockOfRect,
   calcBoundingRect,
   IRect,
-  isEqualRect,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
-import { SpaceBlock, ISpaceBlockType } from './SpaceBlock'
+import {
+  SpaceBlock,
+  AroundSpaceBlock,
+  calcAroundSpaceBlocks,
+} from './SpaceBlock'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
 import { SnapLine, IDynamicSnapLine } from './SnapLine'
@@ -32,11 +34,88 @@ const parseElementTranslate = (element: HTMLElement) => {
     return new Point(Number(element.offsetLeft), Number(element.offsetTop))
   }
 }
+
+const calcTranslate = (dragLine: DragLine, node: TreeNode) => {
+  const cursor = dragLine.operation.engine.cursor
+  const deltaX = cursor.dragStartToCurrentDelta.clientX
+  const deltaY = cursor.dragStartToCurrentDelta.clientY
+  const drawStartTranslate = dragLine.drawStartTranslateStore[node.id] ?? {
+    x: 0,
+    y: 0,
+  }
+  const x = drawStartTranslate.x + deltaX,
+    y = drawStartTranslate.y + deltaY
+  return { x, y }
+}
+
+const calcDynamicSnapLines = (dragLine: DragLine) => {
+  if (!dragLine.targets.length) return
+  const tree = dragLine.operation.tree
+  tree.eachTree((refer) => {
+    if (dragLine.targets.includes(refer)) return
+    const referRect = refer.getValidElementOffsetRect()
+    const targetLines = calcEdgeLinesOfRect(referRect)
+    const cursorLines = calcCursorEdgeLinesOfRect(
+      dragLine.targetRect,
+      dragLine.cursor,
+      dragLine.drawStartCursorOffset
+    )
+    const combineLines = calcClosestEdgeLines(
+      targetLines,
+      cursorLines,
+      DragLine.threshold
+    )
+    combineLines.h.forEach((line) => {
+      dragLine.dynamicSnapLines.push(
+        new SnapLine(this, {
+          refer,
+          ...line,
+        })
+      )
+    })
+    combineLines.v.forEach((line) => {
+      dragLine.dynamicSnapLines.push(
+        new SnapLine(this, {
+          refer,
+          ...line,
+        })
+      )
+    })
+    dragLine.aroundSpaceBlocks = calcAroundSpaceBlocks(
+      tree,
+      dragLine.targetRect
+    )
+  })
+}
+
+const calcRulerSnapLines = (dragLine: DragLine) => {
+  if (!dragLine.targets.length) return
+  dragLine.rulerSnapLines.forEach((fixedLine) => {
+    const cursorLines = calcCursorEdgeLinesOfRect(
+      dragLine.targetRect,
+      dragLine.cursor,
+      dragLine.drawStartCursorOffset
+    )
+    if (fixedLine.direction === 'h') {
+      const minDistance = Math.min(
+        ...cursorLines.h.map((line) =>
+          calcDistanceOfLienSegment(line, fixedLine)
+        )
+      )
+      fixedLine.distance = minDistance
+    } else {
+      const minDistance = Math.min(
+        ...cursorLines.v.map((line) =>
+          calcDistanceOfLienSegment(line, fixedLine)
+        )
+      )
+      fixedLine.distance = minDistance
+    }
+  })
+}
 export interface IDragLineProps {
   operation: Operation
 }
-
-export type AroundSpaceBlock = Record<ISpaceBlockType, SpaceBlock>
 
 export class DragLine {
   operation: Operation
@@ -117,90 +196,16 @@ export class DragLine {
     )
   }
 
-  calcAroundSpaceBlocks(targetRect: IRect): AroundSpaceBlock {
-    const closestSpaces = {}
-    this.operation.tree.eachTree((refer) => {
-      const referRect = refer.getValidElementOffsetRect()
-
-      if (isEqualRect(targetRect, referRect)) return
-
-      const origin = calcSpaceBlockOfRect(targetRect, referRect)
-
-      if (origin) {
-        const spaceBlock = new SpaceBlock(this, {
-          refer,
-          ...origin,
-        })
-        if (!closestSpaces[origin.type]) {
-          closestSpaces[origin.type] = spaceBlock
-        } else if (spaceBlock.distance < closestSpaces[origin.type].distance) {
-          closestSpaces[origin.type] = spaceBlock
-        }
-      }
-    })
-    return closestSpaces as any
-  }
-
-  calcDynamicSnapLines() {
-    if (!this.targets.length) return
-    this.operation.tree.eachTree((refer) => {
-      if (this.targets.includes(refer)) return
-      const referRect = refer.getValidElementOffsetRect()
-      const targetLines = calcEdgeLinesOfRect(referRect)
-      const cursorLines = calcCursorEdgeLinesOfRect(
-        this.targetRect,
-        this.cursor,
-        this.drawStartCursorOffset
-      )
-      const combineLines = calcClosestEdgeLines(
-        targetLines,
-        cursorLines,
-        DragLine.threshold
-      )
-      combineLines.h.forEach((line) => {
-        this.dynamicSnapLines.push(
-          new SnapLine(this, {
-            refer,
-            ...line,
-          })
-        )
-      })
-      combineLines.v.forEach((line) => {
-        this.dynamicSnapLines.push(
-          new SnapLine(this, {
-            refer,
-            ...line,
-          })
-        )
-      })
-      this.aroundSpaceBlocks = this.calcAroundSpaceBlocks(this.targetRect)
-    })
-  }
-
-  calcRulerSnapLines() {
-    if (!this.targets.length) return
-    this.rulerSnapLines.forEach((fixedLine) => {
-      const cursorLines = calcCursorEdgeLinesOfRect(
-        this.targetRect,
-        this.cursor,
-        this.drawStartCursorOffset
-      )
-      if (fixedLine.direction === 'h') {
-        const minDistance = Math.min(
-          ...cursorLines.h.map((line) =>
-            calcDistanceOfLienSegment(line, fixedLine)
-          )
-        )
-        fixedLine.distance = minDistance
+  calcSnapTranslate(node: TreeNode) {
+    const translate = calcTranslate(this, node)
+    for (let line of this.closestSnapLines) {
+      if (line.direction === 'h') {
+        translate.y = line.getTranslate(node)
       } else {
-        const minDistance = Math.min(
-          ...cursorLines.v.map((line) =>
-            calcDistanceOfLienSegment(line, fixedLine)
-          )
-        )
-        fixedLine.distance = minDistance
+        translate.x = line.getTranslate(node)
       }
-    })
+    }
+    return translate
   }
 
   findRulerSnapLine(id: string) {
@@ -239,8 +244,8 @@ export class DragLine {
   drawing() {
     this.dynamicSnapLines = []
     this.aroundSpaceBlocks = null
-    this.calcDynamicSnapLines()
-    this.calcRulerSnapLines()
+    calcDynamicSnapLines(this)
+    calcRulerSnapLines(this)
   }
 
   drawEnd() {
@@ -249,31 +254,6 @@ export class DragLine {
     this.drawStartTargetRect = null
     this.targets = []
     this.operation.engine.cursor.setDragType(CursorDragType.Normal)
-  }
-
-  getTranslate(node: TreeNode) {
-    const cursor = this.operation.engine.cursor
-    const deltaX = cursor.dragStartToCurrentDelta.clientX
-    const deltaY = cursor.dragStartToCurrentDelta.clientY
-    const drawStartTranslate = this.drawStartTranslateStore[node.id] ?? {
-      x: 0,
-      y: 0,
-    }
-    const x = drawStartTranslate.x + deltaX,
-      y = drawStartTranslate.y + deltaY
-    return { x, y }
-  }
-
-  getSnapTranslate(node: TreeNode) {
-    const translate = this.getTranslate(node)
-    for (let line of this.closestSnapLines) {
-      if (line.direction === 'h') {
-        translate.y = line.getTranslate(node)
-      } else {
-        translate.x = line.getTranslate(node)
-      }
-    }
-    return translate
   }
 
   makeObservable() {

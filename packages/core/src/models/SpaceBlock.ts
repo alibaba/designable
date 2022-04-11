@@ -1,3 +1,4 @@
+import { isEqualRect, calcSpaceBlockOfRect, IRect } from '@designable/shared'
 import { DragLine } from './DragLine'
 import { TreeNode } from './TreeNode'
 
@@ -17,6 +18,34 @@ export interface ISpaceBlock {
   type?: ISpaceBlockType
 }
 
+export type AroundSpaceBlock = Record<ISpaceBlockType, SpaceBlock>
+
+export const calcAroundSpaceBlocks = (
+  tree: TreeNode,
+  targetRect: IRect
+): AroundSpaceBlock => {
+  const closestSpaces = {}
+  tree.eachTree((refer) => {
+    const referRect = refer.getValidElementOffsetRect()
+
+    if (isEqualRect(targetRect, referRect)) return
+
+    const origin = calcSpaceBlockOfRect(targetRect, referRect)
+
+    if (origin) {
+      const spaceBlock = new SpaceBlock(this, {
+        refer,
+        ...origin,
+      })
+      if (!closestSpaces[origin.type]) {
+        closestSpaces[origin.type] = spaceBlock
+      } else if (spaceBlock.distance < closestSpaces[origin.type].distance) {
+        closestSpaces[origin.type] = spaceBlock
+      }
+    }
+  })
+  return closestSpaces as any
+}
 export class SpaceBlock {
   _id: string
   distance: number
@@ -42,7 +71,8 @@ export class SpaceBlock {
   }
 
   get next() {
-    const spaceBlock = this.ctx.calcAroundSpaceBlocks(
+    const spaceBlock = calcAroundSpaceBlocks(
+      this.refer.root,
       this.refer.getValidElementOffsetRect()
     )
     return spaceBlock[this.type as any]
