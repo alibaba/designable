@@ -38,14 +38,14 @@ export const useTranslateEffect = (engine: Engine) => {
     translateHelper.dragging()
     dragNodes.forEach((node) => {
       const element = node.getElement()
-      const translate = translateHelper.calcSnapTranslate(node)
-      element.style.position = 'absolute'
-      element.style.left = '0px'
-      element.style.top = '0px'
-      element.style.transform = `translate3d(${translate.x}px,${translate.y}px,0)`
+      translateHelper.translate(node, (translate) => {
+        element.style.position = 'absolute'
+        element.style.left = '0px'
+        element.style.top = '0px'
+        element.style.transform = `translate3d(${translate.x}px,${translate.y}px,0)`
+      })
     })
   })
-
   engine.subscribeTo(DragStopEvent, (event) => {
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace

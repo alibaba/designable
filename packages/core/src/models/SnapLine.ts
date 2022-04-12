@@ -9,7 +9,6 @@ import { TranslateHelper } from './TranslateHelper'
 
 export type IDynamicSnapLine = ISnapLineSegment & {
   id?: string
-  target?: TreeNode
   refer?: TreeNode
 }
 
@@ -51,9 +50,9 @@ export class SnapLine {
   getTranslate(node: TreeNode) {
     if (!node || !node?.parent) return
     const parent = node.parent
-    const dragNodesRect = node.getValidElementOffsetRect()
+    const dragNodeRect = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodesRect)
+    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodeRect)
     if (this.direction === 'h') {
       return this.start.y - parentRect.y - edgeOffset.y
     } else {

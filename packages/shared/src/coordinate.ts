@@ -605,3 +605,80 @@ export function calcSpaceBlockOfRect(
     }
   }
 }
+
+export const calcExtendsLineSegmentOfRect = (
+  targetRect: DOMRect,
+  referRect: DOMRect
+) => {
+  if (
+    referRect.right < targetRect.right &&
+    targetRect.left <= referRect.right
+  ) {
+    //右侧
+    if (referRect.bottom < targetRect.top) {
+      //上方
+      return {
+        start: { x: referRect.right, y: referRect.bottom },
+        end: { x: targetRect.right, y: referRect.bottom },
+      }
+    } else if (referRect.top > targetRect.bottom) {
+      //下方
+      return {
+        start: { x: referRect.right, y: referRect.top },
+        end: { x: targetRect.right, y: referRect.top },
+      }
+    }
+  } else if (
+    referRect.left > targetRect.left &&
+    targetRect.right >= referRect.left
+  ) {
+    //左侧
+    if (referRect.bottom < targetRect.top) {
+      //上方
+      return {
+        start: { x: targetRect.left, y: referRect.bottom },
+        end: { x: referRect.left, y: referRect.bottom },
+      }
+    } else if (referRect.top > targetRect.bottom) {
+      //下方
+      return {
+        start: { x: targetRect.left, y: referRect.top },
+        end: { x: referRect.left, y: referRect.top },
+      }
+    }
+  }
+  if (referRect.top < targetRect.top && targetRect.bottom >= referRect.top) {
+    //refer在上方
+    if (referRect.right < targetRect.left) {
+      //右侧
+      return {
+        start: { x: referRect.right, y: referRect.bottom },
+        end: { x: referRect.right, y: targetRect.bottom },
+      }
+    } else if (referRect.left > targetRect.right) {
+      //左侧
+      return {
+        start: { x: referRect.left, y: referRect.bottom },
+        end: { x: referRect.left, y: targetRect.bottom },
+      }
+    }
+  } else if (
+    referRect.bottom > targetRect.bottom &&
+    referRect.top <= targetRect.bottom
+  ) {
+    //refer下方
+    if (referRect.right < targetRect.left) {
+      //右侧
+      return {
+        start: { x: referRect.right, y: targetRect.top },
+        end: { x: referRect.right, y: referRect.top },
+      }
+    } else if (referRect.left > targetRect.right) {
+      //左侧
+      return {
+        start: { x: referRect.left, y: targetRect.top },
+        end: { x: referRect.left, y: referRect.top },
+      }
+    }
+  }
+}

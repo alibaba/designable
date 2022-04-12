@@ -7,14 +7,12 @@ import {
   calcClosestEdgeLines,
   calcDistanceOfLienSegment,
   calcBoundingRect,
+  calcSpaceBlockOfRect,
   IRect,
+  isEqualRect,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
-import {
-  SpaceBlock,
-  AroundSpaceBlock,
-  calcAroundSpaceBlocks,
-} from './SpaceBlock'
+import { SpaceBlock, AroundSpaceBlock } from './SpaceBlock'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
 import { SnapLine, IDynamicSnapLine } from './SnapLine'
@@ -69,7 +67,7 @@ const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
     )
     combineLines.h.forEach((line) => {
       translateHelper.dynamicSnapLines.push(
-        new SnapLine(this, {
+        new SnapLine(translateHelper, {
           refer,
           ...line,
         })
@@ -77,14 +75,13 @@ const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
     })
     combineLines.v.forEach((line) => {
       translateHelper.dynamicSnapLines.push(
-        new SnapLine(this, {
+        new SnapLine(translateHelper, {
           refer,
           ...line,
         })
       )
     })
-    translateHelper.aroundSpaceBlocks = calcAroundSpaceBlocks(
-      tree,
+    translateHelper.aroundSpaceBlocks = translateHelper.calcAroundSpaceBlocks(
       translateHelper.dragNodesRect
     )
   })
@@ -128,6 +125,8 @@ export class TranslateHelper {
 
   dynamicSnapLines: SnapLine[] = []
 
+  rulerSpaceBlocks: SpaceBlock[] = []
+
   dragStartTranslateStore: Record<string, IPoint> = {}
 
   aroundSpaceBlocks: AroundSpaceBlock = null
@@ -157,6 +156,15 @@ export class TranslateHelper {
       }
     })
     return lines
+  }
+
+  calcRulerSpaceBlocks() {
+    const results: SpaceBlock[] = []
+    for (let type in this.aroundSpaceBlocks) {
+      if (this.aroundSpaceBlocks[type])
+        results.push(this.aroundSpaceBlocks[type])
+    }
+    return results
   }
 
   get spaceBlocks(): SpaceBlock[] {
@@ -198,16 +206,48 @@ export class TranslateHelper {
     )
   }
 
-  calcSnapTranslate(node: TreeNode) {
+  calcAroundSpaceBlocks(dragNodesRect: IRect): AroundSpaceBlock {
+    const closestSpaces = {}
+    this.operation.tree.eachTree((refer) => {
+      const referRect = refer.getValidElementOffsetRect()
+
+      if (isEqualRect(dragNodesRect, referRect)) return
+
+      const origin = calcSpaceBlockOfRect(dragNodesRect, referRect)
+
+      if (origin) {
+        const spaceBlock = new SpaceBlock(this, {
+          refer,
+          ...origin,
+        })
+        if (!closestSpaces[origin.type]) {
+          closestSpaces[origin.type] = spaceBlock
+        } else if (spaceBlock.distance < closestSpaces[origin.type].distance) {
+          closestSpaces[origin.type] = spaceBlock
+        }
+      }
+    })
+    return closestSpaces as any
+  }
+
+  translate(node: TreeNode, handler: (data: IPoint) => void) {
     const translate = calcTranslate(this, node)
+    let snapping = false
     for (let line of this.closestSnapLines) {
       if (line.direction === 'h') {
         translate.y = line.getTranslate(node)
+        snapping = true
       } else {
         translate.x = line.getTranslate(node)
+        snapping = true
       }
     }
-    return translate
+    handler(translate)
+    if (snapping) {
+      this.rulerSpaceBlocks = this.calcRulerSpaceBlocks()
+    } else {
+      this.rulerSpaceBlocks = []
+    }
   }
 
   findRulerSnapLine(id: string) {
@@ -260,11 +300,12 @@ export class TranslateHelper {
 
   makeObservable() {
     define(this, {
-      dragNodes: observable.ref,
+      dragNodes: observable.shallow,
       rulerSnapLines: observable.shallow,
       dynamicSnapLines: observable.shallow,
       aroundSpaceBlocks: observable.shallow,
       closestSnapLines: observable.computed,
+      rulerSpaceBlocks: observable.shallow,
       spaceBlocks: observable.computed,
       cursor: observable.computed,
       dragStartCursor: observable.computed,
@@ -274,5 +315,5 @@ export class TranslateHelper {
     })
   }
 
-  static threshold = 4
+  static threshold = 6
 }

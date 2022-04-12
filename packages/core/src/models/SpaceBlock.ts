@@ -1,4 +1,9 @@
-import { isEqualRect, calcSpaceBlockOfRect, IRect } from '@designable/shared'
+import {
+  isEqualRect,
+  calcSpaceBlockOfRect,
+  IRect,
+  calcExtendsLineSegmentOfRect,
+} from '@designable/shared'
 import { TranslateHelper } from './TranslateHelper'
 import { TreeNode } from './TreeNode'
 
@@ -11,7 +16,6 @@ export type ISpaceBlockType =
 
 export interface ISpaceBlock {
   id?: string
-  target?: TreeNode
   refer?: TreeNode
   rect?: DOMRect
   distance?: number
@@ -20,36 +24,9 @@ export interface ISpaceBlock {
 
 export type AroundSpaceBlock = Record<ISpaceBlockType, SpaceBlock>
 
-export const calcAroundSpaceBlocks = (
-  tree: TreeNode,
-  dragNodesRect: IRect
-): AroundSpaceBlock => {
-  const closestSpaces = {}
-  tree.eachTree((refer) => {
-    const referRect = refer.getValidElementOffsetRect()
-
-    if (isEqualRect(dragNodesRect, referRect)) return
-
-    const origin = calcSpaceBlockOfRect(dragNodesRect, referRect)
-
-    if (origin) {
-      const spaceBlock = new SpaceBlock(this, {
-        refer,
-        ...origin,
-      })
-      if (!closestSpaces[origin.type]) {
-        closestSpaces[origin.type] = spaceBlock
-      } else if (spaceBlock.distance < closestSpaces[origin.type].distance) {
-        closestSpaces[origin.type] = spaceBlock
-      }
-    }
-  })
-  return closestSpaces as any
-}
 export class SpaceBlock {
   _id: string
   distance: number
-  target: TreeNode
   refer: TreeNode
   ctx: TranslateHelper
   rect: DOMRect
@@ -57,7 +34,6 @@ export class SpaceBlock {
   constructor(ctx: TranslateHelper, box: ISpaceBlock) {
     this.ctx = ctx
     this.distance = box.distance
-    this.target = box.target
     this.refer = box.refer
     this.rect = box.rect
     this.type = box.type
@@ -71,11 +47,74 @@ export class SpaceBlock {
   }
 
   get next() {
-    const spaceBlock = calcAroundSpaceBlocks(
-      this.refer.root,
+    const spaceBlock = this.ctx.calcAroundSpaceBlocks(
       this.refer.getValidElementOffsetRect()
     )
     return spaceBlock[this.type as any]
+  }
+
+  get extendsLine() {
+    if (!this.needExtendsLine) return
+    const dragNodesRect = this.ctx.dragNodesRect
+    const referRect = this.refer.getValidElementOffsetRect()
+    return calcExtendsLineSegmentOfRect(dragNodesRect, referRect)
+  }
+
+  get needExtendsLine() {
+    const targetRect = this.crossDragNodesRect
+    const referRect = this.crossReferRect
+    if (this.type === 'top' || this.type === 'bottom') {
+      const rightDelta = referRect.right - targetRect.left
+      const leftDelta = targetRect.right - referRect.left
+      return (
+        rightDelta < targetRect.width / 2 || leftDelta < targetRect.width / 2
+      )
+    } else {
+      const topDelta = targetRect.bottom - referRect.top
+      const bottomDelta = referRect.bottom - targetRect.top
+      return (
+        topDelta < targetRect.height / 2 || bottomDelta < targetRect.height / 2
+      )
+    }
+    return true
+  }
+
+  get crossReferRect() {
+    const referRect = this.refer.getValidElementOffsetRect()
+    if (this.type === 'top' || this.type === 'bottom') {
+      return new DOMRect(
+        referRect.x,
+        this.rect.y,
+        referRect.width,
+        this.rect.height
+      )
+    } else {
+      return new DOMRect(
+        this.rect.x,
+        referRect.y,
+        this.rect.width,
+        referRect.height
+      )
+    }
+  }
+
+  get crossDragNodesRect() {
+    const dragNodesRect = this.ctx.dragNodesRect
+    if (this.type === 'top' || this.type === 'bottom') {
+      return new DOMRect(
+        dragNodesRect.x,
+        this.rect.y,
+        dragNodesRect.width,
+        this.rect.height
+      )
+    } else {
+      return new DOMRect(
+        this.rect.x,
+        dragNodesRect.y,
+        this.rect.width,
+        dragNodesRect.height
+      )
+    }
   }
 
   get isometrics() {
