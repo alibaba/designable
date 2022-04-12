@@ -11,6 +11,7 @@ import {
 } from '@designable/shared'
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
+import { CursorDragType } from './Cursor'
 
 export enum ClosestPosition {
   Before = 'BEFORE',
@@ -264,6 +265,7 @@ export class MoveHelper {
         source: this.dragNodes,
       })
     )
+    this.operation.engine.cursor.setDragType(CursorDragType.Move)
   }
 
   dragging(props: IMoveHelperDraggingProps) {

@@ -115,7 +115,7 @@ export const useResizeEffect = (engine: Engine) => {
     if (engine.cursor.type !== CursorType.Normal) return
     if (store.value) {
       store.value = null
-      engine.cursor.setDragType(CursorDragType.Normal)
+      engine.cursor.setDragType(CursorDragType.Move)
       engine.cursor.setStyle('')
     }
   })

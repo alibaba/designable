@@ -58,7 +58,7 @@ const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
     const referRect = refer.getValidElementOffsetRect()
     const targetLines = calcEdgeLinesOfRect(referRect)
     const cursorLines = calcCursorEdgeLinesOfRect(
-      translateHelper.targetRect,
+      translateHelper.dragNodesRect,
       translateHelper.cursor,
       translateHelper.dragStartCursorOffset
     )
@@ -85,7 +85,7 @@ const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
     })
     translateHelper.aroundSpaceBlocks = calcAroundSpaceBlocks(
       tree,
-      translateHelper.targetRect
+      translateHelper.dragNodesRect
     )
   })
 }
@@ -94,7 +94,7 @@ const calcRulerSnapLines = (translateHelper: TranslateHelper) => {
   if (!translateHelper.dragNodes.length) return
   translateHelper.rulerSnapLines.forEach((fixedLine) => {
     const cursorLines = calcCursorEdgeLinesOfRect(
-      translateHelper.targetRect,
+      translateHelper.dragNodesRect,
       translateHelper.cursor,
       translateHelper.dragStartCursorOffset
     )
@@ -171,7 +171,7 @@ export class TranslateHelper {
     return results
   }
 
-  get targetRect() {
+  get dragNodesRect() {
     return calcBoundingRect(
       this.dragNodes.map((node) => node.getValidElementOffsetRect())
     )
@@ -179,8 +179,8 @@ export class TranslateHelper {
 
   get cursorOffset() {
     return new Point(
-      this.cursor.x - this.targetRect.x,
-      this.cursor.y - this.targetRect.y
+      this.cursor.x - this.dragNodesRect.x,
+      this.cursor.y - this.dragNodesRect.y
     )
   }
 
@@ -235,7 +235,7 @@ export class TranslateHelper {
 
   dragStart(nodes: TreeNode[] = []) {
     this.dragNodes = nodes
-    this.dragStartTargetRect = this.targetRect
+    this.dragStartTargetRect = this.dragNodesRect
     this.dragStartTranslateStore = nodes.reduce((buf, node) => {
       buf[node.id] = parseElementTranslate(node.getElement())
       return buf
@@ -255,7 +255,7 @@ export class TranslateHelper {
     this.aroundSpaceBlocks = null
     this.dragStartTargetRect = null
     this.dragNodes = []
-    this.operation.engine.cursor.setDragType(CursorDragType.Normal)
+    this.operation.engine.cursor.setDragType(CursorDragType.Move)
   }
 
   makeObservable() {

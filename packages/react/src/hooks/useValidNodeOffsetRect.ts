@@ -27,7 +27,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   const compute = useCallback(() => {
     if (
       engine.cursor.status !== CursorStatus.Normal &&
-      engine.cursor.dragType === CursorDragType.Normal
+      engine.cursor.dragType === CursorDragType.Move
     )
       return
     const nextRect = viewport.getValidNodeOffsetRect(node)

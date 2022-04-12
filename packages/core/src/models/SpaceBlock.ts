@@ -22,15 +22,15 @@ export type AroundSpaceBlock = Record<ISpaceBlockType, SpaceBlock>
 
 export const calcAroundSpaceBlocks = (
   tree: TreeNode,
-  targetRect: IRect
+  dragNodesRect: IRect
 ): AroundSpaceBlock => {
   const closestSpaces = {}
   tree.eachTree((refer) => {
     const referRect = refer.getValidElementOffsetRect()
 
-    if (isEqualRect(targetRect, referRect)) return
+    if (isEqualRect(dragNodesRect, referRect)) return
 
-    const origin = calcSpaceBlockOfRect(targetRect, referRect)
+    const origin = calcSpaceBlockOfRect(dragNodesRect, referRect)
 
     if (origin) {
       const spaceBlock = new SpaceBlock(this, {

@@ -62,7 +62,7 @@ export const useDragDropEffect = (engine: Engine) => {
 
   engine.subscribeTo(DragMoveEvent, (event) => {
     if (engine.cursor.type !== CursorType.Normal) return
-    if (engine.cursor.dragType !== CursorDragType.Normal) return
+    if (engine.cursor.dragType !== CursorDragType.Move) return
     const target = event.data.target as HTMLElement
     const el = target?.closest(`
       *[${engine.props.nodeIdAttrName}],
@@ -87,7 +87,7 @@ export const useDragDropEffect = (engine: Engine) => {
 
   engine.subscribeTo(ViewportScrollEvent, (event) => {
     if (engine.cursor.type !== CursorType.Normal) return
-    if (engine.cursor.dragType !== CursorDragType.Normal) return
+    if (engine.cursor.dragType !== CursorDragType.Move) return
     const point = new Point(
       engine.cursor.position.topClientX,
       engine.cursor.position.topClientY
@@ -123,7 +123,7 @@ export const useDragDropEffect = (engine: Engine) => {
 
   engine.subscribeTo(DragStopEvent, () => {
     if (engine.cursor.type !== CursorType.Normal) return
-    if (engine.cursor.dragType !== CursorDragType.Normal) return
+    if (engine.cursor.dragType !== CursorDragType.Move) return
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const moveHelper = operation.moveHelper

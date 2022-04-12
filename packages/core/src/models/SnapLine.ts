@@ -51,9 +51,9 @@ export class SnapLine {
   getTranslate(node: TreeNode) {
     if (!node || !node?.parent) return
     const parent = node.parent
-    const targetRect = node.getValidElementOffsetRect()
+    const dragNodesRect = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, targetRect)
+    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodesRect)
     if (this.direction === 'h') {
       return this.start.y - parentRect.y - edgeOffset.y
     } else {

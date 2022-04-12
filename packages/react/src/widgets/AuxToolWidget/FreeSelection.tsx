@@ -45,7 +45,7 @@ export const FreeSelection = observer(() => {
   if (
     operation.moveHelper.hasDragNodes ||
     cursor.status !== CursorStatus.Dragging ||
-    cursor.dragType !== CursorDragType.Normal
+    cursor.dragType !== CursorDragType.Move
   )
     return null
 

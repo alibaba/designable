@@ -10,7 +10,7 @@ export enum CursorStatus {
 }
 
 export enum CursorDragType {
-  Normal = 'NORMAL',
+  Move = 'MOVE',
   Resize = 'RESIZE',
   Rotate = 'ROTATE',
   Translate = 'TRANSLATE',
@@ -94,7 +94,7 @@ export class Cursor {
 
   type: CursorType | string = CursorType.Normal
 
-  dragType: CursorDragType | string = CursorDragType.Normal
+  dragType: CursorDragType | string = CursorDragType.Move
 
   status: CursorStatus = CursorStatus.Normal
 
