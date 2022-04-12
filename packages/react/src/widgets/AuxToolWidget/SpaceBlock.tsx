@@ -1,11 +1,11 @@
 import React from 'react'
-import { useDragLine, useCursor, usePrefix } from '../../hooks'
+import { useTranslateHelper, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { CursorDragType, CursorStatus } from '@designable/core'
 
 export const SpaceBlock = observer(() => {
   const cursor = useCursor()
-  const dragLine = useDragLine()
+  const translateHelper = useTranslateHelper()
   const prefix = usePrefix('aux-space-box')
   const createRectStyle = (rect: DOMRect) => {
     const baseStyle: React.CSSProperties = {
@@ -22,13 +22,13 @@ export const SpaceBlock = observer(() => {
   }
   if (
     cursor.status !== CursorStatus.Dragging ||
-    !dragLine ||
+    !translateHelper ||
     cursor.dragType !== CursorDragType.Translate
   )
     return null
   return (
     <>
-      {dragLine.spaceBlocks.map(({ rect }, key) => {
+      {translateHelper.spaceBlocks.map(({ rect }, key) => {
         return (
           <div key={key} className={prefix} style={createRectStyle(rect)}></div>
         )

@@ -39,7 +39,7 @@ export class Selection {
     return this.operation.dispatch(
       new type({
         target: this.operation.tree,
-        source: this.operation.getSelectedNodes(),
+        source: this.selectedNodes,
       })
     )
   }
@@ -78,6 +78,10 @@ export class Selection {
     this.batchSelect(ids)
   }
 
+  get selectedNodes() {
+    return this.selected.map((id) => this.operation.tree.findById(id))
+  }
+
   get first() {
     if (this.selected && this.selected.length) return this.selected[0]
   }
@@ -106,7 +110,7 @@ export class Selection {
 
   crossAddTo(node: TreeNode) {
     if (node.parent) {
-      const selectedNodes = this.operation.getSelectedNodes()
+      const selectedNodes = this.selectedNodes
       if (this.has(node)) {
         this.remove(node)
       } else {

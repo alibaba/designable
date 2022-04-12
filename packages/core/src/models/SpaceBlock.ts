@@ -1,5 +1,5 @@
 import { isEqualRect, calcSpaceBlockOfRect, IRect } from '@designable/shared'
-import { DragLine } from './DragLine'
+import { TranslateHelper } from './TranslateHelper'
 import { TreeNode } from './TreeNode'
 
 export type ISpaceBlockType =
@@ -51,10 +51,10 @@ export class SpaceBlock {
   distance: number
   target: TreeNode
   refer: TreeNode
-  ctx: DragLine
+  ctx: TranslateHelper
   rect: DOMRect
   type: ISpaceBlockType
-  constructor(ctx: DragLine, box: ISpaceBlock) {
+  constructor(ctx: TranslateHelper, box: ISpaceBlock) {
     this.ctx = ctx
     this.distance = box.distance
     this.target = box.target
@@ -82,7 +82,10 @@ export class SpaceBlock {
     const results: SpaceBlock[] = []
     let spaceBlock: SpaceBlock = this as any
     while ((spaceBlock = spaceBlock.next)) {
-      if (Math.abs(spaceBlock.distance - this.distance) < DragLine.threshold) {
+      if (
+        Math.abs(spaceBlock.distance - this.distance) <
+        TranslateHelper.threshold
+      ) {
         if (results.some((box) => box.distance !== spaceBlock.distance))
           continue
         results.push(spaceBlock)

@@ -5,7 +5,7 @@ import {
   calcOffsetOfSnapLineSegmentToEdge,
 } from '@designable/shared'
 import { TreeNode } from './TreeNode'
-import { DragLine } from './DragLine'
+import { TranslateHelper } from './TranslateHelper'
 
 export type IDynamicSnapLine = ISnapLineSegment & {
   id?: string
@@ -19,8 +19,8 @@ export class SnapLine {
   refer: TreeNode
   start: IPoint
   end: IPoint
-  ctx: DragLine
-  constructor(ctx: DragLine, line: IDynamicSnapLine) {
+  ctx: TranslateHelper
+  constructor(ctx: TranslateHelper, line: IDynamicSnapLine) {
     this.ctx = ctx
     this._id = line.id
     this.refer = line.refer
@@ -41,7 +41,7 @@ export class SnapLine {
   }
 
   get closest() {
-    return this.distance < DragLine.threshold
+    return this.distance < TranslateHelper.threshold
   }
 
   get rect() {

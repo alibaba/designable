@@ -2,7 +2,7 @@ import { Engine } from './Engine'
 import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
-import { uid, ICustomEvent, EventContainer } from '@designable/shared'
+import { uid, ICustomEvent, EventContainer, IPoint } from '@designable/shared'
 import {
   HistoryGotoEvent,
   HistoryRedoEvent,
@@ -62,6 +62,8 @@ export class Workspace {
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
       nodeIdAttrName: this.engine.props.nodeIdAttrName,
+      moveSensitive: true,
+      moveInsertionType: 'all',
     })
     this.outline = new Viewport({
       engine: this.engine,
@@ -69,6 +71,8 @@ export class Workspace {
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
       nodeIdAttrName: this.engine.props.outlineNodeIdAttrName,
+      moveSensitive: false,
+      moveInsertionType: 'block',
     })
     this.operation = new Operation(this)
     this.history = new History(this, {

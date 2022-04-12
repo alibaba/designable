@@ -6,7 +6,7 @@ import {
   useValidNodeOffsetRect,
   useTree,
   useCursor,
-  useDragon,
+  useMoveHelper,
   usePrefix,
   useDesigner,
 } from '../../hooks'
@@ -62,8 +62,8 @@ export const Selection = observer(() => {
   const selection = useSelection()
   const tree = useTree()
   const cursor = useCursor()
-  const viewportDragon = useDragon()
-  if (cursor.status !== 'NORMAL' && viewportDragon.touchNode) return null
+  const viewportMoveHelper = useMoveHelper()
+  if (cursor.status !== 'NORMAL' && viewportMoveHelper.touchNode) return null
   return (
     <Fragment>
       {selection.selected.map((id) => {

@@ -19,7 +19,7 @@ export const Delete: React.FC<IDeleteProps> = ({ node, style }) => {
       style={style}
       type="primary"
       onClick={() => {
-        operation.removeNodes([node])
+        TreeNode.remove([node])
       }}
     >
       <IconWidget infer="Remove" />

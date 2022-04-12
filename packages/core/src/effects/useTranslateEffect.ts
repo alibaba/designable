@@ -20,7 +20,7 @@ export const useTranslateEffect = (engine: Engine) => {
           if (nodeId) {
             const node = engine.findNodeById(nodeId)
             if (node) {
-              currentWorkspace?.operation.dragLine.drawStart([node])
+              currentWorkspace?.operation.translateHelper.dragStart([node])
             }
           }
         }
@@ -31,14 +31,14 @@ export const useTranslateEffect = (engine: Engine) => {
     if (engine.cursor.dragType !== CursorDragType.Translate) return
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace
-    const dragLine = currentWorkspace?.operation.dragLine
-    const targets = dragLine.targets
-    const allowTranslate = targets.every((node) => node.allowTranslate())
-    if (!targets.length || !allowTranslate) return
-    dragLine.drawing()
-    targets.forEach((node) => {
+    const translateHelper = currentWorkspace?.operation.translateHelper
+    const dragNodes = translateHelper.dragNodes
+    const allowTranslate = dragNodes.every((node) => node.allowTranslate())
+    if (!dragNodes.length || !allowTranslate) return
+    translateHelper.dragging()
+    dragNodes.forEach((node) => {
       const element = node.getElement()
-      const translate = dragLine.calcSnapTranslate(node)
+      const translate = translateHelper.calcSnapTranslate(node)
       element.style.position = 'absolute'
       element.style.left = '0px'
       element.style.top = '0px'
@@ -49,9 +49,9 @@ export const useTranslateEffect = (engine: Engine) => {
   engine.subscribeTo(DragStopEvent, (event) => {
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace
-    const dragLine = currentWorkspace?.operation.dragLine
-    if (dragLine) {
-      dragLine.drawEnd()
+    const translateHelper = currentWorkspace?.operation.translateHelper
+    if (translateHelper) {
+      translateHelper.dragEnd()
     }
   })
 }

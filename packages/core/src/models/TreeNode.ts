@@ -1,5 +1,5 @@
 import { action, define, observable, toJS } from '@formily/reactive'
-import { uid, isFn } from '@designable/shared'
+import { uid, isFn, each } from '@designable/shared'
 import { Operation } from './Operation'
 import {
   InsertBeforeEvent,
@@ -248,6 +248,10 @@ export class TreeNode {
 
   get outline() {
     return this.operation?.workspace?.outline
+  }
+
+  get moveLayout() {
+    return this.viewport?.getValidNodeLayout(this)
   }
 
   getElement(area: 'viewport' | 'outline' = 'viewport') {
@@ -754,5 +758,110 @@ export class TreeNode {
 
   static findById(id: string) {
     return TreeNodes.get(id)
+  }
+
+  static remove(nodes: TreeNode[] = []) {
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i]
+      if (node.allowDelete()) {
+        const previous = node.previous
+        const next = node.next
+        node.remove()
+        node.operation?.selection.select(
+          previous ? previous : next ? next : node.parent
+        )
+        node.operation?.hover.clear()
+      }
+    }
+  }
+
+  static sort(nodes: TreeNode[] = []) {
+    return nodes.sort((before, after) => {
+      if (before.depth !== after.depth) return 0
+      return before.index - after.index >= 0 ? 1 : -1
+    })
+  }
+
+  static clone(nodes: TreeNode[] = []) {
+    const groups: { [parentId: string]: TreeNode[] } = {}
+    const lastGroupNode: { [parentId: string]: TreeNode } = {}
+    const filterNestedNode = TreeNode.sort(nodes).filter((node) => {
+      return !nodes.some((parent) => {
+        return node.isMyParents(parent)
+      })
+    })
+    each(filterNestedNode, (node) => {
+      if (node === node.root) return
+      if (!node.allowClone()) return
+      if (!node?.operation) return
+      groups[node?.parent?.id] = groups[node?.parent?.id] || []
+      groups[node?.parent?.id].push(node)
+      if (lastGroupNode[node?.parent?.id]) {
+        if (node.index > lastGroupNode[node?.parent?.id].index) {
+          lastGroupNode[node?.parent?.id] = node
+        }
+      } else {
+        lastGroupNode[node?.parent?.id] = node
+      }
+    })
+    const parents = new Map<TreeNode, TreeNode[]>()
+    each(groups, (nodes, parentId) => {
+      const lastNode = lastGroupNode[parentId]
+      let insertPoint = lastNode
+      each(nodes, (node) => {
+        const cloned = node.clone()
+        if (!cloned) return
+        if (
+          node.operation?.selection.has(node) &&
+          insertPoint.parent.allowAppend([cloned])
+        ) {
+          insertPoint.insertAfter(cloned)
+          insertPoint = insertPoint.next
+        } else if (node.operation.selection.length === 1) {
+          const targetNode = node.operation?.tree.findById(
+            node.operation.selection.first
+          )
+          let cloneNodes = parents.get(targetNode)
+          if (!cloneNodes) {
+            cloneNodes = []
+            parents.set(targetNode, cloneNodes)
+          }
+          if (targetNode && targetNode.allowAppend([cloned])) {
+            cloneNodes.push(cloned)
+          }
+        }
+      })
+    })
+    parents.forEach((nodes, target) => {
+      if (!nodes.length) return
+      target.append(...nodes)
+    })
+  }
+
+  static filterDraggable(nodes: TreeNode[] = []) {
+    return nodes.reduce((buf, node) => {
+      if (!node.allowDrag()) return buf
+      if (isFn(node?.designerProps?.getDragNodes)) {
+        const transformed = node.designerProps.getDragNodes(node)
+        return transformed ? buf.concat(transformed) : buf
+      }
+      if (node.componentName === '$$ResourceNode$$')
+        return buf.concat(node.children)
+      return buf.concat([node])
+    }, [])
+  }
+
+  static filterDroppable(nodes: TreeNode[] = [], parent: TreeNode) {
+    return nodes.reduce((buf, node) => {
+      if (!node.allowDrop(parent)) return buf
+      if (isFn(node.designerProps?.getDropNodes)) {
+        const cloned = node.isSourceNode ? node.clone(node.parent) : node
+        const transformed = node.designerProps.getDropNodes(cloned, parent)
+        return transformed ? buf.concat(transformed) : buf
+      }
+      if (node.componentName === '$$ResourceNode$$')
+        return buf.concat(node.children)
+      return buf.concat([node])
+    }, [])
   }
 }
