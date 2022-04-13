@@ -60,21 +60,34 @@ const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
       translateHelper.cursor,
       translateHelper.dragStartCursorOffset
     )
-    const combineLines = calcClosestEdgeLines(
+    const closestLines = calcClosestEdgeLines(
       targetLines,
       cursorLines,
       TranslateHelper.threshold
     )
-    combineLines.h.forEach((line) => {
-      translateHelper.dynamicSnapLines.push(
+    const dynamicSnapLines = translateHelper.dynamicSnapLines
+    closestLines.h.forEach((line) => {
+      const gtLineIndex = dynamicSnapLines.findIndex(
+        (l) => l.direction === 'h' && l.distance != line.distance
+      )
+      if (gtLineIndex > -1) {
+        dynamicSnapLines.splice(gtLineIndex, 1)
+      }
+      dynamicSnapLines.push(
         new SnapLine(translateHelper, {
           refer,
           ...line,
         })
       )
     })
-    combineLines.v.forEach((line) => {
-      translateHelper.dynamicSnapLines.push(
+    closestLines.v.forEach((line) => {
+      const gtLineIndex = dynamicSnapLines.findIndex(
+        (l) => l.direction === 'v' && l.distance != line.distance
+      )
+      if (gtLineIndex > -1) {
+        dynamicSnapLines.splice(gtLineIndex, 1)
+      }
+      dynamicSnapLines.push(
         new SnapLine(translateHelper, {
           refer,
           ...line,
@@ -111,6 +124,15 @@ const calcRulerSnapLines = (translateHelper: TranslateHelper) => {
       fixedLine.distance = minDistance
     }
   })
+}
+
+const calcRulerSpaceBlocks = (translateHelper: TranslateHelper) => {
+  const results: SpaceBlock[] = []
+  for (let type in translateHelper.aroundSpaceBlocks) {
+    if (translateHelper.aroundSpaceBlocks[type])
+      results.push(translateHelper.aroundSpaceBlocks[type])
+  }
+  return results
 }
 export interface ITranslateHelperProps {
   operation: Operation
@@ -156,15 +178,6 @@ export class TranslateHelper {
       }
     })
     return lines
-  }
-
-  calcRulerSpaceBlocks() {
-    const results: SpaceBlock[] = []
-    for (let type in this.aroundSpaceBlocks) {
-      if (this.aroundSpaceBlocks[type])
-        results.push(this.aroundSpaceBlocks[type])
-    }
-    return results
   }
 
   get spaceBlocks(): SpaceBlock[] {
@@ -244,7 +257,7 @@ export class TranslateHelper {
     }
     handler(translate)
     if (snapping) {
-      this.rulerSpaceBlocks = this.calcRulerSpaceBlocks()
+      this.rulerSpaceBlocks = calcRulerSpaceBlocks(this)
     } else {
       this.rulerSpaceBlocks = []
     }

@@ -450,7 +450,6 @@ export function calcClosestEdgeLines(
 ): IRectEdgeLines {
   const h: ISnapLineSegment[] = []
   const v: ISnapLineSegment[] = []
-
   target?.h?.forEach((targetLine) => {
     source?.h?.forEach((sourceLine) => {
       const distance = Math.abs(targetLine.start.y - sourceLine.start.y)
