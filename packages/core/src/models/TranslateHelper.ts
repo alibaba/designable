@@ -232,7 +232,7 @@ export class TranslateHelper {
 
   calcAroundSpaceBlocks(dragNodesRect: IRect): AroundSpaceBlock {
     const closestSpaces = {}
-    this.operation.tree.eachTree((refer) => {
+    this.tree.eachTree((refer) => {
       const referRect = refer.getValidElementOffsetRect()
 
       if (isEqualRect(dragNodesRect, referRect)) return
