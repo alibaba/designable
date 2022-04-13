@@ -2,7 +2,7 @@ import { Engine } from './Engine'
 import { Viewport } from './Viewport'
 import { Operation, IOperation } from './Operation'
 import { History } from './History'
-import { uid, ICustomEvent, EventContainer, IPoint } from '@designable/shared'
+import { uid, ICustomEvent, EventContainer } from '@designable/shared'
 import {
   HistoryGotoEvent,
   HistoryRedoEvent,

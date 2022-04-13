@@ -6,7 +6,6 @@ import {
   calcDistancePointToEdge,
   isNearAfter,
   isPointInRect,
-  isFn,
   IPoint,
 } from '@designable/shared'
 import { DragNodeEvent, DropNodeEvent } from '../events'
