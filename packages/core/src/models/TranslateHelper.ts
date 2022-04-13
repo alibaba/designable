@@ -257,6 +257,8 @@ export class TranslateHelper {
     }
     handler(translate)
     if (snapping) {
+      calcDynamicSnapLines(this)
+      calcRulerSnapLines(this)
       this.rulerSpaceBlocks = calcRulerSpaceBlocks(this)
     } else {
       this.rulerSpaceBlocks = []
