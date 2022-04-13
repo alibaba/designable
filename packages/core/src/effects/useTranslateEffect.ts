@@ -35,7 +35,7 @@ export const useTranslateEffect = (engine: Engine) => {
     const dragNodes = translateHelper.dragNodes
     const allowTranslate = dragNodes.every((node) => node.allowTranslate())
     if (!dragNodes.length || !allowTranslate) return
-    translateHelper.dragging()
+    translateHelper.dragMove()
     dragNodes.forEach((node) => {
       const element = node.getElement()
       translateHelper.translate(node, (translate) => {

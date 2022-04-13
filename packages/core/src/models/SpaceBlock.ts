@@ -1,9 +1,9 @@
 import {
-  isEqualRect,
-  calcSpaceBlockOfRect,
-  IRect,
   calcExtendsLineSegmentOfRect,
+  calcDistanceOfSnapLineToEdges,
+  LineSegment,
 } from '@designable/shared'
+import { SnapLine } from './SnapLine'
 import { TranslateHelper } from './TranslateHelper'
 import { TreeNode } from './TreeNode'
 
@@ -131,5 +131,66 @@ export class SpaceBlock {
       }
     }
     return results
+  }
+
+  get snapLine() {
+    if (!this.isometrics.length) return
+    const nextRect = this.next.rect
+    const referRect = this.refer.getValidElementOffsetRect()
+    let line: LineSegment
+    if (this.type === 'top') {
+      line = new LineSegment(
+        {
+          x: nextRect.left,
+          y: referRect.bottom + nextRect.height,
+        },
+        {
+          x: nextRect.right,
+          y: referRect.bottom + nextRect.height,
+        }
+      )
+    } else if (this.type === 'bottom') {
+      line = new LineSegment(
+        {
+          x: nextRect.left,
+          y: referRect.top - nextRect.height,
+        },
+        {
+          x: nextRect.right,
+          y: referRect.top - nextRect.height,
+        }
+      )
+    } else if (this.type === 'left') {
+      line = new LineSegment(
+        {
+          x: referRect.right + nextRect.width,
+          y: nextRect.top,
+        },
+        {
+          x: referRect.right + nextRect.width,
+          y: nextRect.bottom,
+        }
+      )
+    } else {
+      line = new LineSegment(
+        {
+          x: referRect.left - nextRect.width,
+          y: nextRect.top,
+        },
+        {
+          x: referRect.left - nextRect.width,
+          y: nextRect.bottom,
+        }
+      )
+    }
+    const distance = calcDistanceOfSnapLineToEdges(
+      line,
+      this.ctx.dragNodesEdgeLines
+    )
+    return new SnapLine(this.ctx, {
+      ...line,
+      distance,
+      type: 'space-block',
+    })
   }
 }

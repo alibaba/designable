@@ -28,7 +28,8 @@ export const SnapLine = observer(() => {
     return null
   return (
     <>
-      {translateHelper.dynamicSnapLines.map((line, key) => {
+      {translateHelper.closestSnapLines.map((line, key) => {
+        if (line.type !== 'normal') return null
         return (
           <div
             key={key}

@@ -69,7 +69,7 @@ export const SpaceBlock = observer(() => {
 
   return (
     <>
-      {translateHelper.rulerSpaceBlocks.map(
+      {translateHelper.measurerSpaceBlocks.map(
         ({ type, crossDragNodesRect, distance, extendsLine }, key) => {
           return (
             <Fragment>
@@ -92,7 +92,7 @@ export const SpaceBlock = observer(() => {
           )
         }
       )}
-      {translateHelper.spaceBlocks.map(({ rect }, key) => {
+      {translateHelper.thresholdSpaceBlocks.map(({ rect }, key) => {
         return (
           <div
             key={key}
@@ -104,7 +104,8 @@ export const SpaceBlock = observer(() => {
               width: rect.width,
               transform: `perspective(1px) translate3d(${rect.x}px,${rect.y}px,0)`,
               position: 'absolute',
-              zIndex: 3,
+              background: 'rgba(255, 0, 0, 0.2)',
+              zIndex: 1,
             }}
           ></div>
         )

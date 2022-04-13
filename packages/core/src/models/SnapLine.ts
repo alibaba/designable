@@ -1,26 +1,32 @@
 import {
   calcRectOfAxisLineSegment,
-  ISnapLineSegment,
+  ILineSegment,
   IPoint,
   calcOffsetOfSnapLineSegmentToEdge,
 } from '@designable/shared'
 import { TreeNode } from './TreeNode'
 import { TranslateHelper } from './TranslateHelper'
 
-export type IDynamicSnapLine = ISnapLineSegment & {
+export type ISnapLineType = 'ruler' | 'space-block' | 'normal'
+
+export type ISnapLine = ILineSegment & {
+  type?: ISnapLineType
+  distance?: number
   id?: string
   refer?: TreeNode
 }
 
 export class SnapLine {
   _id: string
+  type: ISnapLineType
   distance: number
   refer: TreeNode
   start: IPoint
   end: IPoint
   ctx: TranslateHelper
-  constructor(ctx: TranslateHelper, line: IDynamicSnapLine) {
+  constructor(ctx: TranslateHelper, line: ISnapLine) {
     this.ctx = ctx
+    this.type = line.type || 'normal'
     this._id = line.id
     this.refer = line.refer
     this.start = { ...line.start }

@@ -78,7 +78,7 @@ export const useDragDropEffect = (engine: Engine) => {
       const tree = operation.tree
       if (!dragNodes.length) return
       const touchNode = tree.findById(outlineId || nodeId)
-      moveHelper.dragging({
+      moveHelper.dragMove({
         point,
         touchNode,
       })
@@ -118,7 +118,7 @@ export const useDragDropEffect = (engine: Engine) => {
       engine.props.outlineNodeIdAttrName
     )
     const touchNode = tree.findById(outlineNodeId || nodeId)
-    moveHelper.dragging({ point, touchNode })
+    moveHelper.dragMove({ point, touchNode })
   })
 
   engine.subscribeTo(DragStopEvent, () => {

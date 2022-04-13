@@ -10,14 +10,8 @@ export interface ILineSegment {
 }
 
 export interface IRectEdgeLines {
-  v: ISnapLineSegment[]
-  h: ISnapLineSegment[]
-}
-
-export type ISnapLineSegment = {
-  distance?: number
-  start: IPoint
-  end: IPoint
+  v: ILineSegment[]
+  h: ILineSegment[]
 }
 
 export function isRect(rect: any): rect is IRect {
@@ -30,13 +24,6 @@ export function isPoint(val: any): val is IPoint {
 
 export function isLineSegment(val: any): val is ILineSegment {
   return isPoint(val?.start) && isPoint(val?.end)
-}
-
-export function isSnapLineSegment(val: any): val is ISnapLineSegment {
-  return (
-    isLineSegment(val) &&
-    (val.start.x === val.end.x || val.start.y === val.end.y)
-  )
 }
 
 export class Point implements IPoint {
@@ -369,163 +356,6 @@ export function calcEdgeLinesOfRect(rect: IRect): IRectEdgeLines {
   }
 }
 
-export function calcCombineSnapLineSegment(
-  target: ILineSegment,
-  source: ILineSegment
-): ILineSegment {
-  if (target.start.x === target.end.x) {
-    return new LineSegment(
-      new Point(
-        target.start.x,
-        target.start.y > source.start.y ? source.start.y : target.start.y
-      ),
-      new Point(
-        target.start.x,
-        target.end.y > source.end.y ? target.end.y : source.end.y
-      )
-    )
-  }
-
-  return new LineSegment(
-    new Point(
-      target.start.x > source.start.x ? source.start.x : target.start.x,
-      target.start.y
-    ),
-    new Point(
-      target.end.x > source.end.x ? target.end.x : source.end.x,
-      target.end.y
-    )
-  )
-}
-
-/**
- * 求与目标矩形的鼠标跟随克隆矩形
- * @param rect
- * @param cursor
- * @param offset
- * @returns
- */
-export function calcCursorEdgeLinesOfRect(
-  rect: IRect,
-  cursor: IPoint,
-  offset: IPoint
-): IRectEdgeLines {
-  const vertex = new Point(cursor.x - offset.x, cursor.y - offset.y)
-  return {
-    v: [
-      new LineSegment(
-        new Point(vertex.x, vertex.y),
-        new Point(vertex.x, vertex.y + rect.height)
-      ),
-      new LineSegment(
-        new Point(vertex.x + rect.width / 2, vertex.y),
-        new Point(vertex.x + rect.width / 2, vertex.y + rect.height)
-      ),
-      new LineSegment(
-        new Point(vertex.x + rect.width, vertex.y),
-        new Point(vertex.x + rect.width, vertex.y + rect.height)
-      ),
-    ],
-    h: [
-      new LineSegment(
-        new Point(vertex.x, vertex.y),
-        new Point(vertex.x + rect.width, vertex.y)
-      ),
-      new LineSegment(
-        new Point(vertex.x, vertex.y + rect.height / 2),
-        new Point(vertex.x + rect.width, vertex.y + rect.height / 2)
-      ),
-      new LineSegment(
-        new Point(vertex.x, vertex.y + rect.height),
-        new Point(vertex.x + rect.width, vertex.y + rect.height)
-      ),
-    ],
-  }
-}
-
-export function calcClosestEdgeLines(
-  target: IRectEdgeLines,
-  source: IRectEdgeLines,
-  maxDistance = 5
-): IRectEdgeLines {
-  const h: ISnapLineSegment[] = []
-  const v: ISnapLineSegment[] = []
-  target?.h?.forEach((targetLine) => {
-    source?.h?.forEach((sourceLine) => {
-      const distance = Math.abs(targetLine.start.y - sourceLine.start.y)
-      if (distance < maxDistance) {
-        const line: ISnapLineSegment = calcCombineSnapLineSegment(
-          targetLine,
-          sourceLine
-        )
-        line.distance = distance
-        h.push(line)
-      }
-    })
-  })
-
-  target?.v?.forEach((targetLine) => {
-    source?.v?.forEach((sourceLine) => {
-      const distance = Math.abs(targetLine.start.x - sourceLine.start.x)
-      if (distance < maxDistance) {
-        const line: ISnapLineSegment = calcCombineSnapLineSegment(
-          targetLine,
-          sourceLine
-        )
-        line.distance = distance
-        v.push(line)
-      }
-    })
-  })
-  return { h, v }
-}
-
-export function calcDistanceOfLienSegment(
-  target: ILineSegment,
-  source: ILineSegment
-) {
-  if (target.start.x === source.end.x) {
-    return Math.abs(source.start.y - target.start.y)
-  }
-  return Math.abs(source.start.x - target.start.x)
-}
-
-export function calcOffsetOfSnapLineSegmentToEdge(
-  line: ISnapLineSegment,
-  current: IRect
-) {
-  const edges = calcEdgeLinesOfRect(current)
-  const isVerticalLine = line.start.x === line.end.x
-  if (isVerticalLine) {
-    return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
-  }
-  function calcEdgeLinesOfRect(rect: IRect) {
-    return {
-      x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
-      y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
-    }
-  }
-  function calcMinDistanceValue(edges: number[], targetValue: number) {
-    let minDistance = Infinity,
-      minDistanceIndex = -1
-    for (let i = 0; i < edges.length; i++) {
-      const distance = Math.abs(edges[i] - targetValue)
-      if (minDistance > distance) {
-        minDistance = distance
-        minDistanceIndex = i
-      }
-    }
-    return edges[minDistanceIndex]
-  }
-
-  return { x: 0, y: calcMinDistanceValue(edges.y, line.start.y) - current.y }
-}
-
-/**
- * 计算坐标线的小矩形
- * @param line
- * @returns
- */
 export function calcRectOfAxisLineSegment(line: ILineSegment) {
   if (!isLineSegment(line)) return
   const isXAxis = line.start.x === line.end.x
@@ -605,10 +435,10 @@ export function calcSpaceBlockOfRect(
   }
 }
 
-export const calcExtendsLineSegmentOfRect = (
+export function calcExtendsLineSegmentOfRect(
   targetRect: DOMRect,
   referRect: DOMRect
-) => {
+) {
   if (
     referRect.right < targetRect.right &&
     targetRect.left <= referRect.right
@@ -680,4 +510,117 @@ export const calcExtendsLineSegmentOfRect = (
       }
     }
   }
+}
+
+export function calcOffsetOfSnapLineSegmentToEdge(
+  line: ILineSegment,
+  current: IRect
+) {
+  const edges = calcEdgeLinesOfRect(current)
+  const isVerticalLine = line.start.x === line.end.x
+  if (isVerticalLine) {
+    return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
+  }
+  function calcEdgeLinesOfRect(rect: IRect) {
+    return {
+      x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
+      y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
+    }
+  }
+  function calcMinDistanceValue(edges: number[], targetValue: number) {
+    let minDistance = Infinity,
+      minDistanceIndex = -1
+    for (let i = 0; i < edges.length; i++) {
+      const distance = Math.abs(edges[i] - targetValue)
+      if (minDistance > distance) {
+        minDistance = distance
+        minDistanceIndex = i
+      }
+    }
+    return edges[minDistanceIndex]
+  }
+
+  return { x: 0, y: calcMinDistanceValue(edges.y, line.start.y) - current.y }
+}
+
+export function calcDistanceOfSnapLineToEdges(
+  line: ILineSegment,
+  edges: IRectEdgeLines
+) {
+  let distance = Infinity
+  if (line?.start?.y === line?.end?.y) {
+    edges.h.forEach((target) => {
+      const _distance = Math.abs(target.start.y - line.start.y)
+      if (_distance < distance) {
+        distance = _distance
+      }
+    })
+  } else if (line?.start?.x === line?.end?.x) {
+    edges.v.forEach((target) => {
+      const _distance = Math.abs(target.start.x - line.start.x)
+      if (_distance < distance) {
+        distance = _distance
+      }
+    })
+  } else {
+    throw new Error('can not calculate slash distance')
+  }
+  return distance
+}
+
+export function calcCombineSnapLineSegment(
+  target: ILineSegment,
+  source: ILineSegment
+): ILineSegment {
+  if (target.start.x === target.end.x) {
+    return new LineSegment(
+      new Point(
+        target.start.x,
+        target.start.y > source.start.y ? source.start.y : target.start.y
+      ),
+      new Point(
+        target.start.x,
+        target.end.y > source.end.y ? target.end.y : source.end.y
+      )
+    )
+  }
+
+  return new LineSegment(
+    new Point(
+      target.start.x > source.start.x ? source.start.x : target.start.x,
+      target.start.y
+    ),
+    new Point(
+      target.end.x > source.end.x ? target.end.x : source.end.x,
+      target.end.y
+    )
+  )
+}
+
+export function calcClosestEdges(
+  line: ILineSegment,
+  edges: IRectEdgeLines
+): [number, ILineSegment] {
+  let result: ILineSegment
+  let distance = Infinity
+  if (line?.start?.y === line?.end?.y) {
+    edges.h.forEach((target) => {
+      const _distance = Math.abs(target.start.y - line.start.y)
+      if (_distance < distance) {
+        distance = _distance
+        result = target
+      }
+    })
+  } else if (line?.start?.x === line?.end?.x) {
+    edges.v.forEach((target) => {
+      const _distance = Math.abs(target.start.x - line.start.x)
+      if (_distance < distance) {
+        distance = _distance
+        result = target
+      }
+    })
+  } else {
+    throw new Error('can not calculate slash distance')
+  }
+  return [distance, result]
 }

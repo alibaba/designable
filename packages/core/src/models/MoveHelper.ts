@@ -268,7 +268,7 @@ export class MoveHelper {
     this.operation.engine.cursor.setDragType(CursorDragType.Move)
   }
 
-  dragging(props: IMoveHelperDraggingProps) {
+  dragMove(props: IMoveHelperDraggingProps) {
     const { point, touchNode } = props
     if (this.outline.isPointInViewport(point, false)) {
       this.activeViewport = this.outline
@@ -352,7 +352,7 @@ export class MoveHelper {
       viewportClosestOffsetRect: observable.ref,
       viewportClosestRect: observable.ref,
       dragStart: action,
-      dragging: action,
+      dragMove: action,
       dragEnd: action,
     })
   }

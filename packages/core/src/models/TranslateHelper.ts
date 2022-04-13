@@ -1,139 +1,25 @@
 import {
-  isSnapLineSegment,
   Point,
   IPoint,
   calcEdgeLinesOfRect,
-  calcCursorEdgeLinesOfRect,
-  calcClosestEdgeLines,
-  calcDistanceOfLienSegment,
   calcBoundingRect,
   calcSpaceBlockOfRect,
+  calcElementTranslate,
+  calcDistanceOfSnapLineToEdges,
   IRect,
   isEqualRect,
+  isLineSegment,
+  ILineSegment,
+  calcClosestEdges,
+  calcCombineSnapLineSegment,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
 import { SpaceBlock, AroundSpaceBlock } from './SpaceBlock'
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
-import { SnapLine, IDynamicSnapLine } from './SnapLine'
+import { SnapLine, ISnapLine } from './SnapLine'
 import { CursorDragType } from './Cursor'
 
-const parseElementTranslate = (element: HTMLElement) => {
-  const transform = element?.style?.transform
-  if (transform) {
-    const [x, y] = transform
-      .match(
-        /translate(?:3d)?\(\s*([-\d.]+)[a-z]+?[\s,]+([-\d.]+)[a-z]+?(?:[\s,]+([-\d.]+))?[a-z]+?\s*\)/
-      )
-      ?.slice(1, 3) ?? [0, 0]
-
-    return new Point(Number(x), Number(y))
-  } else {
-    return new Point(Number(element.offsetLeft), Number(element.offsetTop))
-  }
-}
-
-const calcTranslate = (translateHelper: TranslateHelper, node: TreeNode) => {
-  const cursor = translateHelper.operation.engine.cursor
-  const deltaX = cursor.dragStartToCurrentDelta.clientX
-  const deltaY = cursor.dragStartToCurrentDelta.clientY
-  const dragStartTranslate = translateHelper.dragStartTranslateStore[
-    node.id
-  ] ?? {
-    x: 0,
-    y: 0,
-  }
-  const x = dragStartTranslate.x + deltaX,
-    y = dragStartTranslate.y + deltaY
-  return { x, y }
-}
-
-const calcDynamicSnapLines = (translateHelper: TranslateHelper) => {
-  if (!translateHelper.dragNodes.length) return
-  const tree = translateHelper.operation.tree
-  tree.eachTree((refer) => {
-    if (translateHelper.dragNodes.includes(refer)) return
-    const referRect = refer.getValidElementOffsetRect()
-    const targetLines = calcEdgeLinesOfRect(referRect)
-    const cursorLines = calcCursorEdgeLinesOfRect(
-      translateHelper.dragNodesRect,
-      translateHelper.cursor,
-      translateHelper.dragStartCursorOffset
-    )
-    const closestLines = calcClosestEdgeLines(
-      targetLines,
-      cursorLines,
-      TranslateHelper.threshold
-    )
-    const dynamicSnapLines = translateHelper.dynamicSnapLines
-    closestLines.h.forEach((line) => {
-      const gtLineIndex = dynamicSnapLines.findIndex(
-        (l) => l.direction === 'h' && l.distance != line.distance
-      )
-      if (gtLineIndex > -1) {
-        dynamicSnapLines.splice(gtLineIndex, 1)
-      }
-      dynamicSnapLines.push(
-        new SnapLine(translateHelper, {
-          refer,
-          ...line,
-        })
-      )
-    })
-    closestLines.v.forEach((line) => {
-      const gtLineIndex = dynamicSnapLines.findIndex(
-        (l) => l.direction === 'v' && l.distance != line.distance
-      )
-      if (gtLineIndex > -1) {
-        dynamicSnapLines.splice(gtLineIndex, 1)
-      }
-      dynamicSnapLines.push(
-        new SnapLine(translateHelper, {
-          refer,
-          ...line,
-        })
-      )
-    })
-    translateHelper.aroundSpaceBlocks = translateHelper.calcAroundSpaceBlocks(
-      translateHelper.dragNodesRect
-    )
-  })
-}
-
-const calcRulerSnapLines = (translateHelper: TranslateHelper) => {
-  if (!translateHelper.dragNodes.length) return
-  translateHelper.rulerSnapLines.forEach((fixedLine) => {
-    const cursorLines = calcCursorEdgeLinesOfRect(
-      translateHelper.dragNodesRect,
-      translateHelper.cursor,
-      translateHelper.dragStartCursorOffset
-    )
-    if (fixedLine.direction === 'h') {
-      const minDistance = Math.min(
-        ...cursorLines.h.map((line) =>
-          calcDistanceOfLienSegment(line, fixedLine)
-        )
-      )
-      fixedLine.distance = minDistance
-    } else {
-      const minDistance = Math.min(
-        ...cursorLines.v.map((line) =>
-          calcDistanceOfLienSegment(line, fixedLine)
-        )
-      )
-      fixedLine.distance = minDistance
-    }
-  })
-}
-
-const calcRulerSpaceBlocks = (translateHelper: TranslateHelper) => {
-  const results: SpaceBlock[] = []
-  for (let type in translateHelper.aroundSpaceBlocks) {
-    if (translateHelper.aroundSpaceBlocks[type])
-      results.push(translateHelper.aroundSpaceBlocks[type])
-  }
-  return results
-}
 export interface ITranslateHelperProps {
   operation: Operation
 }
@@ -145,51 +31,51 @@ export class TranslateHelper {
 
   rulerSnapLines: SnapLine[] = []
 
-  dynamicSnapLines: SnapLine[] = []
-
-  rulerSpaceBlocks: SpaceBlock[] = []
-
-  dragStartTranslateStore: Record<string, IPoint> = {}
+  aroundSnapLines: SnapLine[] = []
 
   aroundSpaceBlocks: AroundSpaceBlock = null
 
+  dragStartTranslateStore: Record<string, IPoint> = {}
+
   dragStartTargetRect: IRect = null
+
+  snapping = false
+
+  dragging = true
+
+  requestTimer = null
 
   constructor(props: ITranslateHelperProps) {
     this.operation = props.operation
     this.makeObservable()
   }
 
+  get tree() {
+    return this.operation.tree
+  }
+
   get cursor() {
-    const position = this.operation.engine.cursor.position
+    return this.operation.engine.cursor
+  }
+
+  get cursorPosition() {
+    const position = this.cursor.position
     return this.operation.workspace.viewport.getOffsetPoint(
       new Point(position.clientX, position.clientY)
     )
   }
 
-  get closestSnapLines() {
-    const lines: SnapLine[] = []
-    this.dynamicSnapLines.forEach((line) => {
-      lines.push(line)
-    })
-    this.rulerSnapLines.forEach((line) => {
-      if (line.closest) {
-        lines.push(line)
-      }
-    })
-    return lines
+  get cursorDragNodesRect() {
+    return new DOMRect(
+      this.cursorPosition.x - this.dragStartCursorOffset.x,
+      this.cursorPosition.y - this.dragStartCursorOffset.y,
+      this.dragNodesRect.width,
+      this.dragNodesRect.height
+    )
   }
 
-  get spaceBlocks(): SpaceBlock[] {
-    const results = []
-    for (let type in this.aroundSpaceBlocks) {
-      const box: SpaceBlock = this.aroundSpaceBlocks[type]
-      if (box.isometrics.length) {
-        results.push(box)
-        results.push(...box.isometrics)
-      }
-    }
-    return results
+  get cursorDragNodesEdgeLines() {
+    return calcEdgeLinesOfRect(this.cursorDragNodesRect)
   }
 
   get dragNodesRect() {
@@ -198,10 +84,14 @@ export class TranslateHelper {
     )
   }
 
+  get dragNodesEdgeLines() {
+    return calcEdgeLinesOfRect(this.dragNodesRect)
+  }
+
   get cursorOffset() {
     return new Point(
-      this.cursor.x - this.dragNodesRect.x,
-      this.cursor.y - this.dragNodesRect.y
+      this.cursorPosition.x - this.dragNodesRect.x,
+      this.cursorPosition.y - this.dragNodesRect.y
     )
   }
 
@@ -217,6 +107,127 @@ export class TranslateHelper {
       this.dragStartCursor.x - this.dragStartTargetRect.x,
       this.dragStartCursor.y - this.dragStartTargetRect.y
     )
+  }
+
+  get closestSnapLines() {
+    const results: SnapLine[] = []
+    const cursorDragNodesEdgeLines = this.cursorDragNodesEdgeLines
+    this.thresholdSnapLines.forEach((line) => {
+      const distance = calcDistanceOfSnapLineToEdges(
+        line,
+        cursorDragNodesEdgeLines
+      )
+      if (distance < TranslateHelper.threshold) {
+        const existed = results.findIndex(
+          (l) => l.distance > distance && l.direction === line.direction
+        )
+        if (existed > -1) {
+          results.splice(existed, 1)
+        }
+        results.push(line)
+      }
+    })
+    return results
+  }
+
+  get closestSpaceBlocks(): SpaceBlock[] {
+    const cursorDragNodesEdgeLines = this.cursorDragNodesEdgeLines
+    return this.thresholdSpaceBlocks.filter((block) => {
+      const line = block.snapLine
+      if (!line) return false
+      return (
+        calcDistanceOfSnapLineToEdges(line, cursorDragNodesEdgeLines) <
+        TranslateHelper.threshold
+      )
+    })
+  }
+
+  get thresholdSnapLines(): SnapLine[] {
+    const lines: SnapLine[] = []
+    this.aroundSnapLines.forEach((line) => {
+      lines.push(line)
+    })
+    this.rulerSnapLines.forEach((line) => {
+      if (line.closest) {
+        lines.push(line)
+      }
+    })
+    for (let type in this.aroundSpaceBlocks) {
+      const block = this.aroundSpaceBlocks[type]
+      const line = block.snapLine
+      if (line) {
+        lines.push(line)
+      }
+    }
+    return lines
+  }
+
+  get thresholdSpaceBlocks(): SpaceBlock[] {
+    const results = []
+    if (!this.snapping) return []
+    for (let type in this.aroundSpaceBlocks) {
+      const block = this.aroundSpaceBlocks[type]
+      if (block.isometrics.length) {
+        results.push(block)
+        results.push(...block.isometrics)
+      }
+    }
+    return results
+  }
+
+  get measurerSpaceBlocks(): SpaceBlock[] {
+    if (!this.snapping) return []
+    const results: SpaceBlock[] = []
+    for (let type in this.aroundSpaceBlocks) {
+      if (this.aroundSpaceBlocks[type])
+        results.push(this.aroundSpaceBlocks[type])
+    }
+    return results
+  }
+
+  calcBaseTranslate(node: TreeNode) {
+    const deltaX = this.cursor.dragStartToCurrentDelta.clientX
+    const deltaY = this.cursor.dragStartToCurrentDelta.clientY
+    const dragStartTranslate = this.dragStartTranslateStore[node.id] ?? {
+      x: 0,
+      y: 0,
+    }
+    const x = dragStartTranslate.x + deltaX,
+      y = dragStartTranslate.y + deltaY
+    return { x, y }
+  }
+
+  calcRulerSnapLines(dragNodesRect: IRect): SnapLine[] {
+    const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
+    return this.rulerSnapLines.map((line) => {
+      line.distance = calcDistanceOfSnapLineToEdges(line, edgeLines)
+      return line
+    })
+  }
+
+  calcAroundSnapLines(dragNodesRect: IRect): SnapLine[] {
+    const results = []
+    const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
+    this.tree.eachTree((refer) => {
+      if (this.dragNodes.includes(refer)) return
+      const referRect = refer.getValidElementOffsetRect()
+      const referLines = calcEdgeLinesOfRect(referRect)
+      const add = (line: ILineSegment) => {
+        const [distance, edge] = calcClosestEdges(line, edgeLines)
+        const combined = calcCombineSnapLineSegment(line, edge)
+        if (distance < TranslateHelper.threshold) {
+          results.push(
+            new SnapLine(this, {
+              ...combined,
+              distance,
+            })
+          )
+        }
+      }
+      referLines.h.forEach(add)
+      referLines.v.forEach(add)
+    })
+    return results
   }
 
   calcAroundSpaceBlocks(dragNodesRect: IRect): AroundSpaceBlock {
@@ -244,24 +255,20 @@ export class TranslateHelper {
   }
 
   translate(node: TreeNode, handler: (data: IPoint) => void) {
-    const translate = calcTranslate(this, node)
-    let snapping = false
+    const translate = this.calcBaseTranslate(node)
+    this.snapping = false
     for (let line of this.closestSnapLines) {
       if (line.direction === 'h') {
         translate.y = line.getTranslate(node)
-        snapping = true
+        this.snapping = true
       } else {
         translate.x = line.getTranslate(node)
-        snapping = true
+        this.snapping = true
       }
     }
     handler(translate)
-    if (snapping) {
-      calcDynamicSnapLines(this)
-      calcRulerSnapLines(this)
-      this.rulerSpaceBlocks = calcRulerSpaceBlocks(this)
-    } else {
-      this.rulerSpaceBlocks = []
+    if (this.snapping) {
+      this.dragMove()
     }
   }
 
@@ -269,13 +276,10 @@ export class TranslateHelper {
     return this.rulerSnapLines.find((item) => item.id === id)
   }
 
-  addRulerSnapLine(line: IDynamicSnapLine) {
-    if (!isSnapLineSegment(line)) return
-    const matchedLineIndex = this.rulerSnapLines.findIndex(
-      (item) => item.id === line.id
-    )
-    if (matchedLineIndex == -1) {
-      this.rulerSnapLines.push(new SnapLine(this, line))
+  addRulerSnapLine(line: ISnapLine) {
+    if (!isLineSegment(line)) return
+    if (!this.findRulerSnapLine(line.id)) {
+      this.rulerSnapLines.push(new SnapLine(this, { ...line, type: 'ruler' }))
     }
   }
 
@@ -289,43 +293,50 @@ export class TranslateHelper {
   }
 
   dragStart(nodes: TreeNode[] = []) {
+    this.dragging = true
     this.dragNodes = nodes
     this.dragStartTargetRect = this.dragNodesRect
     this.dragStartTranslateStore = nodes.reduce((buf, node) => {
-      buf[node.id] = parseElementTranslate(node.getElement())
+      buf[node.id] = calcElementTranslate(node.getElement())
       return buf
     }, {})
-    this.operation.engine.cursor.setDragType(CursorDragType.Translate)
+    this.cursor.setDragType(CursorDragType.Translate)
   }
 
-  dragging() {
-    this.dynamicSnapLines = []
-    this.aroundSpaceBlocks = null
-    calcDynamicSnapLines(this)
-    calcRulerSnapLines(this)
+  dragMove() {
+    this.rulerSnapLines = this.calcRulerSnapLines(this.dragNodesRect)
+    this.aroundSnapLines = this.calcAroundSnapLines(this.dragNodesRect)
+    this.aroundSpaceBlocks = this.calcAroundSpaceBlocks(this.dragNodesRect)
   }
 
   dragEnd() {
-    this.dynamicSnapLines = []
+    this.dragging = false
+    this.dragStartTranslateStore = {}
+    this.aroundSnapLines = []
     this.aroundSpaceBlocks = null
     this.dragStartTargetRect = null
     this.dragNodes = []
-    this.operation.engine.cursor.setDragType(CursorDragType.Move)
+    this.cursor.setDragType(CursorDragType.Move)
   }
 
   makeObservable() {
     define(this, {
+      snapping: observable.ref,
       dragNodes: observable.shallow,
       rulerSnapLines: observable.shallow,
-      dynamicSnapLines: observable.shallow,
+      aroundSnapLines: observable.shallow,
       aroundSpaceBlocks: observable.shallow,
       closestSnapLines: observable.computed,
-      rulerSpaceBlocks: observable.shallow,
-      spaceBlocks: observable.computed,
+      thresholdSnapLines: observable.computed,
+      thresholdSpaceBlocks: observable.computed,
+      measurerSpaceBlocks: observable.computed,
       cursor: observable.computed,
+      cursorPosition: observable.computed,
+      cursorOffset: observable.computed,
       dragStartCursor: observable.computed,
+      translate: action,
       dragStart: action,
-      dragging: action,
+      dragMove: action,
       dragEnd: action,
     })
   }
