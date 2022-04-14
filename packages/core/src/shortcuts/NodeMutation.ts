@@ -9,7 +9,7 @@ export const DeleteNodes = new Shortcut({
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {
-      operation.removeNodes(operation.getSelectedNodes())
+      TreeNode.remove(operation.selection.selectedNodes)
     }
   },
 })
@@ -30,7 +30,7 @@ export const CopyNodes = new Shortcut({
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {
-      Clipboard.nodes = operation.getSelectedNodes()
+      Clipboard.nodes = operation.selection.selectedNodes
     }
   },
 })
@@ -43,7 +43,7 @@ export const PasteNodes = new Shortcut({
   handler(context) {
     const operation = context?.workspace.operation
     if (operation) {
-      operation.cloneNodes(Clipboard.nodes)
+      TreeNode.clone(Clipboard.nodes)
     }
   },
 })

@@ -1,3 +1,5 @@
+import { Point } from './coordinate'
+
 const InlineLayoutTagNames = new Set([
   'A',
   'ABBR',
@@ -104,5 +106,20 @@ export const calcElementLayout = (element: Element) => {
       return 'vertical'
     }
     return 'horizontal'
+  }
+}
+
+export const calcElementTranslate = (element: HTMLElement) => {
+  const transform = element?.style?.transform
+  if (transform) {
+    const [x, y] = transform
+      .match(
+        /translate(?:3d)?\(\s*([-\d.]+)[a-z]+?[\s,]+([-\d.]+)[a-z]+?(?:[\s,]+([-\d.]+))?[a-z]+?\s*\)/
+      )
+      ?.slice(1, 3) ?? [0, 0]
+
+    return new Point(Number(x), Number(y))
+  } else {
+    return new Point(Number(element.offsetLeft), Number(element.offsetTop))
   }
 }

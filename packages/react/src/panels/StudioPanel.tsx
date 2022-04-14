@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { usePrefix, usePosition } from '../hooks'
 import { Layout } from '../containers'
 import cls from 'classnames'
@@ -22,10 +22,7 @@ const StudioPanelInternal: React.FC<IStudioPanelProps> = ({
   const classNameBase = cls('root', position, props.className)
   if (logo || actions) {
     return (
-      <div
-        {...props}
-        className={cls(`${prefix}-container`, classNameBase)}
-      >
+      <div {...props} className={cls(`${prefix}-container`, classNameBase)}>
         <div className={prefix + '-header'}>
           <div className={prefix + '-header-logo'}>{logo}</div>
           <div className={prefix + '-header-actions'}>{actions}</div>

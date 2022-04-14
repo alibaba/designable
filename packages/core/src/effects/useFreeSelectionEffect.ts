@@ -9,7 +9,7 @@ import {
 
 export const useFreeSelectionEffect = (engine: Engine) => {
   engine.subscribeTo(DragStopEvent, (event) => {
-    if (engine.cursor.dragType !== CursorDragType.Normal) {
+    if (engine.cursor.dragType !== CursorDragType.Move) {
       return
     }
     engine.workbench.eachWorkspace((workspace) => {

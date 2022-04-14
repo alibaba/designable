@@ -116,7 +116,7 @@ const useResizeEffect = (
     if (!status) return
     status = null
     engine.cursor.setStyle('')
-    engine.cursor.setDragType(CursorDragType.Normal)
+    engine.cursor.setDragType(CursorDragType.Move)
     if (animationX) {
       animationX = animationX()
     }

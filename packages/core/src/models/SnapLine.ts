@@ -1,28 +1,34 @@
 import {
   calcRectOfAxisLineSegment,
-  ISnapLineSegment,
+  ILineSegment,
   IPoint,
   calcOffsetOfSnapLineSegmentToEdge,
 } from '@designable/shared'
 import { TreeNode } from './TreeNode'
-import { DragLine } from './DragLine'
+import { TranslateHelper } from './TranslateHelper'
 
-export type IDynamicSnapLine = ISnapLineSegment & {
+export type ISnapLineType = 'ruler' | 'space-block' | 'normal'
+
+export type ISnapLine = ILineSegment & {
+  type?: ISnapLineType
+  distance?: number
   id?: string
-  node?: TreeNode
+  refer?: TreeNode
 }
 
 export class SnapLine {
   _id: string
+  type: ISnapLineType
   distance: number
-  node: TreeNode
+  refer: TreeNode
   start: IPoint
   end: IPoint
-  ctx: DragLine
-  constructor(ctx: DragLine, line: IDynamicSnapLine) {
+  ctx: TranslateHelper
+  constructor(ctx: TranslateHelper, line: ISnapLine) {
     this.ctx = ctx
+    this.type = line.type || 'normal'
     this._id = line.id
-    this.node = line.node
+    this.refer = line.refer
     this.start = { ...line.start }
     this.end = { ...line.end }
     this.distance = line.distance
@@ -40,34 +46,23 @@ export class SnapLine {
   }
 
   get closest() {
-    return this.distance < DragLine.threshold
+    return this.distance < TranslateHelper.threshold
   }
 
   get rect() {
     return calcRectOfAxisLineSegment(this)
   }
 
-  get relativeFromNodeVertex() {
-    if (!this.node || !this.node?.parent) return
-    const node = this.node
-    const parent = this.node.parent
-    const selfRef = node.getValidElementOffsetRect()
+  getTranslate(node: TreeNode) {
+    if (!node || !node?.parent) return
+    const parent = node.parent
+    const dragNodeRect = node.getValidElementOffsetRect()
     const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, selfRef)
-    return new SnapLine(this.ctx, {
-      ...this,
-      start: {
-        x: this.start.x - parentRect.x - edgeOffset.x,
-        y: this.start.y - parentRect.y - edgeOffset.y,
-      },
-      end: {
-        x: this.end.x - parentRect.x - edgeOffset.x,
-        y: this.end.y - parentRect.y - edgeOffset.y,
-      },
-    })
-  }
-
-  get vertexOffset() {
-    return this.node?.getDraggingVertexOffset()
+    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodeRect)
+    if (this.direction === 'h') {
+      return this.start.y - parentRect.y - edgeOffset.y
+    } else {
+      return this.start.x - parentRect.x - edgeOffset.x
+    }
   }
 }

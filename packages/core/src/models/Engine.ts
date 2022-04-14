@@ -54,7 +54,7 @@ export class Engine extends Event {
     let results: TreeNode[] = []
     for (let i = 0; i < this.workbench.workspaces.length; i++) {
       const workspace = this.workbench.workspaces[i]
-      results = results.concat(workspace.operation.getSelectedNodes())
+      results = results.concat(workspace.operation.selection.selectedNodes)
     }
     return results
   }
@@ -63,10 +63,10 @@ export class Engine extends Event {
     return TreeNode.findById(id)
   }
 
-  findDraggingNodes(): TreeNode[] {
+  findMovingNodes(): TreeNode[] {
     const results = []
     this.workbench.eachWorkspace((workspace) => {
-      workspace.operation.viewportDragon.dragNodes?.forEach((node) => {
+      workspace.operation.moveHelper.dragNodes?.forEach((node) => {
         if (!results.includes(node)) {
           results.push(node)
         }

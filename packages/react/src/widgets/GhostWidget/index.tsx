@@ -11,8 +11,8 @@ export const GhostWidget = observer(() => {
   const cursor = useCursor()
   const ref = useRef<HTMLDivElement>()
   const prefix = usePrefix('ghost')
-  const draggingNodes = designer.findDraggingNodes()
-  const firstNode = draggingNodes[0]
+  const movingNodes = designer.findMovingNodes()
+  const firstNode = movingNodes[0]
   useEffect(
     () =>
       autorun(() => {
@@ -32,7 +32,7 @@ export const GhostWidget = observer(() => {
         }}
       >
         <NodeTitleWidget node={firstNode} />
-        {draggingNodes.length > 1 ? '...' : ''}
+        {movingNodes.length > 1 ? '...' : ''}
       </span>
     )
   }

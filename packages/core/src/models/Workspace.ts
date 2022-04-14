@@ -62,6 +62,8 @@ export class Workspace {
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
       nodeIdAttrName: this.engine.props.nodeIdAttrName,
+      moveSensitive: true,
+      moveInsertionType: 'all',
     })
     this.outline = new Viewport({
       engine: this.engine,
@@ -69,6 +71,8 @@ export class Workspace {
       viewportElement: props.viewportElement,
       contentWindow: props.contentWindow,
       nodeIdAttrName: this.engine.props.outlineNodeIdAttrName,
+      moveSensitive: false,
+      moveInsertionType: 'block',
     })
     this.operation = new Operation(this)
     this.history = new History(this, {

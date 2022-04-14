@@ -6,7 +6,7 @@
     "module": "commonjs",
     "target": "es5",
     "allowJs": false,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "preserveConstEnums": true,
     "sourceMap": false,
     "declaration": true,

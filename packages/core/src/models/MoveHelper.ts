@@ -10,6 +10,7 @@ import {
 } from '@designable/shared'
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
+import { CursorDragType } from './Cursor'
 
 export enum ClosestPosition {
   Before = 'BEFORE',
@@ -29,20 +30,16 @@ export enum ClosestPosition {
   Forbid = 'FORBID',
 }
 
-export interface IDragonProps {
+export interface IMoveHelperProps {
   operation: Operation
-  viewport: Viewport
-  sensitive?: boolean
-  forceBlock?: boolean
 }
 
-export interface IDragonCalculateProps {
+export interface IMoveHelperDraggingProps {
   touchNode: TreeNode
-  point?: IPoint
-  closestNode?: TreeNode
-  closestDirection?: ClosestPosition
+  point: IPoint
 }
-export class Dragon {
+
+export class MoveHelper {
   operation: Operation
 
   rootNode: TreeNode
@@ -51,60 +48,70 @@ export class Dragon {
 
   touchNode: TreeNode = null
 
-  dropNode: TreeNode = null
-
   closestNode: TreeNode = null
 
-  closestRect: DOMRect = null
+  activeViewport: Viewport = null
 
-  closestOffsetRect: DOMRect = null
+  viewportClosestRect: DOMRect = null
 
-  closestDirection: ClosestPosition = null
+  outlineClosestRect: DOMRect = null
 
-  sensitive = true
+  viewportClosestOffsetRect: DOMRect = null
 
-  forceBlock = false
+  outlineClosestOffsetRect: DOMRect = null
 
-  viewport: Viewport = null
+  viewportClosestDirection: ClosestPosition = null
 
-  constructor(props: IDragonProps) {
+  outlineClosestDirection: ClosestPosition = null
+
+  constructor(props: IMoveHelperProps) {
     this.operation = props.operation
-    this.viewport = props.viewport
-    this.sensitive = props.sensitive
-    this.forceBlock = props.forceBlock
     this.rootNode = this.operation.tree
     this.makeObservable()
   }
 
-  getClosestLayout() {
-    return this.viewport.getValidNodeLayout(this.closestNode)
+  get viewport() {
+    return this.operation.workspace.viewport
   }
 
-  /**
-   * 相对最近节点的位置
-   * @readonly
-   * @type {ClosestPosition}
-   * @memberof Dragon
-   */
-  getClosestPosition(point: IPoint): ClosestPosition {
+  get outline() {
+    return this.operation.workspace.outline
+  }
+
+  get hasDragNodes() {
+    return this.dragNodes.length > 0
+  }
+
+  get closestDirection() {
+    if (this.activeViewport === this.outline) {
+      return this.outlineClosestDirection
+    }
+    return this.viewportClosestDirection
+  }
+
+  getClosestLayout(viewport: Viewport) {
+    return viewport.getValidNodeLayout(this.closestNode)
+  }
+
+  calcClosestPosition(point: IPoint, viewport: Viewport): ClosestPosition {
     const closestNode = this.closestNode
     if (!closestNode) return ClosestPosition.Forbid
-    const closestRect = this.viewport.getValidNodeRect(closestNode)
-    const isInline = this.getClosestLayout() === 'horizontal'
+    const closestRect = viewport.getValidNodeRect(closestNode)
+    const isInline = this.getClosestLayout(viewport) === 'horizontal'
     if (!closestRect) {
       return
     }
     const isAfter = isNearAfter(
       point,
       closestRect,
-      this.forceBlock ? false : isInline
+      viewport.moveInsertionType === 'block' ? false : isInline
     )
     const getValidParent = (node: TreeNode) => {
       if (!node) return
       if (node.parent?.allowSibling(this.dragNodes)) return node.parent
       return getValidParent(node.parent)
     }
-    if (isPointInRect(point, closestRect, this.sensitive)) {
+    if (isPointInRect(point, closestRect, viewport.moveSensitive)) {
       if (!closestNode.allowAppend(this.dragNodes)) {
         if (!closestNode.allowSibling(this.dragNodes)) {
           const parentClosestNode = getValidParent(closestNode)
@@ -188,25 +195,18 @@ export class Dragon {
     }
   }
 
-  /**
-   * 拖拽过程中最近的节点
-   *
-   * @readonly
-   * @type {TreeNode}
-   * @memberof Dragon
-   */
-  getClosestNode(point: IPoint): TreeNode {
+  calcClosestNode(point: IPoint, viewport: Viewport): TreeNode {
     if (this.touchNode) {
-      const touchNodeRect = this.viewport.getValidNodeRect(this.touchNode)
+      const touchNodeRect = viewport.getValidNodeRect(this.touchNode)
       if (!touchNodeRect) return
       if (this.touchNode?.children?.length) {
         const touchDistance = calcDistancePointToEdge(point, touchNodeRect)
         let minDistance = touchDistance
         let minDistanceNode = this.touchNode
         this.touchNode.eachChildren((node) => {
-          const rect = this.viewport.getElementRectById(node.id)
+          const rect = viewport.getElementRectById(node.id)
           if (!rect) return
-          const distance = isPointInRect(point, rect, this.sensitive)
+          const distance = isPointInRect(point, rect, viewport.moveSensitive)
             ? 0
             : calcDistanceOfPointToRect(point, rect)
           if (distance <= minDistance) {
@@ -219,83 +219,118 @@ export class Dragon {
         return this.touchNode
       }
     }
-    return null
+    return this.operation.tree
   }
 
-  /**
-   * 从最近的节点中计算出节点矩形
-   *
-   * @readonly
-   * @type {DOMRect}
-   * @memberof Dragon
-   */
-  getClosestRect(): DOMRect {
+  calcClosestRect(
+    viewport: Viewport,
+    closestDirection: ClosestPosition
+  ): DOMRect {
     const closestNode = this.closestNode
-    const closestDirection = this.closestDirection
     if (!closestNode || !closestDirection) return
-    const closestRect = this.viewport.getValidNodeRect(closestNode)
+    const closestRect = viewport.getValidNodeRect(closestNode)
     if (
       closestDirection === ClosestPosition.InnerAfter ||
       closestDirection === ClosestPosition.InnerBefore
     ) {
-      return this.viewport.getChildrenRect(closestNode)
+      return viewport.getChildrenRect(closestNode)
     } else {
       return closestRect
     }
   }
 
-  getClosestOffsetRect(): DOMRect {
+  calcClosestOffsetRect(
+    viewport: Viewport,
+    closestDirection: ClosestPosition
+  ): DOMRect {
     const closestNode = this.closestNode
-    const closestDirection = this.closestDirection
     if (!closestNode || !closestDirection) return
-    const closestRect = this.viewport.getValidNodeOffsetRect(closestNode)
+    const closestRect = viewport.getValidNodeOffsetRect(closestNode)
     if (
       closestDirection === ClosestPosition.InnerAfter ||
       closestDirection === ClosestPosition.InnerBefore
     ) {
-      return this.viewport.getChildrenOffsetRect(closestNode)
+      return viewport.getChildrenOffsetRect(closestNode)
     } else {
       return closestRect
     }
   }
 
-  setDragNodes(dragNodes: TreeNode[] = []) {
-    this.dragNodes = dragNodes
+  dragStart(dragNodes: TreeNode[] = []) {
+    this.dragNodes = TreeNode.filterDraggable(dragNodes)
     this.trigger(
       new DragNodeEvent({
         target: this.operation.tree,
-        source: dragNodes,
+        source: this.dragNodes,
       })
+    )
+    this.operation.engine.cursor.setDragType(CursorDragType.Move)
+  }
+
+  dragMove(props: IMoveHelperDraggingProps) {
+    const { point, touchNode } = props
+    if (this.outline.isPointInViewport(point, false)) {
+      this.activeViewport = this.outline
+      this.touchNode = touchNode
+      this.closestNode = this.calcClosestNode(point, this.outline)
+    } else if (this.viewport.isPointInViewport(point, false)) {
+      this.activeViewport = this.viewport
+      this.touchNode = touchNode
+      this.closestNode = this.calcClosestNode(point, this.viewport)
+    }
+    if (!this.activeViewport) return
+
+    if (this.activeViewport === this.outline) {
+      this.outlineClosestDirection = this.calcClosestPosition(
+        point,
+        this.outline
+      )
+      this.viewportClosestDirection = this.outlineClosestDirection
+    } else {
+      this.viewportClosestDirection = this.calcClosestPosition(
+        point,
+        this.viewport
+      )
+      this.outlineClosestDirection = this.viewportClosestDirection
+    }
+    this.outlineClosestRect = this.calcClosestRect(
+      this.outline,
+      this.outlineClosestDirection
+    )
+    this.viewportClosestRect = this.calcClosestRect(
+      this.viewport,
+      this.viewportClosestDirection
+    )
+    this.outlineClosestOffsetRect = this.calcClosestOffsetRect(
+      this.outline,
+      this.outlineClosestDirection
+    )
+    this.viewportClosestOffsetRect = this.calcClosestOffsetRect(
+      this.viewport,
+      this.viewportClosestDirection
     )
   }
 
-  setTouchNode(node?: TreeNode) {
-    this.touchNode = node
-    if (!node) {
-      this.closestNode = null
-      this.closestDirection = null
-      this.closestOffsetRect = null
-      this.closestRect = null
-    }
-  }
-
-  calculate(props: IDragonCalculateProps) {
-    const { point, touchNode, closestNode, closestDirection } = props
-    this.setTouchNode(touchNode)
-    this.closestNode = closestNode || this.getClosestNode(point)
-    this.closestDirection = closestDirection || this.getClosestPosition(point)
-    this.closestRect = this.getClosestRect()
-    this.closestOffsetRect = this.getClosestOffsetRect()
-  }
-
-  setDropNode(node: TreeNode) {
-    this.dropNode = node
+  dropping(dropNode: TreeNode) {
     this.trigger(
       new DropNodeEvent({
         target: this.operation.tree,
-        source: node,
+        source: dropNode,
       })
     )
+  }
+
+  dragEnd() {
+    this.dragNodes = []
+    this.touchNode = null
+    this.closestNode = null
+    this.activeViewport = null
+    this.outlineClosestDirection = null
+    this.outlineClosestOffsetRect = null
+    this.outlineClosestRect = null
+    this.viewportClosestDirection = null
+    this.viewportClosestOffsetRect = null
+    this.viewportClosestRect = null
   }
 
   trigger(event: any) {
@@ -304,28 +339,20 @@ export class Dragon {
     }
   }
 
-  clear() {
-    this.dragNodes = []
-    this.touchNode = null
-    this.dropNode = null
-    this.closestNode = null
-    this.closestDirection = null
-    this.closestOffsetRect = null
-    this.closestRect = null
-  }
-
   makeObservable() {
     define(this, {
       dragNodes: observable.shallow,
       touchNode: observable.ref,
       closestNode: observable.ref,
-      closestDirection: observable.ref,
-      closestRect: observable.ref,
-      setDragNodes: action,
-      setTouchNode: action,
-      setDropNode: action,
-      clear: action,
-      calculate: action,
+      outlineClosestDirection: observable.ref,
+      outlineClosestOffsetRect: observable.ref,
+      outlineClosestRect: observable.ref,
+      viewportClosestDirection: observable.ref,
+      viewportClosestOffsetRect: observable.ref,
+      viewportClosestRect: observable.ref,
+      dragStart: action,
+      dragMove: action,
+      dragEnd: action,
     })
   }
 }

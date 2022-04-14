@@ -20,6 +20,8 @@ export interface IViewportProps {
   viewportElement: HTMLElement
   contentWindow: Window
   nodeIdAttrName: string
+  moveSensitive?: boolean
+  moveInsertionType?: IViewportMoveInsertionType
 }
 
 export interface IViewportData {
@@ -28,6 +30,8 @@ export interface IViewportData {
   width?: number
   height?: number
 }
+
+export type IViewportMoveInsertionType = 'all' | 'inline' | 'block'
 
 /**
  * 视口模型
@@ -57,9 +61,15 @@ export class Viewport {
 
   nodeIdAttrName: string
 
+  moveSensitive: boolean
+
+  moveInsertionType: IViewportMoveInsertionType
+
   constructor(props: IViewportProps) {
     this.workspace = props.workspace
     this.engine = props.engine
+    this.moveSensitive = props.moveSensitive ?? false
+    this.moveInsertionType = props.moveInsertionType ?? 'all'
     this.viewportElement = props.viewportElement
     this.contentWindow = props.contentWindow
     this.nodeIdAttrName = props.nodeIdAttrName
@@ -245,8 +255,9 @@ export class Viewport {
 
   isPointInViewport(point: IPoint, sensitive?: boolean) {
     if (!this.rect) return false
-    if (!this.containsElement(document.elementFromPoint(point.x, point.y)))
+    if (!this.containsElement(document.elementFromPoint(point.x, point.y))) {
       return false
+    }
     return isPointInRect(point, this.rect, sensitive)
   }
 
