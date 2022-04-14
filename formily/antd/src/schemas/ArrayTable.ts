@@ -33,6 +33,16 @@ export const ArrayTable: ISchema & { Addition?: ISchema; Column?: ISchema } = {
         defaultValue: 'small',
       },
     },
+    tableLayout: {
+      type: 'string',
+      enum: ['auto', 'fixed'],
+      'x-decorator': 'FormItem',
+      'x-component': 'Radio.Group',
+      'x-component-props': {
+        defaultValue: 'auto',
+        optionType: 'button',
+      },
+    },
   },
 }
 
