@@ -7,6 +7,7 @@ import {
   isNearAfter,
   isPointInRect,
   IPoint,
+  Rect,
 } from '@designable/shared'
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
@@ -34,7 +35,14 @@ export interface IMoveHelperProps {
   operation: Operation
 }
 
-export interface IMoveHelperDraggingProps {
+export interface IMoveHelperDragStartProps {
+  dragNodes: TreeNode[]
+}
+
+export interface IMoveHelperDragDropProps {
+  dropNode: TreeNode
+}
+export interface IMoveHelperDragMoveProps {
   touchNode: TreeNode
   point: IPoint
 }
@@ -52,17 +60,19 @@ export class MoveHelper {
 
   activeViewport: Viewport = null
 
-  viewportClosestRect: DOMRect = null
+  viewportClosestRect: Rect = null
 
-  outlineClosestRect: DOMRect = null
+  outlineClosestRect: Rect = null
 
-  viewportClosestOffsetRect: DOMRect = null
+  viewportClosestOffsetRect: Rect = null
 
-  outlineClosestOffsetRect: DOMRect = null
+  outlineClosestOffsetRect: Rect = null
 
   viewportClosestDirection: ClosestPosition = null
 
   outlineClosestDirection: ClosestPosition = null
+
+  dragging = false
 
   constructor(props: IMoveHelperProps) {
     this.operation = props.operation
@@ -95,7 +105,8 @@ export class MoveHelper {
 
   calcClosestPosition(point: IPoint, viewport: Viewport): ClosestPosition {
     const closestNode = this.closestNode
-    if (!closestNode) return ClosestPosition.Forbid
+    if (!closestNode || !viewport.isPointInViewport(point))
+      return ClosestPosition.Forbid
     const closestRect = viewport.getValidNodeRect(closestNode)
     const isInline = this.getClosestLayout(viewport) === 'horizontal'
     if (!closestRect) {
@@ -222,10 +233,7 @@ export class MoveHelper {
     return this.operation.tree
   }
 
-  calcClosestRect(
-    viewport: Viewport,
-    closestDirection: ClosestPosition
-  ): DOMRect {
+  calcClosestRect(viewport: Viewport, closestDirection: ClosestPosition): Rect {
     const closestNode = this.closestNode
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeRect(closestNode)
@@ -242,7 +250,7 @@ export class MoveHelper {
   calcClosestOffsetRect(
     viewport: Viewport,
     closestDirection: ClosestPosition
-  ): DOMRect {
+  ): Rect {
     const closestNode = this.closestNode
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeOffsetRect(closestNode)
@@ -256,19 +264,24 @@ export class MoveHelper {
     }
   }
 
-  dragStart(dragNodes: TreeNode[] = []) {
-    this.dragNodes = TreeNode.filterDraggable(dragNodes)
-    this.trigger(
-      new DragNodeEvent({
-        target: this.operation.tree,
-        source: this.dragNodes,
-      })
-    )
-    this.operation.engine.cursor.setDragType(CursorDragType.Move)
+  dragStart(props: IMoveHelperDragStartProps) {
+    const nodes = TreeNode.filterDraggable(props?.dragNodes)
+    if (nodes.length) {
+      this.dragNodes = nodes
+      this.trigger(
+        new DragNodeEvent({
+          target: this.operation.tree,
+          source: this.dragNodes,
+        })
+      )
+      this.operation.engine.cursor.setDragType(CursorDragType.Move)
+      this.dragging = true
+    }
   }
 
-  dragMove(props: IMoveHelperDraggingProps) {
+  dragMove(props: IMoveHelperDragMoveProps) {
     const { point, touchNode } = props
+    if (!this.dragging) return
     if (this.outline.isPointInViewport(point, false)) {
       this.activeViewport = this.outline
       this.touchNode = touchNode
@@ -293,34 +306,39 @@ export class MoveHelper {
       )
       this.outlineClosestDirection = this.viewportClosestDirection
     }
-    this.outlineClosestRect = this.calcClosestRect(
-      this.outline,
-      this.outlineClosestDirection
-    )
-    this.viewportClosestRect = this.calcClosestRect(
-      this.viewport,
-      this.viewportClosestDirection
-    )
-    this.outlineClosestOffsetRect = this.calcClosestOffsetRect(
-      this.outline,
-      this.outlineClosestDirection
-    )
-    this.viewportClosestOffsetRect = this.calcClosestOffsetRect(
-      this.viewport,
-      this.viewportClosestDirection
-    )
+    if (this.outline.mounted) {
+      this.outlineClosestRect = this.calcClosestRect(
+        this.outline,
+        this.outlineClosestDirection
+      )
+      this.outlineClosestOffsetRect = this.calcClosestOffsetRect(
+        this.outline,
+        this.outlineClosestDirection
+      )
+    }
+    if (this.viewport.mounted) {
+      this.viewportClosestRect = this.calcClosestRect(
+        this.viewport,
+        this.viewportClosestDirection
+      )
+      this.viewportClosestOffsetRect = this.calcClosestOffsetRect(
+        this.viewport,
+        this.viewportClosestDirection
+      )
+    }
   }
 
-  dropping(dropNode: TreeNode) {
+  dragDrop(props: IMoveHelperDragDropProps) {
     this.trigger(
       new DropNodeEvent({
         target: this.operation.tree,
-        source: dropNode,
+        source: props?.dropNode,
       })
     )
   }
 
   dragEnd() {
+    this.dragging = false
     this.dragNodes = []
     this.touchNode = null
     this.closestNode = null
@@ -341,7 +359,8 @@ export class MoveHelper {
 
   makeObservable() {
     define(this, {
-      dragNodes: observable.shallow,
+      dragging: observable.ref,
+      dragNodes: observable.ref,
       touchNode: observable.ref,
       closestNode: observable.ref,
       outlineClosestDirection: observable.ref,

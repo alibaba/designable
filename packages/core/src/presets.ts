@@ -39,13 +39,13 @@ export const DEFAULT_EFFECTS = [
   useCursorEffect,
   useViewportEffect,
   useDragDropEffect,
-  useResizeEffect,
   useSelectionEffect,
   useKeyboardEffect,
   useAutoScrollEffect,
   useWorkspaceEffect,
   useContentEditableEffect,
   useTranslateEffect,
+  useResizeEffect,
 ]
 
 export const DEFAULT_DRIVERS = [

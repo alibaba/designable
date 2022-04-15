@@ -123,3 +123,21 @@ export const calcElementTranslate = (element: HTMLElement) => {
     return new Point(Number(element.offsetLeft), Number(element.offsetTop))
   }
 }
+
+export const calcElementRotate = (element: HTMLElement) => {
+  const transform = element?.style?.transform
+  if (transform) {
+    return Number(transform.match(/rotate\(\s*([-\d.]+)/)?.[1] ?? 0)
+  } else {
+    return 0
+  }
+}
+
+export const calcElementScale = (element: HTMLElement) => {
+  const transform = element?.style?.transform
+  if (transform) {
+    return Number(transform.match(/scale\(\s*([-\d.]+)/)?.[1] ?? 0)
+  } else {
+    return 0
+  }
+}

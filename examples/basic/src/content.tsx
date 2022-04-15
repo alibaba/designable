@@ -29,8 +29,8 @@ export const Content = () => (
           <div
             {...props}
             style={{
-              width: 400,
-              height: 400,
+              width: 200,
+              height: 100,
               ...props.style,
               background: '#eee',
               border: '1px solid #ddd',

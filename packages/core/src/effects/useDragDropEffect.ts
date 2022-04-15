@@ -45,15 +45,15 @@ export const useDragDropEffect = (engine: Engine) => {
             .getAllSelectedNodes()
             .filter((node) => node.allowDrag())
           if (validSelected.some((selectNode) => selectNode === node)) {
-            moveHelper.dragStart(TreeNode.sort(validSelected))
+            moveHelper.dragStart({ dragNodes: TreeNode.sort(validSelected) })
           } else {
-            moveHelper.dragStart([node])
+            moveHelper.dragStart({ dragNodes: [node] })
           }
         }
       } else if (sourceId) {
         const sourceNode = engine.findNodeById(sourceId)
         if (sourceNode) {
-          moveHelper.dragStart([sourceNode])
+          moveHelper.dragStart({ dragNodes: [sourceNode] })
         }
       }
     })
@@ -165,7 +165,7 @@ export const useDragDropEffect = (engine: Engine) => {
                 ...TreeNode.filterDroppable(dragNodes, closestNode)
               )
             )
-            moveHelper.dropping(closestNode)
+            moveHelper.dragDrop({ dropNode: closestNode })
           }
         } else if (closestDirection === ClosestPosition.InnerBefore) {
           if (closestNode.allowAppend(dragNodes)) {
@@ -174,7 +174,7 @@ export const useDragDropEffect = (engine: Engine) => {
                 ...TreeNode.filterDroppable(dragNodes, closestNode)
               )
             )
-            moveHelper.dropping(closestNode)
+            moveHelper.dragDrop({ dropNode: closestNode })
           }
         }
       }

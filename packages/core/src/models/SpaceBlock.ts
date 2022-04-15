@@ -2,9 +2,10 @@ import {
   calcExtendsLineSegmentOfRect,
   calcDistanceOfSnapLineToEdges,
   LineSegment,
+  Rect,
 } from '@designable/shared'
 import { SnapLine } from './SnapLine'
-import { TranslateHelper } from './TranslateHelper'
+import { TransformHelper } from './TransformHelper'
 import { TreeNode } from './TreeNode'
 
 export type ISpaceBlockType =
@@ -17,7 +18,7 @@ export type ISpaceBlockType =
 export interface ISpaceBlock {
   id?: string
   refer?: TreeNode
-  rect?: DOMRect
+  rect?: Rect
   distance?: number
   type?: ISpaceBlockType
 }
@@ -28,15 +29,20 @@ export class SpaceBlock {
   _id: string
   distance: number
   refer: TreeNode
-  ctx: TranslateHelper
-  rect: DOMRect
+  helper: TransformHelper
+  rect: Rect
   type: ISpaceBlockType
-  constructor(ctx: TranslateHelper, box: ISpaceBlock) {
-    this.ctx = ctx
+  constructor(helper: TransformHelper, box: ISpaceBlock) {
+    this.helper = helper
     this.distance = box.distance
     this.refer = box.refer
     this.rect = box.rect
     this.type = box.type
+  }
+
+  get referRect() {
+    if (!this.refer) return
+    return this.helper.getNodeRect(this.refer)
   }
 
   get id() {
@@ -47,17 +53,14 @@ export class SpaceBlock {
   }
 
   get next() {
-    const spaceBlock = this.ctx.calcAroundSpaceBlocks(
-      this.refer.getValidElementOffsetRect()
-    )
+    const spaceBlock = this.helper.calcAroundSpaceBlocks(this.referRect)
     return spaceBlock[this.type as any]
   }
 
   get extendsLine() {
     if (!this.needExtendsLine) return
-    const dragNodesRect = this.ctx.dragNodesRect
-    const referRect = this.refer.getValidElementOffsetRect()
-    return calcExtendsLineSegmentOfRect(dragNodesRect, referRect)
+    const dragNodesRect = this.helper.dragNodesRect
+    return calcExtendsLineSegmentOfRect(dragNodesRect, this.referRect)
   }
 
   get needExtendsLine() {
@@ -80,16 +83,16 @@ export class SpaceBlock {
   }
 
   get crossReferRect() {
-    const referRect = this.refer.getValidElementOffsetRect()
+    const referRect = this.referRect
     if (this.type === 'top' || this.type === 'bottom') {
-      return new DOMRect(
+      return new Rect(
         referRect.x,
         this.rect.y,
         referRect.width,
         this.rect.height
       )
     } else {
-      return new DOMRect(
+      return new Rect(
         this.rect.x,
         referRect.y,
         this.rect.width,
@@ -99,16 +102,16 @@ export class SpaceBlock {
   }
 
   get crossDragNodesRect() {
-    const dragNodesRect = this.ctx.dragNodesRect
+    const dragNodesRect = this.helper.dragNodesRect
     if (this.type === 'top' || this.type === 'bottom') {
-      return new DOMRect(
+      return new Rect(
         dragNodesRect.x,
         this.rect.y,
         dragNodesRect.width,
         this.rect.height
       )
     } else {
-      return new DOMRect(
+      return new Rect(
         this.rect.x,
         dragNodesRect.y,
         this.rect.width,
@@ -123,7 +126,7 @@ export class SpaceBlock {
     while ((spaceBlock = spaceBlock.next)) {
       if (
         Math.abs(spaceBlock.distance - this.distance) <
-        TranslateHelper.threshold
+        TransformHelper.threshold
       ) {
         if (results.some((box) => box.distance !== spaceBlock.distance))
           continue
@@ -136,7 +139,7 @@ export class SpaceBlock {
   get snapLine() {
     if (!this.isometrics.length) return
     const nextRect = this.next.rect
-    const referRect = this.refer.getValidElementOffsetRect()
+    const referRect = this.referRect
     let line: LineSegment
     if (this.type === 'top') {
       line = new LineSegment(
@@ -185,9 +188,9 @@ export class SpaceBlock {
     }
     const distance = calcDistanceOfSnapLineToEdges(
       line,
-      this.ctx.dragNodesEdgeLines
+      this.helper.dragNodesEdgeLines
     )
-    return new SnapLine(this.ctx, {
+    return new SnapLine(this.helper, {
       ...line,
       distance,
       type: 'space-block',

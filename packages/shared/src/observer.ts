@@ -9,7 +9,9 @@ export class LayoutObserver {
 
   constructor(observer: () => void = () => {}) {
     this.resizeObserver = new ResizeObserver(() => observer())
-    this.performanceObserver = new PerformanceObserver(() => observer())
+    this.performanceObserver = new PerformanceObserver(() => {
+      observer()
+    })
     this.mutationObserver = new MutationObserver(() => observer())
   }
 

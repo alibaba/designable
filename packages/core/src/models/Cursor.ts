@@ -13,6 +13,7 @@ export enum CursorDragType {
   Move = 'MOVE',
   Resize = 'RESIZE',
   Rotate = 'ROTATE',
+  Scale = 'SCALE',
   Translate = 'TRANSLATE',
   Round = 'ROUND',
 }

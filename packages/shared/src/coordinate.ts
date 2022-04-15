@@ -4,6 +4,11 @@ export interface IPoint {
   y: number
 }
 
+export interface ISize {
+  width: number
+  height: number
+}
+
 export interface ILineSegment {
   start: IPoint
   end: IPoint
@@ -32,6 +37,35 @@ export class Point implements IPoint {
   constructor(x: number, y: number) {
     this.x = x
     this.y = y
+  }
+}
+
+export class Rect implements IRect {
+  x = 0
+  y = 0
+  width = 0
+  height = 0
+  constructor(x: number, y: number, width: number, height: number) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+  }
+
+  get left() {
+    return this.x
+  }
+
+  get right() {
+    return this.x + this.width
+  }
+
+  get top() {
+    return this.y
+  }
+
+  get bottom() {
+    return this.y + this.height
   }
 }
 
@@ -102,12 +136,12 @@ export function getRectPoints(source: IRect) {
 }
 
 export function isRectInRect(target: IRect, source: IRect) {
-  const [p1, p2, p3, p4] = getRectPoints(source)
+  const [p1, p2, p3, p4] = getRectPoints(target)
   return (
-    isPointInRect(p1, target, false) &&
-    isPointInRect(p2, target, false) &&
-    isPointInRect(p3, target, false) &&
-    isPointInRect(p4, target, false)
+    isPointInRect(p1, source, false) &&
+    isPointInRect(p2, source, false) &&
+    isPointInRect(p3, source, false) &&
+    isPointInRect(p4, source, false)
   )
 }
 
@@ -229,9 +263,7 @@ export function calcBoundingRect(rects: IRect[]) {
   let minLeft = Infinity
   let maxRight = -Infinity
   rects.forEach((item) => {
-    const rect =
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(item.x, item.y, item.width, item.height)
+    const rect = new Rect(item.x, item.y, item.width, item.height)
     if (rect.top <= minTop) {
       minTop = rect.top
     }
@@ -245,10 +277,7 @@ export function calcBoundingRect(rects: IRect[]) {
       maxRight = rect.right
     }
   })
-  return (
-    typeof DOMRect !== 'undefined' &&
-    new DOMRect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop)
-  )
+  return new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop)
 }
 
 export function calcRectByStartEndPoint(
@@ -266,14 +295,11 @@ export function calcRectByStartEndPoint(
     //4象限
     drawStartX = startPoint.x
     drawStartY = startPoint.y
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(
-        drawStartX - scrollX,
-        drawStartY - scrollY,
-        Math.abs(endPoint.x - startPoint.x + scrollX),
-        Math.abs(endPoint.y - startPoint.y + scrollY)
-      )
+    return new Rect(
+      drawStartX - scrollX,
+      drawStartY - scrollY,
+      Math.abs(endPoint.x - startPoint.x + scrollX),
+      Math.abs(endPoint.y - startPoint.y + scrollY)
     )
   } else if (
     endPoint.x + scrollX < startPoint.x &&
@@ -282,14 +308,11 @@ export function calcRectByStartEndPoint(
     //1象限
     drawStartX = endPoint.x
     drawStartY = endPoint.y
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(
-        drawStartX,
-        drawStartY,
-        Math.abs(endPoint.x - startPoint.x + scrollX),
-        Math.abs(endPoint.y - startPoint.y + scrollY)
-      )
+    return new Rect(
+      drawStartX,
+      drawStartY,
+      Math.abs(endPoint.x - startPoint.x + scrollX),
+      Math.abs(endPoint.y - startPoint.y + scrollY)
     )
   } else if (
     endPoint.x + scrollX < startPoint.x &&
@@ -298,27 +321,21 @@ export function calcRectByStartEndPoint(
     //3象限
     drawStartX = endPoint.x
     drawStartY = startPoint.y
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(
-        drawStartX - scrollX,
-        drawStartY - scrollY,
-        Math.abs(endPoint.x - startPoint.x + scrollX),
-        Math.abs(endPoint.y - startPoint.y + scrollY)
-      )
+    return new Rect(
+      drawStartX - scrollX,
+      drawStartY - scrollY,
+      Math.abs(endPoint.x - startPoint.x + scrollX),
+      Math.abs(endPoint.y - startPoint.y + scrollY)
     )
   } else {
     //2象限
     drawStartX = startPoint.x
     drawStartY = endPoint.y
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(
-        drawStartX,
-        drawStartY,
-        Math.abs(endPoint.x - startPoint.x + scrollX),
-        Math.abs(endPoint.y - startPoint.y + scrollY)
-      )
+    return new Rect(
+      drawStartX,
+      drawStartY,
+      Math.abs(endPoint.x - startPoint.x + scrollX),
+      Math.abs(endPoint.y - startPoint.y + scrollY)
     )
   }
 }
@@ -359,7 +376,7 @@ export function calcEdgeLinesOfRect(rect: IRect): IRectEdgeLines {
 export function calcRectOfAxisLineSegment(line: ILineSegment) {
   if (!isLineSegment(line)) return
   const isXAxis = line.start.x === line.end.x
-  return new DOMRect(
+  return new Rect(
     line.start.x,
     line.start.y,
     isXAxis ? 0 : line.end.x - line.start.x,
@@ -372,18 +389,8 @@ export function calcSpaceBlockOfRect(
   source: IRect,
   type?: string
 ) {
-  const targetRect = new DOMRect(
-    target.x,
-    target.y,
-    target.width,
-    target.height
-  )
-  const sourceRect = new DOMRect(
-    source.x,
-    source.y,
-    source.width,
-    source.height
-  )
+  const targetRect = new Rect(target.x, target.y, target.width, target.height)
+  const sourceRect = new Rect(source.x, source.y, source.width, source.height)
   if (sourceRect.bottom < targetRect.top && sourceRect.left > targetRect.right)
     return
   if (sourceRect.top > targetRect.bottom && sourceRect.left > targetRect.right)
@@ -400,7 +407,7 @@ export function calcSpaceBlockOfRect(
     return {
       type: 'top',
       distance,
-      rect: new DOMRect(left, sourceRect.bottom, right - left, distance),
+      rect: new Rect(left, sourceRect.bottom, right - left, distance),
     }
   } else if (sourceRect.top > targetRect.bottom) {
     const distance = sourceRect.top - targetRect.bottom
@@ -410,7 +417,7 @@ export function calcSpaceBlockOfRect(
     return {
       type: 'bottom',
       distance,
-      rect: new DOMRect(left, targetRect.bottom, right - left, distance),
+      rect: new Rect(left, targetRect.bottom, right - left, distance),
     }
   } else if (sourceRect.right < targetRect.left) {
     const distance = targetRect.left - sourceRect.right
@@ -420,7 +427,7 @@ export function calcSpaceBlockOfRect(
     return {
       type: 'left',
       distance,
-      rect: new DOMRect(sourceRect.right, top, distance, bottom - top),
+      rect: new Rect(sourceRect.right, top, distance, bottom - top),
     }
   } else if (sourceRect.left > targetRect.right) {
     const distance = sourceRect.left - targetRect.right
@@ -430,14 +437,14 @@ export function calcSpaceBlockOfRect(
     return {
       type: 'right',
       distance,
-      rect: new DOMRect(targetRect.right, top, distance, bottom - top),
+      rect: new Rect(targetRect.right, top, distance, bottom - top),
     }
   }
 }
 
 export function calcExtendsLineSegmentOfRect(
-  targetRect: DOMRect,
-  referRect: DOMRect
+  targetRect: Rect,
+  referRect: Rect
 ) {
   if (
     referRect.right < targetRect.right &&

@@ -3,7 +3,7 @@ import { Engine } from './Engine'
 import { TreeNode, ITreeNode } from './TreeNode'
 import { Selection } from './Selection'
 import { Hover } from './Hover'
-import { TranslateHelper } from './TranslateHelper'
+import { TransformHelper } from './TransformHelper'
 import { MoveHelper } from './MoveHelper'
 import { cancelIdle, ICustomEvent, isFn, requestIdle } from '@designable/shared'
 
@@ -23,7 +23,7 @@ export class Operation {
 
   hover: Hover
 
-  translateHelper: TranslateHelper
+  transformHelper: TransformHelper
 
   moveHelper: MoveHelper
 
@@ -48,7 +48,7 @@ export class Operation {
     this.moveHelper = new MoveHelper({
       operation: this,
     })
-    this.translateHelper = new TranslateHelper({
+    this.transformHelper = new TransformHelper({
       operation: this,
     })
     this.selection.select(this.tree)

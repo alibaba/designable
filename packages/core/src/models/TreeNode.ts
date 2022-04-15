@@ -432,6 +432,12 @@ export class TreeNode {
     return ['y']
   }
 
+  allowRotate() {}
+
+  allowRound() {}
+
+  allowScale() {}
+
   allowTranslate(): boolean {
     if (this === this.root && !this.isSourceNode) return false
     const { translatable } = this.designerProps
@@ -836,6 +842,26 @@ export class TreeNode {
       if (!nodes.length) return
       target.append(...nodes)
     })
+  }
+
+  static filterResizable(nodes: TreeNode[] = []) {
+    return nodes.filter((node) => node.allowResize())
+  }
+
+  static filterRotatable(nodes: TreeNode[] = []) {
+    return nodes.filter((node) => node.allowRotate())
+  }
+
+  static filterScalable(nodes: TreeNode[] = []) {
+    return nodes.filter((node) => node.allowScale())
+  }
+
+  static filterRoundable(nodes: TreeNode[] = []) {
+    return nodes.filter((node) => node.allowRound())
+  }
+
+  static filterTranslatable(nodes: TreeNode[] = []) {
+    return nodes.filter((node) => node.allowTranslate())
   }
 
   static filterDraggable(nodes: TreeNode[] = []) {

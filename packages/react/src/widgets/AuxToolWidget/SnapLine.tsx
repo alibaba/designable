@@ -1,11 +1,11 @@
 import React from 'react'
-import { useTranslateHelper, useCursor, usePrefix } from '../../hooks'
+import { useTransformHelper, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
-import { CursorDragType, CursorStatus } from '@designable/core'
+import { CursorStatus } from '@designable/core'
 
 export const SnapLine = observer(() => {
   const cursor = useCursor()
-  const translateHelper = useTranslateHelper()
+  const transformHelper = useTransformHelper()
   const prefix = usePrefix('aux-snap-line')
   const createLineStyle = (rect: DOMRect) => {
     const baseStyle: React.CSSProperties = {
@@ -20,15 +20,10 @@ export const SnapLine = observer(() => {
     }
     return baseStyle
   }
-  if (
-    cursor.status !== CursorStatus.Dragging ||
-    !translateHelper ||
-    cursor.dragType !== CursorDragType.Translate
-  )
-    return null
+  if (cursor.status !== CursorStatus.Dragging) return null
   return (
     <>
-      {translateHelper.closestSnapLines.map((line, key) => {
+      {transformHelper.closestSnapLines.map((line, key) => {
         if (line.type !== 'normal') return null
         return (
           <div

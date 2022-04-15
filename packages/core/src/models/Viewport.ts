@@ -7,12 +7,15 @@ import {
   requestIdle,
   cancelIdle,
   globalThisPolyfill,
+  Rect,
+  IRect,
+  isRectInRect,
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
 import { Engine } from './Engine'
 import { TreeNode } from './TreeNode'
-import { Selector } from './Selector'
+import { NodeSelector } from './NodeSelector'
 
 export interface IViewportProps {
   engine: Engine
@@ -39,7 +42,7 @@ export type IViewportMoveInsertionType = 'all' | 'inline' | 'block'
 export class Viewport {
   workspace: Workspace
 
-  selector: Selector
+  selector: NodeSelector
 
   engine: Engine
 
@@ -57,6 +60,8 @@ export class Viewport {
 
   height = 0
 
+  mounted = false
+
   attachRequest: number
 
   nodeIdAttrName: string
@@ -73,7 +78,7 @@ export class Viewport {
     this.viewportElement = props.viewportElement
     this.contentWindow = props.contentWindow
     this.nodeIdAttrName = props.nodeIdAttrName
-    this.selector = new Selector()
+    this.selector = new NodeSelector()
     this.digestViewport()
     this.makeObservable()
     this.attachEvents()
@@ -137,15 +142,12 @@ export class Viewport {
 
   get rect() {
     const viewportElement = this.viewportElement
-    if (viewportElement) return this.getElementRect(viewportElement)
+    if (viewportElement) return viewportElement.getBoundingClientRect()
   }
 
   get innerRect() {
     const rect = this.rect
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(0, 0, rect?.width, rect?.height)
-    )
+    return new Rect(0, 0, rect?.width, rect?.height)
   }
 
   get offsetX() {
@@ -243,6 +245,7 @@ export class Viewport {
   }
 
   onMount(element: HTMLElement, contentWindow: Window) {
+    this.mounted = true
     this.viewportElement = element
     this.contentWindow = contentWindow
     this.attachEvents()
@@ -250,6 +253,7 @@ export class Viewport {
   }
 
   onUnmount() {
+    this.mounted = false
     this.detachEvents()
   }
 
@@ -259,6 +263,14 @@ export class Viewport {
       return false
     }
     return isPointInRect(point, this.rect, sensitive)
+  }
+
+  isRectInViewport(rect: IRect) {
+    if (!this.rect) return false
+    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y))) {
+      return false
+    }
+    return isRectInRect(rect, this.rect)
   }
 
   isPointInViewportArea(point: IPoint, sensitive?: boolean) {
@@ -271,6 +283,14 @@ export class Viewport {
     if (!this.containsElement(document.elementFromPoint(point.x, point.y)))
       return false
     return isPointInRect(point, this.innerRect, sensitive)
+  }
+
+  isOffsetRectInViewport(rect: IRect) {
+    if (!this.innerRect) return false
+    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y))) {
+      return false
+    }
+    return isRectInRect(rect, this.innerRect)
   }
 
   makeObservable() {
@@ -286,20 +306,13 @@ export class Viewport {
   }
 
   findElementById(id: string) {
-    return this.selector.query(
-      this.viewportRoot,
-      `*[${this.nodeIdAttrName}='${id}']
-      `
-    )
+    if (!id) return
+    return this.selector.query(this.viewportRoot, this.nodeIdAttrName, id)
   }
 
   findElementsById(id: string) {
     if (!id) return []
-    return this.selector.queryAll(
-      this.viewportRoot,
-      `*[${this.nodeIdAttrName}='${id}']
-      `
-    )
+    return this.selector.queryAll(this.viewportRoot, this.nodeIdAttrName, id)
   }
 
   containsElement(element: HTMLElement | Element | EventTarget) {
@@ -325,14 +338,11 @@ export class Viewport {
     const offsetHeight = element['offsetHeight']
       ? element['offsetHeight']
       : rect.height
-    return (
-      typeof DOMRect !== 'undefined' &&
-      new DOMRect(
-        rect.x,
-        rect.y,
-        this.scale !== 1 ? offsetWidth : rect.width,
-        this.scale !== 1 ? offsetHeight : rect.height
-      )
+    return new Rect(
+      rect.x,
+      rect.y,
+      this.scale !== 1 ? offsetWidth : rect.width,
+      this.scale !== 1 ? offsetHeight : rect.height
     )
   }
 
@@ -344,20 +354,14 @@ export class Viewport {
     )
     if (rect) {
       if (this.isIframe) {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(
-            rect.x + this.offsetX,
-            rect.y + this.offsetY,
-            rect.width,
-            rect.height
-          )
+        return new Rect(
+          rect.x + this.offsetX,
+          rect.y + this.offsetY,
+          rect.width,
+          rect.height
         )
       } else {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(rect.x, rect.y, rect.width, rect.height)
-        )
+        return new Rect(rect.x, rect.y, rect.width, rect.height)
       }
     }
   }
@@ -367,26 +371,20 @@ export class Viewport {
     const elementRect = element.getBoundingClientRect()
     if (elementRect) {
       if (this.isIframe) {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(
-            elementRect.x + this.contentWindow.scrollX,
-            elementRect.y + this.contentWindow.scrollY,
-            elementRect.width,
-            elementRect.height
-          )
+        return new Rect(
+          elementRect.x + this.contentWindow.scrollX,
+          elementRect.y + this.contentWindow.scrollY,
+          elementRect.width,
+          elementRect.height
         )
       } else {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(
-            (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
-              this.scale,
-            (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
-              this.scale,
-            elementRect.width,
-            elementRect.height
-          )
+        return new Rect(
+          (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
+            this.scale,
+          (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
+            this.scale,
+          elementRect.width,
+          elementRect.height
         )
       }
     }
@@ -401,26 +399,20 @@ export class Viewport {
     )
     if (elementRect) {
       if (this.isIframe) {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(
-            elementRect.x + this.contentWindow.scrollX,
-            elementRect.y + this.contentWindow.scrollY,
-            elementRect.width,
-            elementRect.height
-          )
+        return new Rect(
+          elementRect.x + this.contentWindow.scrollX,
+          elementRect.y + this.contentWindow.scrollY,
+          elementRect.width,
+          elementRect.height
         )
       } else {
-        return (
-          typeof DOMRect !== 'undefined' &&
-          new DOMRect(
-            (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
-              this.scale,
-            (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
-              this.scale,
-            elementRect.width,
-            elementRect.height
-          )
+        return new Rect(
+          (elementRect.x - this.offsetX + this.viewportElement.scrollLeft) /
+            this.scale,
+          (elementRect.y - this.offsetY + this.viewportElement.scrollTop) /
+            this.scale,
+          elementRect.width,
+          elementRect.height
         )
       }
     }
@@ -439,9 +431,8 @@ export class Viewport {
     return getNodeElement(node)
   }
 
-  getChildrenRect(node: TreeNode): DOMRect {
+  getChildrenRect(node: TreeNode): Rect {
     if (!node?.children?.length) return
-
     return calcBoundingRect(
       node.children.reduce((buf, child) => {
         const rect = this.getValidNodeRect(child)
@@ -453,7 +444,7 @@ export class Viewport {
     )
   }
 
-  getChildrenOffsetRect(node: TreeNode): DOMRect {
+  getChildrenOffsetRect(node: TreeNode): Rect {
     if (!node?.children?.length) return
 
     return calcBoundingRect(
@@ -467,10 +458,10 @@ export class Viewport {
     )
   }
 
-  getValidNodeRect(node: TreeNode): DOMRect {
+  getValidNodeRect(node: TreeNode): Rect {
     if (!node) return
     const rect = this.getElementRectById(node.id)
-    if (node && node === node.root) {
+    if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.rect
       return calcBoundingRect([this.rect, rect])
     }
@@ -482,11 +473,10 @@ export class Viewport {
     }
   }
 
-  getValidNodeOffsetRect(node: TreeNode): DOMRect {
+  getValidNodeOffsetRect(node: TreeNode): Rect {
     if (!node) return
-
     const rect = this.getElementOffsetRectById(node.id)
-    if (node && node === node.root) {
+    if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.innerRect
       return calcBoundingRect([this.innerRect, rect])
     }

@@ -234,32 +234,60 @@
   background-color: #fff;
   border: 1px solid var(--dn-brand-color);
 
-  &.x-start {
+  &.left-center {
     left: 0;
     top: 50%;
     transform: translate(calc(-50% - 1px), -50%);
     cursor: ew-resize;
   }
 
-  &.x-end {
+  &.right-center {
     left: 100%;
     top: 50%;
     transform: translate(calc(-50% + 1px), -50%);
     cursor: ew-resize;
   }
 
-  &.y-start {
+  &.center-top {
     left: 50%;
     top: 0;
     transform: translate(-50%, calc(-50% - 1px));
     cursor: ns-resize;
   }
 
-  &.y-end {
+  &.center-bottom {
     left: 50%;
     top: 100%;
     transform: translate(-50%, calc(-50% + 1px));
     cursor: ns-resize;
+  }
+
+  &.left-top {
+    left: 0;
+    top: 0;
+    transform: translate(calc(-50% + 1px), calc(-50% + 1px));
+    cursor: nwse-resize;
+  }
+
+  &.left-bottom {
+    left: 0;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    cursor: nesw-resize;
+  }
+
+  &.right-bottom {
+    left: 100%;
+    top: 100%;
+    transform: translate(-50%, -50%);
+    cursor: nwse-resize;
+  }
+
+  &.right-top {
+    left: 100%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    cursor: nesw-resize;
   }
 }
 
@@ -280,16 +308,16 @@
   position: absolute;
   background-color: var(--dn-brand-color);
   color: var(--dn-white);
-  padding: 0 6px;
   border-radius: 8px;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.8);
+
   span {
+    margin: 0 6px;
+    display: inline-block;
     font-size: 12px;
-    transform: scale(0.9);
   }
 }
 
@@ -320,7 +348,7 @@
   .@{prefix-cls}-aux-space-block-ruler-indicator {
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.7);
   }
 }
 
@@ -350,6 +378,6 @@
   .@{prefix-cls}-aux-space-block-ruler-indicator {
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.7);
   }
 }

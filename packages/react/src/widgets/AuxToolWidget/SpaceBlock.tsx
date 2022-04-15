@@ -1,20 +1,15 @@
 import React, { Fragment } from 'react'
-import { useTranslateHelper, useCursor, usePrefix } from '../../hooks'
+import { useTransformHelper, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
-import { CursorDragType, CursorStatus } from '@designable/core'
+import { CursorStatus } from '@designable/core'
 import { ILineSegment, calcRectOfAxisLineSegment } from '@designable/shared'
 
 export const SpaceBlock = observer(() => {
   const cursor = useCursor()
-  const translateHelper = useTranslateHelper()
+  const transformHelper = useTransformHelper()
   const prefix = usePrefix('aux-space-block')
 
-  if (
-    cursor.status !== CursorStatus.Dragging ||
-    !translateHelper ||
-    cursor.dragType !== CursorDragType.Translate
-  )
-    return null
+  if (cursor.status !== CursorStatus.Dragging) return null
 
   const renderRulerBox = (distance: number, type: string) => {
     if (type === 'top' || type === 'bottom') {
@@ -69,7 +64,7 @@ export const SpaceBlock = observer(() => {
 
   return (
     <>
-      {translateHelper.measurerSpaceBlocks.map(
+      {transformHelper.measurerSpaceBlocks.map(
         ({ type, crossDragNodesRect, distance, extendsLine }, key) => {
           return (
             <Fragment>
@@ -92,7 +87,7 @@ export const SpaceBlock = observer(() => {
           )
         }
       )}
-      {translateHelper.thresholdSpaceBlocks.map(({ rect }, key) => {
+      {transformHelper.thresholdSpaceBlocks.map(({ rect }, key) => {
         return (
           <div
             key={key}

@@ -12,6 +12,7 @@ export interface ISelection {
 export class Selection {
   operation: Operation
   selected: string[] = []
+  indexes: Record<string, boolean> = {}
 
   constructor(props?: ISelection) {
     if (props.selected) {
@@ -51,6 +52,7 @@ export class Selection {
         return
       }
       this.selected = [id]
+      this.indexes = { [id]: true }
       this.trigger(SelectNodeEvent)
     } else {
       this.select(id?.id)
@@ -70,6 +72,10 @@ export class Selection {
 
   batchSelect(ids: string[] | TreeNode[]) {
     this.selected = this.mapIds(ids)
+    this.indexes = this.selected.reduce((buf, id) => {
+      buf[id] = true
+      return buf
+    }, {})
     this.trigger(SelectNodeEvent)
   }
 
@@ -100,6 +106,7 @@ export class Selection {
       if (isStr(id)) {
         if (!this.selected.includes(id)) {
           this.selected.push(id)
+          this.indexes[id] = true
         }
       } else {
         this.add(id?.id)
@@ -125,13 +132,15 @@ export class Selection {
         if (minDistanceNode) {
           const crossNodes = node.crossSiblings(minDistanceNode)
           crossNodes.forEach((node) => {
-            if (!this.selected.includes(node.id)) {
+            if (!this.has(node.id)) {
               this.selected.push(node.id)
+              this.indexes[node.id] = true
             }
           })
         }
-        if (!this.selected.includes(node.id)) {
+        if (!this.has(node.id)) {
           this.selected.push(node.id)
+          this.indexes[node.id] = true
         }
       }
     }
@@ -141,6 +150,7 @@ export class Selection {
     this.mapIds(ids).forEach((id) => {
       if (isStr(id)) {
         this.selected = this.selected.filter((item) => item !== id)
+        delete this.indexes[id]
       } else {
         this.remove(id?.id)
       }
@@ -151,7 +161,7 @@ export class Selection {
   has(...ids: string[] | TreeNode[]) {
     return this.mapIds(ids).some((id) => {
       if (isStr(id)) {
-        return this.selected.includes(id)
+        return this.indexes[id]
       } else {
         if (!id?.id) return false
         return this.has(id?.id)
@@ -161,6 +171,7 @@ export class Selection {
 
   clear() {
     this.selected = []
+    this.indexes = {}
     this.trigger(UnSelectNodeEvent)
   }
 }

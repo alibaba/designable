@@ -7,6 +7,8 @@ export const useTranslateEffect = (engine: Engine) => {
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace
     const handler = target?.closest(`*[${engine.props.nodeTranslateAttrName}]`)
+    if (!currentWorkspace) return
+    const helper = currentWorkspace.operation.transformHelper
     if (handler) {
       const type = handler.getAttribute(engine.props.nodeTranslateAttrName)
       if (type) {
@@ -20,7 +22,7 @@ export const useTranslateEffect = (engine: Engine) => {
           if (nodeId) {
             const node = engine.findNodeById(nodeId)
             if (node) {
-              currentWorkspace?.operation.translateHelper.dragStart([node])
+              helper.dragStart({ dragNodes: [node], type: 'translate' })
             }
           }
         }
@@ -31,14 +33,13 @@ export const useTranslateEffect = (engine: Engine) => {
     if (engine.cursor.dragType !== CursorDragType.Translate) return
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace
-    const translateHelper = currentWorkspace?.operation.translateHelper
-    const dragNodes = translateHelper.dragNodes
-    const allowTranslate = dragNodes.every((node) => node.allowTranslate())
-    if (!dragNodes.length || !allowTranslate) return
-    translateHelper.dragMove()
+    const helper = currentWorkspace?.operation.transformHelper
+    const dragNodes = helper.dragNodes
+    if (!dragNodes.length) return
+    helper.dragMove()
     dragNodes.forEach((node) => {
       const element = node.getElement()
-      translateHelper.translate(node, (translate) => {
+      helper.translate(node, (translate) => {
         element.style.position = 'absolute'
         element.style.left = '0px'
         element.style.top = '0px'
@@ -47,11 +48,12 @@ export const useTranslateEffect = (engine: Engine) => {
     })
   })
   engine.subscribeTo(DragStopEvent, (event) => {
+    if (engine.cursor.dragType !== CursorDragType.Translate) return
     const currentWorkspace =
       event.context?.workspace ?? engine.workbench.activeWorkspace
-    const translateHelper = currentWorkspace?.operation.translateHelper
-    if (translateHelper) {
-      translateHelper.dragEnd()
+    const helper = currentWorkspace?.operation.transformHelper
+    if (helper) {
+      helper.dragEnd()
     }
   })
 }
