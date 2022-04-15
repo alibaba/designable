@@ -83,8 +83,6 @@ export class TransformHelper {
 
   snapped = false
 
-  requestTimer = null
-
   constructor(props: ITransformHelperProps) {
     this.operation = props.operation
     this.makeObservable()
