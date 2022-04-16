@@ -38,8 +38,13 @@ export const SelectPrevNode = new Shortcut({
           } else {
             selection.select(previousNode)
           }
-        } else {
+        } else if (selectedNode.parent) {
           selection.select(selectedNode.parent)
+        } else {
+          const bottom = findBottomLastChild(selectedNode.lastChild)
+          if (bottom) {
+            selection.select(bottom)
+          }
         }
       }
     }
