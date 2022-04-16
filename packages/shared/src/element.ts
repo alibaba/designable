@@ -75,6 +75,7 @@ export const calcElementOuterWidth = (
 export const calcElementLayout = (element: Element) => {
   if (!element) return 'vertical'
   const parent = element.parentElement
+  if (!parent) return 'vertical'
   const tagName = element.tagName
   const parentTagName = parent.tagName
   const style = getComputedStyle(element)

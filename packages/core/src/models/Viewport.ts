@@ -15,7 +15,6 @@ import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
 import { Engine } from './Engine'
 import { TreeNode } from './TreeNode'
-import { NodeSelector } from './NodeSelector'
 
 export interface IViewportProps {
   engine: Engine
@@ -41,8 +40,6 @@ export type IViewportMoveInsertionType = 'all' | 'inline' | 'block'
  */
 export class Viewport {
   workspace: Workspace
-
-  selector: NodeSelector
 
   engine: Engine
 
@@ -70,6 +67,8 @@ export class Viewport {
 
   moveInsertionType: IViewportMoveInsertionType
 
+  nodeElementsStore: Record<string, HTMLElement[]> = {}
+
   constructor(props: IViewportProps) {
     this.workspace = props.workspace
     this.engine = props.engine
@@ -78,7 +77,6 @@ export class Viewport {
     this.viewportElement = props.viewportElement
     this.contentWindow = props.contentWindow
     this.nodeIdAttrName = props.nodeIdAttrName
-    this.selector = new NodeSelector()
     this.digestViewport()
     this.makeObservable()
     this.attachEvents()
@@ -176,6 +174,21 @@ export class Viewport {
 
   get dragScrollYDelta() {
     return this.scrollY - this.dragStartSnapshot.scrollY
+  }
+
+  cacheElements() {
+    this.nodeElementsStore = {}
+    this.viewportRoot
+      ?.querySelectorAll(`*[${this.nodeIdAttrName}]`)
+      .forEach((element: HTMLElement) => {
+        const id = element.getAttribute(this.nodeIdAttrName)
+        this.nodeElementsStore[id] = this.nodeElementsStore[id] || []
+        this.nodeElementsStore[id].push(element)
+      })
+  }
+
+  clearCache() {
+    this.nodeElementsStore = {}
   }
 
   getCurrentData() {
@@ -305,14 +318,22 @@ export class Viewport {
     })
   }
 
-  findElementById(id: string) {
+  findElementById(id: string): HTMLElement {
     if (!id) return
-    return this.selector.query(this.viewportRoot, this.nodeIdAttrName, id)
+    if (this.nodeElementsStore[id]) return this.nodeElementsStore[id][0]
+    return this.viewportRoot?.querySelector(
+      `*[${this.nodeIdAttrName}='${id}']`
+    ) as HTMLElement
   }
 
-  findElementsById(id: string) {
+  findElementsById(id: string): HTMLElement[] {
     if (!id) return []
-    return this.selector.queryAll(this.viewportRoot, this.nodeIdAttrName, id)
+    if (this.nodeElementsStore[id]) return this.nodeElementsStore[id]
+    return Array.from(
+      this.viewportRoot?.querySelectorAll(
+        `*[${this.nodeIdAttrName}='${id}']`
+      ) ?? []
+    )
   }
 
   containsElement(element: HTMLElement | Element | EventTarget) {

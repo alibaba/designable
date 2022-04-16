@@ -80,6 +80,10 @@ export class MoveHelper {
     this.makeObservable()
   }
 
+  get cursor() {
+    return this.operation.engine.cursor
+  }
+
   get viewport() {
     return this.operation.workspace.viewport
   }
@@ -274,7 +278,8 @@ export class MoveHelper {
           source: this.dragNodes,
         })
       )
-      this.operation.engine.cursor.setDragType(CursorDragType.Move)
+      this.viewport.cacheElements()
+      this.cursor.setDragType(CursorDragType.Move)
       this.dragging = true
     }
   }
@@ -349,6 +354,7 @@ export class MoveHelper {
     this.viewportClosestDirection = null
     this.viewportClosestOffsetRect = null
     this.viewportClosestRect = null
+    this.viewport.clearCache()
   }
 
   trigger(event: any) {
