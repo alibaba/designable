@@ -12,6 +12,7 @@ import { IconWidget } from '../IconWidget'
 import { TextWidget } from '../TextWidget'
 import cls from 'classnames'
 import './styles.less'
+import { Tooltip } from 'antd'
 
 export type SourceMapper = (resource: IResource) => React.ReactChild
 
@@ -28,32 +29,34 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
     const prefix = usePrefix('resource')
     const [expand, setExpand] = useState(props.defaultExpand)
     const renderNode = (source: IResource) => {
-      const { node, icon, title, thumb, span } = source
+      const { node, icon, title, thumb, span, description } = source
       return (
-        <div
-          className={prefix + '-item'}
-          style={{ gridColumnStart: `span ${span || 1}` }}
-          key={node.id}
-          data-designer-source-id={node.id}
-        >
-          {thumb && <img className={prefix + '-item-thumb'} src={thumb} />}
-          {icon && React.isValidElement(icon) ? (
-            <>{icon}</>
-          ) : (
-            <IconWidget
-              className={prefix + '-item-icon'}
-              infer={icon}
-              style={{ width: 150, height: 40 }}
-            />
-          )}
-          <span className={prefix + '-item-text'}>
-            {
-              <TextWidget>
-                {title || node.children[0]?.getMessage('title')}
-              </TextWidget>
-            }
-          </span>
-        </div>
+        <Tooltip title={description && <TextWidget>{description}</TextWidget>}>
+          <div
+            className={prefix + '-item'}
+            style={{ gridColumnStart: `span ${span || 1}` }}
+            key={node.id}
+            data-designer-source-id={node.id}
+          >
+            {thumb && <img className={prefix + '-item-thumb'} src={thumb} />}
+            {icon && React.isValidElement(icon) ? (
+              <>{icon}</>
+            ) : (
+              <IconWidget
+                className={prefix + '-item-icon'}
+                infer={icon}
+                style={{ width: 150, height: 40 }}
+              />
+            )}
+            <span className={prefix + '-item-text'}>
+              {
+                <TextWidget>
+                  {title || node.children[0]?.getMessage('title')}
+                </TextWidget>
+              }
+            </span>
+          </div>
+        </Tooltip>
       )
     }
     const sources = props.sources.reduce<IResource[]>((buf, source) => {

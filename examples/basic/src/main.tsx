@@ -302,6 +302,11 @@ const Input = createResource({
     'ko-KR': '입력 상자',
   },
   icon: 'InputSource',
+  description: {
+    'zh-CN': '类型：字符串',
+    'en-US': 'type: string',
+    'ko-KR': '유형: 문자열',
+  },
   elements: [
     {
       componentName: 'Field',
