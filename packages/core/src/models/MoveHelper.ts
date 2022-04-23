@@ -111,12 +111,12 @@ export class MoveHelper {
     const closestNode = this.closestNode
     if (!closestNode || !viewport.isPointInViewport(point))
       return ClosestPosition.Forbid
-    const closestRect = viewport.getValidNodeRect(closestNode)
+    let closestRect = viewport.getValidNodeRect(closestNode)
     const isInline = this.getClosestLayout(viewport) === 'horizontal'
     if (!closestRect) {
       return
     }
-    const isAfter = isNearAfter(
+    let isAfter = isNearAfter(
       point,
       closestRect,
       viewport.moveInsertionType === 'block' ? false : isInline
@@ -132,7 +132,14 @@ export class MoveHelper {
           const parentClosestNode = getValidParent(closestNode)
           if (parentClosestNode) {
             this.closestNode = parentClosestNode
+            closestRect = viewport.getValidNodeRect(this.closestNode)
+            isAfter = isNearAfter(
+              point,
+              closestRect,
+              viewport.moveInsertionType === 'block' ? false : isInline
+            )
           }
+
           if (isInline) {
             if (parentClosestNode) {
               if (isAfter) {
@@ -177,9 +184,17 @@ export class MoveHelper {
     } else {
       if (!closestNode.allowSibling(this.dragNodes)) {
         const parentClosestNode = getValidParent(closestNode)
+
         if (parentClosestNode) {
           this.closestNode = parentClosestNode
+          closestRect = viewport.getValidNodeRect(this.closestNode)
+          isAfter = isNearAfter(
+            point,
+            closestRect,
+            viewport.moveInsertionType === 'block' ? false : isInline
+          )
         }
+
         if (isInline) {
           if (parentClosestNode) {
             if (isAfter) {
