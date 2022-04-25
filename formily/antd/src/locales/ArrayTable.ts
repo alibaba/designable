@@ -17,6 +17,10 @@ export const ArrayTable = {
         fixed: { title: '固定列', dataSource: ['左', '右', '无'] },
         width: '宽度',
         defaultValue: '默认值',
+        tableLayout: {
+          title: '表格布局',
+          dataSource: ['自动', '固定'],
+        },
       },
     },
   },
@@ -38,6 +42,10 @@ export const ArrayTable = {
         fixed: { title: 'Fixed', dataSource: ['Left', 'Right', 'None'] },
         width: 'Width',
         defaultValue: 'Default Value',
+        tableLayout: {
+          title: 'Table Layout',
+          dataSource: ['Auto', 'Fixed'],
+        },
       },
     },
   },
