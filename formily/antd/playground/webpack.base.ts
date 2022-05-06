@@ -41,13 +41,17 @@ export default {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-    alias: getWorkspaceAlias(),
+    alias: {
+      ...getWorkspaceAlias(),
+      '@formily/antd': '@formily/infrad',
+    },
   },
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
     moment: 'moment',
     antd: 'antd',
+    // infrad: 'infrad',
   },
   module: {
     rules: [
