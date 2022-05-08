@@ -52,7 +52,7 @@ const transformDataSource = (node: TreeNode) => {
   const transformRelativePath = (arrayNode: TreeNode, targetNode: TreeNode) => {
     if (targetNode.depth === currentNode.depth)
       return `.${targetNode.props.name || targetNode.id}`
-    return `${dots(currentNode.depth - targetNode.depth)}[].${targetPath(
+    return `${dots(targetNode.depth)}[].${targetPath(
       arrayNode,
       targetNode
     )}`
