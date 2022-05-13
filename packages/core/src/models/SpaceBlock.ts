@@ -59,8 +59,10 @@ export class SpaceBlock {
 
   get extendsLine() {
     if (!this.needExtendsLine) return
-    const dragNodesRect = this.helper.dragNodesRect
-    return calcExtendsLineSegmentOfRect(dragNodesRect, this.referRect)
+    return calcExtendsLineSegmentOfRect(
+      this.helper.dragNodesOffsetRect,
+      this.referRect
+    )
   }
 
   get needExtendsLine() {
@@ -79,7 +81,6 @@ export class SpaceBlock {
         topDelta < targetRect.height / 2 || bottomDelta < targetRect.height / 2
       )
     }
-    return true
   }
 
   get crossReferRect() {
@@ -102,7 +103,7 @@ export class SpaceBlock {
   }
 
   get crossDragNodesRect() {
-    const dragNodesRect = this.helper.dragNodesRect
+    const dragNodesRect = this.helper.dragNodesOffsetRect
     if (this.type === 'top' || this.type === 'bottom') {
       return new Rect(
         dragNodesRect.x,

@@ -2,7 +2,6 @@ import {
   calcRectOfAxisLineSegment,
   ILineSegment,
   IPoint,
-  calcOffsetOfSnapLineSegmentToEdge,
   Rect,
 } from '@designable/shared'
 import { TreeNode } from './TreeNode'
@@ -54,65 +53,7 @@ export class SnapLine {
     return calcRectOfAxisLineSegment(this)
   }
 
-  translate(node: TreeNode, translate: IPoint) {
-    if (!node || !node?.parent) return
-    const parent = node.parent
-    const dragNodeRect = node.getValidElementOffsetRect()
-    const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodeRect)
-    if (this.direction === 'h') {
-      translate.y = this.start.y - parentRect.y - edgeOffset.y
-    } else {
-      translate.x = this.start.x - parentRect.x - edgeOffset.x
-    }
-  }
-
-  resize(node: TreeNode, rect: Rect) {
-    if (!node || !node?.parent) return
-    const parent = node.parent
-    const dragNodeRect = node.getValidElementOffsetRect()
-    const parentRect = parent.getValidElementOffsetRect()
-    const edgeOffset = calcOffsetOfSnapLineSegmentToEdge(this, dragNodeRect)
-    const cursorRect = this.helper.cursorDragNodesRect
-    const snapEdge = this.snapEdge(rect)
-    if (this.direction === 'h') {
-      const y = this.start.y - parentRect.y - edgeOffset.y
-      switch (this.helper.direction) {
-        case 'left-top':
-        case 'center-top':
-        case 'right-top':
-          if (snapEdge !== 'ht') return
-          rect.y = y
-          rect.height = cursorRect.bottom - y
-          break
-        case 'left-bottom':
-        case 'center-bottom':
-        case 'right-bottom':
-          if (snapEdge !== 'hb') return
-          rect.height = this.start.y - cursorRect.top
-          break
-      }
-    } else {
-      const x = this.start.x - parentRect.x - edgeOffset.x
-      switch (this.helper.direction) {
-        case 'left-top':
-        case 'left-bottom':
-        case 'left-center':
-          if (snapEdge !== 'vl') return
-          rect.x = x
-          rect.width = cursorRect.right - x
-          break
-        case 'right-center':
-        case 'right-top':
-        case 'right-bottom':
-          if (snapEdge !== 'vr') return
-          rect.width = this.start.x - cursorRect.left
-          break
-      }
-    }
-  }
-
-  snapEdge(rect: Rect) {
+  getClosestEdge(rect: Rect) {
     const threshold = TransformHelper.threshold
     if (this.direction === 'h') {
       if (Math.abs(this.start.y - rect.top) < threshold) return 'ht'

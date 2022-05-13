@@ -35,6 +35,7 @@ export const Content = () => (
               background: '#eee',
               border: '1px solid #ddd',
               display: 'flex',
+              transform: 'translate3d(300px,200px,0)',
               padding: 10,
               justifyContent: 'center',
               alignItems: 'center',

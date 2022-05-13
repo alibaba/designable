@@ -262,12 +262,12 @@ export class TreeNode {
     return this[area]?.getValidNodeElement(this)
   }
 
-  getElementRect(area: 'viewport' | 'outline' = 'viewport') {
-    return this[area]?.getElementRect(this.getElement(area))
+  getElementClientRect(area: 'viewport' | 'outline' = 'viewport') {
+    return this[area]?.getElementClientRect(this.getElement(area))
   }
 
-  getValidElementRect(area: 'viewport' | 'outline' = 'viewport') {
-    return this[area]?.getValidNodeRect(this)
+  getValidElementClientRect(area: 'viewport' | 'outline' = 'viewport') {
+    return this[area]?.getValidNodeClientRect(this)
   }
 
   getElementOffsetRect(area: 'viewport' | 'outline' = 'viewport') {
@@ -432,7 +432,9 @@ export class TreeNode {
     return ['y']
   }
 
-  allowRotate() {}
+  allowRotate() {
+    return true
+  }
 
   allowRound() {}
 

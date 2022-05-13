@@ -13,6 +13,7 @@ import {
 import { observer } from '@formily/reactive-react'
 import { TreeNode } from '@designable/core'
 import { TranslateHandler } from './TranslateHandler'
+import { RotateHandler } from './RotateHandler'
 export interface ISelectionBoxProps {
   node: TreeNode
   showHelpers: boolean
@@ -49,6 +50,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
   return (
     <div {...selectionId} className={prefix} style={createSelectionStyle()}>
       <div className={innerPrefix}></div>
+      <RotateHandler node={props.node} />
       <ResizeHandler node={props.node} />
       <TranslateHandler node={props.node} />
       {props.showHelpers && (
@@ -62,8 +64,8 @@ export const Selection = observer(() => {
   const selection = useSelection()
   const tree = useTree()
   const cursor = useCursor()
-  const viewportMoveHelper = useMoveHelper()
-  if (cursor.status !== 'NORMAL' && viewportMoveHelper.touchNode) return null
+  const moveHelper = useMoveHelper()
+  if (cursor.status !== 'NORMAL' && moveHelper.touchNode) return null
   return (
     <Fragment>
       {selection.selected.map((id) => {

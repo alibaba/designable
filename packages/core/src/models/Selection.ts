@@ -2,7 +2,7 @@ import { observable, define, action } from '@formily/reactive'
 import { Operation } from './Operation'
 import { SelectNodeEvent, UnSelectNodeEvent } from '../events'
 import { TreeNode } from './TreeNode'
-import { isStr, isArr } from '@designable/shared'
+import { isStr, isArr, createElementBox } from '@designable/shared'
 
 export interface ISelection {
   selected?: string[]
@@ -27,6 +27,11 @@ export class Selection {
   makeObservable() {
     define(this, {
       selected: observable,
+      selectedNodes: observable.computed,
+      first: observable.computed,
+      last: observable.computed,
+      length: observable.computed,
+      selectedNodesBox: observable.computed,
       select: action,
       batchSelect: action,
       add: action,
@@ -86,6 +91,13 @@ export class Selection {
 
   get selectedNodes() {
     return this.selected.map((id) => this.operation.tree.findById(id))
+  }
+
+  get selectedNodesBox() {
+    return (
+      this.operation.transformHelper.dragNodesShadowBox ??
+      createElementBox(this.selectedNodes)
+    )
   }
 
   get first() {

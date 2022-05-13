@@ -26,6 +26,10 @@
     "access": "public"
   },
   "dependencies": {
+    "@formily/reactive": "^2.0.2",
+    "@types/parse-unit": "^1.0.1",
+    "transformation-matrix": "^2.11.1",
+    "parse-unit": "^1.0.1",
     "requestidlecallback": "^0.3.0"
   },
   "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"

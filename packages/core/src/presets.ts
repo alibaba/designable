@@ -11,13 +11,12 @@ import {
   useViewportEffect,
   useDragDropEffect,
   useSelectionEffect,
-  useResizeEffect,
   useKeyboardEffect,
   useAutoScrollEffect,
   useWorkspaceEffect,
   useFreeSelectionEffect,
   useContentEditableEffect,
-  useTranslateEffect,
+  useTransformEffect,
 } from './effects'
 import {
   SelectNodes,
@@ -44,8 +43,7 @@ export const DEFAULT_EFFECTS = [
   useAutoScrollEffect,
   useWorkspaceEffect,
   useContentEditableEffect,
-  useTranslateEffect,
-  useResizeEffect,
+  useTransformEffect,
 ]
 
 export const DEFAULT_DRIVERS = [

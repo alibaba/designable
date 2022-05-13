@@ -87,7 +87,7 @@ export const SpaceBlock = observer(() => {
           )
         }
       )}
-      {transformHelper.thresholdSpaceBlocks.map(({ rect }, key) => {
+      {transformHelper.axisSpaceBlocks.map(({ rect }, key) => {
         return (
           <div
             key={key}

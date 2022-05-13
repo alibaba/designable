@@ -111,7 +111,7 @@ export class MoveHelper {
     const closestNode = this.closestNode
     if (!closestNode || !viewport.isPointInViewport(point))
       return ClosestPosition.Forbid
-    const closestRect = viewport.getValidNodeRect(closestNode)
+    const closestRect = viewport.getValidNodeClientRect(closestNode)
     const isInline = this.getClosestLayout(viewport) === 'horizontal'
     if (!closestRect) {
       return
@@ -212,14 +212,14 @@ export class MoveHelper {
 
   calcClosestNode(point: IPoint, viewport: Viewport): TreeNode {
     if (this.touchNode) {
-      const touchNodeRect = viewport.getValidNodeRect(this.touchNode)
+      const touchNodeRect = viewport.getValidNodeClientRect(this.touchNode)
       if (!touchNodeRect) return
       if (this.touchNode?.children?.length) {
         const touchDistance = calcDistancePointToEdge(point, touchNodeRect)
         let minDistance = touchDistance
         let minDistanceNode = this.touchNode
         this.touchNode.eachChildren((node) => {
-          const rect = viewport.getElementRectById(node.id)
+          const rect = viewport.getElementClientRectById(node.id)
           if (!rect) return
           const distance = isPointInRect(point, rect, viewport.moveSensitive)
             ? 0
@@ -240,12 +240,12 @@ export class MoveHelper {
   calcClosestRect(viewport: Viewport, closestDirection: ClosestPosition): Rect {
     const closestNode = this.closestNode
     if (!closestNode || !closestDirection) return
-    const closestRect = viewport.getValidNodeRect(closestNode)
+    const closestRect = viewport.getValidNodeClientRect(closestNode)
     if (
       closestDirection === ClosestPosition.InnerAfter ||
       closestDirection === ClosestPosition.InnerBefore
     ) {
-      return viewport.getChildrenRect(closestNode)
+      return viewport.getChildrenClientRect(closestNode)
     } else {
       return closestRect
     }

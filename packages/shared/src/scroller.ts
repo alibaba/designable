@@ -1,4 +1,4 @@
-import { IPoint } from './coordinate'
+import { IPoint } from './geometry'
 import { createUniformSpeedAnimation, calcSpeedFactor } from './animation'
 import { isFn, isWindow } from './types'
 

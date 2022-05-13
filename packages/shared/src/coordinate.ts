@@ -1,633 +1,846 @@
-import { isValidNumber } from './types'
-export interface IPoint {
-  x: number
-  y: number
-}
+import {
+  identity,
+  inverse,
+  decomposeTSR,
+  compose,
+  scale,
+  rotate,
+  translate,
+  Matrix,
+  rotateDEG,
+  applyToPoint,
+  Transform,
+} from 'transformation-matrix'
+import parseUnit from 'parse-unit'
+import {
+  Point,
+  IPoint,
+  Rect,
+  calcCenterPoint,
+  calcDistanceOfPoints,
+} from './geometry'
 
-export interface ISize {
+export interface ICoordinateSystem {
+  absoluteMatrix: Matrix
+  transformMatrix: Matrix
+  clientMatrix: Matrix
+  transformOrigin: Position
   width: number
   height: number
 }
 
-export interface ILineSegment {
-  start: IPoint
-  end: IPoint
-}
-
-export interface IRectEdgeLines {
-  v: ILineSegment[]
-  h: ILineSegment[]
-}
-
-export function isRect(rect: any): rect is IRect {
-  return rect?.x && rect?.y && rect?.width && rect?.height
-}
-
-export function isPoint(val: any): val is IPoint {
-  return isValidNumber(val?.x) && isValidNumber(val?.y)
-}
-
-export function isLineSegment(val: any): val is ILineSegment {
-  return isPoint(val?.start) && isPoint(val?.end)
-}
-
-export class Point implements IPoint {
-  x: number
-  y: number
-  constructor(x: number, y: number) {
-    this.x = x
-    this.y = y
-  }
-}
-
-export class Rect implements IRect {
-  x = 0
-  y = 0
-  width = 0
-  height = 0
-  constructor(x: number, y: number, width: number, height: number) {
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
-  }
-
-  get left() {
-    return this.x
-  }
-
-  get right() {
-    return this.x + this.width
-  }
-
-  get top() {
-    return this.y
-  }
-
-  get bottom() {
-    return this.y + this.height
-  }
-}
-
-export class LineSegment {
-  start: IPoint
-  end: IPoint
-  constructor(start: IPoint, end: IPoint) {
-    this.start = { ...start }
-    this.end = { ...end }
-  }
-}
-
-export interface IRect {
-  x: number
-  y: number
+export interface BoxSize {
   width: number
   height: number
 }
 
-export enum RectQuadrant {
-  Inner1 = 'I1', //内部第一象限
-  Inner2 = 'I2', //内部第二象限
-  Inner3 = 'I3', //内部第三象限
-  Inner4 = 'I4', //内部第四象限
-  Outer1 = 'O1', //内部第五象限
-  Outer2 = 'O2', //内部第六象限
-  Outer3 = 'O3', //内部第七象限
-  Outer4 = 'O4', //内部第八象限
+export interface ITransformer {
+  push: (matrix: Matrix) => void
+  resize: (width: number, height: number, offset: IPoint) => void
+  translate: (tx: number, ty?: number) => void
+  scale: (sx: number, sy?: number, origin?: IPoint) => void
+  rotate: (rotation: number, origin?: IPoint) => void
+  rotateDEG: (angle: number, origin?: IPoint) => void
 }
 
-export interface IPointToRectRelative {
-  quadrant: RectQuadrant
-  distance: number
+export interface IElementNode {
+  getElement(): HTMLElement
 }
 
-export function isPointInRect(point: IPoint, rect: IRect, sensitive = true) {
-  const boundSensor = (value: number) => {
-    if (!sensitive) return 0
-    const sensor = value * 0.1
-    if (sensor > 20) return 20
-    if (sensor < 10) return 10
-    return sensor
-  }
+export type VertexTypes = 'lt' | 'rt' | 'rb' | 'lb' | (string & {})
 
-  return (
-    point.x >= rect.x + boundSensor(rect.width) &&
-    point.x <= rect.x + rect.width - boundSensor(rect.width) &&
-    point.y >= rect.y + boundSensor(rect.height) &&
-    point.y <= rect.y + rect.height - boundSensor(rect.height)
-  )
+export type CenterTypes = 'lc' | 'rc' | 'cc' | 'ct' | 'cb' | (string & {})
+
+export type PointTypes = VertexTypes | CenterTypes
+
+const PIXELS_PER_INCH = 96
+
+const defaultUnits: Record<string, number> = {
+  ch: 8,
+  ex: 7.15625,
+  em: 16,
+  rem: 16,
+  in: PIXELS_PER_INCH,
+  cm: PIXELS_PER_INCH / 2.54,
+  mm: PIXELS_PER_INCH / 25.4,
+  pt: PIXELS_PER_INCH / 72,
+  pc: PIXELS_PER_INCH / 6,
+  px: 1,
 }
 
-export function isEqualRect(target: IRect, source: IRect) {
-  return (
-    target?.x === source?.x &&
-    target.y === source.y &&
-    target.width === source.width &&
-    target.height === source.height
-  )
+function isIframeElement(element: HTMLElement) {
+  return element?.ownerDocument?.defaultView?.parent !== window
 }
 
-export function getRectPoints(source: IRect) {
-  const p1 = new Point(source.x, source.y)
-  const p2 = new Point(source.x + source.width, source.y)
-  const p3 = new Point(source.x + source.width, source.y + source.height)
-  const p4 = new Point(source.x, source.y + source.height)
-  return [p1, p2, p3, p4]
-}
-
-export function isRectInRect(target: IRect, source: IRect) {
-  const [p1, p2, p3, p4] = getRectPoints(target)
-  return (
-    isPointInRect(p1, source, false) &&
-    isPointInRect(p2, source, false) &&
-    isPointInRect(p3, source, false) &&
-    isPointInRect(p4, source, false)
-  )
-}
-
-export function isCrossRectInRect(target: IRect, source: IRect) {
-  const targetCenterPoint = new Point(
-    target.x + target.width / 2,
-    target.y + target.height / 2
-  )
-  const sourceCenterPoint = new Point(
-    source.x + source.width / 2,
-    source.y + source.height / 2
-  )
-  return (
-    Math.abs(targetCenterPoint.x - sourceCenterPoint.x) <=
-      target.width / 2 + source.width / 2 &&
-    Math.abs(targetCenterPoint.y - sourceCenterPoint.y) <=
-      target.height / 2 + source.height / 2
-  )
-}
-
-/**
- * 计算点在矩形的哪个象限
- * @param point
- * @param rect
- */
-export function calcQuadrantOfPointToRect(point: IPoint, rect: IRect) {
-  const isInner = isPointInRect(point, rect)
-  if (point.x <= rect.x + rect.width / 2) {
-    if (point.y <= rect.y + rect.height / 2) {
-      if (isInner) {
-        return RectQuadrant.Inner1
-      } else {
-        return RectQuadrant.Outer1
-      }
-    } else {
-      if (isInner) {
-        return RectQuadrant.Inner4
-      } else {
-        return RectQuadrant.Outer4
+function createScrollOffsetGetter(element: HTMLElement) {
+  const parents = []
+  let current = element,
+    parent = current
+  while (true) {
+    current = parent
+    parent = parent.parentElement
+    if (parent) {
+      if (parent.scrollHeight > parent.clientHeight) {
+        parents.push(parent)
+        continue
       }
     }
-  } else {
-    if (point.y <= rect.y + rect.height / 2) {
-      if (isInner) {
-        return RectQuadrant.Inner2
-      } else {
-        return RectQuadrant.Outer2
-      }
-    } else {
-      if (isInner) {
-        return RectQuadrant.Inner3
-      } else {
-        return RectQuadrant.Outer3
+    if (isIframeElement(current)) {
+      const defaultView = current.ownerDocument.defaultView
+      const frameElement = defaultView?.frameElement as HTMLElement
+      if (frameElement) {
+        parents.push(defaultView)
+        continue
       }
     }
-  }
-}
-
-export function calcDistanceOfPointToRect(point: IPoint, rect: IRect) {
-  let minX = Math.min(
-    Math.abs(point.x - rect.x),
-    Math.abs(point.x - (rect.x + rect.width))
-  )
-  let minY = Math.min(
-    Math.abs(point.y - rect.y),
-    Math.abs(point.y - (rect.y + rect.height))
-  )
-  if (point.x >= rect.x && point.x <= rect.x + rect.width) {
-    minX = 0
-  }
-  if (point.y >= rect.y && point.y <= rect.y + rect.height) {
-    minY = 0
+    break
   }
 
-  return Math.sqrt(minX ** 2 + minY ** 2)
-}
+  parents.push(window)
 
-export function calcDistancePointToEdge(point: IPoint, rect: IRect) {
-  const distanceTop = Math.abs(point.y - rect.y)
-  const distanceBottom = Math.abs(point.y - (rect.y + rect.height))
-  const distanceLeft = Math.abs(point.x - rect.x)
-  const distanceRight = Math.abs(point.x - (rect.x + rect.width))
-  return Math.min(distanceTop, distanceBottom, distanceLeft, distanceRight)
-}
-
-export function isNearAfter(point: IPoint, rect: IRect, inline = false) {
-  if (inline) {
-    return (
-      Math.abs(point.x - rect.x) + Math.abs(point.y - rect.y) >
-      Math.abs(point.x - (rect.x + rect.width)) +
-        Math.abs(point.y - (rect.y + rect.height))
-    )
-  }
-  return Math.abs(point.y - rect.y) > Math.abs(point.y - (rect.y + rect.height))
-}
-
-/**
- * 计算点鱼矩形的相对位置信息
- * @param point
- * @param rect
- */
-export function calcRelativeOfPointToRect(
-  point: IPoint,
-  rect: IRect
-): IPointToRectRelative {
-  const distance = calcDistanceOfPointToRect(point, rect)
-  const quadrant = calcQuadrantOfPointToRect(point, rect)
-  return {
-    quadrant,
-    distance,
-  }
-}
-
-export function calcBoundingRect(rects: IRect[]) {
-  if (!rects?.length) return
-  if (rects?.length === 1 && !rects[0]) return
-  let minTop = Infinity
-  let maxBottom = -Infinity
-  let minLeft = Infinity
-  let maxRight = -Infinity
-  rects.forEach((item) => {
-    const rect = new Rect(item.x, item.y, item.width, item.height)
-    if (rect.top <= minTop) {
-      minTop = rect.top
+  return () => {
+    let x = 0,
+      y = 0
+    for (let i = 0; i < parents.length; i++) {
+      const node = parents[i]
+      x += node.scrollLeft ?? node.scrollX
+      y += node.scrollTop ?? node.scrollY
     }
-    if (rect.bottom >= maxBottom) {
-      maxBottom = rect.bottom
-    }
-    if (rect.left <= minLeft) {
-      minLeft = rect.left
-    }
-    if (rect.right >= maxRight) {
-      maxRight = rect.right
-    }
-  })
-  return new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop)
+    return new Point(x, y)
+  }
 }
 
-export function calcRectByStartEndPoint(
-  startPoint: IPoint,
-  endPoint: IPoint,
-  scrollX = 0,
-  scrollY = 0
+function moveToStandardOrigin(
+  transformMatrix: Matrix,
+  transformOrigin: Position
 ) {
-  let drawStartX = 0,
-    drawStartY = 0
-  if (
-    endPoint.x + scrollX >= startPoint.x &&
-    endPoint.y + scrollY >= startPoint.y
-  ) {
-    //4象限
-    drawStartX = startPoint.x
-    drawStartY = startPoint.y
-    return new Rect(
-      drawStartX - scrollX,
-      drawStartY - scrollY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
-    )
-  } else if (
-    endPoint.x + scrollX < startPoint.x &&
-    endPoint.y + scrollY < startPoint.y
-  ) {
-    //1象限
-    drawStartX = endPoint.x
-    drawStartY = endPoint.y
-    return new Rect(
-      drawStartX,
-      drawStartY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
-    )
-  } else if (
-    endPoint.x + scrollX < startPoint.x &&
-    endPoint.y + scrollY >= startPoint.y
-  ) {
-    //3象限
-    drawStartX = endPoint.x
-    drawStartY = startPoint.y
-    return new Rect(
-      drawStartX - scrollX,
-      drawStartY - scrollY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
-    )
-  } else {
-    //2象限
-    drawStartX = startPoint.x
-    drawStartY = endPoint.y
-    return new Rect(
-      drawStartX,
-      drawStartY,
-      Math.abs(endPoint.x - startPoint.x + scrollX),
-      Math.abs(endPoint.y - startPoint.y + scrollY)
-    )
-  }
-}
-
-export function calcEdgeLinesOfRect(rect: IRect): IRectEdgeLines {
-  return {
-    v: [
-      new LineSegment(
-        new Point(rect.x, rect.y),
-        new Point(rect.x, rect.y + rect.height)
-      ),
-      new LineSegment(
-        new Point(rect.x + rect.width / 2, rect.y),
-        new Point(rect.x + rect.width / 2, rect.y + rect.height)
-      ),
-      new LineSegment(
-        new Point(rect.x + rect.width, rect.y),
-        new Point(rect.x + rect.width, rect.y + rect.height)
-      ),
-    ],
-    h: [
-      new LineSegment(
-        new Point(rect.x, rect.y),
-        new Point(rect.x + rect.width, rect.y)
-      ),
-      new LineSegment(
-        new Point(rect.x, rect.y + rect.height / 2),
-        new Point(rect.x + rect.width, rect.y + rect.height / 2)
-      ),
-      new LineSegment(
-        new Point(rect.x, rect.y + rect.height),
-        new Point(rect.x + rect.width, rect.y + rect.height)
-      ),
-    ],
-  }
-}
-
-export function calcRectOfAxisLineSegment(line: ILineSegment) {
-  if (!isLineSegment(line)) return
-  const isXAxis = line.start.x === line.end.x
-  return new Rect(
-    line.start.x,
-    line.start.y,
-    isXAxis ? 0 : line.end.x - line.start.x,
-    isXAxis ? line.end.y - line.start.y : 0
+  return compose(
+    translate(transformOrigin.x, transformOrigin.y),
+    transformMatrix,
+    translate(-transformOrigin.x, -transformOrigin.y)
   )
 }
 
-export function calcSpaceBlockOfRect(
-  target: IRect,
-  source: IRect,
-  type?: string
-) {
-  const targetRect = new Rect(target.x, target.y, target.width, target.height)
-  const sourceRect = new Rect(source.x, source.y, source.width, source.height)
-  if (sourceRect.bottom < targetRect.top && sourceRect.left > targetRect.right)
-    return
-  if (sourceRect.top > targetRect.bottom && sourceRect.left > targetRect.right)
-    return
-  if (sourceRect.bottom < targetRect.top && sourceRect.right < targetRect.left)
-    return
-  if (sourceRect.top > targetRect.bottom && sourceRect.right < targetRect.left)
-    return
-  if (sourceRect.bottom < targetRect.top) {
-    const distance = targetRect.top - sourceRect.bottom
-    const left = Math.min(sourceRect.left, targetRect.left)
-    const right = Math.max(sourceRect.right, targetRect.right)
-    if (type && type !== 'top') return
-    return {
-      type: 'top',
-      distance,
-      rect: new Rect(left, sourceRect.bottom, right - left, distance),
-    }
-  } else if (sourceRect.top > targetRect.bottom) {
-    const distance = sourceRect.top - targetRect.bottom
-    const left = Math.min(sourceRect.left, targetRect.left)
-    const right = Math.max(sourceRect.right, targetRect.right)
-    if (type && type !== 'bottom') return
-    return {
-      type: 'bottom',
-      distance,
-      rect: new Rect(left, targetRect.bottom, right - left, distance),
-    }
-  } else if (sourceRect.right < targetRect.left) {
-    const distance = targetRect.left - sourceRect.right
-    const top = Math.min(sourceRect.top, targetRect.top)
-    const bottom = Math.max(sourceRect.bottom, targetRect.bottom)
-    if (type && type !== 'left') return
-    return {
-      type: 'left',
-      distance,
-      rect: new Rect(sourceRect.right, top, distance, bottom - top),
-    }
-  } else if (sourceRect.left > targetRect.right) {
-    const distance = sourceRect.left - targetRect.right
-    const top = Math.min(sourceRect.top, targetRect.top)
-    const bottom = Math.max(sourceRect.bottom, targetRect.bottom)
-    if (type && type !== 'right') return
-    return {
-      type: 'right',
-      distance,
-      rect: new Rect(targetRect.right, top, distance, bottom - top),
-    }
-  }
+function moveToCSSOrigin(transformMatrix: Matrix, transformOrigin: Position) {
+  return compose(
+    translate(-transformOrigin.x, -transformOrigin.y),
+    transformMatrix,
+    translate(transformOrigin.x, transformOrigin.y)
+  )
 }
 
-export function calcExtendsLineSegmentOfRect(
-  targetRect: Rect,
-  referRect: Rect
-) {
-  if (
-    referRect.right < targetRect.right &&
-    targetRect.left <= referRect.right
-  ) {
-    //右侧
-    if (referRect.bottom < targetRect.top) {
-      //上方
-      return {
-        start: { x: referRect.right, y: referRect.bottom },
-        end: { x: targetRect.right, y: referRect.bottom },
-      }
-    } else if (referRect.top > targetRect.bottom) {
-      //下方
-      return {
-        start: { x: referRect.right, y: referRect.top },
-        end: { x: targetRect.right, y: referRect.top },
-      }
-    }
-  } else if (
-    referRect.left > targetRect.left &&
-    targetRect.right >= referRect.left
-  ) {
-    //左侧
-    if (referRect.bottom < targetRect.top) {
-      //上方
-      return {
-        start: { x: targetRect.left, y: referRect.bottom },
-        end: { x: referRect.left, y: referRect.bottom },
-      }
-    } else if (referRect.top > targetRect.bottom) {
-      //下方
-      return {
-        start: { x: targetRect.left, y: referRect.top },
-        end: { x: referRect.left, y: referRect.top },
-      }
-    }
-  }
-  if (referRect.top < targetRect.top && targetRect.bottom >= referRect.top) {
-    //refer在上方
-    if (referRect.right < targetRect.left) {
-      //右侧
-      return {
-        start: { x: referRect.right, y: referRect.bottom },
-        end: { x: referRect.right, y: targetRect.bottom },
-      }
-    } else if (referRect.left > targetRect.right) {
-      //左侧
-      return {
-        start: { x: referRect.left, y: referRect.bottom },
-        end: { x: referRect.left, y: targetRect.bottom },
-      }
-    }
-  } else if (
-    referRect.bottom > targetRect.bottom &&
-    referRect.top <= targetRect.bottom
-  ) {
-    //refer下方
-    if (referRect.right < targetRect.left) {
-      //右侧
-      return {
-        start: { x: referRect.right, y: targetRect.top },
-        end: { x: referRect.right, y: referRect.top },
-      }
-    } else if (referRect.left > targetRect.right) {
-      //左侧
-      return {
-        start: { x: referRect.left, y: targetRect.top },
-        end: { x: referRect.left, y: referRect.top },
-      }
-    }
-  }
-}
-
-export function calcOffsetOfSnapLineSegmentToEdge(
-  line: ILineSegment,
-  current: IRect
-) {
-  const edges = calcEdgeLinesOfRect(current)
-  const isVerticalLine = line.start.x === line.end.x
-  if (isVerticalLine) {
-    return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
-  }
-  function calcEdgeLinesOfRect(rect: IRect) {
-    return {
-      x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
-      y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
-    }
-  }
-  function calcMinDistanceValue(edges: number[], targetValue: number) {
-    let minDistance = Infinity,
-      minDistanceIndex = -1
-    for (let i = 0; i < edges.length; i++) {
-      const distance = Math.abs(edges[i] - targetValue)
-      if (minDistance > distance) {
-        minDistance = distance
-        minDistanceIndex = i
-      }
-    }
-    return edges[minDistanceIndex]
-  }
-
-  return { x: 0, y: calcMinDistanceValue(edges.y, line.start.y) - current.y }
-}
-
-export function calcDistanceOfSnapLineToEdges(
-  line: ILineSegment,
-  edges: IRectEdgeLines
-) {
-  let distance = Infinity
-  if (line?.start?.y === line?.end?.y) {
-    edges.h.forEach((target) => {
-      const _distance = Math.abs(target.start.y - line.start.y)
-      if (_distance < distance) {
-        distance = _distance
-      }
+export class ElementCoord implements ICoordinateSystem {
+  element: HTMLElement
+  parentAbsoluteMatrix: Matrix
+  transformMatrix: Matrix
+  transformOrigin: Position
+  transformOriginStyle: string
+  scrollOffset: Point
+  matrix: Matrix
+  width: number
+  height: number
+  constructor(element?: HTMLElement) {
+    this.element = element
+    this.width = element?.offsetWidth ?? Infinity
+    this.height = element?.offsetHeight ?? Infinity
+    this.transformOriginStyle = element?.style?.transformOrigin
+    this.transformOrigin = this.calcTransformOrigin(
+      this.transformOriginStyle,
+      this.width,
+      this.height
+    )
+    this.parentAbsoluteMatrix = this.calcElementAbsoluteMatrix(
+      element?.parentElement
+    )
+    this.transformMatrix = moveToStandardOrigin(
+      this.calcElementTransformMatrix(element),
+      this.transformOrigin
+    )
+    this.matrix = this.transformMatrix
+    Object.defineProperty(this, 'scrollOffset', {
+      get: createScrollOffsetGetter(element),
     })
-  } else if (line?.start?.x === line?.end?.x) {
-    edges.v.forEach((target) => {
-      const _distance = Math.abs(target.start.x - line.start.x)
-      if (_distance < distance) {
-        distance = _distance
-      }
-    })
-  } else {
-    throw new Error('can not calculate slash distance')
   }
-  return distance
-}
 
-export function calcCombineSnapLineSegment(
-  target: ILineSegment,
-  source: ILineSegment
-): ILineSegment {
-  if (target.start.x === target.end.x) {
-    return new LineSegment(
-      new Point(
-        target.start.x,
-        target.start.y > source.start.y ? source.start.y : target.start.y
-      ),
-      new Point(
-        target.start.x,
-        target.end.y > source.end.y ? target.end.y : source.end.y
+  get origin() {
+    return new Position(this, { x: 0, y: 0 })
+  }
+
+  get clientMatrix() {
+    const offset = this.scrollOffset
+    const elementOffsetX = this.element?.offsetLeft ?? 0
+    const elementOffsetY = this.element?.offsetTop ?? 0
+    return compose(
+      this.parentAbsoluteMatrix,
+      translate(elementOffsetX - offset.x, elementOffsetY - offset.y),
+      this.matrix
+    )
+  }
+
+  get absoluteMatrix() {
+    const elementOffsetX = this.element?.offsetLeft ?? 0
+    const elementOffsetY = this.element?.offsetTop ?? 0
+    return compose(
+      this.parentAbsoluteMatrix,
+      translate(elementOffsetX, elementOffsetY),
+      this.matrix
+    )
+  }
+
+  get cssMatrix() {
+    return moveToCSSOrigin(this.matrix, this.transformOrigin)
+  }
+
+  calcElementTransformOrigin(element: HTMLElement) {
+    return this.calcTransformOrigin(
+      element?.style?.transformOrigin,
+      element?.offsetWidth,
+      element?.offsetHeight
+    )
+  }
+
+  calcTransformOrigin(
+    transformOriginStyle: string,
+    width: number,
+    height: number
+  ) {
+    const transformOrigin = transformOriginStyle || 'center'
+    const origin = transformOrigin.trim()
+    if (!origin) return new Position(this, { x: 0, y: 0 })
+    const splits = origin.split(/\s+/)
+    const x = width / 2,
+      y = height / 2
+    const toPx = (value: string, axis: 'x' | 'y') => {
+      const defaultValue = axis === 'x' ? x : y
+      if (!value) return defaultValue
+      const parts = parseUnit(value)
+      if (!isNaN(parts[0])) {
+        if (parts[1]) {
+          if (parts[1] === '%') {
+            return axis === 'x'
+              ? width * 0.001 * parts[0]
+              : height * 0.001 * parts[0]
+          }
+          const px = defaultUnits[parts[1]]
+          return typeof px === 'number' ? parts[0] * px : defaultValue
+        } else {
+          return parts[0]
+        }
+      }
+      return defaultValue
+    }
+    const createPosition = (x: number, y: number) => {
+      return new Position(this, { x, y })
+    }
+    if (splits.length === 1) {
+      switch (splits[0]) {
+        case 'bottom':
+          return createPosition(x, height)
+        case 'absolute':
+          return createPosition(x, 0)
+        case 'left':
+          return createPosition(0, y)
+        case 'right':
+          return createPosition(width, y)
+      }
+    } else if (splits.length > 1) {
+      if (splits[0] === 'bottom') {
+        if (splits[1] === 'left') {
+          return createPosition(0, height)
+        }
+        if (splits[1] === 'right') {
+          return createPosition(width, height)
+        }
+        return createPosition(x, y)
+      }
+      if (splits[0] === 'absolute') {
+        if (splits[1] === 'left') {
+          return createPosition(0, 0)
+        }
+        if (splits[1] === 'right') {
+          return createPosition(width, 0)
+        }
+        return createPosition(x, y)
+      }
+      if (splits[0] === 'left') {
+        if (splits[1] === 'absolute') {
+          return createPosition(0, 0)
+        }
+        if (splits[1] === 'bottom') {
+          return createPosition(0, height)
+        }
+        return createPosition(0, toPx(splits[1], 'y'))
+      }
+      if (splits[0] === 'right') {
+        if (splits[1] === 'absolute') {
+          return createPosition(width, 0)
+        }
+        if (splits[1] === 'bottom') {
+          return createPosition(width, height)
+        }
+        return createPosition(width, toPx(splits[1], 'y'))
+      }
+      return createPosition(toPx(splits[0], 'x'), toPx(splits[1], 'y'))
+    }
+    return createPosition(x, y)
+  }
+
+  calcElementTransformMatrix(element: HTMLElement) {
+    if (!element) return identity()
+    const transform = getComputedStyle(element).transform
+    if (!transform || transform === 'none') return identity()
+    const parsed = transform
+      .match(/matrix?\(([^)]+)\)/)?.[1]
+      ?.split(',')
+      .map(parseFloat)
+    if (parsed && parsed.length === 6)
+      return {
+        a: parsed[0],
+        b: parsed[1],
+        c: parsed[2],
+        d: parsed[3],
+        e: parsed[4],
+        f: parsed[5],
+      }
+    return identity()
+  }
+
+  calcElementAbsoluteMatrix(
+    element: HTMLElement,
+    transformMatrix: Matrix = this.calcElementTransformMatrix(element),
+    transformOrigin: Position = this.calcElementTransformOrigin(element)
+  ): Matrix {
+    if (!element) return identity()
+    const parent = element.offsetParent as HTMLElement
+    const matrix = moveToStandardOrigin(transformMatrix, transformOrigin)
+    if (parent) {
+      const offsetLeft = element.offsetLeft
+      const offsetTop = element.offsetTop
+      return compose(
+        this.calcElementAbsoluteMatrix(parent),
+        translate(offsetLeft, offsetTop),
+        matrix
       )
-    )
+    }
+    if (isIframeElement(element)) {
+      const frameElement = element.ownerDocument.defaultView
+        ?.frameElement as HTMLElement
+      if (frameElement) {
+        const offsetLeft = frameElement.offsetLeft
+        const offsetTop = frameElement.offsetTop
+        return compose(
+          this.calcElementAbsoluteMatrix(
+            frameElement.offsetParent as HTMLElement
+          ),
+          translate(offsetLeft, offsetTop),
+          matrix
+        )
+      }
+    }
+    return matrix
   }
 
-  return new LineSegment(
-    new Point(
-      target.start.x > source.start.x ? source.start.x : target.start.x,
-      target.start.y
-    ),
-    new Point(
-      target.end.x > source.end.x ? target.end.x : source.end.x,
-      target.end.y
+  transform(transformer: (transformer: ITransformer) => void) {
+    if (typeof transformer !== 'function') return () => {}
+    const matrixes: Matrix[] = [this.transformMatrix]
+    let distWidth = this.width
+    let distHeight = this.height
+    transformer({
+      resize: (width, height, offset) => {
+        if (offset) {
+          matrixes.push(translate(offset.x, offset.y))
+        }
+        if (width < 0 || height < 0) {
+          return
+        }
+        distWidth = width
+        distHeight = height
+      },
+      scale: (sx, sy = sx, origin = this.transformOrigin) => {
+        matrixes.push(scale(sx, sy, origin.x, origin.y))
+      },
+      rotate: (rotation, origin = this.transformOrigin) => {
+        matrixes.push(rotate(rotation, origin.x, origin.y))
+      },
+      rotateDEG: (angle, origin = this.transformOrigin) => {
+        matrixes.push(rotateDEG(angle, origin.x, origin.y))
+      },
+      translate(tx, ty = 0) {
+        matrixes.push(translate(tx, ty))
+      },
+      push(matrix: Matrix) {
+        matrixes.push(matrix)
+      },
+    })
+    this.width = distWidth
+    this.height = distHeight
+    this.transformOrigin = this.calcTransformOrigin(
+      this.transformOriginStyle,
+      distWidth,
+      distHeight
     )
-  )
+    this.matrix = compose(matrixes)
+
+    return (target = this.element) => {
+      if (!target) return
+      const style = getComputedStyle(target)
+      const boxSizing = style.boxSizing
+      if (boxSizing === 'border-box') {
+        target.style.width = `${this.width}px`
+        target.style.height = `${this.height}px`
+      } else if (boxSizing === 'content-box') {
+        target.style.width = `${
+          this.width -
+          parseFloat(style.paddingLeft) -
+          parseFloat(style.paddingRight) -
+          parseFloat(style.borderLeftWidth) -
+          parseFloat(style.borderRightWidth)
+        }px`
+        target.style.height = `${
+          this.height -
+          parseFloat(style.paddingTop) -
+          parseFloat(style.paddingBottom) -
+          parseFloat(style.borderTopWidth) -
+          parseFloat(style.borderBottomWidth)
+        }px`
+      }
+      const decompose = decomposeTSR(this.cssMatrix)
+      const { translate: t, rotation: r, scale: s } = decompose
+      target.style.transform = `translate3d(${t.tx}px,${t.ty}px,0) scale(${s.sx},${s.sy}) rotate(${r.angle}rad)`
+      return decompose
+    }
+  }
+}
+export class Position {
+  coordinate: ElementCoord
+  position: Point
+  constructor(coordinate: ElementCoord, position: IPoint) {
+    this.coordinate = coordinate
+    this.position = new Point(position?.x, position?.y)
+  }
+
+  get absolutePosition() {
+    return applyToPoint(this.coordinate.absoluteMatrix, this.position)
+  }
+
+  get clientPosition() {
+    return applyToPoint(this.coordinate.clientMatrix, this.position)
+  }
+
+  get x() {
+    return this.position.x
+  }
+
+  get absoluteX() {
+    return this.absolutePosition.x
+  }
+
+  get clientX() {
+    return this.clientPosition.x
+  }
+
+  get y() {
+    return this.position.y
+  }
+
+  get absoluteY() {
+    return this.absolutePosition.y
+  }
+
+  get clientY() {
+    return this.clientPosition.y
+  }
 }
 
-export function calcClosestEdges(
-  line: ILineSegment,
-  edges: IRectEdgeLines
-): [number, ILineSegment] {
-  let result: ILineSegment
-  let distance = Infinity
-  if (line?.start?.y === line?.end?.y) {
-    edges.h.forEach((target) => {
-      const _distance = Math.abs(target.start.y - line.start.y)
-      if (_distance < distance) {
-        distance = _distance
-        result = target
-      }
-    })
-  } else if (line?.start?.x === line?.end?.x) {
-    edges.v.forEach((target) => {
-      const _distance = Math.abs(target.start.x - line.start.x)
-      if (_distance < distance) {
-        distance = _distance
-        result = target
-      }
-    })
-  } else {
-    throw new Error('can not calculate slash distance')
+export class ElementBox<Ref = any> {
+  element: HTMLElement
+  ref: Ref
+  coordinate: ElementCoord
+  constructor(element: HTMLElement, ref?: Ref) {
+    this.element = element
+    this.ref = ref
+    this.coordinate = new ElementCoord(element)
   }
-  return [distance, result]
+
+  get transformMatrix() {
+    return this.coordinate.transformMatrix
+  }
+
+  get transformOrigin() {
+    return this.coordinate.transformOrigin
+  }
+
+  get width() {
+    return this.coordinate.width
+  }
+
+  get height() {
+    return this.coordinate.height
+  }
+
+  get rotation() {
+    return decomposeTSR(this.transformMatrix)?.rotation?.angle
+  }
+
+  get scale() {
+    return decomposeTSR(this.transformMatrix)?.scale
+  }
+
+  get translate() {
+    return decomposeTSR(this.transformMatrix)?.translate
+  }
+
+  get vertexes() {
+    return {
+      lt: new Position(this.coordinate, {
+        x: 0,
+        y: 0,
+      }),
+      rt: new Position(this.coordinate, {
+        x: this.width,
+        y: 0,
+      }),
+      rb: new Position(this.coordinate, {
+        x: this.width,
+        y: this.height,
+      }),
+      lb: new Position(this.coordinate, {
+        x: 0,
+        y: this.height,
+      }),
+    }
+  }
+
+  get centers() {
+    return {
+      lc: new Position(this.coordinate, {
+        x: 0,
+        y: this.height / 2,
+      }),
+      rc: new Position(this.coordinate, {
+        x: this.width,
+        y: this.height / 2,
+      }),
+      cc: new Position(this.coordinate, {
+        x: this.width / 2,
+        y: this.height / 2,
+      }),
+      ct: new Position(this.coordinate, {
+        x: this.width / 2,
+        y: 0,
+      }),
+      cb: new Position(this.coordinate, {
+        x: this.width / 2,
+        y: this.height,
+      }),
+    }
+  }
+
+  get points() {
+    return {
+      ...this.vertexes,
+      ...this.centers,
+    }
+  }
+
+  get boundingClientRect() {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    const vertexes: Record<string, Position> = this.vertexes
+    for (let key in vertexes) {
+      const p = vertexes[key]
+      if (p.clientX < minX) {
+        minX = p.clientX
+      }
+      if (p.clientX > maxX) {
+        maxX = p.clientX
+      }
+      if (p.clientY < minY) {
+        minY = p.clientY
+      }
+      if (p.clientY > maxY) {
+        maxY = p.clientY
+      }
+    }
+    return new Rect(minX, minY, maxX - minX, maxY - minY)
+  }
+
+  get boundingRect() {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    const vertexes: Record<string, Position> = this.vertexes
+    for (let key in vertexes) {
+      const p = vertexes[key]
+      if (p.absoluteX < minX) {
+        minX = p.absoluteX
+      }
+      if (p.absoluteX > maxX) {
+        maxX = p.absoluteX
+      }
+      if (p.absoluteY < minY) {
+        minY = p.absoluteY
+      }
+      if (p.absoluteY > maxY) {
+        maxY = p.absoluteY
+      }
+    }
+    return new Rect(minX, minY, maxX - minX, maxY - minY)
+  }
+
+  get matrixRect(): MatrixRect {
+    return new MatrixRect(this)
+  }
+
+  transform(transformer: (transformer: ITransformer) => void) {
+    if (typeof transformer !== 'function') return () => {}
+    const coord = this.coordinate
+    return coord.transform((t) => {
+      transformer({
+        ...t,
+        translate: (tx, ty) => {
+          t.push(inverse(coord.absoluteMatrix))
+          t.translate(tx, ty)
+          t.push(coord.absoluteMatrix)
+        },
+      })
+    })
+  }
+}
+
+export class ElementGroupBox<Ref = any> {
+  coordinate: ElementCoord
+  elementBoxes: ElementBox<Ref>[]
+  transformMatrix: Matrix = identity()
+  transformOrigin: Position
+  vertexes: Record<VertexTypes, Position>
+  constructor(elements: HTMLElement[] = [], refs: Ref[] = []) {
+    this.coordinate = new ElementCoord()
+    this.initElementBoxes(elements, refs)
+    this.calcVertexes()
+    this.initTransformOrigin()
+  }
+
+  get width() {
+    const vertexes = this.vertexes
+    return calcDistanceOfPoints(vertexes.rt, vertexes.lt)
+  }
+
+  get height() {
+    const vertexes = this.vertexes
+    return calcDistanceOfPoints(vertexes.lb, vertexes.lt)
+  }
+
+  get rotation() {
+    return decomposeTSR(this.transformMatrix)?.rotation?.angle
+  }
+
+  get scale() {
+    return decomposeTSR(this.transformMatrix)?.scale
+  }
+
+  get translate() {
+    return decomposeTSR(this.transformMatrix)?.translate
+  }
+
+  get boundingClientRect() {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    const vertexes: Record<string, Position> = this.vertexes
+    for (let key in vertexes) {
+      const p = vertexes[key]
+      if (p.clientX < minX) {
+        minX = p.clientX
+      }
+      if (p.clientX > maxX) {
+        maxX = p.clientX
+      }
+      if (p.clientY < minY) {
+        minY = p.clientY
+      }
+      if (p.clientY > maxY) {
+        maxY = p.clientY
+      }
+    }
+    return new Rect(minX, minY, maxX - minX, maxY - minY)
+  }
+
+  get boundingRect() {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    const vertexes: Record<string, Position> = this.vertexes
+    for (let key in vertexes) {
+      const p = vertexes[key]
+      if (p.absoluteX < minX) {
+        minX = p.absoluteX
+      }
+      if (p.absoluteX > maxX) {
+        maxX = p.absoluteX
+      }
+      if (p.absoluteY < minY) {
+        minY = p.absoluteY
+      }
+      if (p.absoluteY > maxY) {
+        maxY = p.absoluteY
+      }
+    }
+    return new Rect(minX, minY, maxX - minX, maxY - minY)
+  }
+
+  get matrixRect(): MatrixRect {
+    return new MatrixRect(this)
+  }
+
+  get centers() {
+    const vertexes = this.vertexes
+    const createPosition = (start: IPoint, end: IPoint) => {
+      return new Position(this.coordinate, calcCenterPoint(start, end))
+    }
+    return {
+      lc: createPosition(vertexes.lt, vertexes.lb),
+      ct: createPosition(vertexes.lt, vertexes.rt),
+      cb: createPosition(vertexes.lb, vertexes.rb),
+      cc: createPosition(vertexes.lt, vertexes.rb),
+      rc: createPosition(vertexes.rt, vertexes.rb),
+    }
+  }
+
+  get points() {
+    return {
+      ...this.vertexes,
+      ...this.centers,
+    }
+  }
+
+  private initElementBoxes(elements: HTMLElement[], refs: Ref[] = []) {
+    this.elementBoxes = elements.map(
+      (element, i) => new ElementBox(element, refs[i])
+    )
+  }
+
+  private initTransformOrigin() {
+    this.transformOrigin = this.centers.cc
+  }
+
+  private calcVertexes() {
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity
+    this.elementBoxes.forEach((box) => {
+      const vertexes: Record<string, Position> = box.vertexes
+      for (let key in box.vertexes) {
+        const p = vertexes[key]
+        if (p.absoluteX < minX) {
+          minX = p.absoluteX
+        }
+        if (p.absoluteX > maxX) {
+          maxX = p.absoluteX
+        }
+        if (p.absoluteY < minY) {
+          minY = p.absoluteY
+        }
+        if (p.absoluteY > maxY) {
+          maxY = p.absoluteY
+        }
+      }
+    })
+    const rect = new Rect(minX, minY, maxX - minX, maxY - minY)
+    this.vertexes = {
+      lt: new Position(this.coordinate, {
+        x: rect.left,
+        y: rect.top,
+      }),
+      lb: new Position(this.coordinate, {
+        x: rect.left,
+        y: rect.bottom,
+      }),
+      rt: new Position(this.coordinate, {
+        x: rect.right,
+        y: rect.top,
+      }),
+      rb: new Position(this.coordinate, {
+        x: rect.right,
+        y: rect.bottom,
+      }),
+    }
+  }
+
+  transform(transformer: (transformer: ITransformer) => void) {
+    if (typeof transformer !== 'function') return () => {}
+    const transformOrigin = this.transformOrigin
+    const patches: (() => void)[] = []
+    this.elementBoxes.forEach((box) => {
+      patches.push(
+        box.transform((t) => {
+          transformer({
+            resize: (width = this.width, height = this.height, offset) => {
+              if (width <= 0 || height <= 0) return
+              const widthRatio = width / this.width
+              const heightRatio = height / this.height
+              t.resize(box.width * widthRatio, box.height * heightRatio, offset)
+            },
+            scale: (sx, sy = sx, origin = transformOrigin) => {
+              t.scale(sx, sy, origin)
+            },
+            translate: (tx, ty) => {
+              t.translate(tx, ty)
+            },
+            rotate: (rotation, origin = transformOrigin) => {
+              t.rotate(rotation, origin)
+            },
+            rotateDEG: (angle, origin = transformOrigin) => {
+              t.rotateDEG(angle, origin)
+            },
+            push: (matrix: Matrix) => {
+              t.push(matrix)
+            },
+          })
+        })
+      )
+    })
+    this.calcVertexes()
+    return () => {
+      patches.forEach((fn) => fn())
+    }
+  }
+}
+
+export class MatrixRect<Ref = any> {
+  matrix: Matrix
+  inverse: Matrix
+  decompose: Transform
+  width: number
+  height: number
+  origin: Position
+  boundingClientRect: Rect
+  boundingRect: Rect
+  constructor(box: ElementBox<Ref> | ElementGroupBox<Ref>) {
+    this.matrix = box.transformMatrix
+    this.decompose = decomposeTSR(this.matrix)
+    this.inverse = inverse(this.matrix)
+    this.width = box.width
+    this.height = box.height
+    this.origin = box.transformOrigin
+    this.boundingClientRect = box.boundingClientRect
+    this.boundingRect = box.boundingRect
+  }
+}
+
+export function createElementBox<Node extends IElementNode>(
+  nodes: Node[] = []
+) {
+  if (!nodes?.length) return
+  if (nodes.length == 1) return new ElementBox(nodes[0].getElement(), nodes[0])
+  return new ElementGroupBox(
+    nodes.map((node) => node.getElement()),
+    nodes
+  )
 }

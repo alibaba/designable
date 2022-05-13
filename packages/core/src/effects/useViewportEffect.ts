@@ -8,10 +8,10 @@ export const useViewportEffect = (engine: Engine) => {
     const viewport = currentWorkspace.viewport
     const outline = currentWorkspace.outline
     if (viewport.matchViewport(event.data.target)) {
-      viewport.digestViewport()
+      viewport.setState()
     }
     if (outline.matchViewport(event.data.target)) {
-      outline.digestViewport()
+      outline.setState()
     }
   })
   engine.subscribeTo(ViewportScrollEvent, (event) => {
@@ -20,10 +20,10 @@ export const useViewportEffect = (engine: Engine) => {
     const viewport = currentWorkspace.viewport
     const outline = currentWorkspace.outline
     if (viewport.matchViewport(event.data.target)) {
-      viewport.digestViewport()
+      viewport.setState()
     }
     if (outline.matchViewport(event.data.target)) {
-      outline.digestViewport()
+      outline.setState()
     }
   })
 }

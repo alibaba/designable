@@ -101,6 +101,7 @@ export class Engine extends Event {
     nodeDragHandlerAttrName: 'data-designer-node-drag-handler',
     screenResizeHandlerAttrName: 'data-designer-screen-resize-handler',
     nodeResizeHandlerAttrName: 'data-designer-node-resize-handler',
+    nodeRotateHandlerAttrName: 'data-designer-node-rotate-handler',
     outlineNodeIdAttrName: 'data-designer-outline-node-id',
     nodeTranslateAttrName: 'data-designer-node-translate-handler',
     defaultScreenType: ScreenType.PC,

@@ -1,5 +1,5 @@
 import {
-  calcBoundingRect,
+  calcBoundaryRect,
   calcElementLayout,
   isHTMLElement,
   isPointInRect,
@@ -10,6 +10,7 @@ import {
   Rect,
   IRect,
   isRectInRect,
+  isRectIntersectionRect,
 } from '@designable/shared'
 import { action, define, observable } from '@formily/reactive'
 import { Workspace } from './Workspace'
@@ -77,7 +78,7 @@ export class Viewport {
     this.viewportElement = props.viewportElement
     this.contentWindow = props.contentWindow
     this.nodeIdAttrName = props.nodeIdAttrName
-    this.digestViewport()
+    this.setState()
     this.makeObservable()
     this.attachEvents()
   }
@@ -139,8 +140,10 @@ export class Viewport {
   }
 
   get rect() {
-    const viewportElement = this.viewportElement
-    if (viewportElement) return viewportElement.getBoundingClientRect()
+    if (this.viewportElement) {
+      const rect = this.viewportElement.getBoundingClientRect()
+      return new Rect(rect.x, rect.y, rect.width, rect.height)
+    }
   }
 
   get innerRect() {
@@ -191,7 +194,7 @@ export class Viewport {
     this.nodeElementsStore = {}
   }
 
-  getCurrentData() {
+  getState() {
     const data: IViewportData = {}
     if (this.isIframe) {
       data.scrollX = this.contentWindow?.scrollX || 0
@@ -207,12 +210,12 @@ export class Viewport {
     return data
   }
 
-  takeDragStartSnapshot() {
-    this.dragStartSnapshot = this.getCurrentData()
+  setState() {
+    Object.assign(this, this.getState())
   }
 
-  digestViewport() {
-    Object.assign(this, this.getCurrentData())
+  takeDragStartSnapshot() {
+    this.dragStartSnapshot = this.getState()
   }
 
   elementFromPoint(point: IPoint) {
@@ -262,7 +265,7 @@ export class Viewport {
     this.viewportElement = element
     this.contentWindow = contentWindow
     this.attachEvents()
-    this.digestViewport()
+    this.setState()
   }
 
   onUnmount() {
@@ -284,6 +287,14 @@ export class Viewport {
       return false
     }
     return isRectInRect(rect, this.rect)
+  }
+
+  isRectIntersectionInViewport(rect: IRect) {
+    if (!this.rect) return false
+    if (!this.containsElement(document.elementFromPoint(rect.x, rect.y))) {
+      return false
+    }
+    return isRectIntersectionRect(rect, this.rect)
   }
 
   isPointInViewportArea(point: IPoint, sensitive?: boolean) {
@@ -312,7 +323,7 @@ export class Viewport {
       scrollY: observable.ref,
       width: observable.ref,
       height: observable.ref,
-      digestViewport: action,
+      setState: action,
       viewportElement: observable.ref,
       contentWindow: observable.ref,
     })
@@ -342,16 +353,26 @@ export class Viewport {
     return root?.contains(element as any)
   }
 
-  getOffsetPoint(topPoint: IPoint) {
-    const data = this.getCurrentData()
+  getOffsetPoint(clientPoint: IPoint) {
+    const data = this.getState()
     return {
-      x: topPoint.x - this.offsetX + data.scrollX,
-      y: topPoint.y - this.offsetY + data.scrollY,
+      x: clientPoint.x - this.offsetX + data.scrollX,
+      y: clientPoint.y - this.offsetY + data.scrollY,
     }
   }
 
+  getOffsetRect(clientRect: Rect) {
+    const data = this.getState()
+    return new Rect(
+      clientRect.x - this.offsetX + data.scrollX,
+      clientRect.y - this.offsetY + data.scrollY,
+      clientRect.width,
+      clientRect.height
+    )
+  }
+
   //相对于页面
-  getElementRect(element: HTMLElement | Element) {
+  getElementClientRect(element: HTMLElement | Element) {
     const rect = element.getBoundingClientRect()
     const offsetWidth = element['offsetWidth']
       ? element['offsetWidth']
@@ -368,10 +389,10 @@ export class Viewport {
   }
 
   //相对于页面
-  getElementRectById(id: string) {
+  getElementClientRectById(id: string) {
     const elements = this.findElementsById(id)
-    const rect = calcBoundingRect(
-      elements.map((element) => this.getElementRect(element))
+    const rect = calcBoundaryRect(
+      elements.map((element) => this.getElementClientRect(element))
     )
     if (rect) {
       if (this.isIframe) {
@@ -415,8 +436,8 @@ export class Viewport {
   getElementOffsetRectById(id: string) {
     const elements = this.findElementsById(id)
     if (!elements.length) return
-    const elementRect = calcBoundingRect(
-      elements.map((element) => this.getElementRect(element))
+    const elementRect = calcBoundaryRect(
+      elements.map((element) => this.getElementClientRect(element))
     )
     if (elementRect) {
       if (this.isIframe) {
@@ -452,11 +473,11 @@ export class Viewport {
     return getNodeElement(node)
   }
 
-  getChildrenRect(node: TreeNode): Rect {
+  getChildrenClientRect(node: TreeNode): Rect {
     if (!node?.children?.length) return
-    return calcBoundingRect(
+    return calcBoundaryRect(
       node.children.reduce((buf, child) => {
-        const rect = this.getValidNodeRect(child)
+        const rect = this.getValidNodeClientRect(child)
         if (rect) {
           return buf.concat(rect)
         }
@@ -468,7 +489,7 @@ export class Viewport {
   getChildrenOffsetRect(node: TreeNode): Rect {
     if (!node?.children?.length) return
 
-    return calcBoundingRect(
+    return calcBoundaryRect(
       node.children.reduce((buf, child) => {
         const rect = this.getValidNodeOffsetRect(child)
         if (rect) {
@@ -479,18 +500,18 @@ export class Viewport {
     )
   }
 
-  getValidNodeRect(node: TreeNode): Rect {
+  getValidNodeClientRect(node: TreeNode): Rect {
     if (!node) return
-    const rect = this.getElementRectById(node.id)
+    const rect = this.getElementClientRectById(node.id)
     if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.rect
-      return calcBoundingRect([this.rect, rect])
+      return calcBoundaryRect([this.rect, rect])
     }
 
     if (rect) {
       return rect
     } else {
-      return this.getChildrenRect(node)
+      return this.getChildrenClientRect(node)
     }
   }
 
@@ -499,7 +520,7 @@ export class Viewport {
     const rect = this.getElementOffsetRectById(node.id)
     if (node && node === node.root && node.isInOperation) {
       if (!rect) return this.innerRect
-      return calcBoundingRect([this.innerRect, rect])
+      return calcBoundaryRect([this.innerRect, rect])
     }
     if (rect) {
       return rect
