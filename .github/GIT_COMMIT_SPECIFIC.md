@@ -12,10 +12,9 @@ All lines are wrapped at 100 characters !
 
 **Allowed `<type>`**
 
-- breaking --- Breaking Change,
 - feat --- A new feature,
-- bugfix --- Bug Fix,
-- doc --- Documentation,
+- fix --- Bug Fix,
+- docs --- Documentation,
 - refactor --- Some Code Change,
 - test --- Update Test Cases,
 - perf --- Improve Performace,
