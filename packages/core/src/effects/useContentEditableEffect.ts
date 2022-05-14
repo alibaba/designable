@@ -110,7 +110,7 @@ export const useContentEditableEffect = (engine: Engine) => {
     }
   }
 
-  function onPastHandler(event: ClipboardEvent) {
+  function onPasteHandler(event: ClipboardEvent) {
     event.preventDefault()
     const node = globalState.activeElements.get(this)
     const text = event.clipboardData.getData('text')
@@ -156,7 +156,7 @@ export const useContentEditableEffect = (engine: Engine) => {
       element.removeEventListener('compositionstart', onCompositionHandler)
       element.removeEventListener('compositionupdate', onCompositionHandler)
       element.removeEventListener('compositionend', onCompositionHandler)
-      element.removeEventListener('past', onPastHandler)
+      element.removeEventListener('paste', onPasteHandler)
       document.removeEventListener('selectionchange', onSelectionChangeHandler)
     })
   })
@@ -193,7 +193,7 @@ export const useContentEditableEffect = (engine: Engine) => {
               onCompositionHandler
             )
             editableElement.addEventListener('keydown', onKeyDownHandler)
-            editableElement.addEventListener('paste', onPastHandler)
+            editableElement.addEventListener('paste', onPasteHandler)
             document.addEventListener(
               'selectionchange',
               onSelectionChangeHandler
