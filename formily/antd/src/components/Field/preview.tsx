@@ -53,7 +53,7 @@ const NeedShownExpression = {
   'x-value': true,
 }
 
-const isExpression = (val: any) => isStr(val) && /^\{\{.*\}\}$/.test(val)
+const isExpression = (val: any) => isStr(val) && /^\{\{[\s\S]*\}\}$/.test(val)
 
 const filterExpression = (val: any) => {
   if (typeof val === 'object') {
@@ -110,7 +110,7 @@ const toDesignableFieldProps = (
   const component =
     schema['x-component'] && FormPath.getIn(components, schema['x-component'])
   const decoratorProps = schema['x-decorator-props'] || {}
-  const componentProps = schema['x-component-props'] || {}
+  const componentProps = filterExpression(schema['x-component-props'] || {})
 
   if (decorator) {
     results.decorator = [decorator, toJS(decoratorProps)]
