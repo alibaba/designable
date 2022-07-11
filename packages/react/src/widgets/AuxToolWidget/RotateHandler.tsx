@@ -1,15 +1,14 @@
 import React from 'react'
-import { useDesigner, usePrefix } from '../../hooks'
-import { TreeNode } from '@designable/core'
+import { observer } from '@formily/reactive-react'
+import { useDesigner, usePrefix, useSelection } from '../../hooks'
 
-export interface IRotateHandlerProps {
-  node: TreeNode
-}
-
-export const RotateHandler: React.FC<IRotateHandlerProps> = (props) => {
+export const RotateHandler: React.FC = observer(() => {
   const designer = useDesigner()
   const prefix = usePrefix('aux-node-rotate-handler')
-  const allowRotate = props.node.allowRotate()
+  const selection = useSelection()
+  const allowRotate = selection?.selectedNodes?.every((node) =>
+    node.allowRotate()
+  )
   if (!allowRotate) return null
   return (
     <div className={prefix}>
@@ -19,4 +18,4 @@ export const RotateHandler: React.FC<IRotateHandlerProps> = (props) => {
       ></div>
     </div>
   )
-}
+})

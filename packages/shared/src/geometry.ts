@@ -90,6 +90,8 @@ export class LineSegment {
   }
 }
 
+export type RectLineTypes = 'ht' | 'hb' | 'hc' | 'vl' | 'vc' | 'vr'
+
 export class Vector {
   x: number
   y: number
@@ -149,7 +151,18 @@ export function isEqualRect(target: IRect, source: IRect) {
   )
 }
 
-export function getRectPoints(source: IRect) {
+export function isEqualPoint(target: IPoint, source: IPoint) {
+  return target?.x === source?.x && target?.y === source?.y
+}
+
+export function isEqualLineSegment(target: ILineSegment, source: ILineSegment) {
+  return (
+    isEqualPoint(target?.start, source?.start) &&
+    isEqualPoint(target?.end, source?.end)
+  )
+}
+
+export function calcRectPoints(source: IRect) {
   const p1 = new Point(source.x, source.y)
   const p2 = new Point(source.x + source.width, source.y)
   const p3 = new Point(source.x + source.width, source.y + source.height)
@@ -158,7 +171,7 @@ export function getRectPoints(source: IRect) {
 }
 
 export function isRectInRect(target: IRect, source: IRect) {
-  const [p1, p2, p3, p4] = getRectPoints(target)
+  const [p1, p2, p3, p4] = calcRectPoints(target)
   return (
     isPointInRect(p1, source, false) &&
     isPointInRect(p2, source, false) &&
@@ -279,6 +292,7 @@ export function calcUnitVector(v: IPoint) {
 }
 
 export function calcProjectionOfVector(v1: IPoint, v2: IPoint) {
+  if ((v2?.x === 0 && v2?.y === 0) || (v1?.x === 0 && v1?.y === 0)) return v1
   const length = calcLengthOfVector(v1) * calcCosOfVector(v1, v2)
   const unit = calcUnitVector(v2)
   return new Point(unit.x * length, unit.y * length)
@@ -531,137 +545,34 @@ export function calcExtendsLineSegmentOfRect(
   targetRect: Rect,
   referRect: Rect
 ) {
-  const rightDelta = targetRect.right - referRect.right
-  const leftDelta = referRect.left - targetRect.left
-  const topDelta = referRect.top - targetRect.top
-  const bottomDelta = targetRect.bottom - referRect.bottom
+  const edges = calcEdgeLinesOfRect(referRect)
+  const minX = Math.min(targetRect.x, referRect.x)
+  const maxX = Math.max(targetRect.right, referRect.right)
+  const minY = Math.min(targetRect.y, referRect.y)
+  const maxY = Math.max(targetRect.bottom, referRect.bottom)
   //目标矩形在上
   if (targetRect.bottom < referRect.top) {
-    if (rightDelta > 0) {
-      if (leftDelta > 0) {
-        return {
-          start: {
-            x: targetRect.left,
-            y: referRect.top,
-          },
-          end: { x: targetRect.right, y: referRect.top },
-        }
-      } else {
-        return {
-          start: {
-            x: referRect.right,
-            y: referRect.top,
-          },
-          end: { x: targetRect.right, y: referRect.top },
-        }
-      }
-    } else {
-      if (leftDelta > 0) {
-        return {
-          start: {
-            x: targetRect.left,
-            y: referRect.top,
-          },
-          end: { x: referRect.left, y: referRect.top },
-        }
-      }
-    }
+    edges.h[0].start.x = minX
+    edges.h[0].end.x = maxX
+    return edges.h[0]
   }
   //目标矩形在下
   if (targetRect.top > referRect.bottom) {
-    if (rightDelta > 0) {
-      if (leftDelta > 0) {
-        return {
-          start: {
-            x: targetRect.left,
-            y: referRect.bottom,
-          },
-          end: { x: targetRect.right, y: referRect.bottom },
-        }
-      } else {
-        return {
-          start: {
-            x: referRect.right,
-            y: referRect.bottom,
-          },
-          end: { x: targetRect.right, y: referRect.bottom },
-        }
-      }
-    } else {
-      if (leftDelta > 0) {
-        return {
-          start: {
-            x: targetRect.left,
-            y: referRect.bottom,
-          },
-          end: { x: referRect.left, y: referRect.bottom },
-        }
-      }
-    }
+    edges.h[2].start.x = minX
+    edges.h[2].end.x = maxX
+    return edges.h[2]
   }
   //目标矩形在左
   if (targetRect.right < referRect.left) {
-    if (topDelta > 0) {
-      if (bottomDelta > 0) {
-        return {
-          start: {
-            x: referRect.left,
-            y: targetRect.top,
-          },
-          end: { x: referRect.left, y: targetRect.bottom },
-        }
-      } else {
-        return {
-          start: {
-            x: referRect.left,
-            y: targetRect.top,
-          },
-          end: { x: referRect.left, y: referRect.top },
-        }
-      }
-    } else {
-      if (bottomDelta > 0) {
-        return {
-          start: {
-            x: referRect.left,
-            y: referRect.bottom,
-          },
-          end: { x: referRect.left, y: targetRect.bottom },
-        }
-      }
-    }
+    edges.v[0].start.y = minY
+    edges.v[0].end.y = maxY
+    return edges.v[0]
   }
   //目标矩形在右
   if (targetRect.left > referRect.right) {
-    if (topDelta > 0) {
-      if (bottomDelta > 0) {
-        return {
-          start: {
-            x: referRect.right,
-            y: targetRect.top,
-          },
-          end: { x: referRect.right, y: targetRect.bottom },
-        }
-      } else {
-        return {
-          start: {
-            x: referRect.right,
-            y: targetRect.top,
-          },
-          end: { x: referRect.right, y: referRect.top },
-        }
-      }
-    } else {
-      if (bottomDelta > 0) {
-        return {
-          start: {
-            x: referRect.right,
-            y: referRect.bottom,
-          },
-          end: { x: referRect.right, y: targetRect.bottom },
-        }
-      }
-    }
+    edges.v[2].start.y = minY
+    edges.v[2].end.y = maxY
+    return edges.v[2]
   }
 }
 
@@ -696,31 +607,6 @@ export function calcOffsetOfSnapLineSegmentToEdge(
   return { x: 0, y: calcMinDistanceValue(edges.y, line.start.y) - current.y }
 }
 
-export function calcDistanceOfSnapLineToEdges(
-  line: ILineSegment,
-  edges: IRectEdgeLines
-) {
-  let distance = Infinity
-  if (line?.start?.y === line?.end?.y) {
-    edges.h.forEach((target) => {
-      const _distance = Math.abs(target.start.y - line.start.y)
-      if (_distance < distance) {
-        distance = _distance
-      }
-    })
-  } else if (line?.start?.x === line?.end?.x) {
-    edges.v.forEach((target) => {
-      const _distance = Math.abs(target.start.x - line.start.x)
-      if (_distance < distance) {
-        distance = _distance
-      }
-    })
-  } else {
-    throw new Error('can not calculate slash distance')
-  }
-  return distance
-}
-
 export function calcCombineSnapLineSegment(
   target: ILineSegment,
   source: ILineSegment
@@ -753,27 +639,51 @@ export function calcCombineSnapLineSegment(
 export function calcClosestEdges(
   line: ILineSegment,
   edges: IRectEdgeLines
-): [number, ILineSegment] {
-  let result: ILineSegment
+): {
+  snap: ILineSegment
+  edge: string
+  distance: number
+  direction: 'h' | 'v'
+  offset: number
+} {
+  let h_types = ['ht', 'hc', 'hb']
+  let v_types = ['vl', 'vc', 'vr']
+  let edge: string
+  let snap: ILineSegment
   let distance = Infinity
+  let offset = Infinity
   if (line?.start?.y === line?.end?.y) {
-    edges.h.forEach((target) => {
-      const _distance = Math.abs(target.start.y - line.start.y)
+    edges.h.forEach((target, index) => {
+      const _offset = line.start.y - target.start.y
+      const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance
-        result = target
+        offset = _offset
+        snap = target
+        edge = h_types[index]
       }
     })
   } else if (line?.start?.x === line?.end?.x) {
-    edges.v.forEach((target) => {
-      const _distance = Math.abs(target.start.x - line.start.x)
+    edges.v.forEach((target, index) => {
+      const _offset = line.start.x - target.start.x
+      const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance
-        result = target
+        offset = _offset
+        snap = target
+        edge = v_types[index]
       }
     })
   } else {
     throw new Error('can not calculate slash distance')
   }
-  return [distance, result]
+  const direction = snap?.start?.x === snap?.end?.x ? 'v' : 'h'
+
+  return {
+    snap,
+    edge,
+    direction,
+    distance,
+    offset,
+  }
 }

@@ -21,7 +21,7 @@ export enum CursorDragType {
 export enum CursorType {
   Normal = 'NORMAL',
   Selection = 'SELECTION',
-  Sketch = 'SKETCH',
+  Transform = 'TRANSFORM',
 }
 
 export interface ICursorPosition {
@@ -137,13 +137,6 @@ export class Cursor {
     })
   }
 
-  get speed() {
-    return Math.sqrt(
-      Math.pow(this.dragAtomDelta.clientX, 2) +
-        Math.pow(this.dragAtomDelta.clientY, 2)
-    )
-  }
-
   setStatus(status: CursorStatus) {
     this.status = status
   }
@@ -173,7 +166,7 @@ export class Cursor {
     }
   }
 
-  setDragStartPosition(position?: ICursorPosition) {
+  setDragStartPosition(position: ICursorPosition) {
     if (position) {
       this.dragStartPosition = { ...position }
     } else {

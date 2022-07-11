@@ -20,7 +20,7 @@ export const DragHandler: React.FC<IDragHandlerProps> = observer(
     }
     return (
       <Button {...handlerProps} className={prefix} style={style} type="primary">
-        <IconWidget infer="Move" />
+        <IconWidget infer="TransformCursor" />
       </Button>
     )
   }

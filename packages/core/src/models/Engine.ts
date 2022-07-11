@@ -4,7 +4,8 @@ import { Workbench } from './Workbench'
 import { Cursor } from './Cursor'
 import { Keyboard } from './Keyboard'
 import { Screen, ScreenType } from './Screen'
-import { Event, uid, globalThisPolyfill } from '@designable/shared'
+import { Event, uid, globalThisPolyfill, isFn } from '@designable/shared'
+import { EngineMountEvent, EngineUnmountEvent } from '../events/engine'
 
 /**
  * 设计器引擎
@@ -75,15 +76,42 @@ export class Engine extends Event {
     return results
   }
 
+  findTransformingNodes(): TreeNode[] {
+    const results = []
+    this.workbench.eachWorkspace((workspace) => {
+      workspace.operation.transformHelper.dragNodes?.forEach((node) => {
+        if (!results.includes(node)) {
+          results.push(node)
+        }
+      })
+    })
+    return results
+  }
+
   createNode(node: ITreeNode, parent?: TreeNode) {
     return new TreeNode(node, parent)
   }
 
+  effect(effect: () => (() => void) | void) {
+    const disposers = []
+    this.subscribeTo(EngineMountEvent, () => {
+      const disposer = effect?.()
+      if (isFn(disposer)) {
+        disposers.push(disposer)
+      }
+    })
+    this.subscribeTo(EngineUnmountEvent, () => {
+      disposers.forEach((disposer) => disposer())
+    })
+  }
+
   mount() {
     this.attachEvents(globalThisPolyfill)
+    this.dispatch(new EngineMountEvent(this), this)
   }
 
   unmount() {
+    this.dispatch(new EngineUnmountEvent(this), this)
     this.detachEvents()
   }
 

@@ -67,7 +67,16 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
               cursor.setType(CursorType.Normal)
             }}
           >
-            <IconWidget infer="Move" />
+            <IconWidget infer="NormalCursor" />
+          </Button>
+          <Button
+            size="small"
+            disabled={cursor.type === CursorType.Transform}
+            onClick={() => {
+              cursor.setType(CursorType.Transform)
+            }}
+          >
+            <IconWidget infer="TransformCursor" />
           </Button>
           <Button
             size="small"
@@ -76,7 +85,7 @@ export const DesignerToolsWidget: React.FC<IDesignerToolsWidgetProps> =
               cursor.setType(CursorType.Selection)
             }}
           >
-            <IconWidget infer="Selection" />
+            <IconWidget infer="SelectionCursor" />
           </Button>
         </Button.Group>
       )

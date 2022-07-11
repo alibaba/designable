@@ -7,6 +7,7 @@ import { Cover } from './Cover'
 import { DashedBox } from './DashedBox'
 import { SpaceBlock } from './SpaceBlock'
 import { SnapLine } from './SnapLine'
+import { TransformBox } from './TransformBox'
 import './styles.less'
 
 export const AuxToolWidget = () => {
@@ -30,6 +31,7 @@ export const AuxToolWidget = () => {
       <SpaceBlock />
       <SnapLine />
       <DashedBox />
+      <TransformBox />
       <Selection />
       <Cover />
       <FreeSelection />

@@ -1,8 +1,8 @@
-import { observable, define, action } from '@formily/reactive'
+import { observable, define, action, reaction } from '@formily/reactive'
 import { Operation } from './Operation'
 import { SelectNodeEvent, UnSelectNodeEvent } from '../events'
 import { TreeNode } from './TreeNode'
-import { isStr, isArr, createElementBox } from '@designable/shared'
+import { isStr, isArr, createElementTransformer } from '@designable/shared'
 
 export interface ISelection {
   selected?: string[]
@@ -13,7 +13,6 @@ export class Selection {
   operation: Operation
   selected: string[] = []
   indexes: Record<string, boolean> = {}
-
   constructor(props?: ISelection) {
     if (props.selected) {
       this.selected = props.selected
@@ -24,6 +23,17 @@ export class Selection {
     this.makeObservable()
   }
 
+  get engine() {
+    return this.operation.engine
+  }
+
+  get transformer() {
+    return (
+      this.operation.transformHelper?.dragNodesTransformer ??
+      createElementTransformer(this.selectedNodes)
+    )
+  }
+
   makeObservable() {
     define(this, {
       selected: observable,
@@ -31,13 +41,30 @@ export class Selection {
       first: observable.computed,
       last: observable.computed,
       length: observable.computed,
-      selectedNodesBox: observable.computed,
+      transformer: observable.computed,
       select: action,
       batchSelect: action,
       add: action,
       remove: action,
       clear: action,
       crossAddTo: action,
+    })
+    this.engine.effect(() => {
+      const disposers = [
+        reaction(
+          () => this.selected,
+          (newSelected, oldSelected) => {
+            if (newSelected.length > oldSelected.length) {
+              this.trigger(SelectNodeEvent)
+            } else {
+              this.trigger(UnSelectNodeEvent)
+            }
+          }
+        ),
+      ]
+      return () => {
+        disposers.forEach((fn) => fn())
+      }
     })
   }
 
@@ -81,7 +108,6 @@ export class Selection {
       buf[id] = true
       return buf
     }, {})
-    this.trigger(SelectNodeEvent)
   }
 
   batchSafeSelect(ids: string[] | TreeNode[]) {
@@ -91,13 +117,6 @@ export class Selection {
 
   get selectedNodes() {
     return this.selected.map((id) => this.operation.tree.findById(id))
-  }
-
-  get selectedNodesBox() {
-    return (
-      this.operation.transformHelper.dragNodesShadowBox ??
-      createElementBox(this.selectedNodes)
-    )
   }
 
   get first() {
@@ -167,7 +186,6 @@ export class Selection {
         this.remove(id?.id)
       }
     })
-    this.trigger(UnSelectNodeEvent)
   }
 
   has(...ids: string[] | TreeNode[]) {
@@ -184,6 +202,5 @@ export class Selection {
   clear() {
     this.selected = []
     this.indexes = {}
-    this.trigger(UnSelectNodeEvent)
   }
 }

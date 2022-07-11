@@ -112,7 +112,7 @@ export class DragDropDriver extends EventDriver<Engine> {
         Math.pow(e.pageY - GlobalState.startEvent.pageY, 2)
     )
     const timeDelta = Date.now() - GlobalState.onMouseDownAt
-    if (timeDelta > 10 && e !== GlobalState.startEvent && distance > 4) {
+    if (timeDelta > 0 && e !== GlobalState.startEvent && distance > 0) {
       this.batchRemoveEventListener('mousemove', this.onDistanceChange)
       this.onStartDrag(e)
     }

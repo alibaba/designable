@@ -1,14 +1,11 @@
 import React from 'react'
 import cls from 'classnames'
-import { useDesigner, usePrefix } from '../../hooks'
-import { TreeNode } from '@designable/core'
+import { useDesigner, usePrefix, useSelection } from '../../hooks'
+import { observer } from '@formily/reactive-react'
 
-export interface IResizeHandlerProps {
-  node: TreeNode
-}
-
-export const ResizeHandler: React.FC<IResizeHandlerProps> = (props) => {
+export const ResizeHandler: React.FC = observer(() => {
   const designer = useDesigner()
+  const selection = useSelection()
   const prefix = usePrefix('aux-node-resize-handler')
   const createHandler = (value: string) => {
     return {
@@ -16,20 +13,20 @@ export const ResizeHandler: React.FC<IResizeHandlerProps> = (props) => {
       className: cls(prefix, value),
     }
   }
-  const allowResize = props.node.allowResize()
+  const allowResize = selection.selectedNodes.every((node) =>
+    node.allowResize()
+  )
   if (!allowResize) return null
-  const allowX = allowResize.includes('x')
-  const allowY = allowResize.includes('y')
   return (
     <>
-      {allowX && <div {...createHandler('left-center')}></div>}
-      {allowX && <div {...createHandler('right-center')}></div>}
-      {allowY && <div {...createHandler('center-top')}></div>}
-      {allowY && <div {...createHandler('center-bottom')}></div>}
-      {allowX && allowY && <div {...createHandler('left-top')}></div>}
-      {allowY && allowY && <div {...createHandler('right-top')}></div>}
-      {allowX && allowY && <div {...createHandler('left-bottom')}></div>}
-      {allowY && allowY && <div {...createHandler('right-bottom')}></div>}
+      <div {...createHandler('left-center')}></div>
+      <div {...createHandler('right-center')}></div>
+      <div {...createHandler('center-top')}></div>
+      <div {...createHandler('center-bottom')}></div>
+      <div {...createHandler('left-top')}></div>
+      <div {...createHandler('right-top')}></div>
+      <div {...createHandler('left-bottom')}></div>
+      <div {...createHandler('right-bottom')}></div>
     </>
   )
-}
+})

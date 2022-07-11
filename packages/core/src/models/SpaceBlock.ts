@@ -1,6 +1,6 @@
 import {
   calcExtendsLineSegmentOfRect,
-  calcDistanceOfSnapLineToEdges,
+  calcClosestEdges,
   LineSegment,
   Rect,
 } from '@designable/shared'
@@ -42,7 +42,7 @@ export class SpaceBlock {
 
   get referRect() {
     if (!this.refer) return
-    return this.helper.getNodeRect(this.refer)
+    return this.refer.getElementOffsetRect()
   }
 
   get id() {
@@ -58,29 +58,10 @@ export class SpaceBlock {
   }
 
   get extendsLine() {
-    if (!this.needExtendsLine) return
     return calcExtendsLineSegmentOfRect(
       this.helper.dragNodesOffsetRect,
       this.referRect
     )
-  }
-
-  get needExtendsLine() {
-    const targetRect = this.crossDragNodesRect
-    const referRect = this.crossReferRect
-    if (this.type === 'top' || this.type === 'bottom') {
-      const rightDelta = referRect.right - targetRect.left
-      const leftDelta = targetRect.right - referRect.left
-      return (
-        rightDelta < targetRect.width / 2 || leftDelta < targetRect.width / 2
-      )
-    } else {
-      const topDelta = targetRect.bottom - referRect.top
-      const bottomDelta = referRect.bottom - targetRect.top
-      return (
-        topDelta < targetRect.height / 2 || bottomDelta < targetRect.height / 2
-      )
-    }
   }
 
   get crossReferRect() {
@@ -187,10 +168,7 @@ export class SpaceBlock {
         }
       )
     }
-    const distance = calcDistanceOfSnapLineToEdges(
-      line,
-      this.helper.dragNodesEdgeLines
-    )
+    const { distance } = calcClosestEdges(line, this.helper.dragNodesEdgeLines)
     return new SnapLine(this.helper, {
       ...line,
       distance,

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Helpers } from './Helpers'
-import { ResizeHandler } from './ResizeHandler'
 import {
   useSelection,
   useValidNodeOffsetRect,
@@ -11,9 +10,7 @@ import {
   useDesigner,
 } from '../../hooks'
 import { observer } from '@formily/reactive-react'
-import { TreeNode } from '@designable/core'
-import { TranslateHandler } from './TranslateHandler'
-import { RotateHandler } from './RotateHandler'
+import { CursorType, TreeNode } from '@designable/core'
 export interface ISelectionBoxProps {
   node: TreeNode
   showHelpers: boolean
@@ -50,9 +47,6 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
   return (
     <div {...selectionId} className={prefix} style={createSelectionStyle()}>
       <div className={innerPrefix}></div>
-      <RotateHandler node={props.node} />
-      <ResizeHandler node={props.node} />
-      <TranslateHandler node={props.node} />
       {props.showHelpers && (
         <Helpers {...props} node={props.node} nodeRect={nodeRect} />
       )}
@@ -65,6 +59,7 @@ export const Selection = observer(() => {
   const tree = useTree()
   const cursor = useCursor()
   const moveHelper = useMoveHelper()
+  if (cursor.type !== CursorType.Normal) return null
   if (cursor.status !== 'NORMAL' && moveHelper.touchNode) return null
   return (
     <Fragment>

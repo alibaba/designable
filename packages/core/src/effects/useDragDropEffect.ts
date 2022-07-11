@@ -29,10 +29,10 @@ export const useDragDropEffect = (engine: Engine) => {
       `*[${engine.props.nodeSelectionIdAttrName}]`
     )
     if (!el?.getAttribute && !handler) return
-    const sourceId = el?.getAttribute(engine.props.sourceIdAttrName)
-    const outlineId = el?.getAttribute(engine.props.outlineNodeIdAttrName)
+    const sourceId = el.getAttribute(engine.props.sourceIdAttrName)
+    const outlineId = el.getAttribute(engine.props.outlineNodeIdAttrName)
     const handlerId = helper?.getAttribute(engine.props.nodeSelectionIdAttrName)
-    const nodeId = el?.getAttribute(engine.props.nodeIdAttrName)
+    const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const moveHelper = operation.moveHelper

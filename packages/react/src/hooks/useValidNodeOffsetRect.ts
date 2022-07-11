@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { TreeNode, CursorStatus, CursorDragType } from '@designable/core'
-import { LayoutObserver, Rect } from '@designable/shared'
+import { PaintObserver, Rect } from '@designable/shared'
 import { useViewport } from './useViewport'
 import { useDesigner } from './useDesigner'
 
@@ -37,10 +37,10 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
         forceUpdate([])
       }
     }
-    const layoutObserver = new LayoutObserver(compute)
-    if (element) layoutObserver.observe(element)
+    const paintObserver = new PaintObserver(compute)
+    if (element) paintObserver.observe(element)
     return () => {
-      layoutObserver.disconnect()
+      paintObserver.disconnect()
     }
   }, [node, viewport, element])
   return rectRef.current

@@ -5,7 +5,7 @@ export enum ScreenType {
   PC = 'PC',
   Responsive = 'Responsive',
   Mobile = 'Mobile',
-  Sketch = 'Sketch',
+  Transform = 'Transform',
 }
 
 export enum ScreenStatus {

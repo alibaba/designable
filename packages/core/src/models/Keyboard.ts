@@ -107,7 +107,7 @@ export class Keyboard {
     return this.keyDown === code
   }
 
-  requestClean(duration = 320) {
+  requestClean(duration = 4 * 1000) {
     clearTimeout(this.requestTimer)
     this.requestTimer = setTimeout(() => {
       this.keyDown = null

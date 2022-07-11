@@ -4,6 +4,10 @@ import { isFn, isWindow } from './types'
 
 const MAX_SPEED = 80 // px/s
 
+const SCROLL_MAP = new Map()
+
+const SCROLL_REQUEST_DURATION = 160
+
 export type ScrollDirection = 'begin' | 'end'
 
 export interface IAutoScrollBasicInfo {
@@ -110,4 +114,37 @@ export const scrollAnimate = (
       callback
     )
   })
+}
+
+export const calcScrollOffset = (element: HTMLElement) => {
+  if (SCROLL_MAP.has(element)) {
+    return SCROLL_MAP.get(element) as IPoint
+  }
+  const point = {
+    x: element.scrollLeft,
+    y: element.scrollTop,
+  }
+  const node = {
+    request: null,
+    scrolling: false,
+    get x() {
+      return node.scrolling ? element.scrollLeft : point.x
+    },
+    get y() {
+      return node.scrolling ? element.scrollTop : point.y
+    },
+    point,
+    handler() {
+      clearTimeout(node.request)
+      node.scrolling = true
+      node.point.x = element.scrollLeft
+      node.point.y = element.scrollTop
+      node.request = setTimeout(() => {
+        node.scrolling = false
+      }, SCROLL_REQUEST_DURATION)
+    },
+  }
+  element.addEventListener('scroll', node.handler)
+  SCROLL_MAP.set(element, node)
+  return node
 }

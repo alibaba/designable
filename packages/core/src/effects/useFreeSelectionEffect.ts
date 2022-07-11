@@ -5,6 +5,7 @@ import {
   isCrossRectInRect,
   isRectInRect,
   Point,
+  Rect,
 } from '@designable/shared'
 
 export const useFreeSelectionEffect = (engine: Engine) => {
@@ -38,7 +39,7 @@ export const useFreeSelectionEffect = (engine: Engine) => {
         viewport.dragScrollXDelta,
         viewport.dragScrollYDelta
       )
-      const selected: [TreeNode, DOMRect][] = []
+      const selected: [TreeNode, Rect][] = []
       tree.eachChildren((node) => {
         const nodeRect = viewport.getValidNodeOffsetRect(node)
         if (nodeRect && isCrossRectInRect(selectionRect, nodeRect)) {

@@ -11,7 +11,7 @@ export const SnapLine = observer(() => {
   return (
     <>
       {transformHelper.thresholdSnapLines.map((line, key) => {
-        if (line.type !== 'normal') return null
+        if (line.type !== 'normal' && line.distance !== 0) return null
         return (
           <div
             key={key}

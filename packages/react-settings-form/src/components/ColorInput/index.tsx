@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Input, Popover } from 'antd'
 import { usePrefix } from '@designable/react'
-import { SketchPicker } from 'react-color'
+import { TransformPicker } from 'react-color'
 import './styles.less'
 
 export interface IColorInputProps {
@@ -28,7 +28,7 @@ export const ColorInput: React.FC<IColorInputProps> = (props) => {
             overlayInnerStyle={{ padding: 0 }}
             getPopupContainer={() => container.current}
             content={
-              <SketchPicker
+              <TransformPicker
                 color={color}
                 onChange={({ rgb }) => {
                   props.onChange?.(`rgba(${rgb.r},${rgb.g},${rgb.b},${rgb.a})`)

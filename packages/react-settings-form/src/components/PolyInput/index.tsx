@@ -9,6 +9,7 @@ export interface IInput {
   className?: string
   value: any
   onChange: (value: any) => void
+  polyTypes?: IPolyType[]
   exclude?: string[]
   include?: string[]
 }
@@ -60,10 +61,11 @@ export function createPolyInput(polyTypes: PolyTypes = []): React.FC<IInput> {
     onChange,
     exclude,
     include,
+    polyTypes: extendTypes,
     ...props
   }) => {
     const prefix = usePrefix('poly-input')
-    const types = createTypes(polyTypes, exclude, include)
+    const types = createTypes(polyTypes.concat(extendTypes), exclude, include)
     const [current, setCurrent] = useState(types[0]?.type)
     const type = types?.find(({ type }) => type === current)
     const component = type?.component

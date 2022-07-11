@@ -2,23 +2,19 @@ import {
   Point,
   calcEdgeLinesOfRect,
   calcSpaceBlockOfRect,
-  calcDistanceOfSnapLineToEdges,
   IRect,
   Rect,
-  isEqualRect,
   isLineSegment,
   ILineSegment,
   calcClosestEdges,
   calcCombineSnapLineSegment,
-  ElementBox,
-  ElementGroupBox,
-  createElementBox,
+  ElementTransformer,
+  ElementGroupTransformer,
+  createElementTransformer,
+  isEqualLineSegment,
+  isEqualRect,
   PointTypes,
-  Vector,
-  LineSegment,
-  calcProjectionOfVector,
-  Position,
-  MatrixRect,
+  ITransformApplier,
 } from '@designable/shared'
 import { observable, define, action } from '@formily/reactive'
 import { SpaceBlock, AroundSpaceBlock } from './SpaceBlock'
@@ -31,8 +27,6 @@ export interface ITransformHelperProps {
   operation: Operation
 }
 
-export type TransformHelperType = 'translate' | 'resize' | 'rotate' | 'round'
-
 export type ResizeDirection =
   | 'left-top'
   | 'left-center'
@@ -44,12 +38,26 @@ export type ResizeDirection =
   | 'right-center'
   | (string & {})
 
-export type ResizeCalcDirection = [number, number, PointTypes]
+export type TransformHelperType = 'translate' | 'resize' | 'rotate' | 'round'
+
+export type ResizeCalcDirection = [number, number, PointTypes, string]
+
+export type SnappingTransfer = {
+  v?: { delta?: number }
+  h?: { delta?: number }
+}
 
 export interface ITransformHelperDragStartProps {
   type: TransformHelperType
   direction?: ResizeDirection
-  dragNodes: TreeNode[]
+  dragNodes?: TreeNode[]
+}
+
+function transformPointType(direction: ResizeDirection) {
+  return String(direction).replace(
+    /\b(\w)[^-_,+\s]*(?:[-_,+\s]+)?/g,
+    (_, $0) => $0
+  )
 }
 
 export class TransformHelper {
@@ -57,7 +65,7 @@ export class TransformHelper {
 
   type: TransformHelperType
 
-  direction: ResizeCalcDirection = [0, 0, 'cc']
+  direction: PointTypes
 
   dragNodes: TreeNode[] = []
 
@@ -65,33 +73,14 @@ export class TransformHelper {
 
   closestSnapLines: SnapLine[] = []
 
-  axisSpaceBlocks: SpaceBlock[] = []
-
   aroundSpaceBlocks: AroundSpaceBlock = null
 
-  viewportRectsStore: Record<string, Rect> = {}
+  viewportNodes: TreeNode[] = []
 
-  dragNodesBox: ElementGroupBox<TreeNode> | ElementBox<TreeNode> = null
+  dragNodesTransformer: ElementTransformer | ElementGroupTransformer = null
 
-  dragNodesRect: MatrixRect = null
-
-  dragNodesShadowBox: ElementGroupBox<TreeNode> | ElementBox<TreeNode> = null
-
-  dragNodesShadowRect: MatrixRect = null
-
-  dragStartFixedPosition: Position = null
-
-  dragStartControlPosition: Position = null
-
-  dragStartMatrixRect: MatrixRect = null
-
-  dragStartRotation = 0
-
-  dragMaxOffsetX = 0
-
-  dragMaxOffsetY = 0
-
-  snapping = false
+  dragNodesShadowTransformer: ElementTransformer | ElementGroupTransformer =
+    null
 
   dragging = false
 
@@ -121,22 +110,48 @@ export class TransformHelper {
   }
 
   get deltaX() {
-    return this.cursor.dragStartToCurrentDelta.clientX
+    return (
+      this.cursor.dragStartToCurrentDelta.clientX +
+      this.viewport.dragScrollXDelta
+    )
+  }
+
+  get snapDeltaX() {
+    const snapLine = this.normalizedSnapLines
+    if (snapLine.v) {
+      if (snapLine.v.distance < TransformHelper.threshold) {
+        return snapLine.v.offset
+      }
+    }
+    return 0
   }
 
   get deltaY() {
-    return this.cursor.dragStartToCurrentDelta.clientY
+    return (
+      this.cursor.dragStartToCurrentDelta.clientY +
+      this.viewport.dragScrollYDelta
+    )
+  }
+
+  get snapDeltaY() {
+    const snapLine = this.normalizedSnapLines
+    if (snapLine.h) {
+      if (snapLine.h.distance < TransformHelper.threshold) {
+        return snapLine.h.offset
+      }
+    }
+    return 0
   }
 
   get dragNodesOffsetRect() {
-    const clientRect = this.dragNodesRect?.boundingClientRect
+    const clientRect = this.dragNodesTransformer?.boundingClientRect
     if (clientRect) {
       return this.viewport.getOffsetRect(clientRect)
     }
   }
 
   get dragNodesShadowOffsetRect() {
-    const clientRect = this.dragNodesShadowRect?.boundingClientRect
+    const clientRect = this.dragNodesShadowTransformer?.boundingClientRect
     if (clientRect) {
       return this.viewport.getOffsetRect(clientRect)
     }
@@ -157,14 +172,36 @@ export class TransformHelper {
     )
   }
 
+  get normalizedSnapLines() {
+    let minHDistance = Infinity
+    let minVDistance = Infinity
+    let lines: Record<string, SnapLine> = {}
+    for (let i = 0; i < this.thresholdSnapLines.length; i++) {
+      const snapLine = this.thresholdSnapLines[i]
+      if (this.type === 'resize' && snapLine.distance === 0) continue
+      if (snapLine.direction === 'h') {
+        if (snapLine.distance < minHDistance) {
+          minHDistance = snapLine.distance
+          lines['h'] = snapLine
+        }
+      }
+      if (snapLine.direction === 'v') {
+        if (snapLine.distance < minVDistance) {
+          minVDistance = snapLine.distance
+          lines['v'] = snapLine
+        }
+      }
+    }
+    return lines
+  }
+
   get thresholdSnapLines() {
     if (!this.dragging) return []
     const results: SnapLine[] = []
-    const dragNodesShadowEdgeLines = this.dragNodesShadowEdgeLines
     this.closestSnapLines.forEach((line) => {
-      const distance = calcDistanceOfSnapLineToEdges(
+      const { distance, offset } = calcClosestEdges(
         line,
-        dragNodesShadowEdgeLines
+        this.dragNodesShadowEdgeLines
       )
       if (distance < TransformHelper.threshold) {
         const existed = results.findIndex(
@@ -176,7 +213,13 @@ export class TransformHelper {
         if (existed > -1) {
           results.splice(existed, 1)
         }
-        results.push(line)
+        results.push(
+          new SnapLine(this, {
+            ...line,
+            distance,
+            offset,
+          })
+        )
       }
     })
     return results
@@ -184,95 +227,105 @@ export class TransformHelper {
 
   get thresholdSpaceBlocks(): SpaceBlock[] {
     if (!this.dragging) return []
-    const dragNodesShadowEdgeLines = this.dragNodesShadowEdgeLines
+    const dragNodesEdgeLines = this.dragNodesEdgeLines
     return this.axisSpaceBlocks.filter((block) => {
       const line = block.snapLine
       if (!line) return false
-      return (
-        calcDistanceOfSnapLineToEdges(line, dragNodesShadowEdgeLines) <
-        TransformHelper.threshold
-      )
+      const { distance } = calcClosestEdges(line, dragNodesEdgeLines)
+      return distance < TransformHelper.threshold
     })
   }
 
   get measurerSpaceBlocks(): SpaceBlock[] {
     const results: SpaceBlock[] = []
-    if (!this.dragging || !this.snapped) return []
+    const snapLines = this.thresholdSnapLines
+    if (!this.dragging) return []
+    let hasVSnapLine = false
+    let hasHSnapLine = false
+    snapLines.forEach((line) => {
+      if (line.direction === 'v') {
+        hasVSnapLine = true
+      } else {
+        hasHSnapLine = true
+      }
+    })
     for (let type in this.aroundSpaceBlocks) {
-      if (this.aroundSpaceBlocks[type])
-        results.push(this.aroundSpaceBlocks[type])
+      const block = this.aroundSpaceBlocks[type]
+      if (block.type === 'left' || block.type === 'right') {
+        if (!hasHSnapLine) continue
+      } else {
+        if (!hasVSnapLine) continue
+      }
+      const refer = block.refer
+      const referRect = block.refer.getElementOffsetRect()
+      const origin = calcSpaceBlockOfRect(this.dragNodesOffsetRect, referRect)
+      if (origin) {
+        if (origin.distance < TransformHelper.threshold) continue
+        results.push(
+          new SpaceBlock(this, {
+            refer,
+            ...origin,
+          })
+        )
+      }
     }
     return results
   }
 
-  calcResizeFixedPosition() {
-    const [, , type] = this.direction
-    const points = this.dragNodesShadowBox.points
-    if (this.optionMode) return points.cc
-    switch (type) {
-      case 'cb':
-        return points.ct
-      case 'ct':
-        return points.cb
-      case 'lt':
-        return points.rb
-      case 'lc':
-        return points.rc
-      case 'lb':
-        return points.rt
-      case 'rt':
-        return points.lb
-      case 'rb':
-        return points.lt
-      case 'rc':
-        return points.lc
-    }
+  get measurerExtendsLines(): ILineSegment[] {
+    const blocks = this.measurerSpaceBlocks
+    const results: ILineSegment[] = []
+    blocks.forEach(({ extendsLine }) => {
+      if (results.find((line) => isEqualLineSegment(line, extendsLine))) return
+      results.push(extendsLine)
+    })
+    return results
   }
 
-  calcResizeControlPosition() {
-    const [, , type] = this.direction
-    const points = this.dragNodesShadowBox.points
-    return points[type]
+  get axisSpaceBlocks() {
+    const results = []
+    if (!this.dragging) return []
+    for (let type in this.aroundSpaceBlocks) {
+      const block = this.aroundSpaceBlocks[type]
+      if (!block.snapLine) continue
+      if (block.snapLine.distance !== 0) continue
+      if (block.isometrics.length) {
+        const origin = calcSpaceBlockOfRect(
+          this.dragNodesOffsetRect,
+          block.referRect
+        )
+        if (origin) {
+          results.push(new SpaceBlock(this, origin))
+          results.push(...block.isometrics)
+        }
+      }
+    }
+
+    return results
   }
 
-  calcResizeDirection(direction: ResizeDirection): ResizeCalcDirection {
-    switch (direction) {
-      case 'center-bottom':
-        return [0, -1, 'cb']
-      case 'center-top':
-        return [0, 1, 'ct']
-      case 'left-bottom':
-        return [1, -1, 'lb']
-      case 'left-center':
-        return [1, 0, 'lc']
-      case 'left-top':
-        return [1, 1, 'lt']
-      case 'right-bottom':
-        return [-1, -1, 'rb']
-      case 'right-top':
-        return [-1, 1, 'rt']
-      case 'right-center':
-        return [-1, 0, 'rc']
-    }
+  get resizeControl() {
+    const position = this.dragNodesTransformer.points[this.direction]
+    return this.viewport.getOffsetPoint({
+      x: position.clientX,
+      y: position.clientY,
+    })
   }
 
   calcDragStartStore(nodes: TreeNode[] = []) {
-    this.dragMaxOffsetX = 0
-    this.dragMaxOffsetY = 0
-    this.dragNodesBox = createElementBox(nodes)
-    this.dragNodesShadowBox = createElementBox(nodes)
-    this.dragNodesShadowRect = this.dragNodesBox.matrixRect
-    this.dragNodesRect = this.dragNodesBox.matrixRect
-    this.dragStartMatrixRect = this.dragNodesBox.matrixRect
-    this.dragStartFixedPosition = this.calcResizeFixedPosition()
-    this.dragStartControlPosition = this.calcResizeControlPosition()
-    this.dragStartRotation = this.dragNodesBox.rotation
+    this.dragNodesTransformer = createElementTransformer(nodes)
+    this.dragNodesShadowTransformer = createElementTransformer(nodes)
   }
 
   calcRulerSnapLines(dragNodesRect: IRect): SnapLine[] {
     const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
     return this.rulerSnapLines.map((line) => {
-      line.distance = calcDistanceOfSnapLineToEdges(line, edgeLines)
+      const { snap, edge, distance, offset } = calcClosestEdges(line, edgeLines)
+      if (snap) {
+        line.distance = distance
+        line.offset = offset
+        line.edge = edge
+      }
       return line
     })
   }
@@ -281,6 +334,7 @@ export class TransformHelper {
     if (!this.dragging || !dragNodesRect) return []
     const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
     const snapLines = {}
+    const startRotation = this.dragStartRotation
     const addSnapLine = (snapLine: SnapLine) => {
       const edge = snapLine.getClosestEdge(dragNodesRect)
       snapLines[edge] = snapLines[edge] || snapLine
@@ -289,17 +343,40 @@ export class TransformHelper {
       }
     }
 
-    this.eachViewportNodes((refer, referRect) => {
+    this.eachViewportNodes((refer) => {
       if (this.dragNodes.includes(refer)) return
-      const referLines = calcEdgeLinesOfRect(referRect)
+      const referLines = calcEdgeLinesOfRect(refer.getElementOffsetRect())
       const addAroundSnapLine = (line: ILineSegment) => {
-        const [distance, edge] = calcClosestEdges(line, edgeLines)
-        if (!edge) return
-        const combined = calcCombineSnapLineSegment(line, edge)
+        if (!line) return
+        const { distance, direction, snap, offset, edge } = calcClosestEdges(
+          line,
+          edgeLines
+        )
+        if (!snap) return
+        const combined = calcCombineSnapLineSegment(line, snap)
         if (distance < TransformHelper.threshold) {
+          if (this.type === 'resize') {
+            const degree = (startRotation * 180) / Math.PI
+            if (degree % 90 > 5) return
+            const control = this.resizeControl
+            if (
+              direction === 'h' &&
+              Math.abs(control.y - line.start.y) >= TransformHelper.threshold
+            ) {
+              return
+            }
+            if (
+              direction === 'v' &&
+              Math.abs(control.x - line.start.x) >= TransformHelper.threshold
+            ) {
+              return
+            }
+          }
           addSnapLine(
             new SnapLine(this, {
               ...combined,
+              offset,
+              edge,
               distance,
             })
           )
@@ -321,13 +398,15 @@ export class TransformHelper {
         addSnapLine(line)
       }
     }
+
     return Object.values(snapLines)
   }
 
   calcAroundSpaceBlocks(dragNodesRect: IRect): AroundSpaceBlock {
     if (!dragNodesRect) return {} as any
     const aroundSpaces = {}
-    this.eachViewportNodes((refer, referRect) => {
+    this.eachViewportNodes((refer) => {
+      const referRect = refer.getElementOffsetRect()
       if (isEqualRect(dragNodesRect, referRect)) return
       const origin = calcSpaceBlockOfRect(dragNodesRect, referRect)
       if (origin) {
@@ -363,113 +442,50 @@ export class TransformHelper {
   calcViewportNodes() {
     this.tree.eachTree((node) => {
       const clientRect = node.getValidElementClientRect()
-      const offsetRect = node.getValidElementOffsetRect()
       if (this.dragNodes.includes(node)) return
       if (this.viewport.isRectIntersectionInViewport(clientRect)) {
-        this.viewportRectsStore[node.id] = offsetRect
+        this.viewportNodes.push(node)
       }
     })
   }
 
-  getNodeRect(node: TreeNode) {
-    return this.viewportRectsStore[node.id]
+  eachViewportNodes(visitor: (node: TreeNode) => void) {
+    this.viewportNodes.forEach(visitor)
   }
 
-  eachViewportNodes(visitor: (node: TreeNode, rect: Rect) => void) {
-    for (let id in this.viewportRectsStore) {
-      visitor(this.tree.findById(id), this.viewportRectsStore[id])
+  calcTransform(snapDeltaX = 0, snapDeltaY = 0) {
+    return (applier: ITransformApplier) => {
+      const locking = !!this.lockMode
+      const deltaX = this.deltaX + snapDeltaX
+      const deltaY = this.deltaY + snapDeltaY
+      if (this.type === 'translate') {
+        return applier.translate(deltaX, deltaY, { snapping: locking })
+      }
+      if (this.type === 'resize') {
+        const direction = this.direction
+        return applier.resize(deltaX, deltaY, {
+          direction,
+          keepAspectRatio: locking,
+          symmetry: !!this.optionMode,
+        })
+      }
+      if (this.type === 'rotate') {
+        const cursor = this.cursor.position
+        return applier.rotate(cursor.topClientX, cursor.topClientY, {
+          snapping: locking,
+        })
+      }
     }
   }
 
-  calcShadowTransform() {
-    const startRect = this.dragStartMatrixRect
-    const startWidth = startRect.width
-    const startHeight = startRect.height
-    const dragNodesBox = this.dragNodesShadowBox
-    if (this.type === 'translate') {
-      if (this.lockMode) {
-        this.dragMaxOffsetX = Math.max(
-          Math.abs(this.deltaX),
-          this.dragMaxOffsetX
-        )
-        this.dragMaxOffsetY = Math.max(
-          Math.abs(this.deltaY),
-          this.dragMaxOffsetY
-        )
-        if (Math.abs(this.dragMaxOffsetX) > Math.abs(this.dragMaxOffsetY)) {
-          return [this.deltaX, 0]
-        } else {
-          return [0, this.deltaY]
-        }
-      }
-      return [this.deltaX, this.deltaY]
+  calcGuideLines() {
+    const dragNodesShadowRect = this.dragNodesShadowOffsetRect
+    const dragNodesRect = this.dragNodesOffsetRect
+    if (this.type === 'translate' || this.type === 'resize') {
+      this.aroundSpaceBlocks = this.calcAroundSpaceBlocks(dragNodesRect)
+      this.rulerSnapLines = this.calcRulerSnapLines(dragNodesShadowRect)
+      this.closestSnapLines = this.calcClosestSnapLines(dragNodesShadowRect)
     }
-    if (this.type === 'resize') {
-      const [a, b, cur] = this.direction
-      const control = dragNodesBox.points[cur]
-      const startFixed = this.dragStartFixedPosition
-      const startControl = this.dragStartControlPosition
-      const fixedRatioX = startFixed.x / startWidth
-      const fixedRatioY = startFixed.y / startHeight
-      const trackRatioX = Math.abs(startControl.x - startFixed.x) / startWidth
-      const trackRatioY = Math.abs(startControl.y - startFixed.y) / startHeight
-      const deltaX =
-        1 - trackRatioX ? this.deltaX / (1 - trackRatioX) : this.deltaX
-      const deltaY =
-        1 - trackRatioY ? this.deltaY / (1 - trackRatioY) : this.deltaY
-      const cursorVector = new Point(deltaX, deltaY)
-      const trackVector = new Vector(new LineSegment(startFixed, control))
-      const trackProjection = calcProjectionOfVector(cursorVector, trackVector)
-      const calcFixedOffset = (distWidth: number, distHeight: number) => {
-        return {
-          x: fixedRatioX * startWidth - fixedRatioX * distWidth,
-          y: fixedRatioY * startHeight - fixedRatioY * distHeight,
-        }
-      }
-      if (this.lockMode) {
-        const ratio = startWidth / startHeight
-        const xVector = new Point(startWidth, 0)
-        const yVector = new Point(0, startHeight)
-        const xProjection = calcProjectionOfVector(trackProjection, xVector)
-        const yProjection = calcProjectionOfVector(trackProjection, yVector)
-        const pDeltaX = xProjection.x
-        const pDeltaY = yProjection.y
-        if (Math.abs(pDeltaX) > Math.abs(pDeltaY)) {
-          const distWidth = Math.max(startWidth - pDeltaX * a, 0)
-          const distHeight = distWidth / ratio
-          return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
-        } else {
-          const distHeight = Math.max(startHeight - pDeltaY * b, 0)
-          const distWidth = distHeight * ratio
-          return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
-        }
-      }
-      const distWidth = Math.max(startWidth - deltaX * a, 0)
-      const distHeight = Math.max(startHeight - deltaY * b, 0)
-      return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
-    }
-    if (this.type === 'rotate') {
-      const cursor = this.cursor.position
-      const origin = dragNodesBox.transformOrigin
-      const angle =
-        Math.atan2(
-          cursor.topClientY - origin.clientY,
-          cursor.topClientX - origin.clientX
-        ) +
-        Math.PI / 2
-      if (this.lockMode) {
-        const degree = ((this.dragStartRotation + angle) * 180) / Math.PI
-        const targetDegree = Math.round(degree / 15) * 15
-        return [(targetDegree * Math.PI) / 180 - this.dragStartRotation]
-      }
-      return [angle]
-    }
-    return []
-  }
-
-  calcSnapTransform() {
-    const shadow = this.calcShadowTransform()
-    return shadow
   }
 
   findRulerSnapLine(id: string) {
@@ -493,15 +509,16 @@ export class TransformHelper {
   }
 
   dragStart(props: ITransformHelperDragStartProps) {
-    const dragNodes = props?.dragNodes
+    const dragNodes = props?.dragNodes ?? this.operation.selection.selectedNodes
     const type = props?.type
     const direction = props?.direction
+
     if (type === 'resize') {
       const nodes = TreeNode.filterResizable(dragNodes)
       if (nodes.length) {
         this.dragging = true
         this.type = type
-        this.direction = this.calcResizeDirection(direction)
+        this.direction = transformPointType(direction)
         this.dragNodes = nodes
         this.calcDragStartStore(nodes)
         this.cursor.setDragType(CursorDragType.Resize)
@@ -541,23 +558,11 @@ export class TransformHelper {
 
   dragMove() {
     if (!this.dragging) return
-    const shadowRect = this.dragNodesOffsetRect
-    this.rulerSnapLines = this.calcRulerSnapLines(shadowRect)
-    this.aroundSpaceBlocks = this.calcAroundSpaceBlocks(shadowRect)
-    this.axisSpaceBlocks = this.calcAxisSpaceBlocks(this.aroundSpaceBlocks)
-    this.closestSnapLines = this.calcClosestSnapLines(shadowRect)
-    this.dragNodesShadowBox.transform((t) => {
-      if (t[this.type]) {
-        t[this.type](...this.calcShadowTransform())
-      }
-    })
-    this.dragNodesBox.transform((t) => {
-      if (t[this.type]) {
-        t[this.type](...this.calcSnapTransform())
-      }
-    })()
-    this.dragNodesRect = this.dragNodesBox.matrixRect
-    this.dragNodesShadowRect = this.dragNodesShadowBox.matrixRect
+    // this.calcGuideLines()
+    this.dragNodesShadowTransformer.transform(this.calcTransform())
+    this.dragNodesTransformer.transform(
+      this.calcTransform(this.snapDeltaX, this.snapDeltaY)
+    )()
   }
 
   startOptionMode() {
@@ -586,20 +591,11 @@ export class TransformHelper {
 
   dragEnd() {
     this.dragging = false
-    this.viewportRectsStore = {}
-    this.dragNodesBox = null
+    this.viewportNodes = []
     this.closestSnapLines = []
-    this.axisSpaceBlocks = []
     this.aroundSpaceBlocks = null
-    this.dragMaxOffsetX = 0
-    this.dragMaxOffsetY = 0
-    this.dragNodesBox = null
-    this.dragNodesShadowBox = null
-    this.dragNodesShadowRect = null
-    this.dragNodesRect = null
-    this.dragStartMatrixRect = null
-    this.dragStartFixedPosition = null
-    this.dragStartControlPosition = null
+    this.dragNodesTransformer = null
+    this.dragNodesShadowTransformer = null
     this.dragNodes = []
     this.cursor.setDragType(CursorDragType.Move)
   }
@@ -610,17 +606,17 @@ export class TransformHelper {
       lockMode: observable.ref,
       snapped: observable.ref,
       dragging: observable.ref,
-      snapping: observable.ref,
       dragNodes: observable.ref,
       closestSnapLines: observable.ref,
-      axisSpaceBlocks: observable.ref,
       aroundSpaceBlocks: observable.ref,
-      dragNodesRect: observable.ref,
-      dragNodesShadowRect: observable.ref,
+      dragNodesTransformer: observable.ref,
+      dragNodesShadowTransformer: observable.ref,
       rulerSnapLines: observable.shallow,
       thresholdSnapLines: observable.computed,
       thresholdSpaceBlocks: observable.computed,
       measurerSpaceBlocks: observable.computed,
+      normalizedSnapLines: observable.computed,
+      axisSpaceBlocks: observable.computed,
       cursor: observable.computed,
       dragNodesEdgeLines: observable.computed,
       dragStartCursor: observable.computed,

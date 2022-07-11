@@ -4,7 +4,6 @@ import {
   IPoint,
   Rect,
 } from '@designable/shared'
-import { TreeNode } from './TreeNode'
 import { TransformHelper } from './TransformHelper'
 
 export type ISnapLineType = 'ruler' | 'space-block' | 'normal'
@@ -12,25 +11,28 @@ export type ISnapLineType = 'ruler' | 'space-block' | 'normal'
 export type ISnapLine = ILineSegment & {
   type?: ISnapLineType
   distance?: number
+  offset?: number
+  edge?: string
   id?: string
-  refer?: TreeNode
 }
 
 export class SnapLine {
   _id: string
   type: ISnapLineType
   distance: number
-  refer: TreeNode
+  offset: number
   start: IPoint
+  edge: string
   end: IPoint
   helper: TransformHelper
   constructor(helper: TransformHelper, line: ISnapLine) {
     this.helper = helper
     this.type = line.type || 'normal'
     this._id = line.id
-    this.refer = line.refer
     this.start = { ...line.start }
     this.end = { ...line.end }
+    this.edge = line.edge
+    this.offset = line.offset
     this.distance = line.distance
   }
 

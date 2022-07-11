@@ -1,10 +1,11 @@
-import { Engine, Workspace } from '../models'
+import { CursorType, Engine, Workspace } from '../models'
 import {
   DragStartEvent,
   DragMoveEvent,
   DragStopEvent,
   KeyDownEvent,
   KeyUpEvent,
+  ViewportScrollEvent,
 } from '../events'
 import { ICustomEvent, KeyCode } from '@designable/shared'
 
@@ -21,22 +22,7 @@ export const useTransformEffect = (engine: Engine) => {
       }
     }
   }
-  const getNodeFromHandler = (handler: HTMLElement) => {
-    if (!handler) return
-    const element = handler.closest(
-      `*[${engine.props.nodeSelectionIdAttrName}]`
-    )
-    const nodeId = element.getAttribute(engine.props.nodeSelectionIdAttrName)
-    return engine.findNodeById(nodeId)
-  }
-  const getTranslateHandler = (target: HTMLElement) => {
-    const handler = target?.closest(
-      `*[${engine.props.nodeTranslateAttrName}]`
-    ) as any
-    if (!handler) return
-    const node = getNodeFromHandler(handler)
-    return { handler, node }
-  }
+
   const getResizeHandler = (target: HTMLElement) => {
     const handler = target?.closest(
       `*[${engine.props.nodeResizeHandlerAttrName}]`
@@ -45,8 +31,7 @@ export const useTransformEffect = (engine: Engine) => {
     const direction = handler.getAttribute(
       engine.props.nodeResizeHandlerAttrName
     )
-    const node = getNodeFromHandler(handler)
-    return { node, handler, direction }
+    return { handler, direction }
   }
 
   const getRotateHandler = (target: HTMLElement) => {
@@ -54,8 +39,7 @@ export const useTransformEffect = (engine: Engine) => {
       `*[${engine.props.nodeRotateHandlerAttrName}]`
     ) as any
     if (!handler) return
-    const node = getNodeFromHandler(handler)
-    return { node, handler }
+    return { handler }
   }
 
   engine.subscribeTo(
@@ -93,25 +77,40 @@ export const useTransformEffect = (engine: Engine) => {
   engine.subscribeTo(
     DragStartEvent,
     pickWorkspace((workspace, target) => {
-      const helper = workspace.operation.transformHelper
-      const translateHandler = getTranslateHandler(target)
+      if (engine.cursor.type !== CursorType.Transform) return
+      const operation = workspace.operation
+      const helper = operation.transformHelper
       const resizeHandler = getResizeHandler(target)
       const rotateHandler = getRotateHandler(target)
-      if (translateHandler) {
+
+      if (resizeHandler) {
         helper.dragStart({
-          dragNodes: [translateHandler.node],
-          type: 'translate',
-        })
-      } else if (resizeHandler) {
-        helper.dragStart({
-          dragNodes: [resizeHandler.node],
           direction: resizeHandler.direction,
           type: 'resize',
         })
       } else if (rotateHandler) {
         helper.dragStart({
-          dragNodes: [rotateHandler.node],
           type: 'rotate',
+        })
+      } else {
+        const element = target?.closest(`
+        *[${engine.props.nodeIdAttrName}],
+        *[${engine.props.sourceIdAttrName}]
+       `)
+        if (!element) return
+        const sourceId = element.getAttribute(engine.props.sourceIdAttrName)
+        const nodeId = element.getAttribute(engine.props.nodeIdAttrName)
+        const selection = operation.selection
+        const targetNode = operation.tree.findById(nodeId || sourceId)
+        const selectedNodes = selection.selectedNodes
+        const hasSelected = selectedNodes.includes(targetNode)
+        const dragNodes = hasSelected ? selectedNodes : [targetNode]
+        if (!hasSelected) {
+          selection.select(targetNode)
+        }
+        helper.dragStart({
+          dragNodes: dragNodes,
+          type: 'translate',
         })
       }
     })
@@ -119,6 +118,15 @@ export const useTransformEffect = (engine: Engine) => {
 
   engine.subscribeTo(
     DragMoveEvent,
+    pickWorkspace((workspace) => {
+      const helper = workspace.operation.transformHelper
+      const dragNodes = helper.dragNodes
+      if (!dragNodes.length) return
+      helper.dragMove()
+    })
+  )
+  engine.subscribeTo(
+    ViewportScrollEvent,
     pickWorkspace((workspace) => {
       const helper = workspace.operation.transformHelper
       const dragNodes = helper.dragNodes

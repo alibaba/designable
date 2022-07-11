@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useTransformHelper, useCursor, usePrefix } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { CursorStatus } from '@designable/core'
@@ -64,26 +64,26 @@ export const SpaceBlock = observer(() => {
 
   return (
     <>
+      {transformHelper.measurerExtendsLines.map((line) => {
+        return renderDashedLine(line)
+      })}
       {transformHelper.measurerSpaceBlocks.map(
-        ({ type, crossDragNodesRect, distance, extendsLine }, key) => {
+        ({ type, crossDragNodesRect, distance }, key) => {
           return (
-            <Fragment>
-              {renderDashedLine(extendsLine)}
-              <div
-                key={key}
-                style={{
-                  top: 0,
-                  left: 0,
-                  height: crossDragNodesRect.height,
-                  width: crossDragNodesRect.width,
-                  transform: `perspective(1px) translate3d(${crossDragNodesRect.x}px,${crossDragNodesRect.y}px,0)`,
-                  position: 'absolute',
-                  zIndex: 3,
-                }}
-              >
-                {renderRulerBox(distance, type)}
-              </div>
-            </Fragment>
+            <div
+              key={key}
+              style={{
+                top: 0,
+                left: 0,
+                height: crossDragNodesRect.height,
+                width: crossDragNodesRect.width,
+                transform: `perspective(1px) translate3d(${crossDragNodesRect.x}px,${crossDragNodesRect.y}px,0)`,
+                position: 'absolute',
+                zIndex: 3,
+              }}
+            >
+              {renderRulerBox(distance, type)}
+            </div>
           )
         }
       )}
