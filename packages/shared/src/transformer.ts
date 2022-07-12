@@ -239,6 +239,7 @@ function calcStackInfo(element: HTMLElement) {
       frameView &&
       (!element.parentElement || element === frameView?.document?.body)
     ) {
+      scrollParents.push(frameView)
       visitor(frameView.frameElement as HTMLElement, element)
     } else {
       visitor(element.parentElement, element)
