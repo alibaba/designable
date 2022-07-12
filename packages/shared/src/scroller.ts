@@ -116,29 +116,31 @@ export const scrollAnimate = (
   })
 }
 
-export const calcScrollOffset = (element: HTMLElement) => {
+export const calcScrollOffset = (element: any) => {
   if (SCROLL_MAP.has(element)) {
     return SCROLL_MAP.get(element) as IPoint
   }
+  const getScrollX = (element: any) => element.scrollX ?? element.scrollLeft
+  const getScrollY = (element: any) => element.scrollY ?? element.scrollTop
   const point = {
-    x: element.scrollLeft,
-    y: element.scrollTop,
+    x: getScrollX(element),
+    y: getScrollY(element),
   }
   const node = {
     request: null,
     scrolling: false,
     get x() {
-      return node.scrolling ? element.scrollLeft : point.x
+      return node.scrolling ? getScrollX(element) : point.x
     },
     get y() {
-      return node.scrolling ? element.scrollTop : point.y
+      return node.scrolling ? getScrollY(element) : point.y
     },
     point,
     handler() {
       clearTimeout(node.request)
       node.scrolling = true
-      node.point.x = element.scrollLeft
-      node.point.y = element.scrollTop
+      node.point.x = getScrollX(element)
+      node.point.y = getScrollY(element)
       node.request = setTimeout(() => {
         node.scrolling = false
       }, SCROLL_REQUEST_DURATION)

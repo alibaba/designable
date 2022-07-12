@@ -215,7 +215,7 @@ function calcStyledOrigin(
 
 function calcStackInfo(element: HTMLElement) {
   let parentMatrix = identity()
-  let scrollParents: HTMLElement[] = []
+  let scrollParents: (HTMLElement | Window)[] = [window]
   const visitor = (element: HTMLElement, child: HTMLElement) => {
     if (!element) return
     const frameView = element.ownerDocument?.defaultView
@@ -686,7 +686,7 @@ export class Position {
 
 export class HTMLParentStack {
   element: HTMLElement
-  scrollParents: HTMLElement[] = []
+  scrollParents: (HTMLElement | Window)[] = []
   parentMatrix: Matrix
   constructor(element: HTMLElement) {
     const stack = calcStackInfo(element)
@@ -779,6 +779,10 @@ export class ElementTransformer {
       }
     }
     return new Rect(minX, minY, maxX - minX, maxY - minY)
+  }
+
+  get rotation() {
+    return calcMatrixRotation(this.matrix)
   }
 
   get originPosition() {
@@ -1054,6 +1058,10 @@ export class ElementGroupTransformer {
 
   get styledOrigin() {
     return new Point(this.width / 2, this.height / 2)
+  }
+
+  get rotation() {
+    return calcMatrixRotation(this.matrix)
   }
 
   get originPosition() {
