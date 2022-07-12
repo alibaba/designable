@@ -326,7 +326,6 @@ export class TransformHelper {
     if (!this.dragging || !dragNodesRect) return []
     const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
     const snapLines = {}
-    // const rotation = this.dragNodesShadowTransformer.rotation
     const addSnapLine = (snapLine: SnapLine) => {
       const edge = snapLine.getClosestEdge(dragNodesRect)
       snapLines[edge] = snapLines[edge] || snapLine
@@ -336,7 +335,7 @@ export class TransformHelper {
     }
 
     this.eachViewportNodes((refer) => {
-      if (this.dragNodes.includes(refer)) return
+      if (this.dragNodes.some((target) => target.contains(refer))) return
       const referLines = calcEdgeLinesOfRect(refer.getElementOffsetRect())
       const getResizeControl = () => {
         const position = this.dragNodesTransformer.points[this.direction]
@@ -403,6 +402,7 @@ export class TransformHelper {
     if (!dragNodesRect) return {} as any
     const aroundSpaces = {}
     this.eachViewportNodes((refer) => {
+      if (this.dragNodes.some((target) => target.contains(refer))) return
       const referRect = refer.getElementOffsetRect()
       if (isEqualRect(dragNodesRect, referRect)) return
       const origin = calcSpaceBlockOfRect(dragNodesRect, referRect)
@@ -555,7 +555,7 @@ export class TransformHelper {
 
   dragMove() {
     if (!this.dragging) return
-    //  this.calcGuideLines()
+    this.calcGuideLines()
     this.dragNodesShadowTransformer.transform(this.calcTransform())
     this.dragNodesTransformer.transform(
       this.calcTransform(this.snapDeltaX, this.snapDeltaY)

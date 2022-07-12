@@ -779,7 +779,12 @@ export class ElementTransformer {
         maxY = p.clientY
       }
     }
-    return new Rect(minX, minY, maxX - minX, maxY - minY)
+    return new Rect(
+      precision(minX),
+      precision(minY),
+      precision(maxX - minX),
+      precision(maxY - minY)
+    )
   }
 
   get rotation() {
@@ -1101,7 +1106,12 @@ export class ElementGroupTransformer {
         }
       }
     }
-    return new Rect(minX, minY, maxX - minX, maxY - minY)
+    return new Rect(
+      precision(minX),
+      precision(minY),
+      precision(maxX - minX),
+      precision(maxY - minY)
+    )
   }
 
   get scrollOffset() {
