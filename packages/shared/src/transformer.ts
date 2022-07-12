@@ -221,11 +221,11 @@ function calcStackInfo(element: HTMLElement) {
     const frameView = element.ownerDocument?.defaultView
     if (element === child.offsetParent) {
       parentMatrix = multiply(
-        parentMatrix,
         multiply(
           translate(element.offsetLeft, element.offsetTop),
           calcStyledMatrix(element)
-        )
+        ),
+        parentMatrix
       )
     }
     const style = getComputedStyle(element)
@@ -836,6 +836,10 @@ export class ElementTransformer {
     return moveToCSSOrigin(this.clientMatrix, this.styledOrigin)
   }
 
+  get cssAbsoluteMatrix() {
+    return moveToCSSOrigin(this.absoluteMatrix, this.styledOrigin)
+  }
+
   get points() {
     return calcRectPoints(this)
   }
@@ -873,7 +877,11 @@ export class ElementTransformer {
         matrixes.push(rotate(rotation, origin.x, origin.y))
       },
       translate: (tx: number, ty = 0) => {
-        matrixes.push(inverse(this.matrix), translate(tx, ty), this.matrix)
+        matrixes.push(
+          inverse(this.absoluteMatrix),
+          translate(tx, ty),
+          this.absoluteMatrix
+        )
       },
       push(matrix: Matrix) {
         matrixes.push(matrix)
@@ -1126,6 +1134,10 @@ export class ElementGroupTransformer {
     return moveToCSSOrigin(this.clientMatrix, this.styledOrigin)
   }
 
+  get cssAbsoluteMatrix() {
+    return moveToCSSOrigin(this.absoluteMatrix, this.styledOrigin)
+  }
+
   get points() {
     return calcRectPoints(this)
   }
@@ -1172,7 +1184,11 @@ export class ElementGroupTransformer {
         matrixes.push(rotate(rotation, origin.x, origin.y))
       },
       translate: (tx: number, ty = 0) => {
-        matrixes.push(inverse(this.matrix), translate(tx, ty), this.matrix)
+        matrixes.push(
+          inverse(this.absoluteMatrix),
+          translate(tx, ty),
+          this.absoluteMatrix
+        )
       },
       push(matrix: Matrix) {
         matrixes.push(matrix)
@@ -1319,9 +1335,15 @@ const isEqualElements = (els1: HTMLElement[], els2: HTMLElement[]) => {
 export function createElementTransformer<Node extends IElementNode>(
   nodes: Node[] = []
 ) {
-  const elements = []
+  const elements: HTMLElement[] = []
   nodes.forEach((node) => {
-    elements.push(node.getElement())
+    const element = node.getElement()
+    const hasParent =
+      elements.length > 0 &&
+      elements.some((target) => target !== element && target.contains(element))
+    if (!hasParent) {
+      elements.push(element)
+    }
   })
   if (!isEqualElements(elements, TransformerCache.elements)) {
     TransformerCache.elements = elements
@@ -1330,7 +1352,7 @@ export function createElementTransformer<Node extends IElementNode>(
         ? new ElementGroupTransformer(elements)
         : new ElementTransformer(elements[0])
   } else {
-    TransformerCache.transformer.track()
+    TransformerCache.transformer?.track?.()
   }
 
   return TransformerCache.transformer

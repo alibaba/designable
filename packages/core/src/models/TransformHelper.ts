@@ -304,14 +304,6 @@ export class TransformHelper {
     return results
   }
 
-  get resizeControl() {
-    const position = this.dragNodesTransformer.points[this.direction]
-    return this.viewport.getOffsetPoint({
-      x: position.clientX,
-      y: position.clientY,
-    })
-  }
-
   calcDragStartStore(nodes: TreeNode[] = []) {
     this.dragNodesTransformer = createElementTransformer(nodes)
     this.dragNodesShadowTransformer = createElementTransformer(nodes)
@@ -334,7 +326,7 @@ export class TransformHelper {
     if (!this.dragging || !dragNodesRect) return []
     const edgeLines = calcEdgeLinesOfRect(dragNodesRect)
     const snapLines = {}
-    const startRotation = this.dragStartRotation
+    // const rotation = this.dragNodesShadowTransformer.rotation
     const addSnapLine = (snapLine: SnapLine) => {
       const edge = snapLine.getClosestEdge(dragNodesRect)
       snapLines[edge] = snapLines[edge] || snapLine
@@ -346,6 +338,13 @@ export class TransformHelper {
     this.eachViewportNodes((refer) => {
       if (this.dragNodes.includes(refer)) return
       const referLines = calcEdgeLinesOfRect(refer.getElementOffsetRect())
+      const getResizeControl = () => {
+        const position = this.dragNodesTransformer.points[this.direction]
+        return this.viewport.getOffsetPoint({
+          x: position.clientX,
+          y: position.clientY,
+        })
+      }
       const addAroundSnapLine = (line: ILineSegment) => {
         if (!line) return
         const { distance, direction, snap, offset, edge } = calcClosestEdges(
@@ -356,9 +355,7 @@ export class TransformHelper {
         const combined = calcCombineSnapLineSegment(line, snap)
         if (distance < TransformHelper.threshold) {
           if (this.type === 'resize') {
-            const degree = (startRotation * 180) / Math.PI
-            if (degree % 90 > 5) return
-            const control = this.resizeControl
+            const control = getResizeControl()
             if (
               direction === 'h' &&
               Math.abs(control.y - line.start.y) >= TransformHelper.threshold
@@ -558,7 +555,7 @@ export class TransformHelper {
 
   dragMove() {
     if (!this.dragging) return
-    // this.calcGuideLines()
+    //  this.calcGuideLines()
     this.dragNodesShadowTransformer.transform(this.calcTransform())
     this.dragNodesTransformer.transform(
       this.calcTransform(this.snapDeltaX, this.snapDeltaY)
