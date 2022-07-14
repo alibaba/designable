@@ -1404,8 +1404,10 @@ export function transformElement(
   }
   const decompose = decomposeTSR(matrix)
   const { translate: t, rotation: r, scale: s } = decompose
+  const rotation = `${(r.angle * 180) / Math.PI}deg`
   target.style.transform = `translate3d(${t.tx + offsetX}px,${
     t.ty + offsetY
-  }px,0) scale(${s.sx},${s.sy}) rotate(${(r.angle * 180) / Math.PI}deg)`
+  }px,0) scale(${s.sx},${s.sy}) rotate(${rotation})`
+  target.style.setProperty('--rotation-angle', rotation)
   return decompose
 }

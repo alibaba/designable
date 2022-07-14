@@ -16,6 +16,7 @@ export const TransformBox: React.FC = observer(() => {
   const transformer = selection.transformer
   useEffect(() => {
     return transformer.subscribe(() => {
+      if (!ref.current) return
       transformElement(
         ref.current,
         transformer.width,
@@ -37,7 +38,7 @@ export const TransformBox: React.FC = observer(() => {
         left: 0,
         boxSizing: 'border-box',
         zIndex: 4,
-        display: 'none',
+        // display: 'none',
       }}
     >
       <div className={innerPrefix}></div>
