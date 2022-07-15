@@ -19,6 +19,7 @@ import {
 import parseUnit from 'parse-unit'
 import { calcScrollOffset } from './scroller'
 import { debounceMicro } from './debounce'
+import { precision } from './precision'
 
 const PIXELS_PER_INCH = 96
 
@@ -449,10 +450,6 @@ function calcResizeFixedType(
     case 'rc':
       return 'lc'
   }
-}
-
-function precision(v: number) {
-  return parseFloat(v.toPrecision(4))
 }
 
 function calcGroupParent(transformers: ElementTransformer[] = []) {

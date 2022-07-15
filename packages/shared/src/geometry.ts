@@ -1,3 +1,4 @@
+import { precision } from './precision'
 import { isValidNumber } from './types'
 export interface IPoint {
   x: number
@@ -45,11 +46,11 @@ export class Rect implements IRect {
   y = 0
   width = 0
   height = 0
-  constructor(x: number, y: number, width: number, height: number) {
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
+  constructor(x = 0, y = 0, width = 0, height = 0) {
+    this.x = precision(x)
+    this.y = precision(y)
+    this.width = precision(width)
+    this.height = precision(height)
   }
 
   get left() {
@@ -69,11 +70,14 @@ export class Rect implements IRect {
   }
 
   get center() {
-    return new Point(this.x + this.width / 2, this.y + this.height / 2)
+    return new Point(
+      precision(this.x + this.width / 2),
+      precision(this.y + this.height / 2)
+    )
   }
 
   get ratio() {
-    return this.width / this.height
+    return precision(this.width / this.height)
   }
 }
 
@@ -678,7 +682,6 @@ export function calcClosestEdges(
     throw new Error('can not calculate slash distance')
   }
   const direction = snap?.start?.x === snap?.end?.x ? 'v' : 'h'
-
   return {
     snap,
     edge,
