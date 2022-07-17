@@ -43,6 +43,7 @@ const NormalSizeOptions = [
   createUnitType('%'),
   createUnitType('vh'),
   createUnitType('em'),
+  createUnitType('rem'),
 ]
 
 export const SizeInput = createPolyInput(NormalSizeOptions)
@@ -54,4 +55,5 @@ export const BackgroundSizeInput = createPolyInput([
   createUnitType('%'),
   createUnitType('vh'),
   createUnitType('em'),
+  createUnitType('rem'),
 ])
