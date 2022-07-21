@@ -53,7 +53,7 @@ export const useTransformEffect = (engine: Engine) => {
         helper.startOptionMode()
       }
       if (event.data === KeyCode.Shift) {
-        helper.startLockMode()
+        helper.startRestrictMode()
       }
     })
   )
@@ -69,7 +69,7 @@ export const useTransformEffect = (engine: Engine) => {
         helper.cancelOptionMode()
       }
       if (event.data === KeyCode.Shift) {
-        helper.cancelLockMode()
+        helper.cancelRestrictMode()
       }
     })
   )

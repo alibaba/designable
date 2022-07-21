@@ -1,3 +1,3 @@
-export function precision(v: number) {
-  return parseFloat(v.toPrecision(4))
+export function precision(v: number, dot = 4) {
+  return parseFloat(v.toPrecision(dot))
 }

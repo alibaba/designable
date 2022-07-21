@@ -5,7 +5,7 @@ export interface IPoint {
   y: number
 }
 
-export interface ISize {
+export interface IRectSize {
   width: number
   height: number
 }
@@ -38,6 +38,15 @@ export class Point implements IPoint {
   constructor(x: number, y: number) {
     this.x = x
     this.y = y
+  }
+}
+
+export class RectSize implements IRectSize {
+  width: number
+  height: number
+  constructor(width: number, height: number) {
+    this.width = width
+    this.height = height
   }
 }
 
@@ -87,10 +96,10 @@ export class LineSegment {
   constructor(start: IPoint, end: IPoint) {
     this.start = {
       ...start,
-      x: start.x,
-      y: start.y,
+      x: precision(start.x),
+      y: precision(start.y),
     }
-    this.end = { ...end, x: end.x, y: end.y }
+    this.end = { ...end, x: precision(end.x), y: precision(end.y) }
   }
 }
 
@@ -101,8 +110,8 @@ export class Vector {
   y: number
   constructor(line: ILineSegment) {
     const { start, end } = line
-    this.x = end.x - start.x
-    this.y = end.y - start.y
+    this.x = precision(end.x - start.x)
+    this.y = precision(end.y - start.y)
   }
 }
 
@@ -658,7 +667,7 @@ export function calcClosestEdges(
   let offset = Infinity
   if (line?.start?.y === line?.end?.y) {
     edges.h.forEach((target, index) => {
-      const _offset = line.start.y - target.start.y
+      const _offset = precision(line.start.y - target.start.y, 2)
       const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance
@@ -669,7 +678,7 @@ export function calcClosestEdges(
     })
   } else if (line?.start?.x === line?.end?.x) {
     edges.v.forEach((target, index) => {
-      const _offset = line.start.x - target.start.x
+      const _offset = precision(line.start.x - target.start.x, 2)
       const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance

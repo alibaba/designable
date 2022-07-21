@@ -7,7 +7,15 @@ import {
   translate,
   decomposeTSR,
 } from 'transformation-matrix'
-import { Point, IPoint, Rect, RectLineTypes, LineSegment } from './geometry'
+import {
+  Point,
+  IPoint,
+  Rect,
+  RectLineTypes,
+  LineSegment,
+  IRectSize,
+  RectSize,
+} from './geometry'
 import { computable, IComputeScheduler } from './computable'
 import { PaintObserver } from './observer'
 import {
@@ -468,8 +476,14 @@ function calcMatrixRotation(matrix: Matrix) {
 }
 
 function createTransformRequest(props: ITransformRequestProps) {
-  const { startWidth, startHeight, startRotation, maxTranslate, origin } =
-    props ?? {}
+  const {
+    startWidth,
+    startHeight,
+    startRotation,
+    maxTranslate,
+    origin,
+    snapper,
+  } = props ?? {}
   return {
     resize: (
       deltaX: number,
@@ -494,6 +508,14 @@ function createTransformRequest(props: ITransformRequestProps) {
           y: fixedRatioY * startHeight - fixedRatioY * distHeight,
         }
       }
+      const createResult = (size: IRectSize) => {
+        size = snapper?.getResizeSnapSize?.(size.width, size.height) ?? size
+        return [
+          size.width,
+          size.height,
+          calcFixedOffset(size.width, size.height),
+        ]
+      }
       const rotatedDelta = applyToPoint(
         rotate(-startRotation),
         new Point(deltaX, deltaY)
@@ -514,11 +536,11 @@ function createTransformRequest(props: ITransformRequestProps) {
         if (Math.abs(pDeltaX) > Math.abs(pDeltaY)) {
           const distWidth = Math.max(startWidth - pDeltaX * factors.width, 0)
           const distHeight = distWidth / ratio
-          return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
+          return createResult(new RectSize(distWidth, distHeight))
         } else {
           const distHeight = Math.max(startHeight - pDeltaY * factors.height, 0)
           const distWidth = distHeight * ratio
-          return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
+          return createResult(new RectSize(distWidth, distHeight))
         }
       }
       const distWidth = Math.max(startWidth - resizeDeltaX * factors.width, 0)
@@ -526,24 +548,28 @@ function createTransformRequest(props: ITransformRequestProps) {
         startHeight - resizeDeltaY * factors.height,
         0
       )
-      return [distWidth, distHeight, calcFixedOffset(distWidth, distHeight)]
+      return createResult(new RectSize(distWidth, distHeight))
     },
     translate: (
       deltaX: number,
       deltaY: number,
       options?: ITransformTranslateOptions
     ) => {
-      const { snapping } = options ?? {}
-      if (snapping) {
+      const { restricting } = options ?? {}
+      const createResult = (offset: IPoint) => {
+        offset = snapper?.getTranslateSnapOffset?.(offset.x, offset.y) ?? offset
+        return [offset.x, offset.y]
+      }
+      if (restricting) {
         maxTranslate.x = Math.max(Math.abs(deltaX), maxTranslate.x)
         maxTranslate.y = Math.max(Math.abs(deltaY), maxTranslate.y)
         if (Math.abs(maxTranslate.x) > Math.abs(maxTranslate.y)) {
-          return [deltaX, 0]
+          return createResult(new Point(deltaX, 0))
         } else {
-          return [0, deltaY]
+          return createResult(new Point(0, deltaY))
         }
       } else {
-        return [deltaX, deltaY]
+        return createResult(new Point(deltaX, deltaY))
       }
     },
     rotate: (
@@ -551,16 +577,20 @@ function createTransformRequest(props: ITransformRequestProps) {
       cursorY: number,
       options?: ITransformRotateOptions
     ) => {
-      const { snapping } = options ?? {}
+      const { restricting } = options ?? {}
       const angle =
         Math.atan2(cursorY - origin.clientY, cursorX - origin.clientX) +
         Math.PI / 2
-      if (snapping) {
+      const createResult = (angle: number) => {
+        angle = snapper?.getRotateSnapAngle?.(angle) ?? angle
+        return [angle]
+      }
+      if (restricting) {
         const degree = (angle * 180) / Math.PI
         const targetDegree = Math.round(degree / 15) * 15
-        return [(targetDegree * Math.PI) / 180 - startRotation]
+        return createResult((targetDegree * Math.PI) / 180 - startRotation)
       }
-      return [angle - startRotation]
+      return createResult(angle - startRotation)
     },
   }
 }
@@ -573,17 +603,12 @@ export interface ITransformerResizeOptions {
   control?: IPosition
 }
 
-export interface IRectSize {
-  width: number
-  height: number
-}
-
 export interface ITransformTranslateOptions {
-  snapping?: boolean
+  restricting?: boolean
 }
 
 export interface ITransformRotateOptions {
-  snapping?: boolean
+  restricting?: boolean
 }
 
 export interface ITransformRequestProps {
@@ -592,6 +617,7 @@ export interface ITransformRequestProps {
   startRotation: number
   maxTranslate: IPoint
   origin: IPosition
+  snapper?: ITransformSnapper
 }
 
 export interface ITransformResolver {
@@ -611,6 +637,11 @@ export type ITransformApplier = {
   resolver: ITransformResolver
 }
 
+export interface ITransformSnapper {
+  getTranslateSnapOffset?: (x: number, y: number) => IPoint
+  getResizeSnapSize?: (width: number, height: number) => IRectSize
+  getRotateSnapAngle?: (rotation: number) => number
+}
 export interface IPosition {
   x: number
   y: number
@@ -851,7 +882,10 @@ export class ElementTransformer {
     return [points.lt, points.rt, points.rb, points.lb]
   }
 
-  transform(effect: (applier: ITransformApplier) => void) {
+  transform(
+    effect: (applier: ITransformApplier) => void,
+    snapper?: ITransformSnapper
+  ) {
     if (typeof effect !== 'function') return () => {}
     this.scheduler_.start()
     const matrixes: Matrix[] = [this.matrix_]
@@ -863,6 +897,7 @@ export class ElementTransformer {
       startRotation: this.startRotation_,
       maxTranslate: this.maxTranslate_,
       origin: this.originPosition,
+      snapper,
     })
     const resolver: ITransformResolver = {
       resize: (width: number, height: number, offset: IPoint) => {
@@ -1154,7 +1189,10 @@ export class ElementGroupTransformer {
     return [points.lt, points.rt, points.rb, points.lb]
   }
 
-  transform = (transformer: (transformer: ITransformApplier) => void) => {
+  transform = (
+    transformer: (transformer: ITransformApplier) => void,
+    snapper?: ITransformSnapper
+  ) => {
     if (typeof transformer !== 'function') return () => {}
     this.scheduler_.start()
     const patches: (() => void)[] = []
@@ -1208,6 +1246,7 @@ export class ElementGroupTransformer {
       startRotation: this.startRotation_,
       maxTranslate: this.maxTranslate_,
       origin: this.originPosition,
+      snapper,
     })
 
     const applier: ITransformApplier = {

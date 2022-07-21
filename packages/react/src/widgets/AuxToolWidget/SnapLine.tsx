@@ -10,8 +10,7 @@ export const SnapLine = observer(() => {
   if (cursor.status !== CursorStatus.Dragging) return null
   return (
     <>
-      {transformHelper.thresholdSnapLines.map((line, key) => {
-        if (line.type !== 'normal' && line.distance !== 0) return null
+      {transformHelper.visibleSnapLines.map((line, key) => {
         return (
           <div
             key={key}
