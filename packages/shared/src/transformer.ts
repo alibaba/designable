@@ -1054,8 +1054,9 @@ export class ElementGroupTransformer {
   private matrix_: Matrix
   private startWidth_: number
   private startHeight_: number
+  private startOffsetLeft_: number
+  private startOffsetTop_: number
   private maxTranslate_: IPoint = new Point(0, 0)
-  private startClientRect_: Rect
   private startPoints_: Record<PointTypes, IPosition>
   private startRelations: GroupRelations
   private transformers_: ElementTransformer[] = []
@@ -1065,9 +1066,9 @@ export class ElementGroupTransformer {
     this.transformers_ = elements.map(
       (element) => new ElementTransformer(element)
     )
-    this.startClientRect_ = this.boundingClientRect
-    this.offsetWidth = this.startClientRect_.width
-    this.offsetHeight = this.startClientRect_.height
+    const startClientRect = this.boundingClientRect
+    this.offsetWidth = startClientRect.width
+    this.offsetHeight = startClientRect.height
     this.startWidth_ = this.offsetWidth
     this.startHeight_ = this.offsetHeight
     this.matrix_ = this.styledMatrix
@@ -1082,6 +1083,8 @@ export class ElementGroupTransformer {
       this.startHeight_
     )
     this.stack_ = new HTMLParentStack(calcGroupParent(this.transformers_))
+    this.startOffsetLeft_ = startClientRect.x + this.scrollOffset.x
+    this.startOffsetTop_ = startClientRect.y + this.scrollOffset.y
     this.scheduler_ = computable(this, [
       'styledMatrix',
       'styledOrigin',
@@ -1155,17 +1158,21 @@ export class ElementGroupTransformer {
   }
 
   get clientMatrix() {
-    const rect = this.startClientRect_
     const scrollOffset = this.scrollOffset
     return multiply(
-      translate(rect.x - scrollOffset.x, rect.y - scrollOffset.y),
+      translate(
+        this.startOffsetLeft_ - scrollOffset.x,
+        this.startOffsetTop_ - scrollOffset.y
+      ),
       this.matrix
     )
   }
 
   get absoluteMatrix() {
-    const rect = this.startClientRect_
-    return multiply(translate(rect.x, rect.y), this.matrix)
+    return multiply(
+      translate(this.startOffsetLeft_, this.startOffsetTop_),
+      this.matrix
+    )
   }
 
   get cssMatrix() {

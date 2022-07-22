@@ -56,10 +56,10 @@ export class Rect implements IRect {
   width = 0
   height = 0
   constructor(x = 0, y = 0, width = 0, height = 0) {
-    this.x = precision(x)
-    this.y = precision(y)
-    this.width = precision(width)
-    this.height = precision(height)
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
   }
 
   get left() {
@@ -79,14 +79,11 @@ export class Rect implements IRect {
   }
 
   get center() {
-    return new Point(
-      precision(this.x + this.width / 2),
-      precision(this.y + this.height / 2)
-    )
+    return new Point(this.x + this.width / 2, this.y + this.height / 2)
   }
 
   get ratio() {
-    return precision(this.width / this.height)
+    return this.width / this.height
   }
 }
 
@@ -96,10 +93,10 @@ export class LineSegment {
   constructor(start: IPoint, end: IPoint) {
     this.start = {
       ...start,
-      x: precision(start.x),
-      y: precision(start.y),
+      x: start.x,
+      y: start.y,
     }
-    this.end = { ...end, x: precision(end.x), y: precision(end.y) }
+    this.end = { ...end, x: end.x, y: end.y }
   }
 }
 
@@ -110,8 +107,8 @@ export class Vector {
   y: number
   constructor(line: ILineSegment) {
     const { start, end } = line
-    this.x = precision(end.x - start.x)
-    this.y = precision(end.y - start.y)
+    this.x = end.x - start.x
+    this.y = end.y - start.y
   }
 }
 
@@ -667,7 +664,10 @@ export function calcClosestEdges(
   let offset = Infinity
   if (line?.start?.y === line?.end?.y) {
     edges.h.forEach((target, index) => {
-      const _offset = precision(line.start.y - target.start.y, 2)
+      const _offset = precision(
+        Math.round(line.start.y) - Math.round(target.start.y),
+        2
+      )
       const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance
@@ -678,7 +678,10 @@ export function calcClosestEdges(
     })
   } else if (line?.start?.x === line?.end?.x) {
     edges.v.forEach((target, index) => {
-      const _offset = precision(line.start.x - target.start.x, 2)
+      const _offset = precision(
+        Math.round(line.start.x) - Math.round(target.start.x),
+        2
+      )
       const _distance = Math.abs(_offset)
       if (_distance < distance) {
         distance = _distance
