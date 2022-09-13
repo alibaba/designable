@@ -1,4 +1,5 @@
 import { isValidNumber } from './types'
+
 export interface IPoint {
   x: number
   y: number
@@ -34,6 +35,7 @@ export function isLineSegment(val: any): val is ILineSegment {
 export class Point implements IPoint {
   x: number
   y: number
+
   constructor(x: number, y: number) {
     this.x = x
     this.y = y
@@ -45,6 +47,7 @@ export class Rect implements IRect {
   y = 0
   width = 0
   height = 0
+
   constructor(x: number, y: number, width: number, height: number) {
     this.x = x
     this.y = y
@@ -67,18 +70,32 @@ export class Rect implements IRect {
   get bottom() {
     return this.y + this.height
   }
+
+  toJSON(): any {
+    return {
+      x: this.x,
+      y: this.y,
+      top: this.top,
+      bottom: this.bottom,
+      left: this.left,
+      right: this.right,
+      width: this.width,
+      height: this.height,
+    }
+  }
 }
 
 export class LineSegment {
   start: IPoint
   end: IPoint
+
   constructor(start: IPoint, end: IPoint) {
     this.start = { ...start }
     this.end = { ...end }
   }
 }
 
-export interface IRect {
+export interface IRect extends DOMRect {
   x: number
   y: number
   width: number
@@ -528,12 +545,14 @@ export function calcOffsetOfSnapLineSegmentToEdge(
   if (isVerticalLine) {
     return { x: calcMinDistanceValue(edges.x, line.start.x) - current.x, y: 0 }
   }
+
   function calcEdgeLinesOfRect(rect: IRect) {
     return {
       x: [rect.x, rect.x + rect.width / 2, rect.x + rect.width],
       y: [rect.y, rect.y + rect.height / 2, rect.y + rect.height],
     }
   }
+
   function calcMinDistanceValue(edges: number[], targetValue: number) {
     let minDistance = Infinity,
       minDistanceIndex = -1
