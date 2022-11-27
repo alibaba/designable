@@ -29,7 +29,7 @@ import {
 import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-import 'antd/dist/antd.less'
+import 'antd@4.x/dist/antd.less'
 
 const RootBehavior = createBehavior({
   name: 'Root',
