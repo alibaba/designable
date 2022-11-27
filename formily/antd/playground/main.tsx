@@ -1,4 +1,4 @@
-import 'antd@4.x/dist/antd.less'
+import 'antd/dist/antd.less'
 import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import {
