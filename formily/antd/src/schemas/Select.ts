@@ -145,5 +145,14 @@ export const Select: ISchema = {
         defaultValue: 'middle',
       },
     },
+    placement: {
+      type: 'string',
+      enum: ['bottomLeft', 'bottomRight', 'topLeft', 'topRight'],
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
+      'x-component-props': {
+        defaultValue: 'bottomLeft',
+      },
+    },
   },
 }

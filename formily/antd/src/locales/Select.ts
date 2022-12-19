@@ -37,6 +37,10 @@ export const Select = {
         maxTagTextLength: '最多标签文本长度',
         showArrow: '显示箭头',
         virtual: '开启虚拟滚动',
+        placement: {
+          title: '选择框弹出的位置',
+          dataSource: ['左下', '右下', '左上', '右上'],
+        },
       },
     },
   },
@@ -67,6 +71,10 @@ export const Select = {
         maxTagTextLength: 'Max Tag Text Length',
         showArrow: 'Show Arrow',
         virtual: 'Use Virtual Scroll',
+        placement: {
+          title: 'Selection Box Position',
+          dataSource: ['Bottom Left', 'Bottom Right', 'Top Left', 'Top Right'],
+        },
       },
     },
   },
