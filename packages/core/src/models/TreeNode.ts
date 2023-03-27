@@ -571,8 +571,14 @@ export class TreeNode {
     if (parent?.children?.length) {
       const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
+      if (
+        this.props.type === 'void' &&
+        this.props['x-component'] === 'ArrayTable.Column' &&
+        newNodes[0].props['x-component'] !== 'ArrayTable.Column'
+      ) {
+        return []
+      }
       if (!newNodes.length) return []
-
       return this.triggerMutation(
         new InsertAfterEvent({
           originSourceParents,
@@ -601,6 +607,13 @@ export class TreeNode {
     if (parent?.children?.length) {
       const originSourceParents = nodes.map((node) => node.parent)
       const newNodes = this.resetNodesParent(nodes, parent)
+      if (
+        this.props.type === 'void' &&
+        this.props['x-component'] === 'ArrayTable.Column' &&
+        newNodes[0].props['x-component'] !== 'ArrayTable.Column'
+      ) {
+        return []
+      }
       if (!newNodes.length) return []
       return this.triggerMutation(
         new InsertBeforeEvent({
