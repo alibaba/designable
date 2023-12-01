@@ -366,7 +366,7 @@ const App = () => {
                       'https://unpkg.com/moment/min/moment-with-locales.js',
                       'https://unpkg.com/react/umd/react.production.min.js',
                       'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                      'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                      'https://unpkg.com/antd@4/dist/antd-with-locales.min.js',
                       './sandbox.bundle.js',
                     ]}
                   />
