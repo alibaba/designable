@@ -285,14 +285,18 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
                               if (isVoidField(field)) return
                               field.query('.source').take((source) => {
                                 if (isVoidField(source)) return
-                                if (
-                                  source.value &&
-                                  !field.value &&
-                                  !field.modified
-                                ) {
-                                  field.value =
-                                    source.inputValues[1]?.props?.name ||
-                                    `v_${uid()}`
+                                const hasSourceValue = source.value;
+                                const isFieldEmpty = !field.value && !field.modified;
+
+                                if (hasSourceValue && isFieldEmpty) {
+                                  const suggestedName = source.inputValues[1]?.props?.name;
+                                  const dependencies = field.form.values?.dependencies || [];
+                                  const nameExists = dependencies.some(
+                                    (dep: { name: string }) => dep.name === suggestedName
+                                  );
+
+                                  const fallbackName = `v_${uid()}`;
+                                  field.value = suggestedName && !nameExists ? suggestedName : fallbackName;
                                 }
                               })
                             }}
