@@ -1,4 +1,12 @@
-@import '~antd/lib/style/themes/default.less';
+// Antd v5 uses CSS-in-JS, no need to import theme variables
+// @import '~antd/lib/style/themes/default.less';
+
+// Define missing variables for compatibility
+@ant-prefix: ant;
+@border-color-split: #f0f0f0;
+@primary-color: #1890ff;
+@text-color: rgba(0, 0, 0, 0.85);
+@text-color-secondary: rgba(0, 0, 0, 0.45);
 
 @keyframes fadeIn {
   0% {

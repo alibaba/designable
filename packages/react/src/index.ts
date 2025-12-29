@@ -7,3 +7,20 @@ export * from './hooks'
 export * from './containers'
 export * from './simulators'
 export * from './types'
+export * from './icons'
+
+// Explicit re-exports for commonly used hooks to ensure they're available
+export { useDesigner } from './hooks/useDesigner'
+export { useWorkspace } from './hooks/useWorkspace'
+export { useLayout } from './hooks/useLayout'
+export { usePrefix } from './hooks/usePrefix'
+export { useSelectedNode } from './hooks/useSelectedNode'
+export { useTheme } from './hooks/useTheme'
+export { useTreeNode } from './hooks/useTreeNode'
+export { useNodeIdProps } from './hooks/useNodeIdProps'
+export { useComponents } from './hooks/useComponents'
+
+// Explicit re-exports for widgets
+export { TreeNodeWidget, ComponentTreeWidget } from './widgets/ComponentTreeWidget'
+export { DroppableWidget } from './widgets/DroppableWidget'
+export { NodeActionsWidget } from './widgets/NodeActionsWidget'

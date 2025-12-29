@@ -12,7 +12,7 @@ export const ResizeHandler: React.FC<IResizeHandlerProps> = (props) => {
   const prefix = usePrefix('aux-node-resize-handler')
   const createHandler = (value: string) => {
     return {
-      [designer.props.nodeResizeHandlerAttrName]: value,
+      [designer.props.nodeResizeHandlerAttrName as string]: value,
       className: cls(prefix, value),
     }
   }

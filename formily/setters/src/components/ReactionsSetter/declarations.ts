@@ -18,6 +18,7 @@ const loadDependencies = async (deps: IDependency[]) => {
 }
 
 export const initDeclaration = async () => {
+  if (!MonacoInput.loader) throw new Error('MonacoInput.loader is undefined');
   return MonacoInput.loader.init().then(async (monaco) => {
     const deps = await loadDependencies([
       { name: '@formily/core', path: 'dist/formily.core.all.d.ts' },

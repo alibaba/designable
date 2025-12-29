@@ -5,7 +5,7 @@ export const Rating: ISchema = {
   properties: {
     size: {
       type: 'string',
-      enum: ['small', 'medium', 'large', null],
+      enum: ['small', 'medium', 'large', ''],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {

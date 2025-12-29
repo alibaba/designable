@@ -1,6 +1,5 @@
 import React from 'react'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createVoidFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
@@ -15,7 +14,7 @@ export interface IDesignableTextProps {
   className?: string
 }
 
-export const Text: DnFC<IDesignableTextProps> = (props) => {
+export const Text: React.FC<IDesignableTextProps> = (props) => {
   const tagName = props.mode === 'normal' || !props.mode ? 'div' : props.mode
   return React.createElement(
     tagName,
@@ -28,7 +27,7 @@ export const Text: DnFC<IDesignableTextProps> = (props) => {
   )
 }
 
-Text.Behavior = createBehavior({
+;(Text as any).Behavior = createBehavior({
   name: 'Text',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Text',
@@ -38,7 +37,7 @@ Text.Behavior = createBehavior({
   designerLocales: AllLocales.Text,
 })
 
-Text.Resource = createResource({
+;(Text as any).Resource = createResource({
   icon: 'TextSource',
   elements: [
     {

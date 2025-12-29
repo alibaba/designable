@@ -1,5 +1,5 @@
-import { Engine } from '../models'
-import { ViewportResizeEvent, ViewportScrollEvent } from '../events'
+import { Engine } from '../models/index'
+import { ViewportResizeEvent, ViewportScrollEvent } from '../events/index'
 
 export const useViewportEffect = (engine: Engine) => {
   engine.subscribeTo(ViewportResizeEvent, (event) => {

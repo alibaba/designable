@@ -27,9 +27,15 @@ const BoxRex =
   /([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+))?)?)?/
 
 export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
-  (props) => {
+  ({ className, style, value, onChange, labels = [
+    <IconWidget infer="Top" size={16} key="1" />,
+    <IconWidget infer="Right" size={16} key="2" />,
+    <IconWidget infer="Bottom" size={16} key="3" />,
+    <IconWidget infer="Left" size={16} key="4" />,
+  ] }) => {
     const field = useField()
     const prefix = usePrefix('box-style-setter')
+    const componentProps = { className, style, value, onChange, labels }
     const createPositionHandler = (
       position: Position,
       props: IMarginStyleSetterProps
@@ -63,52 +69,47 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
       }
     }
 
+    const Base = FoldItem.Base
+    const Extra = FoldItem.Extra
+    if (!Base || !Extra) return null
+
     return (
-      <FoldItem className={cls(prefix, props.className)} label={field.title}>
-        <FoldItem.Base>
+      <FoldItem className={cls(prefix, className)} label={field.title}>
+        <Base>
           <SizeInput
-            {...createPositionHandler('all', props)}
+            {...createPositionHandler('all', componentProps)}
             exclude={['inherit', 'auto']}
           />
-        </FoldItem.Base>
-        <FoldItem.Extra>
+        </Base>
+        <Extra>
           <InputItems width="50%">
-            <InputItems.Item icon={props.labels[0]}>
+            <InputItems.Item icon={labels[0]}>
               <SizeInput
-                {...createPositionHandler('top', props)}
+                {...createPositionHandler('top', componentProps)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[1]}>
+            <InputItems.Item icon={labels[1]}>
               <SizeInput
-                {...createPositionHandler('right', props)}
+                {...createPositionHandler('right', componentProps)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[2]}>
+            <InputItems.Item icon={labels[2]}>
               <SizeInput
-                {...createPositionHandler('bottom', props)}
+                {...createPositionHandler('bottom', componentProps)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[3]}>
+            <InputItems.Item icon={labels[3]}>
               <SizeInput
-                {...createPositionHandler('left', props)}
+                {...createPositionHandler('left', componentProps)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
           </InputItems>
-        </FoldItem.Extra>
+        </Extra>
       </FoldItem>
     )
   }
 )
-
-BoxStyleSetter.defaultProps = {
-  labels: [
-    <IconWidget infer="Top" size={16} key="1" />,
-    <IconWidget infer="Right" size={16} key="2" />,
-    <IconWidget infer="Bottom" size={16} key="3" />,
-    <IconWidget infer="Left" size={16} key="4" />,
-  ],
-}

@@ -1,3 +1,4 @@
-export * from './components'
-export * from './schemas'
-export * from './locales'
+export * from './components/index'  
+export * from './schemas/index'
+export * from './locales/index'
+export * from './shared'

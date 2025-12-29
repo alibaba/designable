@@ -4,44 +4,38 @@ import { DesignerLayoutContext } from '../context'
 import { IDesignerLayoutProps } from '../types'
 import cls from 'classnames'
 
-export const Layout: React.FC<IDesignerLayoutProps> = (props) => {
+export const Layout: React.FC<IDesignerLayoutProps> = ({ theme = 'light', prefixCls = 'dn-', position = 'fixed', variables, children }) => {
   const layout = useContext(DesignerLayoutContext)
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      each(props.variables, (value, key) => {
-        ref.current.style.setProperty(`--${key}`, value)
+    if (variables && ref.current) {
+      each(variables, (value, key) => {
+        ref.current!.style.setProperty(`--${key}`, value)
       })
     }
   }, [])
 
   if (layout) {
-    return <Fragment>{props.children}</Fragment>
+    return <Fragment>{children}</Fragment>
   }
   return (
     <div
       ref={ref}
       className={cls({
-        [`${props.prefixCls}app`]: true,
-        [`${props.prefixCls}${props.theme}`]: props.theme,
+        [`${prefixCls}app`]: true,
+        [`${prefixCls}${theme}`]: theme,
       })}
     >
       <DesignerLayoutContext.Provider
         value={{
-          theme: props.theme,
-          prefixCls: props.prefixCls,
-          position: props.position,
+          theme: theme,
+          prefixCls: prefixCls,
+          position: position,
         }}
       >
-        {props.children}
+        {children}
       </DesignerLayoutContext.Provider>
     </div>
   )
-}
-
-Layout.defaultProps = {
-  theme: 'light',
-  prefixCls: 'dn-',
-  position: 'fixed',
 }

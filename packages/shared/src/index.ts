@@ -15,3 +15,8 @@ export * from './request-idle'
 export * from './element'
 export * from './globalThisPolyfill'
 export * from './observer'
+
+// Explicit re-exports for ESM/Vite compatibility
+export { Event } from './event'
+export { uid } from './uid'
+export { globalThisPolyfill } from './globalThisPolyfill'

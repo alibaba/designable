@@ -27,11 +27,11 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
   const prefix = usePrefix('aux-helpers')
   const viewport = useViewport()
   const unmountRef = useRef(false)
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState('top-right')
 
   useLayoutEffect(() => {
-    let request = null
+    let request: NodeJS.Timeout | null = null
 
     const getYInViewport = (nodeRect: DOMRect, helpersRect: DOMRect) => {
       if (nodeRect.top - viewport.scrollY > helpersRect.height) {
@@ -88,7 +88,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
         viewport.isScrollTop,
       ],
       () => {
-        clearTimeout(request)
+        if (request !== null) clearTimeout(request)
         request = setTimeout(update, HELPER_DEBOUNCE_TIMEOUT)
       }
     )

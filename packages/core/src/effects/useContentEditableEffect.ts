@@ -1,7 +1,7 @@
 import { Path } from '@formily/path'
 import { requestIdle, globalThisPolyfill } from '@designable/shared'
-import { Engine, TreeNode } from '../models'
-import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
+import { Engine, TreeNode } from '../models/index'
+import { MouseDoubleClickEvent, MouseClickEvent } from '../events/index'
 
 type GlobalState = {
   activeElements: Map<HTMLInputElement, TreeNode>
@@ -11,7 +11,11 @@ type GlobalState = {
 }
 
 function getAllRanges(sel: Selection) {
-  const ranges = []
+  const ranges: Array<{
+    collapsed: boolean
+    startOffset: number
+    endOffset: number
+  }> = []
   for (let i = 0; i < sel.rangeCount; i++) {
     const range = sel.getRangeAt(i)
     ranges[i] = {
@@ -28,25 +32,25 @@ function setEndOfContenteditable(contentEditableElement: Element) {
   range.selectNodeContents(contentEditableElement)
   range.collapse(false)
   const selection = globalThisPolyfill.getSelection()
-  selection.removeAllRanges()
-  selection.addRange(range)
+  selection?.removeAllRanges()
+  selection?.addRange(range)
 }
 
 function createCaretCache(el: Element) {
   const currentSelection = globalThisPolyfill.getSelection()
-  if (currentSelection.containsNode(el)) return
-  const ranges = getAllRanges(currentSelection)
+  if (currentSelection?.containsNode(el)) return
+  const ranges = getAllRanges(currentSelection!)
   return (offset = 0) => {
     const sel = globalThisPolyfill.getSelection()
     const firstNode = el.childNodes[0]
     if (!firstNode) return
-    sel.removeAllRanges()
+    sel?.removeAllRanges()
     ranges.forEach((item) => {
       const range = document.createRange()
       range.collapse(item.collapsed)
       range.setStart(firstNode, item.startOffset + offset)
       range.setEnd(firstNode, item.endOffset + offset)
-      sel.addRange(range)
+      sel?.addRange(range)
     })
   }
 }
@@ -66,8 +70,11 @@ export const useContentEditableEffect = (engine: Engine) => {
     }
   }
 
-  function onInputHandler(event: InputEvent) {
-    const node = globalState.activeElements.get(this)
+  function onInputHandler( event: Event) {
+      const target = event.currentTarget
+  if (!(target instanceof HTMLInputElement)) return
+
+    const node = globalState.activeElements.get(target)
     event.stopPropagation()
     event.preventDefault()
     if (node) {
@@ -76,14 +83,15 @@ export const useContentEditableEffect = (engine: Engine) => {
         globalState.queue.length = 0
         if (globalState.isComposition) return
         const restore = createCaretCache(target)
+         if (!engine.props.contentEditableAttrName) return
         Path.setIn(
           node.props,
-          this.getAttribute(engine.props.contentEditableAttrName),
+          target.getAttribute(engine.props.contentEditableAttrName)!,
           target?.textContent
         )
         requestIdle(() => {
           node.takeSnapshot('update:node:props')
-          restore()
+          restore?.()
         })
       }
       globalState.queue.push(handler)
@@ -110,31 +118,37 @@ export const useContentEditableEffect = (engine: Engine) => {
     }
   }
 
-  function onPastHandler(event: ClipboardEvent) {
+  function onPastHandler(this: HTMLElement, event: ClipboardEvent) {
     event.preventDefault()
+      if (!(this instanceof HTMLInputElement)) return
+
     const node = globalState.activeElements.get(this)
-    const text = event.clipboardData.getData('text')
+    const text = event.clipboardData?.getData('text') || ''
     const selObj = globalThisPolyfill.getSelection()
     const target = event.target as Element
-    const selRange = selObj.getRangeAt(0)
+    const selRange = selObj?.getRangeAt(0)
+    if (!selRange || !node) return
     const restore = createCaretCache(target)
     selRange.deleteContents()
     selRange.insertNode(document.createTextNode(text))
+    if (!engine.props.contentEditableAttrName) return
     Path.setIn(
       node.props,
-      this.getAttribute(engine.props.contentEditableAttrName),
+      this.getAttribute(engine.props.contentEditableAttrName)!,
       target.textContent
     )
-    restore(text.length)
+    restore?.(text.length)
   }
 
   function findTargetNodeId(element: Element) {
     if (!element) return
+    if (!engine.props.contentEditableNodeIdAttrName) return
     const nodeId = element.getAttribute(
       engine.props.contentEditableNodeIdAttrName
     )
     if (nodeId) return nodeId
     const parent = element.closest(`*[${engine.props.nodeIdAttrName}]`)
+    if (!engine.props.nodeIdAttrName) return
     if (parent) return parent.getAttribute(engine.props.nodeIdAttrName)
   }
 
@@ -156,7 +170,7 @@ export const useContentEditableEffect = (engine: Engine) => {
       element.removeEventListener('compositionstart', onCompositionHandler)
       element.removeEventListener('compositionupdate', onCompositionHandler)
       element.removeEventListener('compositionend', onCompositionHandler)
-      element.removeEventListener('past', onPastHandler)
+      element.removeEventListener('paste', onPastHandler)
       document.removeEventListener('selectionchange', onSelectionChangeHandler)
     })
   })
@@ -179,7 +193,7 @@ export const useContentEditableEffect = (engine: Engine) => {
             editableElement.setAttribute('spellcheck', 'false')
             editableElement.setAttribute('contenteditable', 'true')
             editableElement.focus()
-            editableElement.addEventListener('input', onInputHandler)
+            editableElement.addEventListener('input', onInputHandler as EventListener)
             editableElement.addEventListener(
               'compositionstart',
               onCompositionHandler

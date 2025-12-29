@@ -17,7 +17,7 @@ const MockupImages = {
 
 export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
   const screen = useScreen()
-  const theme = useTheme()
+  const theme = useTheme() as 'dark' | 'light'
   const prefix = usePrefix('mobile-simulator-body')
   const getContentStyles = (): React.CSSProperties => {
     if (screen.flip) {
@@ -74,5 +74,3 @@ export const MobileBody: React.FC<IMobileBodyProps> = observer((props) => {
     </div>
   )
 })
-
-MobileBody.defaultProps = {}

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { OutputOptions, rollup, RollupOptions } from 'rollup'
+import { rollup } from 'rollup'
+import type { OutputOptions, RollupOptions } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
 import NpmImport from 'less-plugin-npm-import'
 import resolve from 'rollup-plugin-node-resolve'

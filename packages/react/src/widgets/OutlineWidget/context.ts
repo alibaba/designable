@@ -6,4 +6,4 @@ interface INodeContext {
   renderActions?: (node: TreeNode) => React.ReactNode
 }
 
-export const NodeContext = createContext<INodeContext>(null)
+export const NodeContext = createContext<INodeContext | null>(null)

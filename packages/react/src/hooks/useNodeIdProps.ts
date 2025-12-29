@@ -6,6 +6,6 @@ export const useNodeIdProps = (node?: TreeNode) => {
   const target = useTreeNode()
   const designer = useDesigner()
   return {
-    [designer.props.nodeIdAttrName]: node ? node.id : target.id,
+    [designer.props.nodeIdAttrName as string]: node ? node.id : (target?.id || ''),
   }
 }

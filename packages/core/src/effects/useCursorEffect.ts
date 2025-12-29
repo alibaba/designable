@@ -1,10 +1,10 @@
-import { Engine, CursorStatus } from '../models'
+import { Engine, CursorStatus } from '../models/index'
 import {
   MouseMoveEvent,
   DragStartEvent,
   DragMoveEvent,
   DragStopEvent,
-} from '../events'
+} from '../events/index'
 import { requestIdle } from '@designable/shared'
 
 export const useCursorEffect = (engine: Engine) => {
@@ -29,7 +29,7 @@ export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(DragStopEvent, (event) => {
     engine.cursor.setStatus(CursorStatus.DragStop)
     engine.cursor.setDragEndPosition(event.data)
-    engine.cursor.setDragStartPosition(null)
+    engine.cursor.setDragStartPosition(undefined)
     requestIdle(() => {
       engine.cursor.setStatus(CursorStatus.Normal)
     })
@@ -50,9 +50,11 @@ export const useCursorEffect = (engine: Engine) => {
     if (!el?.getAttribute) {
       return
     }
-    const nodeId = el.getAttribute(engine.props.nodeIdAttrName)
-    const outlineNodeId = el.getAttribute(engine.props.outlineNodeIdAttrName)
-    const node = operation.tree.findById(nodeId || outlineNodeId)
+    const nodeIdAttr = typeof engine.props.nodeIdAttrName === 'string' ? engine.props.nodeIdAttrName : '';
+    const outlineNodeIdAttr = typeof engine.props.outlineNodeIdAttrName === 'string' ? engine.props.outlineNodeIdAttrName : '';
+    const nodeId = nodeIdAttr ? (el.getAttribute(nodeIdAttr) ?? '') : '';
+    const outlineNodeId = outlineNodeIdAttr ? (el.getAttribute(outlineNodeIdAttr) ?? '') : '';
+    const node = operation.tree.findById(nodeId !== '' ? nodeId : outlineNodeId)
     if (node) {
       operation.hover.setHover(node)
     } else {

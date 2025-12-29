@@ -15,12 +15,13 @@ export interface IViewPanelProps {
   dragTipsDirection?: 'left' | 'right'
 }
 
-export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
+export const ViewPanel: React.FC<IViewPanelProps> = observer(({ type, children, scrollable = true, dragTipsDirection }) => {
   const [visible, setVisible] = useState(true)
   const workbench = useWorkbench()
   const tree = useTree()
+  console.log('ViewPanel render', type, workbench.type)
   useEffect(() => {
-    if (workbench.type === props.type) {
+    if (workbench.type === type) {
       requestIdle(() => {
         requestAnimationFrame(() => {
           setVisible(true)
@@ -30,23 +31,24 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
       setVisible(false)
     }
   }, [workbench.type])
-  if (workbench.type !== props.type) return null
+  if (workbench.type !== type) return null
+
   const render = () => {
-    return props.children(tree, (payload) => {
+    return children(tree, (payload) => {
       tree.from(payload)
       tree.takeSnapshot()
     })
   }
   if (workbench.type === 'DESIGNABLE')
     return (
-      <Viewport dragTipsDirection={props.dragTipsDirection}>
+      <Viewport dragTipsDirection={dragTipsDirection}>
         {render()}
       </Viewport>
     )
   return (
     <div
       style={{
-        overflow: props.scrollable ? 'overlay' : 'hidden',
+        overflow: scrollable ? 'overlay' : 'hidden',
         height: '100%',
         cursor: 'auto',
         userSelect: 'text',
@@ -56,7 +58,3 @@ export const ViewPanel: React.FC<IViewPanelProps> = observer((props) => {
     </div>
   )
 })
-
-ViewPanel.defaultProps = {
-  scrollable: true,
-}

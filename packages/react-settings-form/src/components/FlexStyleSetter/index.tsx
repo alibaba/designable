@@ -1,10 +1,9 @@
 import React from 'react'
 import { Field, useField, observer } from '@formily/react'
-import { Radio } from '@formily/antd'
+import { Radio } from '@formily/antd-v5'
 import { usePrefix, IconWidget } from '@designable/react'
 import { InputItems } from '../InputItems'
 import cls from 'classnames'
-import './styles.less'
 export interface IFlexStyleSetterProps {
   className?: string
   style?: React.CSSProperties
@@ -31,7 +30,10 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
               },
             ]}
             reactions={(field) => {
-              field.decorator[1].title = `Flex Direction : ${field.value || ''}`
+              const decorator = field.decorator as any
+              if (decorator && decorator[1]) {
+                decorator[1].title = `Flex Direction : ${field.value || ''}`
+              }
             }}
             decorator={[InputItems.Item]}
             component={[Radio.Group, { optionType: 'button' }]}
@@ -50,7 +52,10 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
               },
             ]}
             reactions={(field) => {
-              field.decorator[1].title = `Flex Wrap : ${field.value || ''}`
+              const decorator = field.decorator as any
+              if (decorator && decorator[1]) {
+                decorator[1].title = `Flex Wrap : ${field.value || ''}`
+              }
             }}
             decorator={[InputItems.Item]}
             component={[Radio.Group, { optionType: 'button' }]}
@@ -85,7 +90,10 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
               },
             ]}
             reactions={(field) => {
-              field.decorator[1].title = `Align Content : ${field.value || ''}`
+              const decorator = field.decorator as any
+              if (decorator && decorator[1]) {
+                decorator[1].title = `Align Content : ${field.value || ''}`
+              }
             }}
             decorator={[InputItems.Item]}
             component={[Radio.Group, { optionType: 'button' }]}
@@ -120,9 +128,12 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
               },
             ]}
             reactions={(field) => {
-              field.decorator[1].title = `Justify Content : ${
-                field.value || ''
-              }`
+              const decorator = field.decorator as any
+              if (decorator && decorator[1]) {
+                decorator[1].title = `Justify Content : ${
+                  field.value || ''
+                }`
+              }
             }}
             decorator={[InputItems.Item]}
             component={[Radio.Group, { optionType: 'button' }]}
@@ -153,7 +164,10 @@ export const FlexStyleSetter: React.FC<IFlexStyleSetterProps> = observer(
               },
             ]}
             reactions={(field) => {
-              field.decorator[1].title = `Align Items : ${field.value || ''}`
+              const decorator = field.decorator as any
+              if (decorator && decorator[1]) {
+                decorator[1].title = `Align Items : ${field.value || ''}`
+              }
             }}
             decorator={[InputItems.Item]}
             component={[Radio.Group, { optionType: 'button' }]}

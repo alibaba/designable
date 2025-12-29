@@ -8,6 +8,7 @@ export interface ITextWidgetProps {
   sourceName?: string
   token?: string | IDesignerMiniLocales
   defaultMessage?: string | IDesignerMiniLocales
+  children?: React.ReactNode
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {

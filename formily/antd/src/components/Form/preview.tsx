@@ -2,15 +2,25 @@ import React, { useMemo } from 'react'
 import { createBehavior, createResource } from '@designable/core'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/react'
-import { Form as FormilyForm } from '@formily/antd'
-import { usePrefix, DnFC } from '@designable/react'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { Form as FormilyForm } from '@formily/antd-v5'
+import { usePrefix, useDesigner } from '@designable/react'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
+
+
 import './styles.less'
 
-export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
+
+export const Form: React.FC<React.ComponentProps<typeof FormilyForm>> = observer(
   (props) => {
     const prefix = usePrefix('designable-form')
+    const engine = useDesigner()
+    if ( engine != undefined) {
+      console.log("Get engine");
+      const tree = engine.getCurrentTree()
+      console.log('Tree structure:', tree.serialize())
+
+    }
     const form = useMemo(
       () =>
         createForm({
@@ -18,6 +28,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
         }),
       []
     )
+    console.log('formily.antd.Form:  props', props)
     return (
       <FormilyForm
         {...props}
@@ -31,7 +42,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
   }
 )
 
-Form.Behavior = createBehavior({
+;(Form as any).Behavior = createBehavior({
   name: 'Form',
   selector: (node) => node.componentName === 'Form',
   designerProps(node) {
@@ -47,16 +58,12 @@ Form.Behavior = createBehavior({
           style: AllSchemas.CSSStyle,
         },
       },
-      defaultProps: {
-        labelCol: 6,
-        wrapperCol: 12,
-      },
     }
   },
   designerLocales: AllLocales.Form,
 })
 
-Form.Resource = createResource({
+;(Form as any).Resource = createResource({
   title: { 'zh-CN': '表单', 'en-US': 'Form' },
   icon: 'FormLayoutSource',
   elements: [

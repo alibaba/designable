@@ -1,5 +1,5 @@
 export * from './externals'
 export * from './registry'
-export * from './models'
-export * from './events'
+export * from './models/index'
+export * from './events/index'
 export * from './types'

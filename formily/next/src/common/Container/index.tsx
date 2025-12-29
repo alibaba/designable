@@ -3,19 +3,12 @@ import { observer } from '@formily/reactive-react'
 import { useNodeIdProps, useTreeNode, DroppableWidget } from '@designable/react'
 import './styles.less'
 
-export const Container: React.FC = observer((props) => {
-  const node = useTreeNode()
-  const nodeId = useNodeIdProps()
-  if (node.children.length === 0) return <DroppableWidget {...nodeId} />
-  return <div {...nodeId}>{props.children}</div>
+export const Container: React.FC<{ children?: React.ReactNode }> = observer((props) => {
+  return React.createElement(DroppableWidget as any, null, props.children)
 })
 
 export const withContainer = (Target: React.JSXElementConstructor<any>) => {
   return (props: any) => {
-    return (
-      <DroppableWidget>
-        <Target {...props} />
-      </DroppableWidget>
-    )
+    return React.createElement(DroppableWidget as any, null, React.createElement(Target, props))
   }
 }

@@ -34,12 +34,12 @@ export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
   const filterEmpty = (value: object) => {
     return reduce(
       value,
-      (buf, value, key) => {
+      (buf: { [key: string]: any }, value, key: string) => {
         if (!value || value === '{{}}') return buf
         buf[key] = value
         return buf
       },
-      {}
+      {} as { [key: string]: any }
     )
   }
 
@@ -106,7 +106,7 @@ export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
             key={selectKeys[0]}
             language="javascript.expression"
             extraLib={props.extraLib}
-            helpCode={template(currentProperty?.helpCode)}
+            helpCode={template(currentProperty?.helpCode || '')}
             value={parseExpression(value[selectKeys[0]])}
             options={{
               lineNumbers: 'off',

@@ -5,7 +5,7 @@ import {
   ViewportResizeDriver,
   ViewportScrollDriver,
   KeyboardDriver,
-} from './drivers'
+} from './drivers/index'
 import {
   useCursorEffect,
   useViewportEffect,
@@ -18,7 +18,7 @@ import {
   useFreeSelectionEffect,
   useContentEditableEffect,
   useTranslateEffect,
-} from './effects'
+} from './effects/index'
 import {
   SelectNodes,
   SelectAllNodes,
@@ -32,7 +32,7 @@ import {
   PreventCommandX,
   SelectPrevNode,
   SelectNextNode,
-} from './shortcuts'
+} from './shortcuts/index'
 
 export const DEFAULT_EFFECTS = [
   useFreeSelectionEffect,

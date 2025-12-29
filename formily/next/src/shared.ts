@@ -51,7 +51,7 @@ export const queryNodesByComponentPath = (
     }
   }
   return matchComponent(node, path[0])
-    ? node.children.reduce((buf, child) => {
+    ? node.children.reduce<TreeNode[]>((buf, child) => {
         return buf.concat(queryNodesByComponentPath(child, path.slice(1)))
       }, [])
     : []
@@ -60,9 +60,9 @@ export const queryNodesByComponentPath = (
 export const findNodeByComponentPath = (
   node: TreeNode,
   path: ComponentNameMatcher[]
-): TreeNode => {
-  if (path?.length === 0) return
-  if (path?.length === 1) {
+): TreeNode | undefined => {
+  if (!path || path.length === 0) return undefined
+  if (path.length === 1) {
     if (matchComponent(node, path[0])) {
       return node
     }
@@ -75,6 +75,7 @@ export const findNodeByComponentPath = (
       }
     }
   }
+  return undefined;
 }
 
 export const hasNodeByComponentPath = (
@@ -90,13 +91,14 @@ export const matchArrayItemsNode = (node: TreeNode) => {
 }
 
 export const createNodeId = (designer: Engine, id: string) => {
+  const attrName = designer.props.nodeIdAttrName as string
   return {
-    [designer.props.nodeIdAttrName]: id,
-  }
+    [attrName as string]: id,
+  } as Record<string, string>;
 }
 
 export const createEnsureTypeItemsNode = (type: string) => (node: TreeNode) => {
-  const objectNode = node.children.find((child) => child.props['type'] === type)
+  const objectNode = node.children.find((child) => child.props && child.props['type'] === type)
   if (objectNode) {
     return objectNode
   } else {

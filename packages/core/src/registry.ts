@@ -14,7 +14,7 @@ import {
 } from './types'
 import { mergeLocales, lowerSnake, getBrowserLanguage } from './internals'
 import { isBehaviorHost } from './externals'
-import { TreeNode } from './models'
+import { TreeNode } from './models/index'
 import { isBehaviorList } from './externals'
 
 const getISOCode = (language: string) => {
@@ -37,6 +37,7 @@ const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
   const findSourceBehavior = (name: string) => {
     for (let key in sources) {
       const { Behavior } = sources[key]
+      if (!Behavior) continue
       for (let i = 0; i < Behavior.length; i++) {
         if (Behavior[i].name === name) return Behavior[i]
       }
@@ -46,9 +47,11 @@ const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
     if (!item) return
     if (!isBehaviorHost(item)) return
     const { Behavior } = item
-    each(Behavior, (behavior) => {
+    if (!Behavior) return
+    each(Behavior, (behavior: IBehavior) => {
       if (findTargetBehavior(behavior)) return
       const name = behavior.name
+      if (!behavior.extends) return
       each(behavior.extends, (dep) => {
         const behavior = findSourceBehavior(dep)
         if (!behavior)
@@ -81,7 +84,7 @@ const DESIGNER_GlobalRegistry = {
     DESIGNER_BEHAVIORS_STORE.value = behaviors.reduce<IBehavior[]>(
       (buf, behavior) => {
         if (isBehaviorHost(behavior)) {
-          return buf.concat(behavior.Behavior)
+          return buf.concat((behavior as any).Behavior || [])
         } else if (isBehaviorList(behavior)) {
           return buf.concat(behavior)
         }
@@ -92,13 +95,13 @@ const DESIGNER_GlobalRegistry = {
   },
 
   getDesignerBehaviors: (node: TreeNode) => {
-    return DESIGNER_BEHAVIORS_STORE.value.filter((pattern) =>
+    return DESIGNER_BEHAVIORS_STORE.value.filter((pattern: any) =>
       pattern.selector(node)
     )
   },
 
   getDesignerIcon: (name: string) => {
-    return DESIGNER_ICONS_STORE[name]
+    return DESIGNER_ICONS_STORE.value[name]
   },
 
   getDesignerLanguage: () => {
@@ -122,7 +125,7 @@ const DESIGNER_GlobalRegistry = {
   },
 
   registerDesignerIcons: (map: IDesignerIcons) => {
-    Object.assign(DESIGNER_ICONS_STORE, map)
+    Object.assign(DESIGNER_ICONS_STORE.value, map)
   },
 
   registerDesignerLocales: (...packages: IDesignerLocales[]) => {

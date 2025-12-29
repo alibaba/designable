@@ -1,18 +1,18 @@
 import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
-import { ViewportResizeEvent } from '../events'
+import { ViewportResizeEvent } from '../events/viewport/index'
 import { ResizeObserver } from '@juggle/resize-observer'
 import { globalThisPolyfill } from '@designable/shared'
 
 export class ViewportResizeDriver extends EventDriver<Engine> {
-  request = null
+  request: number | null = null
 
-  resizeObserver: ResizeObserver = null
+  resizeObserver: ResizeObserver | null = null
 
   onResize = (e: any) => {
     if (e.preventDefault) e.preventDefault()
     this.request = requestAnimationFrame(() => {
-      cancelAnimationFrame(this.request)
+      cancelAnimationFrame(this.request!)
       this.dispatch(
         new ViewportResizeEvent({
           scrollX: this.contentWindow.scrollX,

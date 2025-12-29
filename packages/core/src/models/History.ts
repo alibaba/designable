@@ -28,7 +28,7 @@ export class History<T extends ISerializable = any> {
   locking = false
   constructor(context: T, props?: IHistoryProps<HistoryItem<T>>) {
     this.context = context
-    this.props = props
+    this.props = props ?? {};
     this.push()
     this.makeObservable()
   }

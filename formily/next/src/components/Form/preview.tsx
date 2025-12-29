@@ -47,10 +47,6 @@ Form.Behavior = createBehavior({
           style: AllSchemas.CSSStyle,
         },
       },
-      defaultProps: {
-        labelCol: 6,
-        wrapperCol: 12,
-      },
     }
   },
   designerLocales: AllLocales.Form,

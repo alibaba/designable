@@ -1,7 +1,7 @@
 import { isArr } from '@designable/shared'
 import { untracked } from '@formily/reactive'
 import { DEFAULT_DRIVERS, DEFAULT_EFFECTS, DEFAULT_SHORTCUTS } from './presets'
-import { Engine, TreeNode } from './models'
+import { Engine, TreeNode } from './models/index'
 import {
   IEngineProps,
   IResourceCreator,
@@ -52,14 +52,14 @@ export const createBehavior = (
     const { selector } = behavior || {}
     if (!selector) return buf
     if (typeof selector === 'string') {
-      behavior.selector = (node) => node.componentName === selector
+      behavior.selector = (node: TreeNode) => node.componentName === selector
     }
     return buf.concat(behavior)
   }, [])
 }
 
 export const createResource = (...sources: IResourceCreator[]): IResource[] => {
-  return sources.reduce((buf, source) => {
+  return sources.reduce((buf: IResource[], source) => {
     return buf.concat({
       ...source,
       node: new TreeNode({

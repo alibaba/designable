@@ -1,4 +1,4 @@
-import { KeyCode, Shortcut, TreeNode } from '../models'
+import { KeyCode, Shortcut, TreeNode } from '../models/index'
 
 const findBottomLastChild = (node: TreeNode) => {
   if (!node) return node
@@ -28,6 +28,7 @@ export const SelectPrevNode = new Shortcut({
     if (operation) {
       const tree = operation.tree
       const selection = operation.selection
+      if (!selection.last) return
       const selectedNode = tree.findById(selection.last)
       if (selectedNode) {
         const previousNode = selectedNode.previous
@@ -65,6 +66,7 @@ export const SelectNextNode = new Shortcut({
     if (operation) {
       const tree = operation.tree
       const selection = operation.selection
+      if (!selection.last) return
       const selectedNode = tree.findById(selection.last)
       if (selectedNode) {
         const nextNode = selectedNode.firstChild

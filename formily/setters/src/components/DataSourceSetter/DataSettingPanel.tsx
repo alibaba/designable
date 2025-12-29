@@ -1,7 +1,7 @@
 import React, { useMemo, Fragment } from 'react'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { ArrayItems, Form, Input, FormItem } from '@formily/antd'
+import { ArrayItems, Form, Input, FormItem } from '@formily/antd-v5'
 import { createForm, Form as FormCore } from '@formily/core'
 import { observer } from '@formily/reactive-react'
 import { createSchemaField } from '@formily/react'

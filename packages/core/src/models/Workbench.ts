@@ -5,7 +5,7 @@ import {
   AddWorkspaceEvent,
   RemoveWorkspaceEvent,
   SwitchWorkspaceEvent,
-} from '../events'
+} from '../events/index'
 import { IEngineContext, WorkbenchTypes } from '../types'
 export class Workbench {
   workspaces: Workspace[]
@@ -21,8 +21,8 @@ export class Workbench {
   constructor(engine: Engine) {
     this.engine = engine
     this.workspaces = []
-    this.currentWorkspace = null
-    this.activeWorkspace = null
+    this.currentWorkspace = null as any
+    this.activeWorkspace = null as any
     this.makeObservable()
   }
 
@@ -44,8 +44,8 @@ export class Workbench {
     return {
       engine: this.engine,
       workbench: this.engine.workbench,
-      workspace: null,
-      viewport: null,
+      workspace: null as any,
+      viewport: null as any,
     }
   }
 
@@ -68,6 +68,7 @@ export class Workbench {
   }
 
   addWorkspace(props: IWorkspaceProps) {
+    if (!props.id) return
     const finded = this.findWorkspaceById(props.id)
     if (!finded) {
       this.currentWorkspace = new Workspace(this.engine, props)
@@ -96,6 +97,7 @@ export class Workbench {
   }
 
   ensureWorkspace(props: IWorkspaceProps = {}) {
+    if (!props.id) return
     const workspace = this.findWorkspaceById(props.id)
     if (workspace) return workspace
     this.addWorkspace(props)

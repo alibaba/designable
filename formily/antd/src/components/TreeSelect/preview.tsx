@@ -1,25 +1,24 @@
 import React from 'react'
-import { TreeSelect as FormilyTreeSelect } from '@formily/antd'
+import { TreeSelect as FormilyTreeSelect } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const TreeSelect: DnFC<React.ComponentProps<typeof FormilyTreeSelect>> =
+export const TreeSelect: React.FC<React.ComponentProps<typeof FormilyTreeSelect>> =
   FormilyTreeSelect
 
-TreeSelect.Behavior = createBehavior({
+;(TreeSelect as any).Behavior = createBehavior({
   name: 'TreeSelect',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'TreeSelect',
+  selector: (node) => node.props?.['x-component'] === 'TreeSelect',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.TreeSelect),
   },
   designerLocales: AllLocales.TreeSelect,
 })
 
-TreeSelect.Resource = createResource({
+;(TreeSelect as any).Resource = createResource({
   icon: 'TreeSelectSource',
   elements: [
     {

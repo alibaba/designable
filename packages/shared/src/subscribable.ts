@@ -1,6 +1,7 @@
+
 import { isFn } from './types'
 
-const UNSUBSCRIBE_ID_SYMBOL = Symbol('UNSUBSCRIBE_ID_SYMBOL')
+const unsubscribeIdMap: WeakMap<() => void, number> = new WeakMap()
 
 export interface ISubscriber<Payload = any> {
   (payload: Payload): void | boolean
@@ -18,9 +19,11 @@ export class Subscribable<ExtendsType = any> {
     let interrupted = false
     for (const key in this.subscribers) {
       if (isFn(this.subscribers[key])) {
-        event['context'] = context
+        if (event && typeof event === 'object' && !Array.isArray(event)) {
+          (event as Record<string, any>)['context'] = context;
+        }
         if (this.subscribers[key](event) === false) {
-          interrupted = true
+          interrupted = true;
         }
       }
     }
@@ -28,33 +31,42 @@ export class Subscribable<ExtendsType = any> {
   }
 
   subscribe(subscriber: ISubscriber) {
-    let id: number
-    if (isFn(subscriber)) {
-      id = this.subscribers.index + 1
-      this.subscribers[id] = subscriber
-      this.subscribers.index++
+    if (!isFn(subscriber)) {
+      throw new Error('Subscriber must be a function')
     }
+    if (typeof this.subscribers.index !== 'number') {
+      this.subscribers.index = 0;
+    }
+    const id = this.subscribers.index + 1;
+    this.subscribers[id] = subscriber;
+    this.subscribers.index++;
 
     const unsubscribe = () => {
-      this.unsubscribe(id)
-    }
-
-    unsubscribe[UNSUBSCRIBE_ID_SYMBOL] = id
-
-    return unsubscribe
+      this.unsubscribe(id);
+    };
+    unsubscribeIdMap.set(unsubscribe, id);
+    return unsubscribe;
   }
 
   unsubscribe = (id?: number | string | (() => void)) => {
     if (id === undefined || id === null) {
       for (const key in this.subscribers) {
-        this.unsubscribe(key)
+        if (key !== 'index') {
+          this.unsubscribe(Number(key));
+        }
       }
-      return
+      return;
     }
     if (!isFn(id)) {
-      delete this.subscribers[id]
+      const numId = typeof id === 'number' ? id : Number(id);
+      if (!isNaN(numId)) {
+        delete this.subscribers[numId];
+      }
     } else {
-      delete this.subscribers[id[UNSUBSCRIBE_ID_SYMBOL]]
+      const mappedId = unsubscribeIdMap.get(id);
+      if (mappedId !== undefined) {
+        delete this.subscribers[mappedId];
+      }
     }
   }
 }

@@ -1,5 +1,3 @@
-@root-entry-name: 'default';
-@import (reference) '~antd/es/style/themes/index.less';
 
 .dn-data-source-setter {
   ::-webkit-scrollbar {
@@ -26,7 +24,7 @@
       opacity: 0;
 
       &:hover {
-        color: @primary-color;
+        color: var(--ant-primary-color, #1677ff);
       }
     }
   }
@@ -34,10 +32,10 @@
   &-layout {
     display: flex;
     justify-content: space-around;
-    border: 1px solid @border-color-split;
+    border: 1px solid var(--ant-border-color-split, #f0f0f0);
     border-radius: 3px;
 
-    .@{ant-prefix}-tree-treenode {
+    .ant-tree-treenode {
       padding-right: 10px;
       white-space: nowrap;
 
@@ -53,7 +51,7 @@
 
       &.left {
         width: 40%;
-        border-right: 1px solid @border-color-split;
+        border-right: 1px solid var(--ant-border-color-split, #f0f0f0);
       }
 
       &.right {
@@ -67,7 +65,7 @@
         justify-content: space-between;
         height: 40px;
         padding: 8px 12px 9px;
-        border-bottom: 1px solid @border-color-split;
+        border-bottom: 1px solid var(--ant-border-color-split, #f0f0f0);
         border-radius: 2px 2px 0 0;
       }
 

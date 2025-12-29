@@ -1,16 +1,15 @@
 import React from 'react'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { Container } from '../../common/Container'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { Container } from '../../common/Container/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const ObjectContainer: DnFC<React.ComponentProps<typeof Container>> =
+export const ObjectContainer: React.FC<React.ComponentProps<typeof Container>> =
   Container
-ObjectContainer.Behavior = createBehavior({
+;(ObjectContainer as any).Behavior = createBehavior({
   name: 'Object',
   extends: ['Field'],
-  selector: (node) => node.props.type === 'object',
+  selector: (node) => node.props?.type === 'object',
   designerProps: {
     droppable: true,
     propsSchema: createFieldSchema(),
@@ -18,7 +17,7 @@ ObjectContainer.Behavior = createBehavior({
   designerLocales: AllLocales.ObjectLocale,
 })
 
-ObjectContainer.Resource = createResource({
+;(ObjectContainer as any).Resource = createResource({
   icon: 'ObjectSource',
   elements: [
     {

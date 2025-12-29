@@ -80,14 +80,19 @@ const calcPositionDelta = (
   end: ICursorPosition,
   start: ICursorPosition
 ): ICursorPosition => {
-  return Object.keys(end || {}).reduce((buf, key) => {
+  const keys: (keyof ICursorPosition)[] = [
+    'pageX', 'pageY', 'clientX', 'clientY',
+    'topPageX', 'topPageY', 'topClientX', 'topClientY'
+  ];
+  const buf: ICursorPosition = {};
+  for (const key of keys) {
     if (isValidNumber(end?.[key]) && isValidNumber(start?.[key])) {
-      buf[key] = end[key] - start[key]
+      buf[key] = (end[key] as number) - (start[key] as number)
     } else {
       buf[key] = end[key]
     }
-    return buf
-  }, {})
+  }
+  return buf;
 }
 
 export class Cursor {
@@ -101,9 +106,9 @@ export class Cursor {
 
   position: ICursorPosition = DEFAULT_POSITION
 
-  dragStartPosition: ICursorPosition
+  dragStartPosition: ICursorPosition | null = null
 
-  dragEndPosition: ICursorPosition
+  dragEndPosition: ICursorPosition | null = null
 
   dragAtomDelta: ICursorPosition = DEFAULT_POSITION
 
@@ -139,8 +144,8 @@ export class Cursor {
 
   get speed() {
     return Math.sqrt(
-      Math.pow(this.dragAtomDelta.clientX, 2) +
-        Math.pow(this.dragAtomDelta.clientY, 2)
+      Math.pow(this.dragAtomDelta.clientX ?? 0, 2) +
+        Math.pow(this.dragAtomDelta.clientY ?? 0, 2)
     )
   }
 
@@ -163,9 +168,9 @@ export class Cursor {
   }
 
   setPosition(position?: ICursorPosition) {
-    this.dragAtomDelta = calcPositionDelta(this.position, position)
+    this.dragAtomDelta = calcPositionDelta(this.position, position ?? DEFAULT_POSITION)
     this.position = { ...position }
-    if (this.status === CursorStatus.Dragging) {
+    if (this.status === CursorStatus.Dragging && this.dragStartPosition) {
       this.dragStartToCurrentDelta = calcPositionDelta(
         this.position,
         this.dragStartPosition
@@ -173,7 +178,7 @@ export class Cursor {
     }
   }
 
-  setDragStartPosition(position?: ICursorPosition) {
+  setDragStartPosition(position?: ICursorPosition | null) {
     if (position) {
       this.dragStartPosition = { ...position }
     } else {
@@ -182,13 +187,13 @@ export class Cursor {
     }
   }
 
-  setDragEndPosition(position?: ICursorPosition) {
+  setDragEndPosition(position?: ICursorPosition | null) {
     if (!this.dragStartPosition) return
     if (position) {
       this.dragEndPosition = { ...position }
       this.dragStartToEndDelta = calcPositionDelta(
         this.dragStartPosition,
-        this.dragEndPosition
+        this.dragEndPosition ?? DEFAULT_POSITION
       )
     } else {
       this.dragEndPosition = null

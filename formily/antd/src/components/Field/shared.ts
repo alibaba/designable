@@ -4,8 +4,11 @@ import {
   DataSourceSetter,
   ValidatorSetter,
 } from '@designable/formily-setters'
-import { FormItemSwitcher } from '../../common/FormItemSwitcher'
-import { AllSchemas } from '../../schemas'
+
+import { FormItemSwitcher } from '../../common/FormItemSwitcher/index.js'
+import { AllSchemas } from '../../schemas/index.js'
+
+import  '@designable/formily-setters/style'
 
 export const createComponentSchema = (
   component: ISchema,
@@ -141,15 +144,16 @@ export const createFieldSchema = (
           },
         },
       },
-      ...createComponentSchema(component, decorator),
+      ...(component ? createComponentSchema(component, decorator) : {}),
     },
   }
 }
 
 export const createVoidFieldSchema = (
   component?: ISchema,
-  decorator: ISchema = AllSchemas.FormItem
+  decorator?: ISchema
 ) => {
+  const decoratorSchema = decorator || AllSchemas.FormItem
   return {
     type: 'object',
     properties: {
@@ -215,7 +219,7 @@ export const createVoidFieldSchema = (
           },
         },
       },
-      ...createComponentSchema(component, decorator),
+      ...(component ? createComponentSchema(component, decoratorSchema) : {}),
     },
   }
 }

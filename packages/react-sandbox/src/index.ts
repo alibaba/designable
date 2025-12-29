@@ -6,7 +6,7 @@ import {
   useLayout,
   usePrefix,
 } from '@designable/react'
-import ReactDOM from 'react-dom'
+import { createRoot, Root } from 'react-dom/client'
 
 export interface ISandboxProps {
   style?: React.CSSProperties
@@ -16,7 +16,7 @@ export interface ISandboxProps {
 }
 
 export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
-  const ref = useRef<HTMLIFrameElement>()
+  const ref = useRef<HTMLIFrameElement>(null)
   const appCls = usePrefix('app')
   const designer = useDesigner()
   const workspace = useWorkspace()
@@ -24,9 +24,8 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
   const cssAssets = props.cssAssets || []
   const jsAssets = props.jsAssets || []
   const getCSSVar = (name: string) => {
-    return getComputedStyle(
-      document.querySelector(`.${appCls}`)
-    ).getPropertyValue(name)
+    const element = document.querySelector(`.${appCls}`)
+    return element ? getComputedStyle(element).getPropertyValue(name) : ''
   }
   useEffect(() => {
     if (ref.current && workspace) {
@@ -40,14 +39,17 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
           return `<script src="${js}" type="text/javascript" ></script>`
         })
         .join('\n')
-      ref.current.contentWindow['__DESIGNABLE_SANDBOX_SCOPE__'] = props.scope
-      ref.current.contentWindow['__DESIGNABLE_LAYOUT__'] = layout
-      ref.current.contentWindow['__DESIGNABLE_ENGINE__'] = designer
-      ref.current.contentWindow['__DESIGNABLE_WORKSPACE__'] = workspace
-      ref.current.contentWindow['Formily'] = globalThisPolyfill['Formily']
-      ref.current.contentWindow['Designable'] = globalThisPolyfill['Designable']
-      ref.current.contentDocument.open()
-      ref.current.contentDocument.write(`
+      if (ref.current.contentWindow) {
+        const contentWindow = ref.current.contentWindow as any
+        contentWindow['__DESIGNABLE_SANDBOX_SCOPE__'] = props.scope
+        contentWindow['__DESIGNABLE_LAYOUT__'] = layout
+        contentWindow['__DESIGNABLE_ENGINE__'] = designer
+        contentWindow['__DESIGNABLE_WORKSPACE__'] = workspace
+        contentWindow['Formily'] = (globalThisPolyfill as any)['Formily']
+        contentWindow['Designable'] = (globalThisPolyfill as any)['Designable']
+      }
+      ref.current.contentDocument?.open()
+      ref.current.contentDocument?.write(`
       <!DOCTYPE html>
         <head>
           ${styles}
@@ -90,7 +92,7 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
         </body>
       </html>
       `)
-      ref.current.contentDocument.close()
+      ref.current.contentDocument?.close()
     }
   }, [workspace])
   return ref
@@ -98,21 +100,42 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
 
 if (globalThisPolyfill.frameElement) {
   //解决iframe内嵌如果iframe被移除，内部React无法回收内存的问题
+  let sandboxRoot: Root | null = null
   globalThisPolyfill.addEventListener('unload', () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('__SANDBOX_ROOT__'))
+    if (sandboxRoot) {
+      sandboxRoot.unmount()
+      sandboxRoot = null
+    }
   })
+  // Store root reference for cleanup
+  ;(globalThisPolyfill as any)['__SANDBOX_ROOT_INSTANCE__'] = {
+    setRoot: (root: Root) => { sandboxRoot = root },
+    getRoot: () => sandboxRoot
+  }
 }
 
 export const useSandboxScope = () => {
-  return globalThisPolyfill['__DESIGNABLE_SANDBOX_SCOPE__']
+  return (globalThisPolyfill as any)['__DESIGNABLE_SANDBOX_SCOPE__']
 }
 
-export const renderSandboxContent = (render: (scope?: any) => JSX.Element) => {
+export const renderSandboxContent = (render: (scope?: any) => React.ReactElement) => {
   if (isFn(render)) {
-    ReactDOM.render(
-      render(useSandboxScope()),
-      document.getElementById('__SANDBOX_ROOT__')
-    )
+    const rootElement = document.getElementById('__SANDBOX_ROOT__')
+    if (rootElement) {
+      const rootInstance = (globalThisPolyfill as any)['__SANDBOX_ROOT_INSTANCE__']
+      let root: Root
+      
+      if (rootInstance?.getRoot()) {
+        root = rootInstance.getRoot()
+      } else {
+        root = createRoot(rootElement)
+        if (rootInstance) {
+          rootInstance.setRoot(root)
+        }
+      }
+      
+      root.render(render(useSandboxScope()))
+    }
   }
 }
 

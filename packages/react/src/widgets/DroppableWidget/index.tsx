@@ -24,39 +24,39 @@ export const DroppableWidget: React.FC<IDroppableWidgetProps> = observer(
     node,
     actions,
     height,
-    placeholder,
+    placeholder = true,
     style,
     className,
     hasChildren: hasChildrenProp,
+    children,
     ...props
   }) => {
     const currentNode = useTreeNode()
     const nodeId = useNodeIdProps(node)
     const target = node ?? currentNode
+    if (!target) return null
     const hasChildren = hasChildrenProp ?? target.children?.length > 0
     return (
       <div {...nodeId} {...props} className={className} style={style}>
         {hasChildren ? (
-          props.children
+          children
         ) : placeholder ? (
           <div style={{ height }} className="dn-droppable-placeholder">
             <NodeTitleWidget node={target} />
           </div>
         ) : (
-          props.children
+          children
         )}
         {actions?.length ? (
           <NodeActionsWidget>
-            {actions.map((action, key) => (
-              <NodeActionsWidget.Action {...action} key={key} />
-            ))}
+            {actions.map((action, key) => {
+              const Action = NodeActionsWidget.Action
+              if (!Action) return null
+              return <Action {...action} key={key} />
+            })}
           </NodeActionsWidget>
         ) : null}
       </div>
     )
   }
 )
-
-DroppableWidget.defaultProps = {
-  placeholder: true,
-}

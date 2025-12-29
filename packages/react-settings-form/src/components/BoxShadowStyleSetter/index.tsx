@@ -34,16 +34,19 @@ export const BoxShadowStyleSetter: React.FC<IBoxShadowStyleSetterProps> =
         },
       }
     }
+    const Base = FoldItem.Base
+    const Extra = FoldItem.Extra
+    if (!Base || !Extra) return null
     return (
       <FoldItem
         className={cls(prefix, props.className)}
         style={props.style}
         label={field.title}
       >
-        <FoldItem.Base>
+        <Base>
           <ColorInput {...createBoxShadowConnector(4)} />
-        </FoldItem.Base>
-        <FoldItem.Extra>
+        </Base>
+        <Extra>
           <InputItems width="50%">
             <InputItems.Item icon="AxisX">
               <SizeInput
@@ -70,7 +73,7 @@ export const BoxShadowStyleSetter: React.FC<IBoxShadowStyleSetterProps> =
               />
             </InputItems.Item>
           </InputItems>
-        </FoldItem.Extra>
+        </Extra>
       </FoldItem>
     )
   })

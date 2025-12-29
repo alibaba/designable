@@ -1,15 +1,14 @@
 import React from 'react'
 import { Radio as FormilyRadio } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Radio: DnFC<React.ComponentProps<typeof FormilyRadio>> =
+export const Radio: React.FC<React.ComponentProps<typeof FormilyRadio>> =
   FormilyRadio
 
-Radio.Behavior = createBehavior({
+;(Radio as any).Behavior = createBehavior({
   name: 'Radio.Group',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Radio.Group',
@@ -19,7 +18,7 @@ Radio.Behavior = createBehavior({
   designerLocales: AllLocales.RadioGroup,
 })
 
-Radio.Resource = createResource({
+;(Radio as any).Resource = createResource({
   icon: 'RadioGroupSource',
   elements: [
     {

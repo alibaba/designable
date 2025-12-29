@@ -1,6 +1,6 @@
 import { observable, define, action } from '@formily/reactive'
 import { Operation } from './Operation'
-import { SelectNodeEvent, UnSelectNodeEvent } from '../events'
+import { SelectNodeEvent, UnSelectNodeEvent } from '../events/mutation/index'
 import { TreeNode } from './TreeNode'
 import { isStr, isArr } from '@designable/shared'
 
@@ -10,15 +10,15 @@ export interface ISelection {
 }
 
 export class Selection {
-  operation: Operation
+  operation!: Operation
   selected: string[] = []
   indexes: Record<string, boolean> = {}
 
   constructor(props?: ISelection) {
-    if (props.selected) {
+    if (props?.selected) {
       this.selected = props.selected
     }
-    if (props.operation) {
+    if (props?.operation) {
       this.operation = props.operation
     }
     this.makeObservable()
@@ -37,10 +37,12 @@ export class Selection {
   }
 
   trigger(type = SelectNodeEvent) {
+    // Filter out undefined nodes for source
+    const nodes = this.selectedNodes.filter((n): n is TreeNode => !!n)
     return this.operation.dispatch(
       new type({
         target: this.operation.tree,
-        source: this.selectedNodes,
+        source: nodes,
       })
     )
   }
@@ -72,7 +74,7 @@ export class Selection {
 
   batchSelect(ids: string[] | TreeNode[]) {
     this.selected = this.mapIds(ids)
-    this.indexes = this.selected.reduce((buf, id) => {
+    this.indexes = this.selected.reduce((buf: Record<string, boolean>, id) => {
       buf[id] = true
       return buf
     }, {})
@@ -117,13 +119,13 @@ export class Selection {
 
   crossAddTo(node: TreeNode) {
     if (node.parent) {
-      const selectedNodes = this.selectedNodes
+      const selectedNodes = this.selectedNodes.filter((n): n is TreeNode => !!n)
       if (this.has(node)) {
         this.remove(node)
       } else {
         const minDistanceNode = selectedNodes.reduce(
           (minDistanceNode, item) => {
-            return item.distanceTo(node) < minDistanceNode.distanceTo(node)
+            return item?.distanceTo(node) < (minDistanceNode?.distanceTo(node) ?? Infinity)
               ? item
               : minDistanceNode
           },
@@ -158,8 +160,8 @@ export class Selection {
     this.trigger(UnSelectNodeEvent)
   }
 
-  has(...ids: string[] | TreeNode[]) {
-    return this.mapIds(ids).some((id) => {
+  has(...ids: string[] | TreeNode[]): boolean {
+    return this.mapIds(ids).some((id): boolean => {
       if (isStr(id)) {
         return this.indexes[id]
       } else {

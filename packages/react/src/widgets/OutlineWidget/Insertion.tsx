@@ -46,7 +46,7 @@ export const Insertion: React.FC<IInsertionProps> = observer(
         baseStyle.height = 2
         baseStyle.transform = `perspective(1px) translate3d(${closestRect.x}px,${closestRect.y}px,0)`
       }
-      if (closestDirection.includes('FORBID')) {
+      if (closestDirection?.includes('FORBID')) {
         baseStyle.backgroundColor = 'red'
       } else {
         baseStyle.backgroundColor = ''

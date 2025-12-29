@@ -1,5 +1,5 @@
-import { Engine } from '../models'
-import { KeyDownEvent, KeyUpEvent } from '../events'
+import { Engine } from '../models/index'
+import { KeyDownEvent, KeyUpEvent } from '../events/index'
 
 export const useKeyboardEffect = (engine: Engine) => {
   engine.subscribeTo(KeyDownEvent, (event) => {

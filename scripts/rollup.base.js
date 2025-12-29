@@ -1,99 +1,66 @@
-import typescript from 'rollup-plugin-typescript2'
-import resolve from 'rollup-plugin-node-resolve'
-import postcss from 'rollup-plugin-postcss'
-import commonjs from '@rollup/plugin-commonjs'
-import NpmImport from 'less-plugin-npm-import'
-import externalGlobals from 'rollup-plugin-external-globals'
-import { terser } from 'rollup-plugin-terser'
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const presets = () => {
-  const externals = {
-    antd: 'Antd',
-    vue: 'Vue',
-    react: 'React',
-    moment: 'moment',
-    'react-is': 'ReactIs',
-    '@alifd/next': 'Next',
-    'mobx-react-lite': 'mobxReactLite',
-    'react-dom': 'ReactDOM',
-    '@ant-design/icons': 'icons',
-    '@vue/composition-api': 'VueCompositionAPI',
-    '@formily/reactive-react': 'Formily.ReactiveReact',
-    '@formily/reactive-vue': 'Formily.ReactiveVue',
-    '@formily/reactive': 'Formily.Reactive',
-    '@formily/path': 'Formily.Path',
-    '@formily/shared': 'Formily.Shared',
-    '@formily/validator': 'Formily.Validator',
-    '@formily/core': 'Formily.Core',
-    '@formily/json-schema': 'Formily.JSONSchema',
-    '@formily/react': 'Formily.React',
-    '@designable/shared': 'Designable.Shared',
-    '@designable/core': 'Designable.Core',
-    '@designable/react': 'Designable.React',
-    '@designable/react-sandbox': 'Designable.ReactSandbox',
-    '@designable/react-settings-form': 'Designable.ReactSettingsForm',
-  }
-  return [
-    typescript({
-      tsconfig: './tsconfig.json',
-      tsconfigOverride: {
-        compilerOptions: {
-          module: 'ESNext',
-          declaration: false,
-        },
-      },
+import typescript from '@rollup/plugin-typescript'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import postcss from 'rollup-plugin-postcss'
+import terser from '@rollup/plugin-terser'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+export default function createConfig(libraryName, globalName) {
+  return {
+  input: 'src/index.ts',
+
+  output: [
+    {
+      file: 'dist/index.js',
+      format: 'umd',
+      name: globalName,
+      sourcemap: true,
+      globals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+        'antd': 'antd',
+        '@designable/core': 'Designable.Core',
+        '@designable/shared': 'Designable.Shared'
+      }
+    }
+  ],
+
+  external: [
+    'react',
+    'react-dom',
+    'antd',
+    '@formily/reactive',
+    '@formily/reactive-react',
+    '@formily/path',
+    '@formily/shared',
+    '@formily/json-schema',
+    '@designable/shared',
+    '@designable/core'
+  ],
+
+  plugins: [
+    resolve({
+      extensions: ['.js', '.ts']
     }),
-    resolve(),
+
+    commonjs(),
+
+    typescript({
+      tsconfig: './tsconfig.rollup.json',
+      declaration: false
+    }),
+
     postcss({
       extract: true,
-      minimize: true,
-      // extensions: ['.css', '.less', '.sass'],
-      use: {
-        less: {
-          plugins: [new NpmImport({ prefix: '~' })],
-          javascriptEnabled: true,
-        },
-        sass: {},
-        stylus: {},
-      },
+      minimize: true
     }),
-    commonjs(),
-    externalGlobals(externals),
+
+    terser()
   ]
+  }
 }
-
-const inputFilePath = path.join(process.cwd(), 'src/index.ts')
-
-export const removeImportStyleFromInputFilePlugin = () => ({
-  name: 'remove-import-style-from-input-file',
-  transform(code, id) {
-    // 样式由 build:style 进行打包，所以要删除入口文件上的 `import './style'`
-    if (inputFilePath === id) {
-      return code.replace(`import './style';`, '')
-    }
-
-    return code
-  },
-})
-
-export default (filename, targetName, ...plugins) => [
-  {
-    input: 'src/index.ts',
-    output: {
-      format: 'umd',
-      file: `dist/${filename}.umd.production.min.js`,
-      name: targetName,
-    },
-    plugins: [...presets(filename, targetName), ...plugins],
-  },
-  {
-    input: 'src/index.ts',
-    output: {
-      format: 'umd',
-      file: `dist/${filename}.umd.production.js`,
-      name: targetName,
-    },
-    plugins: [...presets(filename, targetName), terser(), ...plugins],
-  },
-]

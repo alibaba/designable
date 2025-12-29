@@ -13,21 +13,20 @@ import {
   Select,
   FormItem,
   FormCollapse,
-} from '@formily/antd'
+} from '@formily/antd-v5'
 import { Modal, Card, Button, Tag, Tooltip } from 'antd'
 import { PathSelector } from './PathSelector'
 import { FieldPropertySetter } from './FieldPropertySetter'
 import { FulfillRunHelper } from './helpers'
 import { IReaction } from './types'
 import { initDeclaration } from './declarations'
-import './styles.less'
 
 export interface IReactionsSetterProps {
   value?: IReaction
   onChange?: (value: IReaction) => void
 }
 
-const TypeView = ({ value }) => {
+const TypeView = ({ value } : { value: any }) => {
   const text = String(value)
   if (text.length <= 26) return <Tag>{text}</Tag>
   return (
@@ -145,10 +144,19 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
       values: clone(props.value),
     })
   }, [modalVisible, props.value])
-  const formCollapse = useMemo(
-    () => FormCollapse.createFormCollapse(['deps', 'state']),
-    [modalVisible]
-  )
+
+  const formCollapse = useMemo(() => {
+    if (!FormCollapse?.createFormCollapse) return
+
+    const collapse = FormCollapse.createFormCollapse(['deps', 'state'])
+
+    // 🔑 ensure activeKeys is always defined
+    if (!collapse.activeKeys) {
+      collapse.setActiveKeys(['deps', 'state'])
+    }
+
+    return collapse
+  }, [modalVisible])
   const openModal = () => setModalVisible(true)
   const closeModal = () => setModalVisible(false)
   useEffect(() => {
@@ -198,7 +206,7 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
                 <SchemaField.Void
                   x-component="FormCollapse"
                   x-component-props={{
-                    formCollapse,
+                    // ...(formCollapse ? { formCollapse } : {}),
                     defaultActiveKey: ['deps', 'state'],
                     style: { marginBottom: 10 },
                   }}
@@ -338,8 +346,7 @@ export const ReactionsSetter: React.FC<IReactionsSetterProps> = (props) => {
                                   } else if (property[0] === 'inputValues') {
                                     field.value = `any[]`
                                   } else if (property[0]) {
-                                    field.value =
-                                      FieldStateValueTypes[property[0]]
+                                    field.value =  FieldStateValueTypes[property[0] as keyof typeof FieldStateValueTypes]
                                   } else {
                                     field.value = 'any'
                                   }

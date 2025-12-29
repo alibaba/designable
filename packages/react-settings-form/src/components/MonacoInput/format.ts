@@ -12,7 +12,7 @@ interface IPrettierModule {
   }
 }
 
-const cache: { prettier: Promise<IPrettierModule> } = {
+const cache: { prettier: Promise<IPrettierModule> | null } = {
   prettier: null,
 }
 
@@ -22,6 +22,9 @@ export const format = async (language: string, source: string) => {
     new Function(
       `return import("${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs")`
     )()
+  if (!cache.prettier) {
+    return source
+  }
   return cache.prettier.then((module) => {
     if (
       language === 'javascript.expression' ||

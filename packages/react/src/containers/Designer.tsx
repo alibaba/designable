@@ -9,25 +9,25 @@ import * as icons from '../icons'
 
 GlobalRegistry.registerDesignerIcons(icons)
 
-export const Designer: React.FC<IDesignerProps> = (props) => {
+export const Designer: React.FC<IDesignerProps> = ({ engine: engineProp, prefixCls = 'dn-', theme = 'light', variables, position, children }) => {
   const engine = useDesigner()
-  const ref = useRef<Engine>()
+  const ref = useRef<Engine>(null)
   useEffect(() => {
-    if (props.engine) {
-      if (props.engine && ref.current) {
-        if (props.engine !== ref.current) {
+    if (engineProp) {
+      if (engineProp && ref.current) {
+        if (engineProp !== ref.current) {
           ref.current.unmount()
         }
       }
-      props.engine.mount()
-      ref.current = props.engine
+      engineProp.mount()
+      ref.current = engineProp
     }
     return () => {
-      if (props.engine) {
-        props.engine.unmount()
+      if (engineProp) {
+        engineProp.unmount()
       }
     }
-  }, [props.engine])
+  }, [engineProp])
 
   if (engine)
     throw new Error(
@@ -35,16 +35,11 @@ export const Designer: React.FC<IDesignerProps> = (props) => {
     )
 
   return (
-    <Layout {...props}>
-      <DesignerEngineContext.Provider value={props.engine}>
-        {props.children}
+    <Layout prefixCls={prefixCls} theme={theme} variables={variables} position={position}>
+      <DesignerEngineContext.Provider value={engineProp}>
+        {children}
         <GhostWidget />
       </DesignerEngineContext.Provider>
     </Layout>
   )
-}
-
-Designer.defaultProps = {
-  prefixCls: 'dn-',
-  theme: 'light',
 }

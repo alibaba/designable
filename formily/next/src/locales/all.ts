@@ -7,8 +7,12 @@ export * from './TreeSelect'
 export * from './Cascader'
 export * from './Radio'
 export * from './Checkbox'
-export * from './Range'
-export * from './Rating'
+export * from './Slider'
+export * from './Rate'
+export { Range } from './Range';
+export { Rating } from './Rating';
+export { Slider } from './Slider';
+export { Rate } from './Rate';
 export * from './DatePicker'
 export * from './TimePicker'
 export * from './NumberPicker'

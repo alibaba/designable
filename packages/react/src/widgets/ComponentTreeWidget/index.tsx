@@ -15,7 +15,7 @@ export interface IComponentTreeWidgetProps {
 
 export interface ITreeNodeWidgetProps {
   node: TreeNode
-  children?: React.ReactChild
+  children?: React.ReactNode
 }
 
 export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
@@ -23,13 +23,17 @@ export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
     const designer = useDesigner(props.node?.designerProps?.effects)
     const components = useComponents()
     const node = props.node
+
     const renderChildren = () => {
+      console.log('TreeNodeWidget.renderChildren', node?.id, node?.children?.length)
       if (node?.designerProps?.selfRenderChildren) return []
       return node?.children?.map((child) => {
         return <TreeNodeWidget key={child.id} node={child} />
       })
     }
     const renderProps = (extendsProps: any = {}) => {
+      console.log('TreeNodeWidget.renderProps', extendsProps)
+
       const props = {
         ...node.designerProps?.defaultProps,
         ...extendsProps,
@@ -43,18 +47,21 @@ export const TreeNodeWidget: React.FC<ITreeNodeWidgetProps> = observer(
     }
     const renderComponent = () => {
       const componentName = node.componentName
+      console.log('TreeNodeWidget.renderComponent', componentName)
       const Component = components[componentName]
-      const dataId = {}
+      const dataId: Record<string, any> = {}
       if (Component) {
         if (designer) {
-          dataId[designer?.props?.nodeIdAttrName] = node.id
+          dataId[designer?.props?.nodeIdAttrName as string] = node.id
         }
+        console.log('TreeNodeWidget.renderComponent', node?.id, 'rendering')
         return React.createElement(
           Component,
           renderProps(dataId),
           ...renderChildren()
         )
       } else {
+        console.log('TreeNodeWidget.renderComponent: no component => Call renderChildren()', componentName)
         if (node?.children?.length) {
           return <Fragment>{renderChildren()}</Fragment>
         }
@@ -76,9 +83,10 @@ export const ComponentTreeWidget: React.FC<IComponentTreeWidgetProps> =
     const tree = useTree()
     const prefix = usePrefix('component-tree')
     const designer = useDesigner()
-    const dataId = {}
+    const dataId: Record<string, any> = {}
     if (designer && tree) {
-      dataId[designer?.props?.nodeIdAttrName] = tree.id
+      console.log('ComponentTreeWidget tree', tree)
+      dataId[designer?.props?.nodeIdAttrName as string] = tree.id
     }
     useEffect(() => {
       GlobalRegistry.registerDesignerBehaviors(props.components)

@@ -6,24 +6,23 @@ import {
   TreeNodeWidget,
   DroppableWidget,
   useNodeIdProps,
-  DnFC,
 } from '@designable/react'
-import { ArrayBase } from '@formily/antd'
+import { ArrayBase } from '@formily/antd-v5'
 import { observer } from '@formily/react'
-import { LoadTemplate } from '../../common/LoadTemplate'
+import { LoadTemplate } from '../../common/LoadTemplate/index.js'
 import cls from 'classnames'
 import {
   queryNodesByComponentPath,
   hasNodeByComponentPath,
   findNodeByComponentPath,
   createEnsureTypeItemsNode,
-} from '../../shared'
-import { useDropTemplate } from '../../hooks'
-import { createArrayBehavior } from '../ArrayBase'
+} from '../../shared.js'
+import { useDropTemplate } from '../../hooks/index.js'
+import { createArrayBehavior } from '../ArrayBase/index.js'
 import './styles.less'
-import { createVoidFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createVoidFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
 const ensureObjectItemsNode = createEnsureTypeItemsNode('object')
 
@@ -49,10 +48,10 @@ const BodyCell: React.FC = (props: any) => {
   )
 }
 
-export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
+export const ArrayTable: React.FC<TableProps<any>> = observer((props) => {
   const node = useTreeNode()
   const nodeId = useNodeIdProps()
-  useDropTemplate('ArrayTable', (source) => {
+  useDropTemplate('ArrayTable', (source: TreeNode[]) => {
     const sortHandleNode = new TreeNode({
       componentName: 'Field',
       props: {
@@ -100,8 +99,8 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
           title: `Title`,
         },
       },
-      children: source.map((node) => {
-        node.props.title = undefined
+      children: source.map((node: TreeNode) => {
+        if (node.props) node.props.title = undefined
         return node
       }),
     })
@@ -196,7 +195,7 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
             const children = node.children.map((child) => {
               return <TreeNodeWidget node={child} key={child.id} />
             })
-            const props = node.props['x-component-props']
+            const props = node.props?.['x-component-props']
             return (
               <Table.Column
                 {...props}
@@ -209,11 +208,11 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
                 className={`data-id:${node.id}`}
                 key={node.id}
                 render={(value, record, key) => {
-                  return (
-                    <ArrayBase.Item key={key} index={key} record={null}>
+                  return ArrayBase.Item ? (
+                    <ArrayBase.Item key={key} index={key} record={{}}>
                       {children.length > 0 ? children : 'Droppable'}
                     </ArrayBase.Item>
-                  )
+                  ) : null
                 }}
               />
             )
@@ -229,9 +228,9 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
     )
   }
 
-  useDropTemplate('ArrayTable.Column', (source) => {
-    return source.map((node) => {
-      node.props.title = undefined
+  useDropTemplate('ArrayTable.Column', (source: TreeNode[]) => {
+    return source.map((node: TreeNode) => {
+      if (node.props) node.props.title = undefined
       return node
     })
   })
@@ -429,23 +428,23 @@ export const ArrayTable: DnFC<TableProps<any>> = observer((props) => {
   )
 })
 
-ArrayBase.mixin(ArrayTable)
+ArrayBase.mixin?.(ArrayTable)
 
-ArrayTable.Behavior = createBehavior(createArrayBehavior('ArrayTable'), {
+;(ArrayTable as any).Behavior = createBehavior(createArrayBehavior('ArrayTable'), {
   name: 'ArrayTable.Column',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'ArrayTable.Column',
+  selector: (node) => node.props?.['x-component'] === 'ArrayTable.Column',
   designerProps: {
     droppable: true,
     allowDrop: (node) =>
-      node.props['type'] === 'object' &&
+      node.props?.['type'] === 'object' &&
       node.parent?.props?.['x-component'] === 'ArrayTable',
     propsSchema: createVoidFieldSchema(AllSchemas.ArrayTable.Column),
   },
   designerLocales: AllLocales.ArrayTableColumn,
 })
 
-ArrayTable.Resource = createResource({
+;(ArrayTable as any).Resource = createResource({
   icon: 'ArrayTableSource',
   elements: [
     {

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    
+    "strict": false,
+    "skipLibCheck": true,
+    
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    
+    "jsx": "react",
+    "sourceMap": true,
+    "declaration": false,
+    
+    "moduleResolution": "bundler",
+    "outDir": "./dist",
+    
+    "paths": {
+      "@designable/*": ["../*/lib", "../*/dist"]
+    }
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./src/types/**/*.d.ts"],
+  "exclude": ["./src/__tests__/*", "./dist/*"]
+}

@@ -29,7 +29,7 @@ export const SnapLine = observer(() => {
           <div
             key={key}
             className={prefix}
-            style={createLineStyle(line.rect)}
+            style={createLineStyle(line.rect  as DOMRectReadOnly)}
           ></div>
         )
       })}

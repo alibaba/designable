@@ -1,5 +1,5 @@
 import { ICustomEvent } from '@designable/shared'
-import { ITreeNode, TreeNode } from '../../models'
+import { ITreeNode, TreeNode } from '../../models/TreeNode'
 import { IEngineContext } from '../../types'
 
 export interface IFromNodeEventData {
@@ -12,7 +12,7 @@ export interface IFromNodeEventData {
 export class FromNodeEvent implements ICustomEvent {
   type = 'from:node'
   data: IFromNodeEventData
-  context: IEngineContext
+  context!: IEngineContext
   constructor(data: IFromNodeEventData) {
     this.data = data
   }

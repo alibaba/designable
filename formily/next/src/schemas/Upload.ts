@@ -10,11 +10,11 @@ export const Upload: ISchema & { Dragger?: ISchema } = {
     },
     shape: {
       type: 'string',
-      enum: [null, 'card'],
+      enum: ['', 'card'],
       'x-decorator': 'FormItem',
       'x-component': 'Radio.Group',
       'x-component-props': {
-        defaultValue: null,
+        defaultValue: '',
         optionType: 'button',
       },
     },
@@ -75,11 +75,11 @@ export const Upload: ISchema & { Dragger?: ISchema } = {
     },
     listType: {
       type: 'string',
-      enum: [null, 'text', 'image', 'card'],
+      enum: ['', 'text', 'image', 'card'],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {
-        defaultValue: null,
+        defaultValue: '',
       },
     },
     limit: {

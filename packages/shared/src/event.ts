@@ -24,7 +24,7 @@ export interface IEventEffect<T> {
 }
 
 export interface IEventDriver {
-  container: EventDriverContainer
+  container: EventDriverContainer | null
   contentWindow: Window
   attach(container: EventDriverContainer): void
   detach(container: EventDriverContainer): void
@@ -103,16 +103,15 @@ const isOnlyMode = (mode: string) =>
 export class EventDriver<Engine extends Event = Event, Context = any>
   implements IEventDriver
 {
-  engine: Engine
-
-  container: EventDriverContainer = document
+  container: EventDriverContainer | null = null
 
   contentWindow: Window = globalThisPolyfill
 
-  context: Context
+  context?: Context
 
-  constructor(engine: Engine, context?: Context) {
-    this.engine = engine
+  constructor(public engine: Engine, context?: Context) {
+    this.container = globalThisPolyfill.document || globalThisPolyfill
+    this.contentWindow = window
     this.context = context
   }
 
@@ -139,10 +138,12 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   }
 
   attach(container: EventDriverContainer) {
+    this.container = container
     console.error('attach must implement.')
   }
 
   detach(container: EventDriverContainer) {
+    this.container = null
     console.error('attach must implement.')
   }
 
@@ -168,36 +169,40 @@ export class EventDriver<Engine extends Event = Event, Context = any>
   addEventListener(type: any, listener: any, options: any) {
     const target = this.eventTarget(type)
     if (isOnlyMode(options?.mode)) {
-      target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
+      ;(target as any)[EVENTS_ONCE_SYMBOL] = (target as any)[EVENTS_ONCE_SYMBOL] || {}
       const constructor = this['constructor']
-      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
-      const handler = target[EVENTS_ONCE_SYMBOL][type]
-      const container = constructor[EVENTS_ONCE_SYMBOL][type]
+      ;(constructor as any)[EVENTS_ONCE_SYMBOL] = (constructor as any)[EVENTS_ONCE_SYMBOL] || {}
+      const handler = (target as any)[EVENTS_ONCE_SYMBOL][type]
+      const container = (constructor as any)[EVENTS_ONCE_SYMBOL][type]
       if (!handler) {
         if (container) {
           if (options.mode === 'onlyChild') {
             if (container.contains(target)) {
               container.removeEventListener(
                 type,
-                container[EVENTS_ONCE_SYMBOL][type],
+                (container as any)[EVENTS_ONCE_SYMBOL][type],
                 options
               )
-              delete container[EVENTS_ONCE_SYMBOL][type]
+              delete (container as any)[EVENTS_ONCE_SYMBOL][type]
             }
           } else if (options.mode === 'onlyParent') {
             if (container.contains(target)) return
           }
         }
-        target.addEventListener(type, listener, options)
-        target[EVENTS_ONCE_SYMBOL][type] = listener
-        constructor[EVENTS_ONCE_SYMBOL][type] = target
+        if (target) {
+          target.addEventListener(type, listener, options)
+        }
+        ;(target as any)[EVENTS_ONCE_SYMBOL][type] = listener
+        ;(constructor as any)[EVENTS_ONCE_SYMBOL][type] = target
       }
     } else {
-      target[EVENTS_SYMBOL] = target[EVENTS_SYMBOL] || {}
-      target[EVENTS_SYMBOL][type] = target[EVENTS_SYMBOL][type] || new Map()
-      if (!target[EVENTS_SYMBOL][type]?.get?.(listener)) {
-        target.addEventListener(type, listener, options)
-        target[EVENTS_SYMBOL][type]?.set?.(listener, true)
+      ;(target as any)[EVENTS_SYMBOL] = (target as any)[EVENTS_SYMBOL] || {}
+      ;(target as any)[EVENTS_SYMBOL][type] = (target as any)[EVENTS_SYMBOL][type] || new Map()
+      if (!(target as any)[EVENTS_SYMBOL][type]?.get?.(listener)) {
+        if (target) {
+          target.addEventListener(type, listener, options)
+        }
+        ;(target as any)[EVENTS_SYMBOL][type]?.set?.(listener, true)
       }
     }
   }
@@ -216,16 +221,20 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     const target = this.eventTarget(type)
     if (isOnlyMode(options?.mode)) {
       const constructor = this['constructor']
-      constructor[EVENTS_ONCE_SYMBOL] = constructor[EVENTS_ONCE_SYMBOL] || {}
-      target[EVENTS_ONCE_SYMBOL] = target[EVENTS_ONCE_SYMBOL] || {}
-      delete constructor[EVENTS_ONCE_SYMBOL][type]
-      delete target[EVENTS_ONCE_SYMBOL][type]
-      target.removeEventListener(type, listener, options)
+      ;(constructor as any)[EVENTS_ONCE_SYMBOL] = (constructor as any)[EVENTS_ONCE_SYMBOL] || {}
+      ;(target as any)[EVENTS_ONCE_SYMBOL] = (target as any)[EVENTS_ONCE_SYMBOL] || {}
+      delete (constructor as any)[EVENTS_ONCE_SYMBOL][type]
+      delete (target as any)[EVENTS_ONCE_SYMBOL][type]
+      if (target) {
+        target.removeEventListener(type, listener, options)
+      }
     } else {
-      target[EVENTS_SYMBOL] = target[EVENTS_SYMBOL] || {}
-      target[EVENTS_SYMBOL][type] = target[EVENTS_SYMBOL][type] || new Map()
-      target[EVENTS_SYMBOL][type]?.delete?.(listener)
-      target.removeEventListener(type, listener, options)
+      ;(target as any)[EVENTS_SYMBOL] = (target as any)[EVENTS_SYMBOL] || {}
+      ;(target as any)[EVENTS_SYMBOL][type] = (target as any)[EVENTS_SYMBOL][type] || new Map()
+      ;(target as any)[EVENTS_SYMBOL][type]?.delete?.(listener)
+      if (target) {
+        target.removeEventListener(type, listener, options)
+      }
     }
   }
 
@@ -240,17 +249,17 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchAddEventListener(type: any, listener: any, options?: any) {
-    this.engine[DRIVER_INSTANCES_SYMBOL] =
-      this.engine[DRIVER_INSTANCES_SYMBOL] || []
-    if (!this.engine[DRIVER_INSTANCES_SYMBOL].includes(this)) {
-      this.engine[DRIVER_INSTANCES_SYMBOL].push(this)
+    ;(this.engine as any)[DRIVER_INSTANCES_SYMBOL] =
+      (this.engine as any)[DRIVER_INSTANCES_SYMBOL] || []
+    if (!(this.engine as any)[DRIVER_INSTANCES_SYMBOL].includes(this)) {
+      (this.engine as any)[DRIVER_INSTANCES_SYMBOL].push(this)
     }
-    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
+    ;(this.engine as any)[DRIVER_INSTANCES_SYMBOL].forEach((driver: any) => {
       const target = driver.eventTarget(type)
-      target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
-      if (!target[EVENTS_BATCH_SYMBOL][type]) {
+      ;(target as any)[EVENTS_BATCH_SYMBOL] = (target as any)[EVENTS_BATCH_SYMBOL] || {}
+      if (!(target as any)[EVENTS_BATCH_SYMBOL][type]) {
         target.addEventListener(type, listener, options)
-        target[EVENTS_BATCH_SYMBOL][type] = listener
+        ;(target as any)[EVENTS_BATCH_SYMBOL][type] = listener
       }
     })
   }
@@ -266,13 +275,13 @@ export class EventDriver<Engine extends Event = Event, Context = any>
     options?: boolean | EventOptions
   ): void
   batchRemoveEventListener(type: any, listener: any, options: any) {
-    this.engine[DRIVER_INSTANCES_SYMBOL] =
-      this.engine[DRIVER_INSTANCES_SYMBOL] || []
-    this.engine[DRIVER_INSTANCES_SYMBOL].forEach((driver) => {
+    ;(this.engine as any)[DRIVER_INSTANCES_SYMBOL] =
+      (this.engine as any)[DRIVER_INSTANCES_SYMBOL] || []
+    ;(this.engine as any)[DRIVER_INSTANCES_SYMBOL].forEach((driver: any) => {
       const target = driver.eventTarget(type)
-      target[EVENTS_BATCH_SYMBOL] = target[EVENTS_BATCH_SYMBOL] || {}
+      ;(target as any)[EVENTS_BATCH_SYMBOL] = (target as any)[EVENTS_BATCH_SYMBOL] || {}
       target.removeEventListener(type, listener, options)
-      delete target[EVENTS_BATCH_SYMBOL][type]
+      delete (target as any)[EVENTS_BATCH_SYMBOL][type]
     })
   }
 }
@@ -323,16 +332,16 @@ export class Event extends Subscribable<ICustomEvent<any>> {
   }
 
   attachEvents(
-    container: EventContainer,
+    container?: EventContainer,
     contentWindow: Window = globalThisPolyfill,
     context?: any
-  ) {
+  ): any {
     if (!container) return
     if (isWindow(container)) {
       return this.attachEvents(container.document, container, context)
     }
-    if (container[ATTACHED_SYMBOL]) return
-    container[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
+    if ((container as any)[ATTACHED_SYMBOL]) return
+    ;(container as any)[ATTACHED_SYMBOL] = this.drivers.map((EventDriver) => {
       const driver = new EventDriver(this, context)
       driver.contentWindow = contentWindow
       driver.container = container
@@ -344,7 +353,7 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     }
   }
 
-  detachEvents(container?: EventContainer) {
+  detachEvents(container?: EventContainer): any {
     if (!container) {
       this.containers.forEach((container) => {
         this.detachEvents(container)
@@ -354,14 +363,14 @@ export class Event extends Subscribable<ICustomEvent<any>> {
     if (isWindow(container)) {
       return this.detachEvents(container.document)
     }
-    if (!container[ATTACHED_SYMBOL]) return
-    container[ATTACHED_SYMBOL].forEach((driver) => {
+    if (!(container as any)[ATTACHED_SYMBOL]) return
+    ;(container as any)[ATTACHED_SYMBOL].forEach((driver: any) => {
       driver.detach(container)
     })
 
-    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL] || []
-    this[DRIVER_INSTANCES_SYMBOL] = this[DRIVER_INSTANCES_SYMBOL].reduce(
-      (drivers, driver) => {
+    ;(this as any)[DRIVER_INSTANCES_SYMBOL] = (this as any)[DRIVER_INSTANCES_SYMBOL] || []
+    ;(this as any)[DRIVER_INSTANCES_SYMBOL] = (this as any)[DRIVER_INSTANCES_SYMBOL].reduce(
+      (drivers: any, driver: any) => {
         if (driver.container === container) {
           driver.detach(container)
           return drivers
@@ -371,9 +380,9 @@ export class Event extends Subscribable<ICustomEvent<any>> {
       []
     )
     this.containers = this.containers.filter((item) => item !== container)
-    delete container[ATTACHED_SYMBOL]
-    delete container[EVENTS_SYMBOL]
-    delete container[EVENTS_ONCE_SYMBOL]
-    delete container[EVENTS_BATCH_SYMBOL]
+    delete (container as any)[ATTACHED_SYMBOL]
+    delete (container as any)[EVENTS_SYMBOL]
+    delete (container as any)[EVENTS_ONCE_SYMBOL]
+    delete (container as any)[ATTACHED_SYMBOL]
   }
 }

@@ -4,7 +4,7 @@ import { Collapse } from '@alifd/next'
 import {
   CollapseProps,
   PanelProps as CollapsePanelProps,
-} from '@alifd/next/types/collapse'
+} from '@alifd/next/lib/collapse'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
   useTreeNode,

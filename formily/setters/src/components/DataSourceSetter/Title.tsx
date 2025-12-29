@@ -11,9 +11,9 @@ export interface ITitleProps extends INodeItem {
 
 export const Title: React.FC<ITitleProps> = observer((props) => {
   const prefix = usePrefix('data-source-setter-node-title')
-  const getTitleValue = (dataSource) => {
+  const getTitleValue = (dataSource: { label: string; value: any }[]): string | undefined => {
     const optionalKeys = ['label', 'title', 'header']
-    let nodeTitle: string
+    let nodeTitle: string | undefined = undefined
     optionalKeys.some((key) => {
       const title = toArr(dataSource).find((item) => item.label === key)?.value
       if (title !== undefined) {
@@ -34,7 +34,7 @@ export const Title: React.FC<ITitleProps> = observer((props) => {
     return nodeTitle
   }
 
-  const renderTitle = (dataSource) => {
+  const renderTitle = (dataSource: { label: string; value: any }[]): React.ReactNode => {
     const nodeTitle = getTitleValue(dataSource)
     if (nodeTitle === undefined)
       return (

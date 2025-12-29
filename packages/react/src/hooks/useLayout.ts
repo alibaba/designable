@@ -5,7 +5,7 @@ import { globalThisPolyfill } from '@designable/shared'
 
 export const useLayout = (): IDesignerLayoutContext => {
   return (
-    globalThisPolyfill['__DESIGNABLE_LAYOUT__'] ||
+    (globalThisPolyfill as any)['__DESIGNABLE_LAYOUT__'] ||
     useContext(DesignerLayoutContext)
   )
 }

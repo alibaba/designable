@@ -2,8 +2,8 @@ export const createUniformSpeedAnimation = (
   speed = 10,
   callback: (delta: number) => void
 ) => {
-  let request = null
-  let startTime = null
+  let request: number | null = null
+  let startTime: number | null = null
   const start = () => {
     if (request) return
     request = requestAnimationFrame((timestamp) => {

@@ -1,4 +1,4 @@
-import { TreeNode } from '../../models'
+import { TreeNode } from '../../models/TreeNode'
 import { IEngineContext } from '../../types'
 
 export interface IMutationNodeEventData {
@@ -14,7 +14,7 @@ export interface IMutationNodeEventData {
 
 export class AbstractMutationNodeEvent {
   data: IMutationNodeEventData
-  context: IEngineContext
+  context!: IEngineContext
   constructor(data: IMutationNodeEventData) {
     this.data = data
   }

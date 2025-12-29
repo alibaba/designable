@@ -1,25 +1,24 @@
 import React from 'react'
-import { Cascader as FormilyCascader } from '@formily/antd'
+import { Cascader as FormilyCascader } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const Cascader: DnFC<React.ComponentProps<typeof FormilyCascader>> =
+export const Cascader: React.FC<React.ComponentProps<typeof FormilyCascader>> =
   FormilyCascader
 
-Cascader.Behavior = createBehavior({
+;(Cascader as any).Behavior = createBehavior({
   name: 'Cascader',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'Cascader',
+  selector: (node) => node.props?.['x-component'] === 'Cascader',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Cascader),
   },
   designerLocales: AllLocales.Cascader,
 })
 
-Cascader.Resource = createResource({
+;(Cascader as any).Resource = createResource({
   icon: 'CascaderSource',
   elements: [
     {

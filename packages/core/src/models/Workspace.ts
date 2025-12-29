@@ -8,7 +8,7 @@ import {
   HistoryRedoEvent,
   HistoryUndoEvent,
   HistoryPushEvent,
-} from '../events'
+} from '../events/index'
 import { IEngineContext } from '../types'
 export interface IViewportMatcher {
   contentWindow?: Window
@@ -54,28 +54,28 @@ export class Workspace {
     this.engine = engine
     this.props = props
     this.id = props.id || uid()
-    this.title = props.title
-    this.description = props.description
+    this.title = props.title || ''
+    this.description = props.description || ''
     this.viewport = new Viewport({
       engine: this.engine,
       workspace: this,
-      viewportElement: props.viewportElement,
-      contentWindow: props.contentWindow,
-      nodeIdAttrName: this.engine.props.nodeIdAttrName,
+      viewportElement: props.viewportElement!,
+      contentWindow: props.contentWindow!,
+      nodeIdAttrName: this.engine.props.nodeIdAttrName!,
       moveSensitive: true,
       moveInsertionType: 'all',
     })
     this.outline = new Viewport({
       engine: this.engine,
       workspace: this,
-      viewportElement: props.viewportElement,
-      contentWindow: props.contentWindow,
-      nodeIdAttrName: this.engine.props.outlineNodeIdAttrName,
+      viewportElement: props.viewportElement!,
+      contentWindow: props.contentWindow!,
+      nodeIdAttrName: this.engine.props.outlineNodeIdAttrName!,
       moveSensitive: false,
       moveInsertionType: 'block',
     })
     this.operation = new Operation(this)
-    this.history = new History(this, {
+    this.history = new History(this as any, {
       onPush: (item) => {
         this.operation.dispatch(new HistoryPushEvent(item))
       },
