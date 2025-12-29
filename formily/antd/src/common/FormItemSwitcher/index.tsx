@@ -11,7 +11,7 @@ export const FormItemSwitcher: React.FC<IFormItemSwitcherProps> = (props) => {
     <Switch
       checked={props.value === 'FormItem'}
       onChange={(value) => {
-        props.onChange(value ? 'FormItem' : undefined)
+        props.onChange?.(value ? 'FormItem' : '')
       }}
     />
   )

@@ -2,12 +2,11 @@ import React from 'react'
 import { Card as AntdCard } from 'antd'
 
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createVoidFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createVoidFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const Card: DnFC<React.ComponentProps<typeof AntdCard>> = (props) => {
+export const Card: React.FC<React.ComponentProps<typeof AntdCard>> = (props) => {
   return (
     <AntdCard
       {...props}
@@ -22,10 +21,10 @@ export const Card: DnFC<React.ComponentProps<typeof AntdCard>> = (props) => {
   )
 }
 
-Card.Behavior = createBehavior({
+;(Card as any).Behavior = createBehavior({
   name: 'Card',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'Card',
+  selector: (node) => node.props?.['x-component'] === 'Card',
   designerProps: {
     droppable: true,
     propsSchema: createVoidFieldSchema(AllSchemas.Card),
@@ -33,7 +32,7 @@ Card.Behavior = createBehavior({
   designerLocales: AllLocales.Card,
 })
 
-Card.Resource = createResource({
+;(Card as any).Resource = createResource({
   icon: 'CardSource',
   elements: [
     {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { copy, readFile, writeFile, existsSync } from 'fs-extra'
-import glob from 'glob'
+import { existsSync } from 'fs'
+import * as fsExtra from 'fs-extra'
+import * as glob from 'glob'
 
 export type CopyBaseOptions = Record<'esStr' | 'libStr', string>
 
@@ -13,9 +14,9 @@ const importLibToEs = async ({
     return Promise.resolve()
   }
 
-  const fileContent: string = (await readFile(filename)).toString()
+  const fileContent: string = (await fsExtra.readFile(filename)).toString()
 
-  return writeFile(
+  return fsExtra.writeFile(
     filename,
     fileContent.replace(new RegExp(libStr, 'g'), esStr)
   )
@@ -39,8 +40,8 @@ export const runCopy = ({
         resolveForItem?.(filename)
 
         if (/\.(less|scss)$/.test(filename)) {
-          all.push(copy(filename, filename.replace(/src\//, 'esm/')))
-          all.push(copy(filename, filename.replace(/src\//, 'lib/')))
+          all.push(fsExtra.copy(filename, filename.replace(/src\//, 'esm/')))
+          all.push(fsExtra.copy(filename, filename.replace(/src\//, 'lib/')))
 
           continue
         }

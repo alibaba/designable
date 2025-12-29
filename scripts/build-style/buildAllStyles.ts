@@ -1,5 +1,5 @@
 import typescript from 'rollup-plugin-typescript2'
-import { build, getRollupBasePlugin } from './helper'
+import { build, getRollupBasePlugin } from './helper.ts'
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const buildAllStyles = async (outputFile: string) => {

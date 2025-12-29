@@ -31,9 +31,9 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
   ({ node, className, style, workspaceId }) => {
     const prefix = usePrefix('outline-tree-node')
     const engine = useDesigner()
-    const ref = useRef<HTMLDivElement>()
+    const ref = useRef<HTMLDivElement>(null)
     const ctx = useContext(NodeContext)
-    const request = useRef(null)
+    const request = useRef<NodeJS.Timeout | null>(null)
     const cursor = useCursor()
     const selection = useSelection(workspaceId)
     const moveHelper = useMoveHelper(workspaceId)
@@ -57,7 +57,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
               request.current = null
             }
             request.current = setTimeout(() => {
-              ref.current.classList.add('expanded')
+              ref.current?.classList.add('expanded')
             }, 600)
           }
         } else {
@@ -113,7 +113,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
     }
 
     const renderTitle = (node: TreeNode) => {
-      if (isFn(ctx.renderTitle)) return ctx.renderTitle(node)
+      if (ctx && isFn(ctx.renderTitle)) return ctx.renderTitle(node)
       return (
         <span>
           <NodeTitleWidget node={node} />
@@ -122,7 +122,7 @@ export const OutlineTreeNode: React.FC<IOutlineTreeNodeProps> = observer(
     }
 
     const renderActions = (node: TreeNode) => {
-      if (isFn(ctx.renderActions)) return ctx.renderActions(node)
+      if (ctx && isFn(ctx.renderActions)) return ctx.renderActions(node)
     }
 
     return (

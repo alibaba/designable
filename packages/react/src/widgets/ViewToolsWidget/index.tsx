@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 import { observer } from '@formily/reactive-react'
 import { WorkbenchTypes } from '@designable/core'
 import { IconWidget } from '../IconWidget'
@@ -16,9 +16,10 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
   ({ use, style, className }) => {
     const workbench = useWorkbench()
     const prefix = usePrefix('view-tools')
+    const tools = use || ['DESIGNABLE', 'JSONTREE', 'PREVIEW']
     return (
-      <Button.Group style={style} className={cls(prefix, className)}>
-        {use.includes('DESIGNABLE') && (
+      <Space style={style} className={cls(prefix, className)}>
+        {tools.includes('DESIGNABLE') && (
           <Button
             disabled={workbench.type === 'DESIGNABLE'}
             onClick={() => {
@@ -29,7 +30,7 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
             <IconWidget infer="Design" />
           </Button>
         )}
-        {use.includes('JSONTREE') && (
+        {tools.includes('JSONTREE') && (
           <Button
             disabled={workbench.type === 'JSONTREE'}
             onClick={() => {
@@ -40,7 +41,7 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
             <IconWidget infer="JSON" />
           </Button>
         )}
-        {use.includes('MARKUP') && (
+        {tools.includes('MARKUP') && (
           <Button
             disabled={workbench.type === 'MARKUP'}
             onClick={() => {
@@ -51,7 +52,7 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
             <IconWidget infer="Code" />
           </Button>
         )}
-        {use.includes('PREVIEW') && (
+        {tools.includes('PREVIEW') && (
           <Button
             disabled={workbench.type === 'PREVIEW'}
             onClick={() => {
@@ -62,11 +63,7 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
             <IconWidget infer="Play" />
           </Button>
         )}
-      </Button.Group>
+      </Space>
     )
   }
 )
-
-ViewToolsWidget.defaultProps = {
-  use: ['DESIGNABLE', 'JSONTREE', 'PREVIEW'],
-}

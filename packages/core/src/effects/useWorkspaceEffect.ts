@@ -1,7 +1,7 @@
-import { Engine } from '../models'
+import { Engine } from '../models/index'
 import { ICustomEvent } from '@designable/shared'
 import { IEngineContext } from '../types'
-import { SelectNodeEvent } from '../events'
+import { SelectNodeEvent } from '../events/index'
 
 export const useWorkspaceEffect = (engine: Engine) => {
   engine.subscribeWith<ICustomEvent<any, IEngineContext>>(

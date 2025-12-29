@@ -1,30 +1,30 @@
 import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
-import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
+import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events/cursor/index'
 
 const GlobalState = {
   dragging: false,
   onMouseDownAt: 0,
-  startEvent: null,
-  moveEvent: null,
+  startEvent: null as MouseEvent | null,
+  moveEvent: null as MouseEvent | DragEvent | null,
 }
 
 export class DragDropDriver extends EventDriver<Engine> {
-  mouseDownTimer = null
+  mouseDownTimer: NodeJS.Timeout | null = null
 
-  startEvent: MouseEvent
+  startEvent!: MouseEvent
 
   onMouseDown = (e: MouseEvent) => {
     if (e.button !== 0 || e.ctrlKey || e.metaKey) {
       return
     }
     if (
-      e.target['isContentEditable'] ||
-      e.target['contentEditable'] === 'true'
+      (e.target as any)?.isContentEditable ||
+      (e.target as any)?.contentEditable === 'true'
     ) {
       return true
     }
-    if (e.target?.['closest']?.('.monaco-editor')) return
+    if ((e.target as any)?.closest?.('.monaco-editor')) return
     GlobalState.startEvent = e
     GlobalState.dragging = false
     GlobalState.onMouseDownAt = Date.now()
@@ -36,14 +36,16 @@ export class DragDropDriver extends EventDriver<Engine> {
 
   onMouseUp = (e: MouseEvent) => {
     if (GlobalState.dragging) {
+      console.log('DragDropDriver onMouseUp - dispatch DragStopEvent');
+
       this.dispatch(
         new DragStopEvent({
           clientX: e.clientX,
           clientY: e.clientY,
           pageX: e.pageX,
           pageY: e.pageY,
-          target: e.target,
-          view: e.view,
+          target: e.target!,
+          view: e.view!,
         })
       )
     }
@@ -72,8 +74,8 @@ export class DragDropDriver extends EventDriver<Engine> {
         clientY: e.clientY,
         pageX: e.pageX,
         pageY: e.pageY,
-        target: e.target,
-        view: e.view,
+        target: e.target!,
+        view: e.view!,
       })
     )
     GlobalState.moveEvent = e
@@ -95,12 +97,12 @@ export class DragDropDriver extends EventDriver<Engine> {
     )
     this.dispatch(
       new DragStartEvent({
-        clientX: GlobalState.startEvent.clientX,
-        clientY: GlobalState.startEvent.clientY,
-        pageX: GlobalState.startEvent.pageX,
-        pageY: GlobalState.startEvent.pageY,
-        target: GlobalState.startEvent.target,
-        view: GlobalState.startEvent.view,
+        clientX: GlobalState.startEvent!.clientX,
+        clientY: GlobalState.startEvent!.clientY,
+        pageX: GlobalState.startEvent!.pageX,
+        pageY: GlobalState.startEvent!.pageY,
+        target: GlobalState.startEvent!.target!,
+        view: GlobalState.startEvent!.view!,
       })
     )
     GlobalState.dragging = true
@@ -108,8 +110,8 @@ export class DragDropDriver extends EventDriver<Engine> {
 
   onDistanceChange = (e: MouseEvent) => {
     const distance = Math.sqrt(
-      Math.pow(e.pageX - GlobalState.startEvent.pageX, 2) +
-        Math.pow(e.pageY - GlobalState.startEvent.pageY, 2)
+      Math.pow(e.pageX - GlobalState.startEvent!.pageX, 2) +
+        Math.pow(e.pageY - GlobalState.startEvent!.pageY, 2)
     )
     const timeDelta = Date.now() - GlobalState.onMouseDownAt
     if (timeDelta > 10 && e !== GlobalState.startEvent && distance > 4) {
@@ -125,7 +127,7 @@ export class DragDropDriver extends EventDriver<Engine> {
   detach() {
     GlobalState.dragging = false
     GlobalState.moveEvent = null
-    GlobalState.onMouseDownAt = null
+    GlobalState.onMouseDownAt = 0
     GlobalState.startEvent = null
     this.batchRemoveEventListener('mousedown', this.onMouseDown, true)
     this.batchRemoveEventListener('dragstart', this.onStartDrag)

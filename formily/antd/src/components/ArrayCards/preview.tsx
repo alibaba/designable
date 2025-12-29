@@ -6,20 +6,19 @@ import {
   TreeNodeWidget,
   DroppableWidget,
   useNodeIdProps,
-  DnFC,
 } from '@designable/react'
-import { ArrayBase } from '@formily/antd'
+import { ArrayBase } from '@formily/antd-v5'
 import { observer } from '@formily/react'
-import { LoadTemplate } from '../../common/LoadTemplate'
-import { useDropTemplate } from '../../hooks'
+import { LoadTemplate } from '../../common/LoadTemplate/index.js'
+import { useDropTemplate } from '../../hooks/index.js'
 import {
   hasNodeByComponentPath,
   queryNodesByComponentPath,
   createEnsureTypeItemsNode,
   findNodeByComponentPath,
   createNodeId,
-} from '../../shared'
-import { createArrayBehavior } from '../ArrayBase'
+} from '../../shared.js'
+import { createArrayBehavior } from '../ArrayBase/index.js'
 import cls from 'classnames'
 import './styles.less'
 
@@ -30,10 +29,10 @@ const isArrayCardsOperation = (name: string) =>
   name === 'ArrayCards.MoveDown' ||
   name === 'ArrayCards.MoveUp'
 
-export const ArrayCards: DnFC<CardProps> = observer((props) => {
+export const ArrayCards: React.FC<CardProps> = observer((props) => {
   const node = useTreeNode()
   const nodeId = useNodeIdProps()
-  const designer = useDropTemplate('ArrayCards', (source) => {
+  const designer = useDropTemplate('ArrayCards', (source: TreeNode[]) => {
     const indexNode = new TreeNode({
       componentName: node.componentName,
       props: {
@@ -106,7 +105,8 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
     ])
     return (
       <ArrayBase disabled>
-        <ArrayBase.Item index={0} record={null}>
+        {ArrayBase.Item && (
+          <ArrayBase.Item index={0} record={{}}>
           <Card
             {...props}
             title={
@@ -140,6 +140,7 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
             </div>
           </Card>
         </ArrayBase.Item>
+        )}
         {additions.map((node) => (
           <TreeNodeWidget key={node.id} node={node} />
         ))}
@@ -250,11 +251,11 @@ export const ArrayCards: DnFC<CardProps> = observer((props) => {
   )
 })
 
-ArrayBase.mixin(ArrayCards)
+ArrayBase.mixin?.(ArrayCards)
 
-ArrayCards.Behavior = createArrayBehavior('ArrayCards')
+;(ArrayCards as any).Behavior = createArrayBehavior('ArrayCards')
 
-ArrayCards.Resource = createResource({
+;(ArrayCards as any).Resource = createResource({
   icon: 'ArrayCardsSource',
   elements: [
     {

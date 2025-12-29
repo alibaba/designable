@@ -9,7 +9,7 @@ import {
   Workbench,
   Workspace,
   TreeNode,
-} from './models'
+} from './models/index'
 
 export type IEngineProps<T = Event> = IEventProps<T> & {
   shortcuts?: Shortcut[]

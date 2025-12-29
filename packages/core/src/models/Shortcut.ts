@@ -14,9 +14,9 @@ export class Shortcut {
   handler: (context: IEngineContext) => void
   matcher: (codes: KeyCode[]) => boolean
   constructor(props: IShortcutProps) {
-    this.codes = this.parseCodes(props.codes)
-    this.handler = props.handler
-    this.matcher = props.matcher
+    this.codes = this.parseCodes(props?.codes || [])
+    this.handler = props?.handler || (() => {})
+    this.matcher = props?.matcher || (() => true)
   }
 
   parseCodes(codes: Array<KeyCode | KeyCode[]>) {

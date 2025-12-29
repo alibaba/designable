@@ -16,7 +16,7 @@ export const DragHandler: React.FC<IDragHandlerProps> = observer(
     const prefix = usePrefix('aux-drag-handler')
     if (node === node.root || !node.allowDrag()) return null
     const handlerProps = {
-      [designer.props.nodeDragHandlerAttrName]: 'true',
+      [designer.props.nodeDragHandlerAttrName as string]: 'true',
     }
     return (
       <Button {...handlerProps} className={prefix} style={style} type="primary">

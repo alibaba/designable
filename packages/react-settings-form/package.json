@@ -1,13 +1,27 @@
 {
   "name": "@designable/react-settings-form",
-  "version": "1.0.0-beta.45",
+  "version": "2.0.0",
   "license": "MIT",
-  "main": "lib",
-  "types": "lib/index.d.ts",
+  "type": "module",
   "engines": {
-    "npm": ">=3.0.0"
+    "node": ">=24"
   },
-  "module": "esm",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style": {
+      "import": "./dist/style.js"
+    }
+  },
+  "sideEffects": [
+    "**/*.less",
+    "./dist/style.js"
+  ],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alibaba/designable.git"
@@ -17,42 +31,45 @@
   },
   "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
-    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd && ts-node copy",
-    "build:cjs": "tsc --project tsconfig.build.json",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
-    "build:umd": "rollup --config"
+    "clean": "rimraf dist",
+    "build": "yarn clean && ../../node_modules/.bin/tsc -p tsconfig.json && node scripts/add-js-extensions.js && node scripts/copy-less.js",
+    "prepare": "yarn build"
   },
   "peerDependencies": {
-    "@formily/antd": "^2.0.2",
-    "@formily/core": "^2.0.2",
-    "@formily/react": "^2.0.2",
-    "@formily/reactive": "^2.0.2",
-    "@formily/reactive-react": "^2.0.2",
-    "@formily/shared": "^2.0.2",
-    "antd": "^4.0.0"
-  },
-  "devDependencies": {
-    "@formily/antd": "^2.0.2",
-    "@formily/core": "^2.0.2",
-    "@formily/react": "^2.0.2",
-    "@formily/reactive": "^2.0.2",
-    "@formily/reactive-react": "^2.0.2",
-    "@formily/shared": "^2.0.2",
-    "antd": "^4.15.5"
+    "@formily/antd-v5": "^1.0.0",
+    "@formily/core": "^2.3.0",
+    "@formily/react": "^2.3.0",
+    "@formily/reactive": "^2.3.0",
+    "@formily/reactive-react": "^2.3.0",
+    "@formily/shared": "^2.3.0",
+    "antd": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@babel/parser": "^7.14.7",
-    "@designable/core": "1.0.0-beta.45",
-    "@designable/react": "1.0.0-beta.45",
-    "@designable/shared": "1.0.0-beta.45",
-    "@monaco-editor/react": "^4.2.1",
-    "monaco-editor": "^0.25.2",
-    "prettier": "^2.3.2",
+    "@babel/parser": "^7.25.0",
+    "@designable/core": "workspace:*",
+    "@designable/react": "workspace:*",
+    "@designable/shared": "workspace:*",
+    "@monaco-editor/react": "^4.6.0",
+    "monaco-editor": "^0.49.0",
+    "prettier": "^3.2.5",
     "react-color": "^2.19.3",
-    "react-tiny-popover": "^6.0.5"
+    "react-tiny-popover": "^8.0.0"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@formily/antd-v5": "^1.0.0",
+    "@formily/core": "^2.3.0",
+    "@formily/react": "^2.3.0",
+    "@formily/reactive": "^2.3.0",
+    "@formily/reactive-react": "^2.3.0",
+    "@formily/shared": "^2.3.0",
+    "react-is": "^18.2.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
+  }
 }

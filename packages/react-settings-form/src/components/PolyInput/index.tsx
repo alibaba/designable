@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Button } from 'antd'
 import { usePrefix, IconWidget } from '@designable/react'
 import cls from 'classnames'
-import './styles.less'
 
 export interface IInput {
   style?: React.CSSProperties
@@ -63,11 +62,11 @@ export function createPolyInput(polyTypes: PolyTypes = []): React.FC<IInput> {
     ...props
   }) => {
     const prefix = usePrefix('poly-input')
-    const types = createTypes(polyTypes, exclude, include)
+    const types = createTypes(polyTypes, exclude || [], include || [])
     const [current, setCurrent] = useState(types[0]?.type)
     const type = types?.find(({ type }) => type === current)
     const component = type?.component
-    const typesValue = useRef({})
+    const typesValue = useRef<Record<string, any>>({})
     useEffect(() => {
       types?.forEach(({ checker, type }) => {
         if (checker(value)) {
@@ -96,7 +95,9 @@ export function createPolyInput(polyTypes: PolyTypes = []): React.FC<IInput> {
               value: type?.toInputValue ? type?.toInputValue(value) : value,
               onChange: (event: any) => {
                 const value = getEventValue(event)
-                typesValue.current[type?.type] = value
+                if (type?.type) {
+                  typesValue.current[type.type] = value
+                }
                 onChange?.(transformOnChangeValue(value, type))
               },
             })}
@@ -114,7 +115,7 @@ export function createPolyInput(polyTypes: PolyTypes = []): React.FC<IInput> {
             setCurrent(nextType?.type)
             onChange?.(
               transformOnChangeValue(
-                typesValue.current[nextType?.type],
+                nextType?.type ? typesValue.current[nextType.type] : undefined,
                 nextType
               )
             )

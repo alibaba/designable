@@ -28,10 +28,11 @@ export const initMonaco = () => {
     })
     monaco.languages.registerDocumentFormattingEditProvider('typescript', {
       async provideDocumentFormattingEdits(model) {
+        const modelAny = model as any
         return [
           {
             text: await format(
-              model['getDesignerLanguage']?.() || 'typescript',
+              modelAny['getDesignerLanguage']?.() || 'typescript',
               model.getValue()
             ),
             range: model.getFullModelRange(),

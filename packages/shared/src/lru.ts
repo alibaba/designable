@@ -21,11 +21,18 @@
 const NEWER = Symbol('newer')
 const OLDER = Symbol('older')
 
-function Entry(key: any, value: any) {
-  this.key = key
-  this.value = value
-  this[NEWER] = undefined
-  this[OLDER] = undefined
+class Entry {
+  key: any
+  value: any
+  [NEWER]: any
+  [OLDER]: any
+  
+  constructor(key: any, value: any) {
+    this.key = key
+    this.value = value
+    this[NEWER] = undefined
+    this[OLDER] = undefined
+  }
 }
 
 export class LRUMap<K, V> {
@@ -63,19 +70,19 @@ export class LRUMap<K, V> {
     //   <.older   .newer>
     //  <--- add direction --
     //   A  B  C  <D>  E
-    if (entry[NEWER]) {
+    if ((entry as any)[NEWER]) {
       if (entry === this.oldest) {
-        this.oldest = entry[NEWER]
+        this.oldest = (entry as any)[NEWER]
       }
-      entry[NEWER][OLDER] = entry[OLDER] // C <-- E.
+      ;((entry as any)[NEWER] as any)[OLDER] = (entry as any)[OLDER] // C <-- E.
     }
-    if (entry[OLDER]) {
-      entry[OLDER][NEWER] = entry[NEWER] // C. --> E
+    if ((entry as any)[OLDER]) {
+      ;((entry as any)[OLDER] as any)[NEWER] = (entry as any)[NEWER] // C. --> E
     }
-    entry[NEWER] = undefined // D --x
-    entry[OLDER] = this.newest // D. --> E
+    ;(entry as any)[NEWER] = undefined // D --x
+    ;(entry as any)[OLDER] = this.newest // D. --> E
     if (this.newest) {
-      this.newest[NEWER] = entry // E. <-- D
+      ;(this.newest as any)[NEWER] = entry // E. <-- D
     }
     this.newest = entry
   }
@@ -129,8 +136,8 @@ export class LRUMap<K, V> {
 
     if (this.newest) {
       // link previous tail to the new tail (entry)
-      this.newest[NEWER] = entry
-      entry[OLDER] = this.newest
+      ;(this.newest as any)[NEWER] = entry
+      ;(entry as any)[OLDER] = this.newest
     } else {
       // we're first in -- yay
       this.oldest = entry
@@ -138,6 +145,7 @@ export class LRUMap<K, V> {
 
     // add new entry to the end of the linked list -- it's now the freshest entry.
     this.newest = entry
+    ;(entry as any)[NEWER] = undefined
     ++this.size
     if (this.size > this.limit) {
       // we hit the limit -- remove the head
@@ -151,10 +159,10 @@ export class LRUMap<K, V> {
     // todo: handle special case when limit == 1
     const entry = this.oldest
     if (entry) {
-      if (this.oldest[NEWER]) {
+      if ((this.oldest as any)[NEWER]) {
         // advance the list
-        this.oldest = this.oldest[NEWER]
-        this.oldest[OLDER] = undefined
+        this.oldest = (this.oldest as any)[NEWER]
+        ;(this.oldest as any)[OLDER] = undefined
       } else {
         // the cache is exhausted
         this.oldest = undefined
@@ -162,7 +170,7 @@ export class LRUMap<K, V> {
       }
       // Remove last strong reference to <entry> and remove links from the purged
       // entry being returned:
-      entry[NEWER] = entry[OLDER] = undefined
+      ;(entry as any)[NEWER] = (entry as any)[OLDER] = undefined
       this._keymap.delete(entry.key)
       --this.size
       return [entry.key, entry.value]
@@ -184,20 +192,20 @@ export class LRUMap<K, V> {
       return
     }
     this._keymap.delete(entry.key)
-    if (entry[NEWER] && entry[OLDER]) {
+    if ((entry as any)[NEWER] && (entry as any)[OLDER]) {
       // relink the older entry with the newer entry
-      entry[OLDER][NEWER] = entry[NEWER]
-      entry[NEWER][OLDER] = entry[OLDER]
-    } else if (entry[NEWER]) {
+      ;((entry as any)[OLDER] as any)[NEWER] = (entry as any)[NEWER]
+      ;((entry as any)[NEWER] as any)[OLDER] = (entry as any)[OLDER]
+    } else if ((entry as any)[NEWER]) {
       // remove the link to us
-      entry[NEWER][OLDER] = undefined
+      ;((entry as any)[NEWER] as any)[OLDER] = undefined
       // link the newer entry to head
-      this.oldest = entry[NEWER]
-    } else if (entry[OLDER]) {
+      this.oldest = (entry as any)[NEWER]
+    } else if ((entry as any)[OLDER]) {
       // remove the link to us
-      entry[OLDER][NEWER] = undefined
+      ;((entry as any)[OLDER] as any)[NEWER] = undefined
       // link the newer entry to head
-      this.newest = entry[OLDER]
+      this.newest = (entry as any)[OLDER]
     } else {
       // if(entry[OLDER] === undefined && entry.newer === undefined) {
       this.oldest = this.newest = undefined
@@ -231,7 +239,7 @@ export class LRUMap<K, V> {
     let entry = this.oldest
     while (entry) {
       fun.call(thisObj, entry.value, entry.key, this)
-      entry = entry[NEWER]
+      entry = (entry as any)[NEWER]
     }
   }
 
@@ -241,7 +249,7 @@ export class LRUMap<K, V> {
     let entry = this.oldest
     while (entry) {
       s[i++] = { key: entry.key, value: entry.value }
-      entry = entry[NEWER]
+      entry = (entry as any)[NEWER]
     }
     return s
   }
@@ -251,7 +259,7 @@ export class LRUMap<K, V> {
     let entry = this.oldest
     while (entry) {
       s += String(entry.key) + ':' + entry.value
-      entry = entry[NEWER]
+      entry = (entry as any)[NEWER]
       if (entry) {
         s += ' < '
       }
@@ -275,7 +283,7 @@ class EntryIterator {
   next() {
     const ent = this.entry
     if (ent) {
-      this.entry = ent[NEWER]
+      this.entry = (ent as any)[NEWER]
       return { done: false, value: [ent.key, ent.value] }
     } else {
       return { done: true, value: undefined }
@@ -294,7 +302,7 @@ class KeyIterator {
   next() {
     const ent = this.entry
     if (ent) {
-      this.entry = ent[NEWER]
+      this.entry = (ent as any)[NEWER]
       return { done: false, value: ent.key }
     } else {
       return { done: true, value: undefined }
@@ -313,7 +321,7 @@ class ValueIterator {
   next() {
     const ent = this.entry
     if (ent) {
-      this.entry = ent[NEWER]
+      this.entry = (ent as any)[NEWER]
       return { done: false, value: ent.value }
     } else {
       return { done: true, value: undefined }

@@ -68,7 +68,7 @@ export const Insertion = observer(() => {
         baseStyle.transform = `perspective(1px) translate3d(${closestRect.x}px,${closestRect.y}px,0)`
       }
     }
-    if (closestDirection.includes('FORBID')) {
+    if (closestDirection?.includes('FORBID')) {
       baseStyle.backgroundColor = 'red'
     }
     return baseStyle

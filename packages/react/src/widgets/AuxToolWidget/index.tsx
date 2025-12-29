@@ -13,7 +13,7 @@ export const AuxToolWidget = () => {
   const engine = useDesigner()
   const viewport = useViewport()
   const prefix = usePrefix('auxtool')
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     return engine.subscribeWith('viewport:scroll', () => {
       if (viewport.isIframe && ref.current) {

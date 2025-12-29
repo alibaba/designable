@@ -5,7 +5,7 @@ export const FormTab: ISchema & { TabPane?: ISchema } = {
   properties: {
     size: {
       type: 'string',
-      enum: ['small', 'medium', null],
+      enum: ['small', 'medium', ''],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {

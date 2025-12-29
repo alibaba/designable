@@ -43,7 +43,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
   if (!nodeRect.width || !nodeRect.height) return null
 
   const selectionId = {
-    [designer.props?.nodeSelectionIdAttrName]: props.node.id,
+    [designer.props?.nodeSelectionIdAttrName as string]: props.node.id,
   }
 
   return (
@@ -52,7 +52,7 @@ export const SelectionBox: React.FC<ISelectionBoxProps> = (props) => {
       <ResizeHandler node={props.node} />
       <TranslateHandler node={props.node} />
       {props.showHelpers && (
-        <Helpers {...props} node={props.node} nodeRect={nodeRect} />
+        <Helpers {...props} node={props.node} nodeRect={nodeRect as DOMRectReadOnly} />
       )}
     </div>
   )

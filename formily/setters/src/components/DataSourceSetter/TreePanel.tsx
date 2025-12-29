@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react'
-import { Tree, Button, TreeProps } from 'antd'
+import { Tree, Button } from 'antd'
+import type { TreeProps } from 'antd'
+
 import { uid } from '@formily/shared'
 import { observer } from '@formily/reactive-react'
 import { usePrefix, TextWidget, IconWidget } from '@designable/react'
@@ -9,8 +11,9 @@ import { traverseTree } from './shared'
 import { ITreeDataSource, INodeItem } from './types'
 import './styles.less'
 import { GlobalRegistry } from '@designable/core'
+import type { DataNode, EventDataNode } from 'antd/es/tree'
 
-const limitTreeDrag = ({ dropPosition }) => {
+const limitTreeDrag = ({ dropPosition }: { dropPosition: number }): boolean => {
   if (dropPosition === 0) {
     return false
   }
@@ -26,53 +29,65 @@ export interface ITreePanelProps {
   }[]
 }
 
+
+type OnDropInfo = {
+  node: EventDataNode<DataNode>
+  dragNode: EventDataNode<DataNode>
+  dragNodesKeys: React.Key[]
+  dropPosition: number
+  dropToGap: boolean
+}
+
 export const TreePanel: React.FC<ITreePanelProps> = observer((props) => {
   const prefix = usePrefix('data-source-setter')
-  const dropHandler = (info: Parameters<TreeProps['onDrop']>[0]) => {
-    const dropKey = info.node?.key
-    const dragKey = info.dragNode?.key
-    const dropPos = info.node.pos.split('-')
+  const dropHandler : TreeProps['onDrop']  = (info: OnDropInfo) => {
+      const dropKey = (info.node as any)?.key as string
+    const dragKey = (info.dragNode as any)?.key as string
+    const dropPos = (info.node as any).pos.split('-')
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1])
     const data = [...props.treeDataSource.dataSource]
     // Find dragObject
-    let dragObj: INodeItem
-    traverseTree(data, (item, index, arr) => {
+    let dragObj: INodeItem | undefined = undefined
+    traverseTree(data, (item: INodeItem, index: number, arr: INodeItem[]) => {
       if (arr[index].key === dragKey) {
         arr.splice(index, 1)
         dragObj = item
       }
     })
+    if (!dragObj) return
     if (!info.dropToGap) {
-      traverseTree(data, (item) => {
+      traverseTree(data, (item: INodeItem) => {
         if (item.key === dropKey) {
           item.children = item.children || []
-          item.children.unshift(dragObj)
+          item.children.unshift(dragObj as INodeItem)
         }
       })
     } else if (
-      (info.node.children || []).length > 0 &&
-      info.node.expanded &&
+      ((info.node as any).children || []).length > 0 &&
+      (info.node as any).expanded &&
       dropPosition === 1
     ) {
-      traverseTree(data, (item) => {
+      traverseTree(data, (item: INodeItem) => {
         if (item.key === dropKey) {
           item.children = item.children || []
-          item.children.unshift(dragObj)
+          item.children.unshift(dragObj as INodeItem)
         }
       })
     } else {
-      let ar: any[]
-      let i: number
-      traverseTree(data, (item, index, arr) => {
+      let ar: INodeItem[] = [];
+      let i = -1;
+      traverseTree(data, (item: INodeItem, index: number, arr: INodeItem[]) => {
         if (item.key === dropKey) {
-          ar = arr
-          i = index
+          ar = arr;
+          i = index;
         }
-      })
-      if (dropPosition === -1) {
-        ar.splice(i, 0, dragObj)
-      } else {
-        ar.splice(i + 1, 0, dragObj)
+      });
+      if (ar.length > 0 && i >= 0) {
+        if (dropPosition === -1) {
+          ar.splice(i, 0, dragObj as INodeItem);
+        } else {
+          ar.splice(i + 1, 0, dragObj as INodeItem);
+        }
       }
     }
     props.treeDataSource.dataSource = data

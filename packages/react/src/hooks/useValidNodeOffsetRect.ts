@@ -13,27 +13,28 @@ const isEqualRect = (rect1: DOMRect, rect2: DOMRect) => {
   )
 }
 
-export const useValidNodeOffsetRect = (node: TreeNode) => {
+export const useValidNodeOffsetRect = (node: TreeNode | null) => {
   const engine = useDesigner()
   const viewport = useViewport()
   const [, forceUpdate] = useState(null)
   const rectRef = useMemo(
-    () => ({ current: viewport.getValidNodeOffsetRect(node) }),
-    [viewport]
+    () => ({ current: node ? viewport.getValidNodeOffsetRect(node) : null }),
+    [viewport, node]
   )
 
-  const element = viewport.findElementById(node?.id)
+  const element = node ? viewport.findElementById(node?.id) : null
 
   const compute = useCallback(() => {
+    if (!node) return
     if (
       engine.cursor.status !== CursorStatus.Normal &&
       engine.cursor.dragType === CursorDragType.Move
     )
       return
     const nextRect = viewport.getValidNodeOffsetRect(node)
-    if (!isEqualRect(rectRef.current, nextRect) && nextRect) {
+    if (!isEqualRect(rectRef.current as DOMRectReadOnly , nextRect  as DOMRectReadOnly) && (nextRect  as DOMRectReadOnly)) {
       rectRef.current = nextRect
-      forceUpdate([])
+      forceUpdate(null)
     }
   }, [viewport, node])
 

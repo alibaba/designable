@@ -18,18 +18,18 @@ export const Viewport: React.FC<IViewportProps> = ({
   const [loaded, setLoaded] = useState(false)
   const prefix = usePrefix('viewport')
   const viewport = useViewport()
-  const ref = useRef<HTMLDivElement>()
-  const viewportRef = useRef<ViewportType>()
+  const ref = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<ViewportType>(null)
   const isFrameRef = useRef(false)
   useLayoutEffect(() => {
+    if (!ref.current || !viewport) return
     const frameElement = ref.current.querySelector('iframe')
-    if (!viewport) return
     if (viewportRef.current && viewportRef.current !== viewport) {
       viewportRef.current.onUnmount()
     }
     if (frameElement) {
       frameElement.addEventListener('load', () => {
-        viewport.onMount(frameElement, frameElement.contentWindow)
+        viewport.onMount(frameElement, frameElement.contentWindow!)
         requestIdle(() => {
           isFrameRef.current = true
           setLoaded(true)

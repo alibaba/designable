@@ -9,7 +9,6 @@ import { DataSettingPanel } from './DataSettingPanel'
 import { TreePanel } from './TreePanel'
 import { transformDataToValue, transformValueToData } from './shared'
 import { IDataSourceItem, ITreeDataSource } from './types'
-import './styles.less'
 export interface IDataSourceSetterProps {
   className?: string
   style?: React.CSSProperties
@@ -75,7 +74,7 @@ export const DataSourceSetter: React.FC<IDataSourceSetterProps> = observer(
           >
             <div className={`${prefix + '-layout-item left'}`}>
               <TreePanel
-                defaultOptionValue={defaultOptionValue}
+                defaultOptionValue={defaultOptionValue ?? []}
                 allowTree={allowTree}
                 treeDataSource={treeDataSource}
               ></TreePanel>

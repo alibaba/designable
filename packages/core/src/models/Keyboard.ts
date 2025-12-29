@@ -20,13 +20,13 @@ export class Keyboard {
   engine: Engine
   shortcuts: Shortcut[] = []
   sequence: KeyCode[] = []
-  keyDown: KeyCode = null
+  keyDown: KeyCode | null = null
   modifiers = {}
-  requestTimer = null
+  requestTimer: NodeJS.Timeout | null = null
 
   constructor(engine?: Engine) {
-    this.engine = engine
-    this.shortcuts = engine.props?.shortcuts || []
+    this.engine = engine || ({} as Engine)
+    this.shortcuts = engine?.props?.shortcuts || []
     this.makeObservable()
   }
 
@@ -108,11 +108,11 @@ export class Keyboard {
   }
 
   requestClean(duration = 320) {
-    clearTimeout(this.requestTimer)
+    clearTimeout(this.requestTimer!)
     this.requestTimer = setTimeout(() => {
       this.keyDown = null
       this.sequence = []
-      clearTimeout(this.requestTimer)
+      clearTimeout(this.requestTimer!)
     }, duration)
   }
 

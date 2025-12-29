@@ -13,7 +13,7 @@ import { TextWidget } from '../TextWidget'
 import cls from 'classnames'
 import './styles.less'
 
-export type SourceMapper = (resource: IResource) => React.ReactChild
+export type SourceMapper = (resource: IResource) => React.ReactNode
 
 export interface IResourceWidgetProps {
   title: React.ReactNode
@@ -24,11 +24,12 @@ export interface IResourceWidgetProps {
 }
 
 export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
-  (props) => {
+  ({ defaultExpand = true, sources: sourcesProp, className, title, children }) => {
     const prefix = usePrefix('resource')
-    const [expand, setExpand] = useState(props.defaultExpand)
+    const [expand, setExpand] = useState(defaultExpand)
     const renderNode = (source: IResource) => {
       const { node, icon, title, thumb, span } = source
+      if (!node) return null
       return (
         <div
           className={prefix + '-item'}
@@ -56,11 +57,11 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
         </div>
       )
     }
-    const sources = props.sources.reduce<IResource[]>((buf, source) => {
+    const sources = (sourcesProp as IResourceLike[]).reduce<IResource[]>((buf, source) => {
       if (isResourceList(source)) {
         return buf.concat(source)
       } else if (isResourceHost(source)) {
-        return buf.concat(source.Resource)
+        return buf.concat(source.Resource || [])
       }
       return buf
     }, [])
@@ -70,7 +71,7 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
       }, 0) % 3
     return (
       <div
-        className={cls(prefix, props.className, {
+        className={cls(prefix, className, {
           expand,
         })}
       >
@@ -86,12 +87,12 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
             <IconWidget infer="Expand" size={10} />
           </div>
           <div className={prefix + '-header-content'}>
-            <TextWidget>{props.title}</TextWidget>
+            <TextWidget>{title}</TextWidget>
           </div>
         </div>
         <div className={prefix + '-content-wrapper'}>
           <div className={prefix + '-content'}>
-            {sources.map(isFn(props.children) ? props.children : renderNode)}
+            {sources.map(isFn(children) ? children : renderNode)}
             {remainItems ? (
               <div
                 className={prefix + '-item-remain'}
@@ -104,7 +105,3 @@ export const ResourceWidget: React.FC<IResourceWidgetProps> = observer(
     )
   }
 )
-
-ResourceWidget.defaultProps = {
-  defaultExpand: true,
-}

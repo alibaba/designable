@@ -1,15 +1,14 @@
 import React from 'react'
 import { Select as FormilySelect } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Select: DnFC<React.ComponentProps<typeof FormilySelect>> =
+export const Select: React.FC<React.ComponentProps<typeof FormilySelect>> =
   FormilySelect
 
-Select.Behavior = createBehavior({
+;(Select as any).Behavior = createBehavior({
   name: 'Select',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Select',
@@ -19,7 +18,7 @@ Select.Behavior = createBehavior({
   designerLocales: AllLocales.Select,
 })
 
-Select.Resource = createResource({
+;(Select as any).Resource = createResource({
   icon: 'SelectSource',
   elements: [
     {

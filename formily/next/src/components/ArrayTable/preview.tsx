@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table } from '@alifd/next'
-import { TableProps } from '@alifd/next/types/table'
+import { TableProps } from '@alifd/next/lib/table'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
   useTreeNode,

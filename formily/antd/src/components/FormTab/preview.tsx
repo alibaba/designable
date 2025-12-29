@@ -1,21 +1,20 @@
 import React, { Fragment, useState } from 'react'
 import { observer } from '@formily/react'
 import { Tabs } from 'antd'
-import { TabsProps, TabPaneProps } from 'antd/lib/tabs'
+import type { TabsProps, TabPaneProps } from 'antd'
 import { TreeNode, createBehavior, createResource } from '@designable/core'
 import {
   useNodeIdProps,
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
-  DnFC,
 } from '@designable/react'
-import { LoadTemplate } from '../../common/LoadTemplate'
-import { useDropTemplate } from '../../hooks'
-import { createVoidFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
-import { matchComponent } from '../../shared'
+import { LoadTemplate } from '../../common/LoadTemplate/index.js'
+import { useDropTemplate } from '../../hooks/index.js'
+import { createVoidFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
+import { matchComponent } from '../../shared.js'
 
 const parseTabs = (parent: TreeNode) => {
   const tabs: TreeNode[] = []
@@ -27,19 +26,19 @@ const parseTabs = (parent: TreeNode) => {
   return tabs
 }
 
-const getCorrectActiveKey = (activeKey: string, tabs: TreeNode[]) => {
-  if (tabs.length === 0) return
-  if (tabs.some((node) => node.id === activeKey)) return activeKey
-  return tabs[tabs.length - 1].id
+const getCorrectActiveKey = (activeKey: string | undefined, tabs: TreeNode[]): string | undefined => {
+  if (tabs.length === 0) return undefined
+  if (activeKey && tabs.some((node) => node.id === activeKey)) return activeKey
+  return tabs[tabs.length - 1]?.id
 }
 
-export const FormTab: DnFC<TabsProps> & {
+export const FormTab: React.FC<TabsProps> & {
   TabPane?: React.FC<TabPaneProps>
 } = observer((props) => {
   const [activeKey, setActiveKey] = useState<string>()
   const nodeId = useNodeIdProps()
   const node = useTreeNode()
-  const designer = useDropTemplate('FormTab', (source) => {
+  const designer = useDropTemplate('FormTab', (source: TreeNode[]) => {
     return [
       new TreeNode({
         componentName: 'Field',
@@ -66,7 +65,7 @@ export const FormTab: DnFC<TabsProps> & {
         }}
       >
         {tabs.map((tab) => {
-          const props = tab.props['x-component-props'] || {}
+          const props = tab.props?.['x-component-props'] || {}
           return (
             <Tabs.TabPane
               {...props}
@@ -134,16 +133,16 @@ FormTab.TabPane = (props) => {
   return <Fragment>{props.children}</Fragment>
 }
 
-FormTab.Behavior = createBehavior(
+;(FormTab as any).Behavior = createBehavior(
   {
     name: 'FormTab',
     extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'FormTab',
+    selector: (node) => node.props?.['x-component'] === 'FormTab',
     designerProps: {
       droppable: true,
-      allowAppend: (target, source) =>
+      allowAppend: (target, source?) =>
         target.children.length === 0 ||
-        source.every((node) => node.props['x-component'] === 'FormTab.TabPane'),
+        (source?.every((node) => node.props?.['x-component'] === 'FormTab.TabPane') ?? false),
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab),
     },
     designerLocales: AllLocales.FormTab,
@@ -151,17 +150,17 @@ FormTab.Behavior = createBehavior(
   {
     name: 'FormTab.TabPane',
     extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'FormTab.TabPane',
+    selector: (node) => node.props?.['x-component'] === 'FormTab.TabPane',
     designerProps: {
       droppable: true,
-      allowDrop: (node) => node.props['x-component'] === 'FormTab',
+      allowDrop: (node) => node.props?.['x-component'] === 'FormTab',
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab.TabPane),
     },
     designerLocales: AllLocales.FormTabPane,
   }
 )
 
-FormTab.Resource = createResource({
+;(FormTab as any).Resource = createResource({
   icon: 'TabSource',
   elements: [
     {

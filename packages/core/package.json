@@ -1,43 +1,28 @@
 {
   "name": "@designable/core",
-  "version": "1.0.0-beta.45",
-  "license": "MIT",
-  "main": "lib",
-  "types": "lib/index.d.ts",
+  "private": true,
+  "type": "module",
+  "version": "2.0.0",
   "engines": {
-    "npm": ">=3.0.0"
+    "node": ">=24"
   },
-  "module": "esm",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
   },
-  "bugs": {
-    "url": "https://github.com/alibaba/designable/issues"
-  },
-  "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
-    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
-    "build:cjs": "tsc --project tsconfig.build.json",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
-    "build:umd": "rollup --config"
-  },
-  "devDependencies": {
-    "@formily/json-schema": "^2.0.2",
-    "@formily/path": "^2.0.2",
-    "@formily/reactive": "^2.0.2"
-  },
-  "peerDependencies": {
-    "@formily/json-schema": "^2.0.2",
-    "@formily/path": "^2.0.2",
-    "@formily/reactive": "^2.0.2"
+    "build": "../../node_modules/.bin/tsc -p tsconfig.json && node scripts/add-js-extensions.js"
   },
   "dependencies": {
-    "@designable/shared": "1.0.0-beta.45",
-    "@juggle/resize-observer": "^3.3.1"
+    "@designable/shared": "workspace:*",
+    "@formily/json-schema": "^2.3.0",
+    "@formily/path": "^2.3.0",
+    "@formily/reactive": "^2.3.0",
+    "@juggle/resize-observer": "^3.4.0"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
 }

@@ -9,6 +9,7 @@ export enum ResizeHandleType {
 
 export interface IResizeHandleProps {
   type?: ResizeHandleType
+  children?: React.ReactNode
 }
 
 export const ResizeHandle: React.FC<IResizeHandleProps> = (props) => {
@@ -17,7 +18,7 @@ export const ResizeHandle: React.FC<IResizeHandleProps> = (props) => {
   return (
     <div
       {...props}
-      {...{ [designer.props.screenResizeHandlerAttrName]: props.type }}
+      {...{ [designer.props.screenResizeHandlerAttrName as string]: props.type }}
       className={cls(prefix, {
         [`${prefix}-${props.type}`]: !!props.type,
       })}

@@ -1,15 +1,22 @@
 import * as Core from './exports'
 export * from './exports'
-import { globalThisPolyfill } from '@designable/shared'
 
-if (globalThisPolyfill?.['Designable']?.['Core']) {
-  if (module.exports) {
+// Explicit re-exports for ESM/Vite compatibility
+export { createBehavior, createResource, createDesigner, createLocales } from './externals'
+export { GlobalRegistry } from './registry'
+export { Engine, TreeNode, Workspace, Workbench } from './models/index'
+
+// Skip globalThisPolyfill import to avoid CommonJS/ESM issues
+const g: any = typeof globalThis !== 'undefined' ? globalThis : window || {};
+
+if (g?.Designable?.Core) {
+  if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       __esModule: true,
-      ...globalThisPolyfill['Designable']['Core'],
+      ...g.Designable.Core,
     }
   }
 } else {
-  globalThisPolyfill['Designable'] = globalThisPolyfill['Designable'] || {}
-  globalThisPolyfill['Designable'].Core = Core
+  g.Designable = g.Designable || {}
+  g.Designable.Core = Core
 }

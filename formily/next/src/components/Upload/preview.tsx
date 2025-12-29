@@ -1,15 +1,14 @@
 import React from 'react'
 import { Upload as FormilyUpload } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Upload: DnFC<React.ComponentProps<typeof FormilyUpload>> =
+export const Upload: React.FC<React.ComponentProps<typeof FormilyUpload>> =
   FormilyUpload
 
-Upload.Behavior = createBehavior(
+;(Upload as any).Behavior = createBehavior(
   {
     name: 'Upload',
     extends: ['Field'],
@@ -30,7 +29,7 @@ Upload.Behavior = createBehavior(
   }
 )
 
-Upload.Resource = createResource(
+;(Upload as any).Resource = createResource(
   {
     icon: 'UploadSource',
     elements: [

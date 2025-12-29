@@ -2,8 +2,9 @@ import { getKeyCodeFromEvent, KeyCode } from '@designable/shared'
 import { IEngineContext } from '../../types'
 
 export class AbstractKeyboardEvent {
+  [key: string]: any;
   data: KeyCode
-  context: IEngineContext
+  context!: IEngineContext
   originEvent: KeyboardEvent
   constructor(e: KeyboardEvent) {
     this.data = getKeyCodeFromEvent(e)

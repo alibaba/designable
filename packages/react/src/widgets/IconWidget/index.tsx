@@ -6,11 +6,12 @@ import { usePrefix, useRegistry, useTheme } from '../../hooks'
 import cls from 'classnames'
 import './styles.less'
 
-const IconContext = createContext<IconProviderProps>(null)
+const IconContext = createContext<IconProviderProps | null>(null)
 
 const isNumSize = (val: any) => /^[\d.]+$/.test(val)
 export interface IconProviderProps {
   tooltip?: boolean
+  children?: React.ReactNode
 }
 
 export interface IShadowSVGProps {
@@ -35,7 +36,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
   const size = props.size || '1em'
   const height = props.style?.height || size
   const width = props.style?.width || size
-  const takeIcon = (infer: React.ReactNode) => {
+  const takeIcon = (infer: React.ReactNode | { shadow: string }) => {
     if (isStr(infer)) {
       const finded = registry.getDesignerIcon(infer)
       if (finded) {
@@ -50,11 +51,11 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
       })
     } else if (React.isValidElement(infer)) {
       if (infer.type === 'svg') {
-        return React.cloneElement(infer, {
+        return React.cloneElement(infer as any, {
           height,
           width,
           fill: 'currentColor',
-          viewBox: infer.props.viewBox || '0 0 1024 1024',
+          viewBox: (infer as any).props?.viewBox || '0 0 1024 1024',
           focusable: 'false',
           'aria-hidden': 'true',
         })
@@ -74,14 +75,16 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
       }
       return infer
     } else if (isPlainObj(infer)) {
-      if (infer[theme]) {
-        return takeIcon(infer[theme])
-      } else if (infer['shadow']) {
+      const theme2 = theme as string
+      const inferObj = infer as any
+      if (inferObj[theme2]) {
+        return takeIcon(inferObj[theme2])
+      } else if (inferObj['shadow'] && IconWidget.ShadowSVG) {
         return (
           <IconWidget.ShadowSVG
             width={width}
             height={height}
-            content={infer['shadow']}
+            content={inferObj['shadow']}
           />
         )
       }
@@ -127,7 +130,7 @@ export const IconWidget: React.FC<IIconWidgetProps> & {
 })
 
 IconWidget.ShadowSVG = (props) => {
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
   const width = isNumSize(props.width) ? `${props.width}px` : props.width
   const height = isNumSize(props.height) ? `${props.height}px` : props.height
   useEffect(() => {

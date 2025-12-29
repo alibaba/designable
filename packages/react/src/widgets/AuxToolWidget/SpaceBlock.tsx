@@ -66,9 +66,10 @@ export const SpaceBlock = observer(() => {
     <>
       {transformHelper.measurerSpaceBlocks.map(
         ({ type, crossDragNodesRect, distance, extendsLine }, key) => {
+          if (!crossDragNodesRect) return null
           return (
             <Fragment>
-              {renderDashedLine(extendsLine)}
+              {extendsLine && renderDashedLine(extendsLine)}
               <div
                 key={key}
                 style={{

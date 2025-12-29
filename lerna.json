@@ -1,7 +1,6 @@
 {
-  "version": "1.0.0-beta.45",
   "npmClient": "yarn",
-  "useWorkspaces": true,
+  "version": "independent",
   "npmClientArgs": ["--ignore-engines"],
   "command": {
     "version": {

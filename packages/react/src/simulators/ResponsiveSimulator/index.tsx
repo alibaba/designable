@@ -23,15 +23,15 @@ const useResizeEffect = (
   content: React.MutableRefObject<HTMLDivElement>,
   engine: Engine
 ) => {
-  let status: ResizeHandleType = null
+  let status: ResizeHandleType | null = null
   let startX = 0
   let startY = 0
   let startWidth = 0
   let startHeight = 0
-  let animationX = null
-  let animationY = null
+  let animationX: (() => void) | null = null
+  let animationY: (() => void) | null = null
 
-  const getStyle = (status: ResizeHandleType) => {
+  const getStyle = (status: ResizeHandleType | null) => {
     if (status === ResizeHandleType.Resize) return 'nwse-resize'
     if (status === ResizeHandleType.ResizeHeight) return 'ns-resize'
     if (status === ResizeHandleType.ResizeWidth) return 'ew-resize'
@@ -67,11 +67,11 @@ const useResizeEffect = (
       const rect = content.current?.getBoundingClientRect()
       if (!rect) return
       status = target.getAttribute(
-        engine.props.screenResizeHandlerAttrName
+        engine.props.screenResizeHandlerAttrName as string
       ) as ResizeHandleType
-      engine.cursor.setStyle(getStyle(status))
-      startX = e.data.topClientX
-      startY = e.data.topClientY
+      engine.cursor.setStyle(getStyle(status) || '')
+      startX = e.data.topClientX ?? 0
+      startY = e.data.topClientY ?? 0
       startWidth = rect.width
       startHeight = rect.height
       engine.cursor.setDragType(CursorDragType.Resize)
@@ -80,11 +80,12 @@ const useResizeEffect = (
   engine.subscribeTo(DragMoveEvent, (e) => {
     if (!engine.workbench.currentWorkspace?.viewport) return
     if (!status) return
-    const deltaX = e.data.topClientX - startX
-    const deltaY = e.data.topClientY - startY
+    const deltaX = (e.data.topClientX ?? 0) - startX
+    const deltaY = (e.data.topClientY ?? 0) - startY
     const containerRect = container.current?.getBoundingClientRect()
-    const distanceX = Math.floor(containerRect.right - e.data.topClientX)
-    const distanceY = Math.floor(containerRect.bottom - e.data.topClientY)
+    if (!containerRect) return
+    const distanceX = Math.floor(containerRect.right - (e.data.topClientX ?? 0))
+    const distanceY = Math.floor(containerRect.bottom - (e.data.topClientY ?? 0))
     const factorX = calcSpeedFactor(distanceX, 10)
     const factorY = calcSpeedFactor(distanceY, 10)
     updateSize(deltaX, deltaY)
@@ -96,7 +97,8 @@ const useResizeEffect = (
       }
     } else {
       if (animationX) {
-        animationX = animationX()
+        const result = animationX()
+        animationX = null
       }
     }
 
@@ -108,7 +110,8 @@ const useResizeEffect = (
       }
     } else {
       if (animationY) {
-        animationY = animationY()
+        const result = animationY()
+        animationY = null
       }
     }
   })
@@ -118,10 +121,12 @@ const useResizeEffect = (
     engine.cursor.setStyle('')
     engine.cursor.setDragType(CursorDragType.Move)
     if (animationX) {
-      animationX = animationX()
+      const result = animationX()
+      animationX = null
     }
     if (animationY) {
-      animationY = animationY()
+      const result = animationY()
+      animationY = null
     }
   })
 }
@@ -134,12 +139,12 @@ export interface IResponsiveSimulatorProps
 
 export const ResponsiveSimulator: React.FC<IResponsiveSimulatorProps> =
   observer((props) => {
-    const container = useRef<HTMLDivElement>()
-    const content = useRef<HTMLDivElement>()
+    const container = useRef<HTMLDivElement>(null)
+    const content = useRef<HTMLDivElement>(null)
     const prefix = usePrefix('responsive-simulator')
     const screen = useScreen()
     useDesigner((engine) => {
-      useResizeEffect(container, content, engine)
+      useResizeEffect(container as React.MutableRefObject<HTMLDivElement>, content as React.MutableRefObject<HTMLDivElement>, engine)
     })
     return (
       <div

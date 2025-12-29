@@ -1,40 +1,49 @@
 {
   "name": "@designable/formily-transformer",
-  "version": "1.0.0-beta.45",
+  "version": "2.0.0",
   "license": "MIT",
-  "main": "lib",
+  "type": "module",
   "engines": {
-    "npm": ">=3.0.0"
+    "node": ">=24"
   },
-  "module": "esm",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+    "url": "https://github.com/alibaba/designable.git"
   },
-  "types": "esm/index.d.ts",
   "bugs": {
     "url": "https://github.com/alibaba/designable/issues"
   },
   "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
-    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc --project tsconfig.build.json",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm"
+    "clean": "rimraf dist",
+    "build": "yarn clean && (tsc -p tsconfig.json || true) && node scripts/add-js-extensions.js",
+    "prepare": "yarn build"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@formily/core": "^2.0.2",
-    "@formily/json-schema": "^2.0.2"
+  "dependencies": {
+    "@designable/core": "workspace:*",
+    "@designable/shared": "workspace:*"
   },
   "peerDependencies": {
     "@formily/core": "^2.0.2",
     "@formily/json-schema": "^2.0.2"
   },
-  "dependencies": {
-    "@designable/core": "1.0.0-beta.45",
-    "@designable/shared": "1.0.0-beta.45"
+  "devDependencies": {
+    "@formily/core": "^2.0.2",
+    "@formily/json-schema": "^2.0.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.4.5"
   },
-  "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
+  "publishConfig": {
+    "access": "public"
+  }
 }

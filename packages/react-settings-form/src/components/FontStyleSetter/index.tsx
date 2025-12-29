@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePrefix, IconWidget } from '@designable/react'
 import { useField, Field, observer } from '@formily/react'
-import { Select, Radio, NumberPicker } from '@formily/antd'
+import { Select, Radio, NumberPicker } from '@formily/antd-v5'
 import { FoldItem } from '../FoldItem'
 import { InputItems } from '../InputItems'
 import { SizeInput } from '../SizeInput'
@@ -50,13 +50,16 @@ export const FontStyleSetter: React.FC<IFontStyleSetterProps> = observer(
   (props) => {
     const field = useField()
     const prefix = usePrefix('font-style-setter')
+    const Base = FoldItem.Base
+    const Extra = FoldItem.Extra
+    if (!Base || !Extra) return null
     return (
       <FoldItem
         label={field.title}
         className={cls(prefix, props.className)}
         style={props.style}
       >
-        <FoldItem.Base>
+        <Base>
           <Field
             name="fontFamily"
             basePath={field.address.parent()}
@@ -66,8 +69,8 @@ export const FontStyleSetter: React.FC<IFontStyleSetterProps> = observer(
             ]}
             dataSource={FontFamilyOptions}
           />
-        </FoldItem.Base>
-        <FoldItem.Extra>
+        </Base>
+        <Extra>
           <InputItems>
             <InputItems.Item icon="FontWeight" width="50%">
               <Field
@@ -161,7 +164,7 @@ export const FontStyleSetter: React.FC<IFontStyleSetterProps> = observer(
               />
             </InputItems.Item>
           </InputItems>
-        </FoldItem.Extra>
+        </Extra>
       </FoldItem>
     )
   }

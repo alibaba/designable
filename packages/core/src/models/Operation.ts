@@ -27,7 +27,7 @@ export class Operation {
 
   moveHelper: MoveHelper
 
-  requests = {
+  requests: { snapshot: number | null } = {
     snapshot: null,
   }
 
@@ -60,7 +60,7 @@ export class Operation {
   }
 
   snapshot(type?: string) {
-    cancelIdle(this.requests.snapshot)
+    cancelIdle(this.requests.snapshot!)
     if (
       !this.workspace ||
       !this.workspace.history ||

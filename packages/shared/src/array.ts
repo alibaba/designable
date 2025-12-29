@@ -66,7 +66,7 @@ export function each(val: any, iterator: any, revert?: boolean): void {
     let key: string
     for (key in val) {
       if (Object.hasOwnProperty.call(val, key)) {
-        if (iterator(val[key], key) === false) {
+        if (iterator((val as any)[key], key) === false) {
           return
         }
       }
@@ -98,7 +98,7 @@ export function map(val: any, iterator: any, revert?: boolean): any {
       if (isArr(res)) {
         ;(res as any).push(value)
       } else {
-        res[key] = value
+        ;(res as any)[key] = value
       }
     },
     revert

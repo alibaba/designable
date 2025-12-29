@@ -44,12 +44,14 @@ export const useLocales = (node: TreeNode) => {
       field.description = description
     }
     if (tooltip) {
-      field.decorator[1] = field.decorator[1] || []
-      field.decorator[1].tooltip = tooltip
+      const decorator = field.decorator as any
+      decorator[1] = decorator[1] || []
+      decorator[1].tooltip = tooltip
     }
     if (placeholder) {
-      field.component[1] = field.component[1] || []
-      field.component[1].placeholder = placeholder
+      const component = field.component as any
+      component[1] = component[1] || []
+      component[1].placeholder = placeholder
     }
     if (!isVoidField(field)) {
       if (dataSource?.length) {

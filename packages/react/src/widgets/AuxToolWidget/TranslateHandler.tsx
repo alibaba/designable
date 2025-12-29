@@ -13,7 +13,7 @@ export const TranslateHandler: React.FC<ITranslateHandlerProps> = (props) => {
   const prefix = usePrefix('aux-node-translate-handler')
   const createHandler = (value: string) => {
     return {
-      [designer.props.nodeTranslateAttrName]: value,
+      [designer.props.nodeTranslateAttrName as string]: value,
       className: cls(prefix, value),
     }
   }

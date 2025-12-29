@@ -1,24 +1,23 @@
 import React from 'react'
 import { Slider as AntdSlider } from 'antd'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const Slider: DnFC<React.ComponentProps<typeof AntdSlider>> = AntdSlider
+export const Slider: React.FC<React.ComponentProps<typeof AntdSlider>> = AntdSlider
 
-Slider.Behavior = createBehavior({
+;(Slider as any).Behavior = createBehavior({
   name: 'Slider',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'Slider',
+  selector: (node) => node.props?.['x-component'] === 'Slider',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Slider),
   },
   designerLocales: AllLocales.Slider,
 })
 
-Slider.Resource = createResource({
+;(Slider as any).Resource = createResource({
   icon: 'SliderSource',
   elements: [
     {

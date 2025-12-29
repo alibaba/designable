@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "name": "Yêu cầu tài nguyên máy chủ",
+    "style": "jira"
+  },
+  "layout": {
+    "type": "page",
+    "maxWidth": 720,
+    "padding": 24
+  },
+  "header": {
+    "breadcrumb": [
+      "Service Desk Center",
+      "THTT & ANTT",
+      "Yêu cầu tài nguyên máy chủ"
+    ],
+    "title": "3.1 Yêu cầu tài nguyên máy chủ",
+    "subtitle": "Required fields are marked with an asterisk *"
+  },
+  "form": {
+    "layout": "vertical",
+    "fields": [
+      {
+        "id": "title",
+        "type": "input",
+        "label": "Tiêu đề",
+        "required": true,
+        "placeholder": "Tên phòng ban - Tên người yêu cầu - Nội dung yêu cầu"
+      },
+      {
+        "id": "department",
+        "type": "select",
+        "label": "Phòng Ban",
+        "required": true,
+        "searchable": true,
+        "placeholder": "Search for an object",
+        "help": "Phòng ban của người yêu cầu"
+      },
+      {
+        "id": "approver",
+        "type": "select",
+        "label": "Người Duyệt",
+        "required": true,
+        "searchable": true,
+        "placeholder": "Search for objects",
+        "help": "Cấp Trưởng Phòng, Phó Phòng, Trưởng Nhóm"
+      },
+      {
+        "id": "contact",
+        "type": "input",
+        "label": "Google Chat / MS Teams",
+        "required": true,
+        "help": "Sử dụng để trao đổi thông tin"
+      },
+      {
+        "id": "system",
+        "type": "select",
+        "label": "Hệ Thống",
+        "required": true,
+        "searchable": true,
+        "placeholder": "Search for objects",
+        "help": "Nếu là hệ thống mới cần gửi yêu cầu cho Phòng PTNV"
+      },
+      {
+        "id": "resourceType",
+        "type": "select",
+        "label": "Phân Loại Cấu Hình Tài Nguyên",
+        "options": ["None", "VM", "Container", "Bare Metal"],
+        "default": "None"
+      },
+      {
+        "id": "projectLink",
+        "type": "input",
+        "label": "Link dự án"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "Mô Tả Chi Tiết",
+        "rows": 5
+      },
+      {
+        "id": "attachments",
+        "type": "upload",
+        "label": "Đính kèm",
+        "hint": "Drag and drop files, paste screenshots, or browse"
+      }
+    ],
+    "actions": [
+      {
+        "type": "primary",
+        "label": "Create"
+      },
+      {
+        "type": "secondary",
+        "label": "Cancel"
+      }
+    ]
+  },
+  "footer": {
+    "text": "Powered by Jira Service Management"
+  }
+}

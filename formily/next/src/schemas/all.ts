@@ -11,8 +11,12 @@ export * from './Radio'
 export * from './DatePicker'
 export * from './NumberPicker'
 export * from './Password'
-export * from './Rating'
-export * from './Range'
+export * from './Rate'
+export * from './Slider'
+export { Range } from './Range';
+export { Rating } from './Rating';
+export { Slider } from './Slider';
+export { Rate } from './Rate';
 export * from './TimePicker'
 export * from './TreeSelect'
 export * from './Transfer'

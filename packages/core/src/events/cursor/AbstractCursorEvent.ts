@@ -20,7 +20,7 @@ export interface ICursorEventData extends ICursorEventOriginData {
 export class AbstractCursorEvent {
   data: ICursorEventData
 
-  context: IEngineContext
+  context!: IEngineContext
 
   constructor(data: ICursorEventOriginData) {
     this.data = data || {
@@ -28,7 +28,7 @@ export class AbstractCursorEvent {
       clientY: 0,
       pageX: 0,
       pageY: 0,
-      target: null,
+      target: undefined,
       view: globalThisPolyfill,
     }
     this.transformCoordinates()
@@ -38,19 +38,25 @@ export class AbstractCursorEvent {
     const { frameElement } = this.data?.view || {}
     if (frameElement && this.data.view !== globalThisPolyfill) {
       const frameRect = frameElement.getBoundingClientRect()
-      const scale = frameRect.width / frameElement['offsetWidth']
+      const scale = frameRect.width / (frameElement as any)['offsetWidth']
       this.data.topClientX = this.data.clientX * scale + frameRect.x
       this.data.topClientY = this.data.clientY * scale + frameRect.y
       this.data.topPageX =
         this.data.pageX + frameRect.x - this.data.view.scrollX
       this.data.topPageY =
         this.data.pageY + frameRect.y - this.data.view.scrollY
-      const topElement = document.elementFromPoint(
-        this.data.topPageX,
-        this.data.topClientY
-      )
-      if (topElement !== frameElement) {
-        this.data.target = topElement
+      // Ensure coordinates are finite before calling elementFromPoint
+      if (
+        Number.isFinite(this.data.topPageX) &&
+        Number.isFinite(this.data.topClientY)
+      ) {
+        const topElement = document.elementFromPoint(
+          this.data.topPageX,
+          this.data.topClientY
+        )
+        if (topElement && topElement !== frameElement) {
+          this.data.target = topElement
+        }
       }
     } else {
       this.data.topClientX = this.data.clientX

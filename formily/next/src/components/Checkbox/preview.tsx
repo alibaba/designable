@@ -1,15 +1,14 @@
 import React from 'react'
 import { Checkbox as FormilyCheckbox } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const Checkbox: DnFC<React.ComponentProps<typeof FormilyCheckbox>> =
+export const Checkbox: React.FC<React.ComponentProps<typeof FormilyCheckbox>> =
   FormilyCheckbox
 
-Checkbox.Behavior = createBehavior({
+;(Checkbox as any).Behavior = createBehavior({
   name: 'Checkbox.Group',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'Checkbox.Group',
@@ -19,7 +18,7 @@ Checkbox.Behavior = createBehavior({
   designerLocales: AllLocales.CheckboxGroup,
 })
 
-Checkbox.Resource = createResource({
+;(Checkbox as any).Resource = createResource({
   icon: 'CheckboxGroupSource',
   elements: [
     {

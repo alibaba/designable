@@ -10,18 +10,17 @@ import {
   ISchema,
   Schema,
 } from '@formily/react'
-import { FormItem } from '@formily/antd'
+import { FormItem } from '@formily/antd-v5'
 import { each, reduce } from '@formily/shared'
 import { createBehavior } from '@designable/core'
 import {
   useDesigner,
   useTreeNode,
   useComponents,
-  DnFC,
 } from '@designable/react'
 import { isArr, isStr } from '@designable/shared'
-import { Container } from '../../common/Container'
-import { AllLocales } from '../../locales'
+import { Container } from '../../common/Container/index.js'
+import { AllLocales } from '../../locales/index.js'
 
 Schema.silent(true)
 
@@ -55,12 +54,12 @@ const NeedShownExpression = {
 
 const isExpression = (val: any) => isStr(val) && /^\{\{.*\}\}$/.test(val)
 
-const filterExpression = (val: any) => {
+const filterExpression = (val: any): any => {
   if (typeof val === 'object') {
     const isArray = isArr(val)
-    const results = reduce(
+    const results: any = reduce(
       val,
-      (buf: any, value, key) => {
+      (buf: any, value: any, key: string) => {
         if (isExpression(value)) {
           return buf
         } else {
@@ -90,10 +89,10 @@ const toDesignableFieldProps = (
   id: string
 ) => {
   const results: any = {}
-  each(SchemaStateMap, (fieldKey, schemaKey) => {
-    const value = schema[schemaKey]
+  each(SchemaStateMap, (fieldKey: string, schemaKey: string) => {
+    const value = (schema as any)[schemaKey]
     if (isExpression(value)) {
-      if (!NeedShownExpression[schemaKey]) return
+      if (!(NeedShownExpression as any)[schemaKey]) return
       if (value) {
         results[fieldKey] = value
         return
@@ -132,7 +131,7 @@ const toDesignableFieldProps = (
   return results
 }
 
-export const Field: DnFC<ISchema> = observer((props) => {
+export const Field: React.FC<ISchema> = observer((props) => {
   const designer = useDesigner()
   const components = useComponents()
   const node = useTreeNode()
@@ -145,7 +144,7 @@ export const Field: DnFC<ISchema> = observer((props) => {
   )
   if (props.type === 'object') {
     return (
-      <Container>
+      <Container {...{} as any}>
         <ObjectField {...fieldProps} name={node.id}>
           {props.children}
         </ObjectField>
@@ -163,7 +162,7 @@ export const Field: DnFC<ISchema> = observer((props) => {
   return <InternalField {...fieldProps} name={node.id} />
 })
 
-Field.Behavior = createBehavior({
+;(Field as any).Behavior = createBehavior({
   name: 'Field',
   selector: 'Field',
   designerLocales: AllLocales.Field,

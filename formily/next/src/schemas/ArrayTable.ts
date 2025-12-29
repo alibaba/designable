@@ -23,7 +23,7 @@ export const ArrayTable: ISchema & { Addition?: ISchema; Column?: ISchema } = {
     },
     size: {
       type: 'string',
-      enum: ['small', 'medium', null],
+      enum: ['small', 'medium', ''],
       'x-decorator': 'FormItem',
       'x-component': 'Select',
       'x-component-props': {

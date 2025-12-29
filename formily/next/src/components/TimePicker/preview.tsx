@@ -1,15 +1,14 @@
 import React from 'react'
 import { TimePicker as FormilyTimePicker } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const TimePicker: DnFC<React.ComponentProps<typeof FormilyTimePicker>> =
+export const TimePicker: React.FC<React.ComponentProps<typeof FormilyTimePicker>> =
   FormilyTimePicker
 
-TimePicker.Behavior = createBehavior({
+;(TimePicker as any).Behavior = createBehavior({
   name: 'TimePicker',
   extends: ['Field'],
   selector: (node) => node.props['x-component'] === 'TimePicker',
@@ -19,7 +18,7 @@ TimePicker.Behavior = createBehavior({
   designerLocales: AllLocales.TimePicker,
 })
 
-TimePicker.Resource = createResource({
+;(TimePicker as any).Resource = createResource({
   icon: 'TimePickerSource',
   elements: [
     {

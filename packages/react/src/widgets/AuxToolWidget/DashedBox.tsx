@@ -11,7 +11,7 @@ export const DashedBox = observer(() => {
   const hover = useHover()
   const prefix = usePrefix('aux-dashed-box')
   const selection = useSelection()
-  const rect = useValidNodeOffsetRect(hover?.node)
+  const rect = useValidNodeOffsetRect(hover?.node || null)
   const createTipsStyle = () => {
     const baseStyle: React.CSSProperties = {
       top: 0,

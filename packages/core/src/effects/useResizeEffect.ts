@@ -1,5 +1,5 @@
-import { Engine, CursorDragType } from '../models'
-import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events'
+import { Engine, CursorDragType } from '../models/index'
+import { DragStartEvent, DragMoveEvent, DragStopEvent } from '../events/index'
 
 export const useResizeEffect = (engine: Engine) => {
   const findStartNodeHandler = (target: HTMLElement) => {
@@ -8,15 +8,15 @@ export const useResizeEffect = (engine: Engine) => {
     )
     if (handler) {
       const direction = handler.getAttribute(
-        engine.props.nodeResizeHandlerAttrName
+        engine.props.nodeResizeHandlerAttrName ?? ''
       )
       if (direction) {
         const element = handler.closest(
-          `*[${engine.props.nodeSelectionIdAttrName}]`
+          `*[${engine.props.nodeSelectionIdAttrName ?? ''}]`
         )
         if (element) {
           const nodeId = element.getAttribute(
-            engine.props.nodeSelectionIdAttrName
+            engine.props.nodeSelectionIdAttrName ?? ''
           )
           if (nodeId) {
             const node = engine.findNodeById(nodeId)
@@ -39,11 +39,11 @@ export const useResizeEffect = (engine: Engine) => {
     const helper = currentWorkspace.operation.transformHelper
     if (handler) {
       const selectionElement = handler.element.closest(
-        `*[${engine.props.nodeSelectionIdAttrName}]`
+        `*[${engine.props.nodeSelectionIdAttrName ?? ''}]`
       ) as HTMLElement
       if (selectionElement) {
         const nodeId = selectionElement.getAttribute(
-          engine.props.nodeSelectionIdAttrName
+          engine.props.nodeSelectionIdAttrName ?? ''
         )
         if (nodeId) {
           const node = engine.findNodeById(nodeId)
@@ -69,6 +69,7 @@ export const useResizeEffect = (engine: Engine) => {
     helper.dragMove()
     dragNodes.forEach((node) => {
       const element = node.getElement()
+      if (!element) return
       helper.resize(node, (rect) => {
         element.style.width = rect.width + 'px'
         element.style.height = rect.height + 'px'

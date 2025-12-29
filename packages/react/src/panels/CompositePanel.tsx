@@ -12,6 +12,7 @@ export interface ICompositePanelProps {
   defaultActiveKey?: number
   activeKey?: number | string
   onChange?: (activeKey: number | string) => void
+  children?: React.ReactNode
 }
 export interface ICompositePanelItemProps {
   shape?: 'tab' | 'button' | 'link'
@@ -26,10 +27,10 @@ export interface ICompositePanelItemProps {
 const parseItems = (
   children: React.ReactNode
 ): React.PropsWithChildren<ICompositePanelItemProps>[] => {
-  const items = []
+  const items: React.PropsWithChildren<ICompositePanelItemProps>[] = []
   React.Children.forEach(children, (child, index) => {
-    if (child?.['type'] === CompositePanel.Item) {
-      items.push({ key: child['key'] ?? index, ...child['props'] })
+    if ((child as any)?.['type'] === CompositePanel.Item) {
+      items.push({ key: (child as any)['key'] ?? index, ...(child as any)['props'] })
     }
   })
   return items
@@ -48,7 +49,7 @@ const findItem = (
 
 const getDefaultKey = (children: React.ReactNode) => {
   const items = parseItems(children)
-  return items?.[0].key
+  return items?.[0]?.key
 }
 
 export const CompositePanel: React.FC<ICompositePanelProps> & {
@@ -56,9 +57,9 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
 } = (props) => {
   const prefix = usePrefix('composite-panel')
   const [activeKey, setActiveKey] = useState<string | number>(
-    props.defaultActiveKey ?? getDefaultKey(props.children)
+    props.defaultActiveKey ?? getDefaultKey(props.children) ?? 0
   )
-  const activeKeyRef = useRef(null)
+  const activeKeyRef = useRef<string | number | null>(null)
   const [pinning, setPinning] = useState(props.defaultPinning ?? false)
   const [visible, setVisible] = useState(props.defaultOpen ?? true)
   const items = parseItems(props.children)
@@ -70,7 +71,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
   useEffect(() => {
     if (isValid(props.activeKey)) {
       if (props.activeKey !== activeKeyRef.current) {
-        setActiveKey(props.activeKey)
+        setActiveKey(props.activeKey!)
       }
     }
   }, [props.activeKey])
@@ -167,10 +168,10 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
                     setVisible(true)
                   }
                   if (!props?.activeKey || !props?.onChange)
-                    setActiveKey(item.key)
+                    setActiveKey(item.key ?? 0)
                 }
                 item.onClick?.(e)
-                props.onChange?.(item.key)
+                props.onChange?.(item.key ?? 0)
               }}
             >
               {takeTab()}

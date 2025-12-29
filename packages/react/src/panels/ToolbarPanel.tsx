@@ -2,8 +2,10 @@ import React from 'react'
 import { WorkspacePanel, IWorkspaceItemProps } from './WorkspacePanel'
 
 export const ToolbarPanel: React.FC<IWorkspaceItemProps> = (props) => {
+  const Item = WorkspacePanel.Item
+  if (!Item) return null
   return (
-    <WorkspacePanel.Item
+    <Item
       {...props}
       style={{
         display: 'flex',
@@ -14,6 +16,6 @@ export const ToolbarPanel: React.FC<IWorkspaceItemProps> = (props) => {
       }}
     >
       {props.children}
-    </WorkspacePanel.Item>
+    </Item>
   )
 }

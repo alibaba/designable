@@ -48,7 +48,7 @@ export const shallowClone = (values: any) => {
   }
 }
 
-export const clone = (values: any, filter?: Filter) => {
+export const clone = (values: any, filter?: Filter): any => {
   let nativeClone: (values: any) => any
   if (Array.isArray(values)) {
     return values.map((item) => clone(item, filter))
@@ -75,7 +75,7 @@ export const clone = (values: any, filter?: Filter) => {
     if (Object.getOwnPropertySymbols(values || {}).length) {
       return values
     }
-    const res = {}
+    const res: Record<string, any> = {}
     for (const key in values) {
       if (Object.hasOwnProperty.call(values, key)) {
         if (isFn(filter)) {

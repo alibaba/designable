@@ -1,15 +1,14 @@
 import React from 'react'
 import { DatePicker as FormilyDatePicker } from '@formily/next'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 
-export const DatePicker: DnFC<React.ComponentProps<typeof FormilyDatePicker>> =
+export const DatePicker: React.FC<React.ComponentProps<typeof FormilyDatePicker>> =
   FormilyDatePicker
 
-DatePicker.Behavior = createBehavior(
+;(DatePicker as any).Behavior = createBehavior(
   {
     name: 'DatePicker',
     extends: ['Field'],
@@ -30,7 +29,7 @@ DatePicker.Behavior = createBehavior(
   }
 )
 
-DatePicker.Resource = createResource(
+;(DatePicker as any).Resource = createResource(
   {
     icon: 'DatePickerSource',
     elements: [

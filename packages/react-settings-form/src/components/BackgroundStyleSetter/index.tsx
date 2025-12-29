@@ -1,7 +1,7 @@
 import React from 'react'
 import { useField, Field, observer } from '@formily/react'
 import { usePrefix } from '@designable/react'
-import { Select, Input } from '@formily/antd'
+import { Select, Input } from '@formily/antd-v5'
 import { FoldItem } from '../FoldItem'
 import { ColorInput } from '../ColorInput'
 import { BackgroundSizeInput } from '../SizeInput'
@@ -18,16 +18,19 @@ export const BackgroundStyleSetter: React.FC<IBackgroundStyleSetterProps> =
   observer((props) => {
     const field = useField()
     const prefix = usePrefix('background-style-setter')
+    const Base = FoldItem.Base
+    const Extra = FoldItem.Extra
+    if (!Base || !Extra) return null
     return (
       <FoldItem className={cls(prefix, props.className)} label={field.title}>
-        <FoldItem.Base>
+        <Base>
           <Field
             name="backgroundColor"
             basePath={field.address.parent()}
             component={[ColorInput]}
           />
-        </FoldItem.Base>
-        <FoldItem.Extra>
+        </Base>
+        <Extra>
           <InputItems>
             <InputItems.Item icon="Image">
               <Field
@@ -87,7 +90,7 @@ export const BackgroundStyleSetter: React.FC<IBackgroundStyleSetterProps> =
               />
             </InputItems.Item>
           </InputItems>
-        </FoldItem.Extra>
+        </Extra>
       </FoldItem>
     )
   })

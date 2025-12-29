@@ -1,4 +1,4 @@
-import { KeyCode, Shortcut } from '../models'
+import { KeyCode, Shortcut } from '../models/index'
 
 export const SelectNodes = new Shortcut({
   codes: [[KeyCode.Meta], [KeyCode.Control]],
@@ -20,7 +20,7 @@ export const SelectAllNodes = new Shortcut({
     [KeyCode.Meta, KeyCode.A],
     [KeyCode.Control, KeyCode.A],
   ],
-  handler(context) {
+  handler(context: any) {
     const operation = context?.workspace.operation
     if (operation) {
       const tree = operation.tree

@@ -6,17 +6,17 @@ import { NodeTitleWidget } from '../NodeTitleWidget'
 import { Button } from 'antd'
 import { observer } from '@formily/reactive-react'
 
-const useMouseHover = <T extends { current: HTMLElement }>(
+const useMouseHover = <T extends { current: HTMLElement | null }>(
   ref: T,
   enter?: () => void,
   leave?: () => void
 ) => {
   useEffect(() => {
-    let timer = null
+    let timer: NodeJS.Timeout | null = null
     let unmounted = false
     const onMouseOver = (e: MouseEvent) => {
       const target: HTMLElement = e.target as any
-      clearTimeout(timer)
+      if (timer !== null) clearTimeout(timer)
       timer = setTimeout(() => {
         if (unmounted) return
         if (ref?.current?.contains(target)) {
@@ -104,7 +104,7 @@ export const Selector: React.FC<ISelectorProps> = observer(({ node }) => {
   )
 
   return (
-    <div ref={ref} className={prefix}>
+    <div ref={ref as React.RefObject<HTMLDivElement>} className={prefix}>
       <Button
         className={prefix + '-title'}
         type="primary"

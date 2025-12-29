@@ -1,19 +1,18 @@
 import React from 'react'
-import { Upload as FormilyUpload } from '@formily/antd'
+import { Upload as FormilyUpload } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const Upload: DnFC<React.ComponentProps<typeof FormilyUpload>> =
+export const Upload: React.FC<React.ComponentProps<typeof FormilyUpload>> =
   FormilyUpload
 
-Upload.Behavior = createBehavior(
+;(Upload as any).Behavior = createBehavior(
   {
     name: 'Upload',
     extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'Upload',
+    selector: (node) => node.props?.['x-component'] === 'Upload',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Upload),
     },
@@ -22,7 +21,7 @@ Upload.Behavior = createBehavior(
   {
     name: 'Upload.Dragger',
     extends: ['Field'],
-    selector: (node) => node.props['x-component'] === 'Upload.Dragger',
+    selector: (node) => node.props?.['x-component'] === 'Upload.Dragger',
     designerProps: {
       propsSchema: createFieldSchema(AllSchemas.Upload.Dragger),
     },
@@ -30,7 +29,7 @@ Upload.Behavior = createBehavior(
   }
 )
 
-Upload.Resource = createResource(
+;(Upload as any).Resource = createResource(
   {
     icon: 'UploadSource',
     elements: [

@@ -1,13 +1,20 @@
 {
   "name": "@designable/react",
-  "version": "1.0.0-beta.45",
+  "version": "2.0.0",
   "license": "MIT",
-  "main": "lib",
-  "types": "lib/index.d.ts",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "engines": {
-    "npm": ">=3.0.0"
+    "node": ">=24"
   },
-  "module": "esm",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./lib/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alibaba/designable.git"
@@ -17,28 +24,31 @@
   },
   "homepage": "https://github.com/alibaba/designable#readme",
   "scripts": {
-    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd && ts-node copy",
-    "build:cjs": "tsc --project tsconfig.build.json",
-    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
-    "build:umd": "rollup --config"
+    "clean": "rimraf dist esm lib",
+    "build": "yarn clean && ../../node_modules/.bin/tsc -p tsconfig.json && ../../node_modules/.bin/tsc -p tsconfig.json --module esnext --outDir esm && node scripts/add-js-extensions.js lib && node scripts/add-js-extensions.js esm && cp src/theme.less lib/ && cp src/variables.less lib/ && find src -name '*.less' -exec cp --parents {} lib/ \\; 2>/dev/null || find src -name '*.less' | cpio -pdm lib/ 2>/dev/null || true && for dir in lib/*/; do [ -f \"${dir}index.js\" ] && cp \"${dir}index.js\" \"$(basename \"$dir\").js\" 2>/dev/null || true; done",
+    "prepare": "yarn build"
   },
   "devDependencies": {
-    "@formily/reactive": "^2.0.2",
-    "@formily/reactive-react": "^2.0.2"
+    "@types/node": "^20.14.9",
+    "react-is": "^18.2.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^6.0.0-dev.20251217"
   },
   "peerDependencies": {
     "@formily/reactive": "^2.0.2",
     "@formily/reactive-react": "^2.0.2",
-    "antd": "^4.15.4",
-    "react": "16.x || 17.x"
+    "antd": "^5.0.0",
+    "react": "19.x",
+    "react-dom": "19.x"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.45",
-    "@designable/shared": "1.0.0-beta.45",
-    "dateformat": "^4.5.1"
+    "@designable/core": "workspace:*",
+    "@designable/shared": "workspace:*",
+    "dateformat": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
+  }
 }

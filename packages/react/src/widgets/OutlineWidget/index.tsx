@@ -18,14 +18,14 @@ export interface IOutlineTreeWidgetProps {
 
 export const OutlineTreeWidget: React.FC<IOutlineTreeWidgetProps> = observer(
   ({ onClose, style, renderActions, renderTitle, className, ...props }) => {
-    const ref = useRef<HTMLDivElement>()
+    const ref = useRef<HTMLDivElement>(null)
     const prefix = usePrefix('outline-tree')
     const workbench = useWorkbench()
     const current = workbench?.activeWorkspace || workbench?.currentWorkspace
     const workspaceId = current?.id
     const tree = useTree(workspaceId)
     const outline = useOutline(workspaceId)
-    const outlineRef = useRef<Viewport>()
+    const outlineRef = useRef<Viewport>(null)
     useLayoutEffect(() => {
       if (!workspaceId) return
       if (outlineRef.current && outlineRef.current !== outline) {

@@ -1,6 +1,6 @@
 import { EventDriver } from '@designable/shared'
 import { Engine } from '../models/Engine'
-import { MouseClickEvent, MouseDoubleClickEvent } from '../events'
+import { MouseClickEvent, MouseDoubleClickEvent } from '../events/cursor/index'
 
 export class MouseClickDriver extends EventDriver<Engine> {
   onMouseClick = (e: MouseEvent) => {
@@ -16,8 +16,8 @@ export class MouseClickDriver extends EventDriver<Engine> {
         clientY: e.clientY,
         pageX: e.pageX,
         pageY: e.pageY,
-        target: e.target,
-        view: e.view,
+        target: e.target!,
+        view: e.view!,
       })
     )
   }
@@ -35,8 +35,8 @@ export class MouseClickDriver extends EventDriver<Engine> {
         clientY: e.clientY,
         pageX: e.pageX,
         pageY: e.pageY,
-        target: e.target,
-        view: e.view,
+        target: e.target!,
+        view: e.view!,
       })
     )
   }

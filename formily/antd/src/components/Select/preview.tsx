@@ -1,25 +1,24 @@
 import React from 'react'
-import { Select as FormilySelect } from '@formily/antd'
+import { Select as FormilySelect } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const Select: DnFC<React.ComponentProps<typeof FormilySelect>> =
+export const Select: React.FC<React.ComponentProps<typeof FormilySelect>> =
   FormilySelect
 
-Select.Behavior = createBehavior({
+;(Select as any).Behavior = createBehavior({
   name: 'Select',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'Select',
+  selector: (node) => node.props?.['x-component'] === 'Select',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.Select),
   },
   designerLocales: AllLocales.Select,
 })
 
-Select.Resource = createResource({
+;(Select as any).Resource = createResource({
   icon: 'SelectSource',
   elements: [
     {

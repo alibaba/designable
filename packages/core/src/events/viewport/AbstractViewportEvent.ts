@@ -14,7 +14,7 @@ export interface IViewportEventData {
 
 export class AbstractViewportEvent {
   data: IViewportEventData
-  context: IEngineContext
+  context!: IEngineContext
   constructor(data: IViewportEventData) {
     this.data = data || {
       scrollX: globalThisPolyfill.scrollX,

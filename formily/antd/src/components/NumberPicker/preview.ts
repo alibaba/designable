@@ -1,26 +1,25 @@
 import React from 'react'
-import { NumberPicker as FormilyNumberPicker } from '@formily/antd'
+import { NumberPicker as FormilyNumberPicker } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
-import { DnFC } from '@designable/react'
-import { createFieldSchema } from '../Field'
-import { AllSchemas } from '../../schemas'
-import { AllLocales } from '../../locales'
+import { createFieldSchema } from '../Field/shared.js'
+import { AllSchemas } from '../../schemas/index.js'
+import { AllLocales } from '../../locales/index.js'
 
-export const NumberPicker: DnFC<
+export const NumberPicker: React.FC<
   React.ComponentProps<typeof FormilyNumberPicker>
 > = FormilyNumberPicker
 
-NumberPicker.Behavior = createBehavior({
+;(NumberPicker as any).Behavior = createBehavior({
   name: 'NumberPicker',
   extends: ['Field'],
-  selector: (node) => node.props['x-component'] === 'NumberPicker',
+  selector: (node) => node.props?.['x-component'] === 'NumberPicker',
   designerProps: {
     propsSchema: createFieldSchema(AllSchemas.NumberPicker),
   },
   designerLocales: AllLocales.NumberPicker,
 })
 
-NumberPicker.Resource = createResource({
+;(NumberPicker as any).Resource = createResource({
   icon: 'NumberPickerSource',
   elements: [
     {

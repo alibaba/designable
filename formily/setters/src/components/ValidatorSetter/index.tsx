@@ -8,7 +8,7 @@ import {
   ISchema,
 } from '@formily/react'
 import { GlobalRegistry } from '@designable/core'
-import { ArrayItems } from '@formily/antd'
+import { ArrayItems } from '@formily/antd-v5'
 import { FoldItem } from '@designable/react-settings-form'
 import { Select } from 'antd'
 
@@ -146,9 +146,11 @@ const ValidatorSchema: ISchema = {
 export const ValidatorSetter: React.FC<IValidatorSetterProps> = observer(
   (props) => {
     const field = useField<ArrayField>()
+    const Base = FoldItem.Base ?? (() => null)
+    const Extra = FoldItem.Extra ?? (() => null)
     return (
       <FoldItem label={field.title}>
-        <FoldItem.Base>
+        <Base>
           <Select
             value={Array.isArray(props.value) ? undefined : props.value}
             onChange={props.onChange}
@@ -160,12 +162,12 @@ export const ValidatorSetter: React.FC<IValidatorSetterProps> = observer(
               'SettingComponents.ValidatorSetter.formats'
             )}
           />
-        </FoldItem.Base>
-        <FoldItem.Extra>
+        </Base>
+        <Extra>
           <SchemaContext.Provider value={new Schema(ValidatorSchema)}>
             <ArrayItems />
           </SchemaContext.Provider>
-        </FoldItem.Extra>
+        </Extra>
       </FoldItem>
     )
   }

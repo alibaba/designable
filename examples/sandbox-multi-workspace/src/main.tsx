@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   IconWidget,
@@ -29,7 +29,12 @@ import {
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import { Sandbox } from '@designable/react-sandbox'
-import 'antd/dist/antd.less'
+
+// The icons should be auto-registered by the Designer component
+// If they're not working, we can add manual registration here
+// GlobalRegistry.registerDesignerIcons({
+//   InputSource: <svg>...</svg>,  // Would need actual icon definitions
+// })
 
 const RootBehavior = createBehavior({
   name: 'Root',
@@ -357,10 +362,10 @@ const App = () => {
                   {() => (
                     <Sandbox
                       jsAssets={[
-                        'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.production.min.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                        'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                        // 'https://unpkg.com/moment/min/moment-with-locales.js',
+                        'https://unpkg.com/react@18.2.0/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js',
+                        // 'https://unpkg.com/antd/dist/antd-with-locales.min.js',
                         './sandbox.bundle.js',
                       ]}
                     />
@@ -393,10 +398,10 @@ const App = () => {
                   {() => (
                     <Sandbox
                       jsAssets={[
-                        'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.production.min.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                        'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                        // 'https://unpkg.com/moment/min/moment-with-locales.js',
+                        'https://unpkg.com/react@18.2.0/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js',
+                        // 'https://unpkg.com/antd/dist/antd-with-locales.min.js',
                         './sandbox.bundle.js',
                       ]}
                     />
@@ -427,4 +432,5 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const root = createRoot(document.getElementById('root')!)
+root.render(<App />)
