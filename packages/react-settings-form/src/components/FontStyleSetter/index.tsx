@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePrefix, IconWidget } from '@designable/react'
 import { useField, Field, observer } from '@formily/react'
-import { Select, Radio, NumberPicker } from '@formily/antd'
+import { Select, Radio, NumberPicker } from '@formily/antd-v5'
 import { FoldItem } from '../FoldItem'
 import { InputItems } from '../InputItems'
 import { SizeInput } from '../SizeInput'

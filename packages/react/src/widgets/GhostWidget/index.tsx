@@ -9,7 +9,7 @@ import './styles.less'
 export const GhostWidget = observer(() => {
   const designer = useDesigner()
   const cursor = useCursor()
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
   const prefix = usePrefix('ghost')
   const movingNodes = designer.findMovingNodes()
   const firstNode = movingNodes[0]
@@ -22,7 +22,7 @@ export const GhostWidget = observer(() => {
         if (!ref.current) return
         ref.current.style.transform = transform
       }),
-    [designer, cursor]
+    [designer, cursor],
   )
   const renderNodes = () => {
     return (

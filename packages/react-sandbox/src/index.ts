@@ -6,7 +6,9 @@ import {
   useLayout,
   usePrefix,
 } from '@designable/react'
-import ReactDOM from 'react-dom'
+import { createRoot, Root } from 'react-dom/client'
+
+let sandboxRoot: Root | null = null
 
 export interface ISandboxProps {
   style?: React.CSSProperties
@@ -16,7 +18,7 @@ export interface ISandboxProps {
 }
 
 export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
-  const ref = useRef<HTMLIFrameElement>()
+  const ref = useRef<HTMLIFrameElement>(null)
   const appCls = usePrefix('app')
   const designer = useDesigner()
   const workspace = useWorkspace()
@@ -25,7 +27,7 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
   const jsAssets = props.jsAssets || []
   const getCSSVar = (name: string) => {
     return getComputedStyle(
-      document.querySelector(`.${appCls}`)
+      document.querySelector(`.${appCls}`),
     ).getPropertyValue(name)
   }
   useEffect(() => {
@@ -99,7 +101,10 @@ export const useSandbox = (props: React.PropsWithChildren<ISandboxProps>) => {
 if (globalThisPolyfill.frameElement) {
   //解决iframe内嵌如果iframe被移除，内部React无法回收内存的问题
   globalThisPolyfill.addEventListener('unload', () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('__SANDBOX_ROOT__'))
+    if (sandboxRoot) {
+      sandboxRoot.unmount()
+      sandboxRoot = null
+    }
   })
 }
 
@@ -107,12 +112,17 @@ export const useSandboxScope = () => {
   return globalThisPolyfill['__DESIGNABLE_SANDBOX_SCOPE__']
 }
 
-export const renderSandboxContent = (render: (scope?: any) => JSX.Element) => {
+export const renderSandboxContent = (
+  render: (scope?: any) => React.ReactNode,
+) => {
   if (isFn(render)) {
-    ReactDOM.render(
-      render(useSandboxScope()),
-      document.getElementById('__SANDBOX_ROOT__')
-    )
+    const container = document.getElementById('__SANDBOX_ROOT__')
+    if (container) {
+      if (!sandboxRoot) {
+        sandboxRoot = createRoot(container)
+      }
+      sandboxRoot.render(render(useSandboxScope()))
+    }
   }
 }
 

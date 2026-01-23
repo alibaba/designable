@@ -8,11 +8,12 @@ export interface ITextWidgetProps {
   sourceName?: string
   token?: string | IDesignerMiniLocales
   defaultMessage?: string | IDesignerMiniLocales
+  children?: React.ReactNode
 }
 
 export const TextWidget: React.FC<ITextWidgetProps> = observer((props) => {
   const takeLocale = (
-    message: string | IDesignerMiniLocales
+    message: string | IDesignerMiniLocales,
   ): React.ReactNode => {
     if (isStr(message)) return message
     if (isPlainObj(message)) {

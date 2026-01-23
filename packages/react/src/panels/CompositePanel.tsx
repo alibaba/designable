@@ -12,6 +12,7 @@ export interface ICompositePanelProps {
   defaultActiveKey?: number
   activeKey?: number | string
   onChange?: (activeKey: number | string) => void
+  children?: React.ReactNode
 }
 export interface ICompositePanelItemProps {
   shape?: 'tab' | 'button' | 'link'
@@ -21,10 +22,11 @@ export interface ICompositePanelItemProps {
   href?: string
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   extra?: React.ReactNode
+  children?: React.ReactNode
 }
 
 const parseItems = (
-  children: React.ReactNode
+  children: React.ReactNode,
 ): React.PropsWithChildren<ICompositePanelItemProps>[] => {
   const items = []
   React.Children.forEach(children, (child, index) => {
@@ -37,7 +39,7 @@ const parseItems = (
 
 const findItem = (
   items: React.PropsWithChildren<ICompositePanelItemProps>[],
-  key: string | number
+  key: string | number,
 ) => {
   for (let index = 0; index < items.length; index++) {
     const item = items[index]
@@ -56,7 +58,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
 } = (props) => {
   const prefix = usePrefix('composite-panel')
   const [activeKey, setActiveKey] = useState<string | number>(
-    props.defaultActiveKey ?? getDefaultKey(props.children)
+    props.defaultActiveKey ?? getDefaultKey(props.children),
   )
   const activeKeyRef = useRef(null)
   const [pinning, setPinning] = useState(props.defaultPinning ?? false)

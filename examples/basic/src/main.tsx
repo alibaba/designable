@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   IconWidget,
@@ -29,7 +29,6 @@ import { Content } from './content'
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 //import { Sandbox } from '@designable/react-sandbox'
-import 'antd/dist/antd.less'
 
 const RootBehavior = createBehavior({
   name: 'Root',
@@ -215,7 +214,7 @@ const CardBehavior = createBehavior({
     resizable: {
       width(node, element) {
         const width = Number(
-          node.props?.style?.width ?? element.getBoundingClientRect().width
+          node.props?.style?.width ?? element.getBoundingClientRect().width,
         )
         return {
           plus: () => {
@@ -232,7 +231,7 @@ const CardBehavior = createBehavior({
       },
       height(node, element) {
         const height = Number(
-          node.props?.style?.height ?? element.getBoundingClientRect().height
+          node.props?.style?.height ?? element.getBoundingClientRect().height,
         )
         return {
           plus: () => {
@@ -453,4 +452,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(<App />)

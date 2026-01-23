@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { TreeNode, CursorStatus, CursorDragType } from '@designable/core'
-import { LayoutObserver } from '@designable/shared'
+import { LayoutObserver, Rect } from '@designable/shared'
 import { useViewport } from './useViewport'
 import { useDesigner } from './useDesigner'
 
-const isEqualRect = (rect1: DOMRect, rect2: DOMRect) => {
+const isEqualRect = (rect1: Rect | undefined, rect2: Rect | undefined) => {
   return (
     rect1?.x === rect2?.x &&
     rect1?.y === rect2?.y &&
@@ -19,7 +19,7 @@ export const useValidNodeOffsetRect = (node: TreeNode) => {
   const [, forceUpdate] = useState(null)
   const rectRef = useMemo(
     () => ({ current: viewport.getValidNodeOffsetRect(node) }),
-    [viewport]
+    [viewport],
   )
 
   const element = viewport.findElementById(node?.id)

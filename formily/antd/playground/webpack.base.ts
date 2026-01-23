@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
-import { GlobSync } from 'glob'
+import { globSync } from 'glob'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import autoprefixer from 'autoprefixer'
 //import { getThemeVariables } from 'antd/dist/theme'
@@ -12,10 +12,10 @@ const getWorkspaceAlias = () => {
   const workspaces = pkg.workspaces
   if (Array.isArray(workspaces)) {
     workspaces.forEach((pattern) => {
-      const { found } = new GlobSync(pattern, { cwd: basePath })
+      const found = globSync(pattern, { cwd: basePath })
       found.forEach((name) => {
         const pkg = fs.readJSONSync(
-          path.resolve(basePath, name, './package.json')
+          path.resolve(basePath, name, './package.json'),
         )
         results[pkg.name] = path.resolve(basePath, name, './src')
       })
@@ -36,19 +36,20 @@ export default {
   },
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: '[name].[hash].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
   },
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: getWorkspaceAlias(),
   },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    moment: 'moment',
-    antd: 'antd',
-  },
+  // Externals removed - React 18 + Antd 5 don't have compatible UMD builds
+  // externals: {
+  //   react: 'React',
+  //   'react-dom': 'ReactDOM',
+  //   moment: 'moment',
+  //   antd: 'antd',
+  // },
   module: {
     rules: [
       {
@@ -74,29 +75,30 @@ export default {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => autoprefixer(),
+              postcssOptions: {
+                plugins: [autoprefixer()],
+              },
             },
           },
           {
             loader: 'less-loader',
             options: {
-              // modifyVars: getThemeVariables({
-              //   dark: true, // 开启暗黑模式
-              // }),
-              javascriptEnabled: true,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],
       },
       {
         test: /\.(woff|woff2|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: ['url-loader'],
+        type: 'asset',
       },
       {
         test: /\.html?$/,
-        loader: require.resolve('file-loader'),
-        options: {
-          name: '[name].[ext]',
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]',
         },
       },
     ],

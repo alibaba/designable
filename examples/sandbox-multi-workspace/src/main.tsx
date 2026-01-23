@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   IconWidget,
@@ -29,7 +29,6 @@ import {
 import { Space, Button, Radio } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import { Sandbox } from '@designable/react-sandbox'
-import 'antd/dist/antd.less'
 
 const RootBehavior = createBehavior({
   name: 'Root',
@@ -358,9 +357,9 @@ const App = () => {
                     <Sandbox
                       jsAssets={[
                         'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.production.min.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                        'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                        'https://unpkg.com/react@18/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
+
                         './sandbox.bundle.js',
                       ]}
                     />
@@ -394,9 +393,9 @@ const App = () => {
                     <Sandbox
                       jsAssets={[
                         'https://unpkg.com/moment/min/moment-with-locales.js',
-                        'https://unpkg.com/react/umd/react.production.min.js',
-                        'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                        'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                        'https://unpkg.com/react@18/umd/react.production.min.js',
+                        'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
+
                         './sandbox.bundle.js',
                       ]}
                     />
@@ -427,4 +426,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(<App />)

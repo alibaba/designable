@@ -7,6 +7,7 @@ import cls from 'classnames'
 export interface ISettingPanelProps {
   title?: React.ReactNode
   extra?: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {

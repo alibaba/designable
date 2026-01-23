@@ -1,22 +1,10 @@
 import path from 'path'
 import fs from 'fs-extra'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-//import { getThemeVariables } from 'antd/dist/theme'
 
 const getAlias = () => {
   const packagesDir = path.resolve(__dirname, '../../../packages')
   const packages = fs.readdirSync(packagesDir)
-  const pkg = fs.readJSONSync(path.resolve(__dirname, '../package.json'))
-  const deps = Object.entries(pkg.dependencies).reduce((deps, [key]) => {
-    if (key.includes('@designable/')) {
-      return deps
-    } else if (key.includes('react')) {
-      deps[key] = require.resolve(key)
-      return deps
-    }
-    deps[key] = key
-    return deps
-  }, {})
   const alias = packages
     .map((v) => path.join(packagesDir, v))
     .filter((v) => {
@@ -28,12 +16,13 @@ const getAlias = () => {
         ...buf,
         [`@designable/${name}$`]: `${_path}/src`,
       }
-    }, deps)
+    }, {})
   return alias
 }
+
 export default {
   mode: 'development',
-  devtool: 'inline-source-map', // 嵌入到源文件中
+  devtool: 'inline-source-map',
   stats: {
     entrypoints: false,
     children: false,
@@ -51,13 +40,7 @@ export default {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: getAlias(),
   },
-  externals: {
-    '@formily/reactive': 'Formily.Reactive',
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    moment: 'moment',
-    antd: 'antd',
-  },
+  // Externals removed - React 19 and Antd 5 don't have compatible UMD builds
   module: {
     rules: [
       {
@@ -83,19 +66,18 @@ export default {
           {
             loader: 'less-loader',
             options: {
-              // modifyVars: getThemeVariables({
-              //   dark: true // 开启暗黑模式
-              // }),
-              javascriptEnabled: true,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],
       },
       {
         test: /\.html?$/,
-        loader: require.resolve('file-loader'),
-        options: {
-          name: '[name].[ext]',
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]',
         },
       },
     ],

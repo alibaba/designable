@@ -1,10 +1,9 @@
 import typescript from 'rollup-plugin-typescript2'
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
 import postcss from 'rollup-plugin-postcss'
 import commonjs from '@rollup/plugin-commonjs'
-import NpmImport from 'less-plugin-npm-import'
 import externalGlobals from 'rollup-plugin-external-globals'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import path from 'path'
 
 const presets = () => {
@@ -48,10 +47,8 @@ const presets = () => {
     postcss({
       extract: true,
       minimize: true,
-      // extensions: ['.css', '.less', '.sass'],
       use: {
         less: {
-          plugins: [new NpmImport({ prefix: '~' })],
           javascriptEnabled: true,
         },
         sass: {},

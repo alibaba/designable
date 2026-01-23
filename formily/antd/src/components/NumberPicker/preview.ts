@@ -1,5 +1,5 @@
 import React from 'react'
-import { NumberPicker as FormilyNumberPicker } from '@formily/antd'
+import { NumberPicker as FormilyNumberPicker } from '@formily/antd-v5'
 import { createBehavior, createResource } from '@designable/core'
 import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'

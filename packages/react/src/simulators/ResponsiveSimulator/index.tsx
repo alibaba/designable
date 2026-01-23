@@ -21,7 +21,7 @@ import './styles.less'
 const useResizeEffect = (
   container: React.MutableRefObject<HTMLDivElement>,
   content: React.MutableRefObject<HTMLDivElement>,
-  engine: Engine
+  engine: Engine,
 ) => {
   let status: ResizeHandleType = null
   let startX = 0
@@ -43,19 +43,19 @@ const useResizeEffect = (
       engine.screen.setSize(startWidth + deltaX, startHeight + deltaY)
       container.current.scrollBy(
         containerRect.width + deltaX,
-        containerRect.height + deltaY
+        containerRect.height + deltaY,
       )
     } else if (status === ResizeHandleType.ResizeHeight) {
       engine.screen.setSize(startWidth, startHeight + deltaY)
       container.current.scrollBy(
         container.current.scrollLeft,
-        containerRect.height + deltaY
+        containerRect.height + deltaY,
       )
     } else if (status === ResizeHandleType.ResizeWidth) {
       engine.screen.setSize(startWidth + deltaX, startHeight)
       container.current.scrollBy(
         containerRect.width + deltaX,
-        container.current.scrollTop
+        container.current.scrollTop,
       )
     }
   }
@@ -67,7 +67,7 @@ const useResizeEffect = (
       const rect = content.current?.getBoundingClientRect()
       if (!rect) return
       status = target.getAttribute(
-        engine.props.screenResizeHandlerAttrName
+        engine.props.screenResizeHandlerAttrName,
       ) as ResizeHandleType
       engine.cursor.setStyle(getStyle(status))
       startX = e.data.topClientX
@@ -126,16 +126,15 @@ const useResizeEffect = (
   })
 }
 
-export interface IResponsiveSimulatorProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface IResponsiveSimulatorProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
   style?: React.CSSProperties
 }
 
 export const ResponsiveSimulator: React.FC<IResponsiveSimulatorProps> =
   observer((props) => {
-    const container = useRef<HTMLDivElement>()
-    const content = useRef<HTMLDivElement>()
+    const container = useRef<HTMLDivElement>(null)
+    const content = useRef<HTMLDivElement>(null)
     const prefix = usePrefix('responsive-simulator')
     const screen = useScreen()
     useDesigner((engine) => {

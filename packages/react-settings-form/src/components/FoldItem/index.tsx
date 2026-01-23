@@ -1,5 +1,5 @@
 import React, { Fragment, useRef, useMemo } from 'react'
-import { FormItem, IFormItemProps } from '@formily/antd'
+import { FormItem, IFormItemProps } from '@formily/antd-v5'
 import { useField, observer } from '@formily/react'
 import { observable } from '@formily/reactive'
 import { IconWidget, usePrefix } from '@designable/react'
@@ -8,24 +8,28 @@ import './styles.less'
 
 const ExpandedMap = new Map<string, boolean>()
 
-export const FoldItem: React.FC<IFormItemProps> & {
-  Base?: React.FC
-  Extra?: React.FC
+export const FoldItem: React.FC<
+  IFormItemProps & { children?: React.ReactNode }
+> & {
+  Base?: React.FC<IFoldItemSlotProps>
+  Extra?: React.FC<IFoldItemSlotProps>
 } = observer(({ className, style, children, ...props }) => {
   const prefix = usePrefix('fold-item')
   const field = useField()
   const expand = useMemo(
     () => observable.ref(ExpandedMap.get(field.address.toString())),
-    []
+    [],
   )
   const slots = useRef({ base: null, extra: null })
   React.Children.forEach(children, (node) => {
     if (React.isValidElement(node)) {
-      if (node?.['type']?.['displayName'] === 'FoldItem.Base') {
-        slots.current.base = node['props'].children
+      const nodeType = node?.type as { displayName?: string }
+      const nodeProps = node?.props as { children?: React.ReactNode }
+      if (nodeType?.displayName === 'FoldItem.Base') {
+        slots.current.base = nodeProps.children
       }
-      if (node?.['type']?.['displayName'] === 'FoldItem.Extra') {
-        slots.current.extra = node['props'].children
+      if (nodeType?.displayName === 'FoldItem.Extra') {
+        slots.current.extra = nodeProps.children
       }
     }
   })
@@ -68,13 +72,17 @@ export const FoldItem: React.FC<IFormItemProps> & {
   )
 })
 
-const Base: React.FC = () => {
+interface IFoldItemSlotProps {
+  children?: React.ReactNode
+}
+
+const Base: React.FC<IFoldItemSlotProps> = () => {
   return <Fragment />
 }
 
 Base.displayName = 'FoldItem.Base'
 
-const Extra: React.FC = () => {
+const Extra: React.FC<IFoldItemSlotProps> = () => {
   return <Fragment />
 }
 

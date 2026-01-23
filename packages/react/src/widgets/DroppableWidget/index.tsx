@@ -17,6 +17,7 @@ export interface IDroppableWidgetProps {
   style?: React.CSSProperties
   className?: string
   hasChildren?: boolean
+  children?: React.ReactNode
 }
 
 export const DroppableWidget: React.FC<IDroppableWidgetProps> = observer(
@@ -24,26 +25,26 @@ export const DroppableWidget: React.FC<IDroppableWidgetProps> = observer(
     node,
     actions,
     height,
-    placeholder,
+    placeholder = true,
     style,
     className,
     hasChildren: hasChildrenProp,
-    ...props
+    children,
   }) => {
     const currentNode = useTreeNode()
     const nodeId = useNodeIdProps(node)
     const target = node ?? currentNode
     const hasChildren = hasChildrenProp ?? target.children?.length > 0
     return (
-      <div {...nodeId} {...props} className={className} style={style}>
+      <div {...nodeId} className={className} style={style}>
         {hasChildren ? (
-          props.children
+          children
         ) : placeholder ? (
           <div style={{ height }} className="dn-droppable-placeholder">
             <NodeTitleWidget node={target} />
           </div>
         ) : (
-          props.children
+          children
         )}
         {actions?.length ? (
           <NodeActionsWidget>
@@ -54,9 +55,5 @@ export const DroppableWidget: React.FC<IDroppableWidgetProps> = observer(
         ) : null}
       </div>
     )
-  }
+  },
 )
-
-DroppableWidget.defaultProps = {
-  placeholder: true,
-}

@@ -9,6 +9,7 @@ export enum ResizeHandleType {
 
 export interface IResizeHandleProps {
   type?: ResizeHandleType
+  children?: React.ReactNode
 }
 
 export const ResizeHandle: React.FC<IResizeHandleProps> = (props) => {

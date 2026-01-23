@@ -6,9 +6,11 @@ export interface IDesignerLayoutProps {
   theme?: 'dark' | 'light' | (string & {})
   variables?: Record<string, string>
   position?: 'fixed' | 'absolute' | 'relative'
+  children?: React.ReactNode
 }
 export interface IDesignerProps extends IDesignerLayoutProps {
   engine: Engine
+  children?: React.ReactNode
 }
 
 export interface IDesignerComponents {

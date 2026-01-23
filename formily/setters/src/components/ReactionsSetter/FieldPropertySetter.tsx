@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { TextWidget, usePrefix } from '@designable/react'
+import { GlobalRegistry } from '@designable/core'
 import { Menu } from 'antd'
+import type { MenuProps } from 'antd'
 import { MonacoInput } from '@designable/react-settings-form'
 import { isPlainObj, reduce } from '@formily/shared'
 import { FieldProperties } from './properties'
@@ -20,7 +22,7 @@ const template = (code: string) => {
 }
 
 export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
-  props
+  props,
 ) => {
   const [selectKeys, setSelectKeys] = useState(['visible'])
   const prefix = usePrefix('field-property-setter')
@@ -39,13 +41,32 @@ export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
         buf[key] = value
         return buf
       },
-      {}
+      {},
     )
   }
 
   const currentProperty = FieldProperties.find(
-    (item) => item.key === selectKeys[0]
+    (item) => item.key === selectKeys[0],
   )
+
+  const menuItems: MenuProps['items'] = useMemo(() => {
+    return FieldProperties.map((key) => {
+      if (isPlainObj(key)) {
+        return {
+          key: key.key,
+          label: GlobalRegistry.getDesignerMessage(
+            `SettingComponents.ReactionsSetter.${key.token || key.key}`,
+          ),
+        }
+      }
+      return {
+        key: key as string,
+        label: GlobalRegistry.getDesignerMessage(
+          `SettingComponents.ReactionsSetter.${key}`,
+        ),
+      }
+    })
+  }, [])
 
   return (
     <div className={prefix}>
@@ -61,28 +82,10 @@ export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
         defaultSelectedKeys={selectKeys}
         selectedKeys={selectKeys}
         onSelect={({ selectedKeys }) => {
-          setSelectKeys(selectedKeys)
+          setSelectKeys(selectedKeys as string[])
         }}
-      >
-        {FieldProperties.map((key) => {
-          if (isPlainObj(key)) {
-            return (
-              <Menu.Item key={key.key}>
-                <TextWidget
-                  token={`SettingComponents.ReactionsSetter.${
-                    key.token || key.key
-                  }`}
-                />
-              </Menu.Item>
-            )
-          }
-          return (
-            <Menu.Item key={key}>
-              <TextWidget token={`SettingComponents.ReactionsSetter.${key}`} />
-            </Menu.Item>
-          )
-        })}
-      </Menu>
+        items={menuItems}
+      />
       <div className={prefix + '-coder-wrapper'}>
         <div className={prefix + '-coder-start'}>
           {`$self.${selectKeys[0]} = (`}
@@ -124,7 +127,7 @@ export const FieldPropertySetter: React.FC<IFieldPropertySetterProps> = (
                 filterEmpty({
                   ...value,
                   [selectKeys[0]]: `{{${expression}}}`,
-                })
+                }),
               )
             }}
           />

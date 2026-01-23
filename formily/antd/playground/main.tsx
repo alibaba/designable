@@ -1,6 +1,5 @@
-import 'antd/dist/antd.less'
 import React, { useMemo } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   DesignerToolsWidget,
@@ -112,7 +111,7 @@ const App = () => {
         ],
         rootComponentName: 'Form',
       }),
-    []
+    [],
   )
   return (
     <Designer engine={engine}>
@@ -230,4 +229,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(<App />)

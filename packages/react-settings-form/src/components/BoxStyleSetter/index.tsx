@@ -26,13 +26,20 @@ const PositionMap = {
 const BoxRex =
   /([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+)(?:\s+([\d\.]+[^\d\s\.+-]+))?)?)?/
 
+const defaultLabels = [
+  <IconWidget infer="Top" size={16} key="1" />,
+  <IconWidget infer="Right" size={16} key="2" />,
+  <IconWidget infer="Bottom" size={16} key="3" />,
+  <IconWidget infer="Left" size={16} key="4" />,
+]
+
 export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
-  (props) => {
+  ({ labels = defaultLabels, ...props }) => {
     const field = useField()
     const prefix = usePrefix('box-style-setter')
     const createPositionHandler = (
       position: Position,
-      props: IMarginStyleSetterProps
+      inputProps: IMarginStyleSetterProps,
     ) => {
       const matched = String(props.value).match(BoxRex) || []
       const value = matched[PositionMap[position]]
@@ -49,14 +56,14 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
             props.onChange?.(
               `${value || '0px'} ${value || '0px'} ${value || '0px'} ${
                 value || '0px'
-              }`
+              }`,
             )
           } else {
             matched[PositionMap[position]] = value
             props.onChange?.(
               `${matched[1] || '0px'} ${matched[2] || '0px'} ${
                 matched[3] || '0px'
-              } ${matched[4] || '0px'}`
+              } ${matched[4] || '0px'}`,
             )
           }
         },
@@ -73,25 +80,25 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
         </FoldItem.Base>
         <FoldItem.Extra>
           <InputItems width="50%">
-            <InputItems.Item icon={props.labels[0]}>
+            <InputItems.Item icon={labels[0]}>
               <SizeInput
                 {...createPositionHandler('top', props)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[1]}>
+            <InputItems.Item icon={labels[1]}>
               <SizeInput
                 {...createPositionHandler('right', props)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[2]}>
+            <InputItems.Item icon={labels[2]}>
               <SizeInput
                 {...createPositionHandler('bottom', props)}
                 exclude={['inherit', 'auto']}
               />
             </InputItems.Item>
-            <InputItems.Item icon={props.labels[3]}>
+            <InputItems.Item icon={labels[3]}>
               <SizeInput
                 {...createPositionHandler('left', props)}
                 exclude={['inherit', 'auto']}
@@ -101,14 +108,5 @@ export const BoxStyleSetter: React.FC<IMarginStyleSetterProps> = observer(
         </FoldItem.Extra>
       </FoldItem>
     )
-  }
+  },
 )
-
-BoxStyleSetter.defaultProps = {
-  labels: [
-    <IconWidget infer="Top" size={16} key="1" />,
-    <IconWidget infer="Right" size={16} key="2" />,
-    <IconWidget infer="Bottom" size={16} key="3" />,
-    <IconWidget infer="Left" size={16} key="4" />,
-  ],
-}

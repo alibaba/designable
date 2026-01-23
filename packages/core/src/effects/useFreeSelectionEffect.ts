@@ -5,6 +5,7 @@ import {
   isCrossRectInRect,
   isRectInRect,
   Point,
+  Rect,
 } from '@designable/shared'
 
 export const useFreeSelectionEffect = (engine: Engine) => {
@@ -16,19 +17,19 @@ export const useFreeSelectionEffect = (engine: Engine) => {
       const viewport = workspace.viewport
       const dragEndPoint = new Point(
         event.data.topClientX,
-        event.data.topClientY
+        event.data.topClientY,
       )
       const dragStartOffsetPoint = viewport.getOffsetPoint(
         new Point(
           engine.cursor.dragStartPosition.topClientX,
-          engine.cursor.dragStartPosition.topClientY
-        )
+          engine.cursor.dragStartPosition.topClientY,
+        ),
       )
       const dragEndOffsetPoint = viewport.getOffsetPoint(
         new Point(
           engine.cursor.position.topClientX,
-          engine.cursor.position.topClientY
-        )
+          engine.cursor.position.topClientY,
+        ),
       )
       if (!viewport.isPointInViewport(dragEndPoint, false)) return
       const tree = workspace.operation.tree
@@ -36,9 +37,9 @@ export const useFreeSelectionEffect = (engine: Engine) => {
         dragStartOffsetPoint,
         dragEndOffsetPoint,
         viewport.dragScrollXDelta,
-        viewport.dragScrollYDelta
+        viewport.dragScrollYDelta,
       )
-      const selected: [TreeNode, DOMRect][] = []
+      const selected: [TreeNode, Rect][] = []
       tree.eachChildren((node) => {
         const nodeRect = viewport.getValidNodeOffsetRect(node)
         if (nodeRect && isCrossRectInRect(selectionRect, nodeRect)) {
@@ -54,7 +55,7 @@ export const useFreeSelectionEffect = (engine: Engine) => {
           }
           return buf.concat(node)
         },
-        []
+        [],
       )
       workspace.operation.selection.batchSafeSelect(selectedNodes)
     })

@@ -23,23 +23,22 @@
     "start": "webpack-dev-server --config playground/webpack.dev.ts"
   },
   "devDependencies": {
-    "@formily/antd": "^2.0.2",
-    "@formily/core": "^2.0.2",
-    "@formily/react": "^2.0.2",
-    "@formily/shared": "^2.0.2",
-    "antd": "^4.0.0"
+    "@formily/antd-v5": "^1.2.0",
+    "@formily/core": "^2.3.0",
+    "@formily/react": "^2.3.0",
+    "@formily/shared": "^2.3.0",
+    "antd": "^5.24.0"
   },
   "peerDependencies": {
-    "@formily/antd": "^2.0.2",
-    "@formily/core": "^2.0.2",
-    "@formily/react": "^2.0.2",
-    "@formily/shared": "^2.0.2",
-    "@types/react": ">=16.8.0 || >=17.0.0",
-    "@types/react-dom": ">=16.8.0 || >=17.0.0",
-    "antd": "^4.0.0",
-    "react": ">=16.8.0 || >=17.0.0",
-    "react-dom": ">=16.8.0",
-    "react-is": ">=16.8.0 || >=17.0.0"
+    "@formily/antd-v5": "^1.2.0",
+    "@formily/core": "^2.3.0",
+    "@formily/react": "^2.3.0",
+    "@formily/shared": "^2.3.0",
+    "@types/react": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0",
+    "@types/react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0",
+    "antd": "^5.13.0",
+    "react": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0",
+    "react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0"
   },
   "dependencies": {
     "@designable/core": "1.0.0-beta.45",
