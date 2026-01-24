@@ -16,7 +16,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
         createForm({
           designable: true,
         }),
-      []
+      [],
     )
     return (
       <FormilyForm
@@ -28,7 +28,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
         {props.children}
       </FormilyForm>
     )
-  }
+  },
 )
 
 Form.Behavior = createBehavior({
@@ -57,7 +57,7 @@ Form.Behavior = createBehavior({
 })
 
 Form.Resource = createResource({
-  title: { 'zh-CN': '表单', 'en-US': 'Form' },
+  title: { 'en-US': 'Form' },
   icon: 'FormLayoutSource',
   elements: [
     {

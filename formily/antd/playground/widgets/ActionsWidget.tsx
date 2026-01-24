@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Space, Button, Radio } from 'antd'
+import { Space, Button } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
 import { useDesigner, TextWidget } from '@sulesky/react'
 import { GlobalRegistry } from '@sulesky/core'
@@ -11,30 +11,12 @@ export const ActionsWidget = observer(() => {
   useEffect(() => {
     loadInitialSchema(designer)
   }, [])
-  const supportLocales = ['zh-cn', 'en-us', 'ko-kr']
   useEffect(() => {
-    if (!supportLocales.includes(GlobalRegistry.getDesignerLanguage())) {
-      GlobalRegistry.setDesignerLanguage('zh-cn')
-    }
+    GlobalRegistry.setDesignerLanguage('en-us')
   }, [])
   return (
     <Space style={{ marginRight: 10 }}>
-      <Button href="https://designable-fusion.formilyjs.org">
-        Alibaba Fusion
-      </Button>
-      <Radio.Group
-        value={GlobalRegistry.getDesignerLanguage()}
-        optionType="button"
-        options={[
-          { label: 'English', value: 'en-us' },
-          { label: '简体中文', value: 'zh-cn' },
-          { label: '한국어', value: 'ko-kr' },
-        ]}
-        onChange={(e) => {
-          GlobalRegistry.setDesignerLanguage(e.target.value)
-        }}
-      />
-      <Button href="https://github.com/alibaba/designable" target="_blank">
+      <Button href="https://github.com/kapelan/designable" target="_blank">
         <GithubOutlined />
         Github
       </Button>

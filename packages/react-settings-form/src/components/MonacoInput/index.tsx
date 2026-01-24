@@ -94,10 +94,10 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
     const getHref = () => {
       if (typeof helpLink === 'string') return helpLink
       if (isFileLanguage()) {
-        return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
+        return 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'
       }
       if (isExpLanguage()) {
-        return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators'
+        return 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators'
       }
     }
     if (helpLink === false) return null
