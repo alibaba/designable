@@ -1,5 +1,5 @@
 import { Path } from '@formily/path'
-import { requestIdle, globalThisPolyfill } from '@designable/shared'
+import { requestIdle, globalThisPolyfill } from '@sulesky/shared'
 import { Engine, TreeNode } from '../models'
 import { MouseDoubleClickEvent, MouseClickEvent } from '../events'
 

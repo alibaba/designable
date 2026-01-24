@@ -2,13 +2,13 @@ import React, { Fragment } from 'react'
 import { Tree, Button, TreeProps } from 'antd'
 import { uid } from '@formily/shared'
 import { observer } from '@formily/reactive-react'
-import { usePrefix, TextWidget, IconWidget } from '@designable/react'
+import { usePrefix, TextWidget, IconWidget } from '@sulesky/react'
 import { Title } from './Title'
 import { Header } from './Header'
 import { traverseTree } from './shared'
 import { ITreeDataSource, INodeItem } from './types'
 import './styles.less'
-import { GlobalRegistry } from '@designable/core'
+import { GlobalRegistry } from '@sulesky/core'
 
 const limitTreeDrag = ({ dropPosition }) => {
   if (dropPosition === 0) {

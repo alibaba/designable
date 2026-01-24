@@ -5,7 +5,7 @@ import { Selection } from './Selection'
 import { Hover } from './Hover'
 import { TransformHelper } from './TransformHelper'
 import { MoveHelper } from './MoveHelper'
-import { cancelIdle, ICustomEvent, isFn, requestIdle } from '@designable/shared'
+import { cancelIdle, ICustomEvent, isFn, requestIdle } from '@sulesky/shared'
 
 export interface IOperation {
   tree?: ITreeNode

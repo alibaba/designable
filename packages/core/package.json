@@ -1,6 +1,6 @@
 {
-  "name": "@designable/core",
-  "version": "1.0.0-beta.45",
+  "name": "@sulesky/core",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -10,12 +10,12 @@
   "module": "esm",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+    "url": "git+https://github.com/kapelan/designable.git"
   },
   "bugs": {
-    "url": "https://github.com/alibaba/designable/issues"
+    "url": "https://github.com/kapelan/designable/issues"
   },
-  "homepage": "https://github.com/alibaba/designable#readme",
+  "homepage": "https://github.com/kapelan/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
     "build:cjs": "tsc --project tsconfig.build.json",
@@ -33,7 +33,7 @@
     "@formily/reactive": "^2.3.0"
   },
   "dependencies": {
-    "@designable/shared": "1.0.0-beta.45",
+    "@sulesky/shared": "1.0.0",
     "@juggle/resize-observer": "^3.3.1"
   },
   "publishConfig": {

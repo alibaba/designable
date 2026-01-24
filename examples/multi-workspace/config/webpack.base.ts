@@ -14,7 +14,7 @@ const getAlias = () => {
       const name = path.basename(_path)
       return {
         ...buf,
-        [`@designable/${name}$`]: `${_path}/src`,
+        [`@sulesky/${name}$`]: `${_path}/src`,
       }
     }, {})
   return alias

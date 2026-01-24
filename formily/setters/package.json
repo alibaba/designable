@@ -1,18 +1,18 @@
 {
-  "name": "@designable/formily-setters",
-  "version": "1.0.0-beta.45",
+  "name": "@sulesky/formily-setters",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
   "module": "esm",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+    "url": "git+https://github.com/kapelan/designable.git"
   },
   "types": "esm/index.d.ts",
   "bugs": {
-    "url": "https://github.com/alibaba/designable/issues"
+    "url": "https://github.com/kapelan/designable/issues"
   },
-  "homepage": "https://github.com/alibaba/designable#readme",
+  "homepage": "https://github.com/kapelan/designable#readme",
   "engines": {
     "npm": ">=3.0.0"
   },
@@ -41,10 +41,10 @@
     "react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.45",
-    "@designable/formily-transformer": "1.0.0-beta.45",
-    "@designable/react": "1.0.0-beta.45",
-    "@designable/react-settings-form": "1.0.0-beta.45"
+    "@sulesky/core": "1.0.0",
+    "@sulesky/formily-transformer": "1.0.0",
+    "@sulesky/react": "1.0.0",
+    "@sulesky/react-settings-form": "1.0.0"
   },
   "publishConfig": {
     "access": "public"

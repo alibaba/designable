@@ -1,4 +1,4 @@
-import { GlobalRegistry } from '@designable/core'
+import { GlobalRegistry } from '@sulesky/core'
 import icons from './icons'
 import panels from './panels'
 import global from './global'

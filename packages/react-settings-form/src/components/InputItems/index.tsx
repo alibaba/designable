@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { usePrefix, IconWidget } from '@designable/react'
+import { usePrefix, IconWidget } from '@sulesky/react'
 import cls from 'classnames'
 import './styles.less'
 

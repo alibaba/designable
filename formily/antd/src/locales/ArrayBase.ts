@@ -1,4 +1,4 @@
-import { GlobalRegistry } from '@designable/core'
+import { GlobalRegistry } from '@sulesky/core'
 
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
