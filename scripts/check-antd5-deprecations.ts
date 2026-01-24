@@ -21,6 +21,16 @@ const deprecations: DeprecationPattern[] = [
     replacement: 'Use Space.Compact instead',
   },
   {
+    pattern: /Collapse\.Panel/g,
+    message: 'Collapse.Panel is deprecated',
+    replacement: 'Use items prop instead',
+  },
+  {
+    pattern: /<Collapse[^>]*>\s*{/g,
+    message: 'Collapse with children is deprecated',
+    replacement: 'Use items prop instead of children',
+  },
+  {
     pattern: /Breadcrumb\.Item/g,
     message: 'Breadcrumb.Item is deprecated',
     replacement: 'Use items prop instead',
