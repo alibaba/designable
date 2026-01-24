@@ -37,7 +37,8 @@
     "release": "lerna publish",
     "prelease": "lerna publish --dist-tag next",
     "lint": "eslint --ext .ts,.tsx,.js  --fix",
-    "check:antd5": "ts-node scripts/check-antd5-deprecations.ts"
+    "check:antd5": "ts-node scripts/check-antd5-deprecations.ts",
+    "ci": "yarn build && yarn check:antd5 && yarn test"
   },
   "resolutions": {
     "@types/react": "^18.3.0",
