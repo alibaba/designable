@@ -1,60 +1,23 @@
 # TODO
 
-## Publishing to npm
+## First-time Setup
 
-### Pre-requisites
+- [ ] Create npm organization `sulesky` at https://www.npmjs.com/org/create
+- [ ] Generate npm token at https://www.npmjs.com/settings/YOUR_USERNAME/tokens (Automation type)
+- [ ] Add `NPM_TOKEN` secret to GitHub repo (Settings → Secrets → Actions)
+- [ ] Push branch to GitHub: `git push origin upgarde`
+- [ ] Merge to master or create PR
 
-1. **Create npm organization `sulesky`**
-   - Go to https://www.npmjs.com/org/create
-   - Name: `sulesky`
-   - This reserves the `@sulesky` scope
+## First Release
 
-2. **Login to npm**
-   ```bash
-   npm login
-   ```
-
-3. **Verify org access**
-   ```bash
-   npm org ls sulesky
-   ```
-
-### Publish
+After setup is complete:
 
 ```bash
-# Publish all 8 packages to npm
-lerna publish from-package --yes
+git checkout master
+yarn version:patch    # creates v1.0.1 tag
+git push origin master --tags
 ```
 
-### Packages to be published
+GitHub Actions will automatically publish to npm.
 
-| Package | Version |
-|---------|---------|
-| `@sulesky/shared` | 1.0.0 |
-| `@sulesky/core` | 1.0.0 |
-| `@sulesky/react` | 1.0.0 |
-| `@sulesky/react-sandbox` | 1.0.0 |
-| `@sulesky/react-settings-form` | 1.0.0 |
-| `@sulesky/formily-transformer` | 1.0.0 |
-| `@sulesky/formily-setters` | 1.0.0 |
-| `@sulesky/formily-antd` | 1.0.0 |
-
-### After publishing
-
-1. Push to git:
-   ```bash
-   git push origin upgarde
-   ```
-
-2. Create a release tag:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-
-3. (Optional) Merge to main:
-   ```bash
-   git checkout main
-   git merge upgarde
-   git push origin main
-   ```
+See [RELEASE.md](./RELEASE.md) for full documentation.
