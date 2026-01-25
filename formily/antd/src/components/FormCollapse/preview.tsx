@@ -2,14 +2,14 @@ import React, { Fragment, useState, useMemo } from 'react'
 import { observer } from '@formily/react'
 import { Collapse } from 'antd'
 import type { CollapseProps } from 'antd'
-import { TreeNode, createBehavior, createResource } from '@sulesky/core'
+import { TreeNode, createBehavior, createResource } from '@sulesky/next-core'
 import {
   useTreeNode,
   useNodeIdProps,
   DroppableWidget,
   TreeNodeWidget,
   DnFC,
-} from '@sulesky/react'
+} from '@sulesky/next-react'
 import { toArr } from '@formily/shared'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'

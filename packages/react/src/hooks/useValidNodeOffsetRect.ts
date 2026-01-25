@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { TreeNode, CursorStatus, CursorDragType } from '@sulesky/core'
-import { LayoutObserver, Rect } from '@sulesky/shared'
+import { TreeNode, CursorStatus, CursorDragType } from '@sulesky/next-core'
+import { LayoutObserver, Rect } from '@sulesky/next-shared'
 import { useViewport } from './useViewport'
 import { useDesigner } from './useDesigner'
 

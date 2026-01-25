@@ -1,5 +1,5 @@
 {
-  "name": "@sulesky/core",
+  "name": "@sulesky/next-core",
   "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
@@ -33,7 +33,7 @@
     "@formily/reactive": "^2.3.0"
   },
   "dependencies": {
-    "@sulesky/shared": "1.0.0",
+    "@sulesky/next-shared": "1.0.0",
     "@juggle/resize-observer": "^3.3.1"
   },
   "publishConfig": {

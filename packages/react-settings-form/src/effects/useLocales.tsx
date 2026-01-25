@@ -1,8 +1,8 @@
 import React from 'react'
 import { isVoidField, onFieldReact } from '@formily/core'
-import { TreeNode, GlobalRegistry } from '@sulesky/core'
-import { isStr } from '@sulesky/shared'
-import { IconWidget } from '@sulesky/react'
+import { TreeNode, GlobalRegistry } from '@sulesky/next-core'
+import { isStr } from '@sulesky/next-shared'
+import { IconWidget } from '@sulesky/next-react'
 
 const takeIcon = (message: string) => {
   if (!isStr(message)) return

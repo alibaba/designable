@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react'
-import { isFn, globalThisPolyfill } from '@sulesky/shared'
+import { isFn, globalThisPolyfill } from '@sulesky/next-shared'
 import {
   useDesigner,
   useWorkspace,
   useLayout,
   usePrefix,
-} from '@sulesky/react'
+} from '@sulesky/next-react'
 import { createRoot, Root } from 'react-dom/client'
 
 let sandboxRoot: Root | null = null

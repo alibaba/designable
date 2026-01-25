@@ -17,15 +17,15 @@ import {
   ViewportPanel,
   SettingsPanel,
   HistoryWidget,
-} from '@sulesky/react'
-import { SettingsForm, MonacoInput } from '@sulesky/react-settings-form'
+} from '@sulesky/next-react'
+import { SettingsForm, MonacoInput } from '@sulesky/next-react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
   createResource,
   createBehavior,
   GlobalRegistry,
-} from '@sulesky/core'
+} from '@sulesky/next-core'
 import { Content } from './content'
 import { Space, Button } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'

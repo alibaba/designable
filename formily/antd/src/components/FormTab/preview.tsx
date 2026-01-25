@@ -2,14 +2,14 @@ import React, { Fragment, useState, useMemo } from 'react'
 import { observer } from '@formily/react'
 import { Tabs } from 'antd'
 import type { TabsProps } from 'antd'
-import { TreeNode, createBehavior, createResource } from '@sulesky/core'
+import { TreeNode, createBehavior, createResource } from '@sulesky/next-core'
 import {
   useNodeIdProps,
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
   DnFC,
-} from '@sulesky/react'
+} from '@sulesky/next-react'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'

@@ -1,4 +1,4 @@
-import { createLocales } from '@sulesky/core'
+import { createLocales } from '@sulesky/next-core'
 
 export const Upload = {
   

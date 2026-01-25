@@ -1,4 +1,4 @@
-import { getKeyCodeFromEvent, KeyCode } from '@sulesky/shared'
+import { getKeyCodeFromEvent, KeyCode } from '@sulesky/next-shared'
 import { IEngineContext } from '../../types'
 
 export class AbstractKeyboardEvent {

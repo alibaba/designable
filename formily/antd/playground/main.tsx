@@ -16,14 +16,14 @@ import {
   ViewPanel,
   SettingsPanel,
   ComponentTreeWidget,
-} from '@sulesky/react'
-import { SettingsForm, setNpmCDNRegistry } from '@sulesky/react-settings-form'
+} from '@sulesky/next-react'
+import { SettingsForm, setNpmCDNRegistry } from '@sulesky/next-react-settings-form'
 import {
   createDesigner,
   GlobalRegistry,
   Shortcut,
   KeyCode,
-} from '@sulesky/core'
+} from '@sulesky/next-core'
 import {
   LogoWidget,
   ActionsWidget,

@@ -1,5 +1,5 @@
 {
-  "name": "@sulesky/react-settings-form",
+  "name": "@sulesky/next-react-settings-form",
   "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@sulesky/core": "1.0.0",
-    "@sulesky/react": "1.0.0",
-    "@sulesky/shared": "1.0.0",
+    "@sulesky/next-core": "1.0.0",
+    "@sulesky/next-react": "1.0.0",
+    "@sulesky/next-shared": "1.0.0",
     "@monaco-editor/react": "^4.2.1",
     "monaco-editor": "^0.52.0",
     "prettier": "^2.3.2",

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
-import { TextWidget, usePrefix } from '@sulesky/react'
-import { GlobalRegistry } from '@sulesky/core'
+import { TextWidget, usePrefix } from '@sulesky/next-react'
+import { GlobalRegistry } from '@sulesky/next-core'
 import { Menu } from 'antd'
 import type { MenuProps } from 'antd'
-import { MonacoInput } from '@sulesky/react-settings-form'
+import { MonacoInput } from '@sulesky/next-react-settings-form'
 import { isPlainObj, reduce } from '@formily/shared'
 import { FieldProperties } from './properties'
 export interface IFieldProperty {

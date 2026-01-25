@@ -6,11 +6,11 @@ import {
   DragMoveEvent,
   DragStopEvent,
   CursorDragType,
-} from '@sulesky/core'
+} from '@sulesky/next-core'
 import {
   calcSpeedFactor,
   createUniformSpeedAnimation,
-} from '@sulesky/shared'
+} from '@sulesky/next-shared'
 import { useScreen, useDesigner, usePrefix } from '../../hooks'
 import { IconWidget } from '../../widgets'
 import { ResizeHandle, ResizeHandleType } from './handle'

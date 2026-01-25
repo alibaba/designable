@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from '@formily/reactive-react'
-import { DroppableWidget } from '@sulesky/react'
+import { DroppableWidget } from '@sulesky/next-react'
 import './styles.less'
 
 interface IContainerProps {

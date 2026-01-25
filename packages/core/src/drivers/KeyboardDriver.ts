@@ -1,4 +1,4 @@
-import { EventDriver } from '@sulesky/shared'
+import { EventDriver } from '@sulesky/next-shared'
 import { KeyDownEvent, KeyUpEvent } from '../events'
 
 function filter(event: KeyboardEvent) {

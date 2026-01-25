@@ -1,5 +1,5 @@
-import { AppendNodeEvent, TreeNode } from '@sulesky/core'
-import { useDesigner } from '@sulesky/react'
+import { AppendNodeEvent, TreeNode } from '@sulesky/next-core'
+import { useDesigner } from '@sulesky/next-react'
 import { matchComponent, matchChildComponent } from '../shared'
 
 export const useDropTemplate = (

@@ -1,6 +1,6 @@
 import React from 'react'
-import { TreeNode } from '@sulesky/core'
-import { useSelectedNode } from '@sulesky/react'
+import { TreeNode } from '@sulesky/next-core'
+import { useSelectedNode } from '@sulesky/next-react'
 import { TreeSelectProps, TreeSelect } from 'antd'
 
 export interface IPathSelectorProps

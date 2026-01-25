@@ -1,4 +1,4 @@
-import { isFn, KeyCode } from '@sulesky/shared'
+import { isFn, KeyCode } from '@sulesky/next-shared'
 import { IEngineContext } from '../types'
 
 export { KeyCode }

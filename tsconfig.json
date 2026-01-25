@@ -15,7 +15,7 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "@sulesky/*": ["./packages/*/src"]
+      "@sulesky/next-*": ["./packages/*/src"]
     }
   }
 }

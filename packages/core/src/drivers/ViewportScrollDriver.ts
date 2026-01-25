@@ -1,4 +1,4 @@
-import { EventDriver, globalThisPolyfill } from '@sulesky/shared'
+import { EventDriver, globalThisPolyfill } from '@sulesky/next-shared'
 import { Engine } from '../models/Engine'
 import { ViewportScrollEvent } from '../events'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentTreeWidget, useTreeNode } from '@sulesky/react'
+import { ComponentTreeWidget, useTreeNode } from '@sulesky/next-react'
 import { observer } from '@formily/reactive-react'
 
 export const Content = () => (

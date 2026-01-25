@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./lib",
     "paths": {
-      "@sulesky/*": ["../*"]
+      "@sulesky/next-*": ["../*"]
     },
     "declaration": true
   }

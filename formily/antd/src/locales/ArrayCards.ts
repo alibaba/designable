@@ -1,4 +1,4 @@
-import { createLocales } from '@sulesky/core'
+import { createLocales } from '@sulesky/next-core'
 import { Card } from './Card'
 
 export const ArrayCards = createLocales(Card, {

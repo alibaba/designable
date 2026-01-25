@@ -1,5 +1,5 @@
 import React, { useContext, Fragment, useRef, useLayoutEffect } from 'react'
-import { each } from '@sulesky/shared'
+import { each } from '@sulesky/next-shared'
 import { DesignerLayoutContext } from '../context'
 import { IDesignerLayoutProps } from '../types'
 import cls from 'classnames'

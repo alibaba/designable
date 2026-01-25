@@ -1,5 +1,5 @@
 import { IEngineContext } from '../../types'
-import { globalThisPolyfill } from '@sulesky/shared'
+import { globalThisPolyfill } from '@sulesky/next-shared'
 
 export interface IViewportEventData {
   scrollX: number

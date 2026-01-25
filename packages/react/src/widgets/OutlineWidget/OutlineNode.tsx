@@ -4,8 +4,8 @@ import {
   ClosestPosition,
   CursorStatus,
   DragMoveEvent,
-} from '@sulesky/core'
-import { isFn } from '@sulesky/shared'
+} from '@sulesky/next-core'
+import { isFn } from '@sulesky/next-shared'
 import { autorun } from '@formily/reactive'
 import { observer } from '@formily/reactive-react'
 import {

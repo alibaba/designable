@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { usePrefix, useViewport } from '../hooks'
 import { AuxToolWidget, EmptyWidget } from '../widgets'
-import { Viewport as ViewportType } from '@sulesky/core'
-import { requestIdle, globalThisPolyfill } from '@sulesky/shared'
+import { Viewport as ViewportType } from '@sulesky/next-core'
+import { requestIdle, globalThisPolyfill } from '@sulesky/next-shared'
 import cls from 'classnames'
 export interface IViewportProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,

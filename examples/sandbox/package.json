@@ -1,5 +1,5 @@
 {
-  "name": "@sulesky/sandbox-example",
+  "name": "@sulesky/next-sandbox-example",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -23,11 +23,11 @@
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
-    "@sulesky/core": "1.0.0",
-    "@sulesky/react": "1.0.0",
-    "@sulesky/react-sandbox": "1.0.0",
-    "@sulesky/react-settings-form": "1.0.0",
-    "@sulesky/shared": "1.0.0",
+    "@sulesky/next-core": "1.0.0",
+    "@sulesky/next-react": "1.0.0",
+    "@sulesky/next-react-sandbox": "1.0.0",
+    "@sulesky/next-react-settings-form": "1.0.0",
+    "@sulesky/next-shared": "1.0.0",
     "@formily/reactive": "^2.3.0",
     "@formily/reactive-react": "^2.3.0",
     "antd": "^5.24.0",

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from 'react'
-import { TreeNode } from '@sulesky/core'
-import { Rect } from '@sulesky/shared'
+import { TreeNode } from '@sulesky/next-core'
+import { Rect } from '@sulesky/next-shared'
 import { reaction } from '@formily/reactive'
 import { usePrefix, useViewport } from '../../hooks'
 import { Selector } from './Selector'

@@ -1,4 +1,4 @@
-import { ICustomEvent } from '@sulesky/shared'
+import { ICustomEvent } from '@sulesky/next-shared'
 import { AbstractCursorEvent } from './AbstractCursorEvent'
 
 export class DragStartEvent

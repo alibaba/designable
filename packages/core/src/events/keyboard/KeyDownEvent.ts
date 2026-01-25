@@ -1,4 +1,4 @@
-import { ICustomEvent } from '@sulesky/shared'
+import { ICustomEvent } from '@sulesky/next-shared'
 import { AbstractKeyboardEvent } from './AbstractKeyboardEvent'
 
 export class KeyDownEvent

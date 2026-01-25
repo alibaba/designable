@@ -1,4 +1,4 @@
-import { each } from '@sulesky/shared'
+import { each } from '@sulesky/next-shared'
 import { Path } from '@formily/path'
 import { observable } from '@formily/reactive'
 import {

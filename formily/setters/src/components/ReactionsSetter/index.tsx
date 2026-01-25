@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { clone, uid } from '@formily/shared'
 import { createForm, isVoidField } from '@formily/core'
 import { createSchemaField } from '@formily/react'
-import { GlobalRegistry } from '@sulesky/core'
-import { requestIdle } from '@sulesky/shared'
-import { usePrefix, TextWidget } from '@sulesky/react'
-import { MonacoInput } from '@sulesky/react-settings-form'
+import { GlobalRegistry } from '@sulesky/next-core'
+import { requestIdle } from '@sulesky/next-shared'
+import { usePrefix, TextWidget } from '@sulesky/next-react'
+import { MonacoInput } from '@sulesky/next-react-settings-form'
 import {
   Form,
   ArrayTable,

@@ -1,5 +1,5 @@
 import { Engine } from '../models'
-import { ICustomEvent } from '@sulesky/shared'
+import { ICustomEvent } from '@sulesky/next-shared'
 import { IEngineContext } from '../types'
 import { SelectNodeEvent } from '../events'
 

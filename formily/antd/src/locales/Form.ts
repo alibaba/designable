@@ -1,4 +1,4 @@
-import { createLocales } from '@sulesky/core'
+import { createLocales } from '@sulesky/next-core'
 import { Component } from './Component'
 
 export const Form = createLocales(Component, {

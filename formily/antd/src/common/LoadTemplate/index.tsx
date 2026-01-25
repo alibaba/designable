@@ -1,5 +1,5 @@
 import React from 'react'
-import { NodeActionsWidget } from '@sulesky/react'
+import { NodeActionsWidget } from '@sulesky/next-react'
 
 export interface ITemplateAction {
   title: React.ReactNode

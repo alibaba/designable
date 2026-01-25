@@ -1,6 +1,6 @@
 import React from 'react'
-import { createBehavior, createResource } from '@sulesky/core'
-import { DnFC } from '@sulesky/react'
+import { createBehavior, createResource } from '@sulesky/next-core'
+import { DnFC } from '@sulesky/next-react'
 import { createFieldSchema } from '../Field'
 import { Container } from '../../common/Container'
 import { AllLocales } from '../../locales'

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
-import { Engine } from '@sulesky/core'
+import { Engine } from '@sulesky/next-core'
 import { DesignerEngineContext } from '../context'
-import { isFn, globalThisPolyfill } from '@sulesky/shared'
+import { isFn, globalThisPolyfill } from '@sulesky/next-shared'
 export interface IEffects {
   (engine: Engine): void
 }

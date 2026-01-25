@@ -1,5 +1,5 @@
 import React from 'react'
-import { TreeNode } from '@sulesky/core'
+import { TreeNode } from '@sulesky/next-core'
 import { observer } from '@formily/reactive-react'
 import { useTreeNode, useNodeIdProps } from '../../hooks'
 import { NodeTitleWidget } from '../NodeTitleWidget'

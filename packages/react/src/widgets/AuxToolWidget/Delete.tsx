@@ -1,5 +1,5 @@
 import React from 'react'
-import { TreeNode } from '@sulesky/core'
+import { TreeNode } from '@sulesky/next-core'
 import { IconWidget } from '../IconWidget'
 import { usePrefix } from '../../hooks'
 import { Button } from 'antd'

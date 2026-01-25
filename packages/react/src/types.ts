@@ -1,5 +1,5 @@
 import React from 'react'
-import { Engine, IResource, IBehavior } from '@sulesky/core'
+import { Engine, IResource, IBehavior } from '@sulesky/next-core'
 
 export interface IDesignerLayoutProps {
   prefixCls?: string

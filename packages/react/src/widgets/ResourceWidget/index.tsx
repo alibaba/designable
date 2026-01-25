@@ -4,8 +4,8 @@ import {
   isResourceList,
   IResourceLike,
   IResource,
-} from '@sulesky/core'
-import { isFn } from '@sulesky/shared'
+} from '@sulesky/next-core'
+import { isFn } from '@sulesky/next-shared'
 import { observer } from '@formily/reactive-react'
 import { usePrefix } from '../../hooks'
 import { IconWidget } from '../IconWidget'

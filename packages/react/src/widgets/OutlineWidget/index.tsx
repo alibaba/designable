@@ -4,9 +4,9 @@ import { useTree, usePrefix, useOutline, useWorkbench } from '../../hooks'
 import { observer } from '@formily/reactive-react'
 import { OutlineTreeNode } from './OutlineNode'
 import { Insertion } from './Insertion'
-import { TreeNode, Viewport } from '@sulesky/core'
+import { TreeNode, Viewport } from '@sulesky/next-core'
 import { NodeContext } from './context'
-import { globalThisPolyfill } from '@sulesky/shared'
+import { globalThisPolyfill } from '@sulesky/next-shared'
 
 export interface IOutlineTreeWidgetProps {
   className?: string

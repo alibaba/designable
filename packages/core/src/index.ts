@@ -1,6 +1,6 @@
 import * as Core from './exports'
 export * from './exports'
-import { globalThisPolyfill } from '@sulesky/shared'
+import { globalThisPolyfill } from '@sulesky/next-shared'
 
 if (globalThisPolyfill?.['Designable']?.['Core']) {
   if (module.exports) {

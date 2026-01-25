@@ -1,4 +1,4 @@
-import { GlobalRegistry } from '@sulesky/core'
+import { GlobalRegistry } from '@sulesky/next-core'
 
 GlobalRegistry.registerDesignerLocales({
   

@@ -1,4 +1,4 @@
-import { GlobalRegistry } from '@sulesky/core'
+import { GlobalRegistry } from '@sulesky/next-core'
 import { ISchema } from '@formily/react'
 
 export const Slider: ISchema = {

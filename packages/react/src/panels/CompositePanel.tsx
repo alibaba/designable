@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { isValid } from '@sulesky/shared'
+import { isValid } from '@sulesky/next-shared'
 import cls from 'classnames'
 import { IconWidget, TextWidget } from '../widgets'
 import { usePrefix } from '../hooks'

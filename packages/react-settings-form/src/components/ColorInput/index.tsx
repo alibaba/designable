@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Input, Popover } from 'antd'
-import { usePrefix } from '@sulesky/react'
+import { usePrefix } from '@sulesky/next-react'
 import { SketchPicker } from 'react-color'
 import './styles.less'
 

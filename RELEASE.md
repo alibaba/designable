@@ -1,6 +1,6 @@
 # Release Process
 
-This document describes how to release new versions of `@sulesky/*` packages to npm.
+This document describes how to release new versions of `@sulesky/next-*` packages to npm.
 
 ## Overview
 
@@ -85,14 +85,14 @@ npx lerna publish from-package --yes
 
 | Package                        | npm                                                               |
 | ------------------------------ | ----------------------------------------------------------------- |
-| `@sulesky/core`                | [npm](https://www.npmjs.com/package/@sulesky/core)                |
-| `@sulesky/shared`              | [npm](https://www.npmjs.com/package/@sulesky/shared)              |
-| `@sulesky/react`               | [npm](https://www.npmjs.com/package/@sulesky/react)               |
-| `@sulesky/react-sandbox`       | [npm](https://www.npmjs.com/package/@sulesky/react-sandbox)       |
-| `@sulesky/react-settings-form` | [npm](https://www.npmjs.com/package/@sulesky/react-settings-form) |
-| `@sulesky/formily-antd`        | [npm](https://www.npmjs.com/package/@sulesky/formily-antd)        |
-| `@sulesky/formily-setters`     | [npm](https://www.npmjs.com/package/@sulesky/formily-setters)     |
-| `@sulesky/formily-transformer` | [npm](https://www.npmjs.com/package/@sulesky/formily-transformer) |
+| `@sulesky/next-core`                | [npm](https://www.npmjs.com/package/@sulesky/next-core)                |
+| `@sulesky/next-shared`              | [npm](https://www.npmjs.com/package/@sulesky/next-shared)              |
+| `@sulesky/next-react`               | [npm](https://www.npmjs.com/package/@sulesky/next-react)               |
+| `@sulesky/next-react-sandbox`       | [npm](https://www.npmjs.com/package/@sulesky/next-react-sandbox)       |
+| `@sulesky/next-react-settings-form` | [npm](https://www.npmjs.com/package/@sulesky/next-react-settings-form) |
+| `@sulesky/next-formily-antd`        | [npm](https://www.npmjs.com/package/@sulesky/next-formily-antd)        |
+| `@sulesky/next-formily-setters`     | [npm](https://www.npmjs.com/package/@sulesky/next-formily-setters)     |
+| `@sulesky/next-formily-transformer` | [npm](https://www.npmjs.com/package/@sulesky/next-formily-transformer) |
 
 ## Troubleshooting
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Space, Button } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-import { useDesigner, TextWidget } from '@sulesky/react'
-import { GlobalRegistry } from '@sulesky/core'
+import { useDesigner, TextWidget } from '@sulesky/next-react'
+import { GlobalRegistry } from '@sulesky/next-core'
 import { observer } from '@formily/react'
 import { loadInitialSchema, saveSchema } from '../service'
 

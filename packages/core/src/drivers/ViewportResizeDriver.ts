@@ -1,8 +1,8 @@
-import { EventDriver } from '@sulesky/shared'
+import { EventDriver } from '@sulesky/next-shared'
 import { Engine } from '../models/Engine'
 import { ViewportResizeEvent } from '../events'
 import { ResizeObserver } from '@juggle/resize-observer'
-import { globalThisPolyfill } from '@sulesky/shared'
+import { globalThisPolyfill } from '@sulesky/next-shared'
 
 export class ViewportResizeDriver extends EventDriver<Engine> {
   request = null

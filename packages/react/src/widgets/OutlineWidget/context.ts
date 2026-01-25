@@ -1,4 +1,4 @@
-import { TreeNode } from '@sulesky/core'
+import { TreeNode } from '@sulesky/next-core'
 import React, { createContext } from 'react'
 
 interface INodeContext {
