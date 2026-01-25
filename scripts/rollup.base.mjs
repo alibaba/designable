@@ -65,7 +65,7 @@ const inputFilePath = path.join(process.cwd(), 'src/index.ts')
 export const removeImportStyleFromInputFilePlugin = () => ({
   name: 'remove-import-style-from-input-file',
   transform(code, id) {
-    // 样式由 build:style 进行打包，所以要删除入口文件上的 `import './style'`
+    // Remove style imports from entry file (styles are bundled separately)
     if (inputFilePath === id) {
       return code.replace(`import './style';`, '')
     }
@@ -74,23 +74,39 @@ export const removeImportStyleFromInputFilePlugin = () => ({
   },
 })
 
-export default (filename, targetName, ...plugins) => [
-  {
+export default (filename, targetName, ...plugins) => {
+  const commonConfig = {
     input: 'src/index.ts',
-    output: {
-      format: 'umd',
-      file: `dist/${filename}.umd.production.min.js`,
-      name: targetName,
+    // Suppress circular dependency warnings for known patterns
+    onwarn(warning, warn) {
+      // Ignore circular dependency warnings (pre-existing in codebase)
+      if (warning.code === 'CIRCULAR_DEPENDENCY') return
+      // Ignore "this" is undefined warnings from external modules
+      if (warning.code === 'THIS_IS_UNDEFINED') return
+      warn(warning)
     },
-    plugins: [...presets(filename, targetName), ...plugins],
-  },
-  {
-    input: 'src/index.ts',
-    output: {
-      format: 'umd',
-      file: `dist/${filename}.umd.production.js`,
-      name: targetName,
+    // Set context to handle "this" references in external modules
+    context: 'globalThis',
+  }
+
+  return [
+    {
+      ...commonConfig,
+      output: {
+        format: 'umd',
+        file: `dist/${filename}.umd.production.min.js`,
+        name: targetName,
+      },
+      plugins: [...presets(filename, targetName), ...plugins],
     },
-    plugins: [...presets(filename, targetName), terser(), ...plugins],
-  },
-]
+    {
+      ...commonConfig,
+      output: {
+        format: 'umd',
+        file: `dist/${filename}.umd.production.js`,
+        name: targetName,
+      },
+      plugins: [...presets(filename, targetName), terser(), ...plugins],
+    },
+  ]
+}

@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import { globSync } from 'glob'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import autoprefixer from 'autoprefixer'
-//import { getThemeVariables } from 'antd/dist/theme'
+import type { Configuration } from 'webpack'
 
 const getWorkspaceAlias = () => {
   const basePath = path.resolve(__dirname, '../../../')
@@ -24,9 +24,9 @@ const getWorkspaceAlias = () => {
   return results
 }
 
-export default {
+const config: Configuration = {
   mode: 'development',
-  devtool: 'inline-source-map', // 嵌入到源文件中
+  devtool: 'inline-source-map',
   stats: {
     entrypoints: false,
     children: false,
@@ -44,13 +44,9 @@ export default {
     alias: getWorkspaceAlias(),
   },
   // Externals removed - React 18 + Antd 5 don't have compatible UMD builds
-  // externals: {
-  //   react: 'React',
-  //   'react-dom': 'ReactDOM',
-  //   moment: 'moment',
-  //   antd: 'antd',
-  // },
   module: {
+    // Suppress "Critical dependency" warning for dynamic imports with variable URLs
+    exprContextCritical: false,
     rules: [
       {
         test: /\.tsx?$/,
@@ -103,4 +99,10 @@ export default {
       },
     ],
   },
+  // Disable performance hints - this is a dev tool with large dependencies
+  performance: {
+    hints: false,
+  },
 }
+
+export default config

@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import type { Configuration } from 'webpack'
 
 const getAlias = () => {
   const packagesDir = path.resolve(__dirname, '../../../packages')
@@ -20,7 +21,7 @@ const getAlias = () => {
   return alias
 }
 
-export default {
+const config: Configuration = {
   mode: 'development',
   devtool: 'inline-source-map',
   stats: {
@@ -41,6 +42,8 @@ export default {
   },
   // Externals removed - React 19 and Antd 5 don't have compatible UMD builds
   module: {
+    // Suppress "Critical dependency" warning for dynamic imports with variable URLs
+    exprContextCritical: false,
     rules: [
       {
         test: /\.tsx?$/,
@@ -81,4 +84,10 @@ export default {
       },
     ],
   },
+  // Disable performance hints - this is a dev tool with large dependencies
+  performance: {
+    hints: false,
+  },
 }
+
+export default config

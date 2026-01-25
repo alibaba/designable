@@ -20,7 +20,7 @@
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd && ts-node copy",
     "build:cjs": "tsc --project tsconfig.build.json",
     "build:esm": "tsc --project tsconfig.build.json --module es2020 --outDir esm",
-    "build:umd": "rollup --config"
+    "build:umd": "rollup --config rollup.config.mjs"
   },
   "peerDependencies": {
     "@formily/antd-v5": "^1.2.0",
