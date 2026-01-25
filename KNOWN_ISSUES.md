@@ -43,6 +43,24 @@ Warning: validateDOMNesting(...): <div> cannot appear as a child of <tbody>.
 
 ---
 
+### 3. Tabs.TabPane deprecated (antd)
+
+```
+Warning: [antd: Tabs] `Tabs.TabPane` is deprecated. Please use `items` instead.
+```
+
+**Source:** `@formily/antd-v5` -> `antd` Tabs component
+
+**Cause:** FormTab component in @formily/antd-v5 internally uses the deprecated `Tabs.TabPane` children API instead of the new `items` prop introduced in Antd 5.
+
+**Impact:** None - just a deprecation warning, tab functionality works correctly.
+
+**Status:** Already on latest @formily/antd-v5@1.2.4 - waiting for upstream fix.
+
+**Tracking:** https://github.com/alibaba/formily/issues
+
+---
+
 ## How to Check for Issues in Our Code
 
 Run the Antd 5 deprecation checker:
@@ -70,7 +88,7 @@ This project has been migrated to:
 
 - React 18.3.1
 - Ant Design 5.24.0
-- @formily/antd-v5 ^1.2.0
+- @formily/antd-v5 1.2.4 (latest)
 - TypeScript 5.8.0
 - Webpack 5.99.0
 
