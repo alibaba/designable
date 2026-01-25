@@ -1,14 +1,14 @@
 import React from 'react'
 import { Table, TableProps } from 'antd'
-import { TreeNode, createBehavior, createResource } from '@designable/core'
+import { TreeNode, createBehavior, createResource } from '@sulesky/next-core'
 import {
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
   useNodeIdProps,
   DnFC,
-} from '@designable/react'
-import { ArrayBase } from '@formily/antd'
+} from '@sulesky/next-react'
+import { ArrayBase } from '@formily/antd-v5'
 import { observer } from '@formily/react'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import cls from 'classnames'

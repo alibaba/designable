@@ -1,8 +1,8 @@
-import { Engine } from '@designable/core'
+import { Engine } from '@sulesky/next-core'
 import {
   transformToSchema,
   transformToTreeNode,
-} from '@designable/formily-transformer'
+} from '@sulesky/next-formily-transformer'
 import { message } from 'antd'
 
 export const saveSchema = (designer: Engine) => {

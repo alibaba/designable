@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Editor, { EditorProps, loader } from '@monaco-editor/react'
-import { TextWidget, IconWidget, usePrefix, useTheme } from '@designable/react'
+import { TextWidget, IconWidget, usePrefix, useTheme } from '@sulesky/next-react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { Tooltip } from 'antd'
 import { parseExpression, parse } from '@babel/parser'
-import { uid } from '@designable/shared'
+import { uid } from '@sulesky/next-shared'
 import { format } from './format'
 import cls from 'classnames'
 import './styles.less'
@@ -42,8 +42,8 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
   const submitRef = useRef(null)
   const declarationRef = useRef<string[]>([])
   const extraLibRef = useRef<monaco.IDisposable>(null)
-  const monacoRef = useRef<Monaco>()
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>()
+  const monacoRef = useRef<Monaco>(null)
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>(null)
   const computedLanguage = useRef<string>(language || defaultLanguage)
   const realLanguage = useRef<string>('')
   const unmountedRef = useRef(false)
@@ -76,7 +76,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
     extraLibRef.current =
       monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
         props.extraLib,
-        `${uidRef.current}.d.ts`
+        `${uidRef.current}.d.ts`,
       )
   }
 
@@ -94,10 +94,10 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
     const getHref = () => {
       if (typeof helpLink === 'string') return helpLink
       if (isFileLanguage()) {
-        return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript'
+        return 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'
       }
       if (isExpLanguage()) {
-        return 'https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators'
+        return 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators'
       }
     }
     if (helpLink === false) return null
@@ -121,7 +121,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
 
   const onMountHandler = (
     editor: monaco.editor.IStandaloneCodeEditor,
-    monaco: Monaco
+    monaco: Monaco,
   ) => {
     editorRef.current = editor
     monacoRef.current = monaco
@@ -176,7 +176,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
             computedLanguage.current,
-            []
+            [],
           )
           declarationRef.current = editorRef.current.deltaDecorations(
             declarationRef.current,
@@ -185,7 +185,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
                 range: new monacoRef.current.Range(1, 1, 1, 1),
                 options: {},
               },
-            ]
+            ],
           )
           submit()
         } catch (e) {
@@ -197,14 +197,14 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
                   e.loc.line,
                   e.loc.column,
                   e.loc.line,
-                  e.loc.column
+                  e.loc.column,
                 ),
                 options: {
                   isWholeLine: true,
                   glyphMarginClassName: 'monaco-error-highline',
                 },
               },
-            ]
+            ],
           )
           monacoRef.current.editor.setModelMarkers(
             editorRef.current.getModel(),
@@ -219,7 +219,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
                 endColumn: e.loc.column,
                 message: e.message,
               },
-            ]
+            ],
           )
         }
       }, 240)
@@ -232,7 +232,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
             range: new monacoRef.current.Range(1, 1, 1, 1),
             options: {},
           },
-        ]
+        ],
       )
     }
   }
@@ -244,7 +244,7 @@ export const MonacoInput: React.FC<MonacoInputProps> & {
   }
   computedLanguage.current = language || defaultLanguage
   realLanguage.current = /(?:javascript|typescript)/gi.test(
-    computedLanguage.current
+    computedLanguage.current,
   )
     ? 'typescript'
     : computedLanguage.current

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { requestIdle } from '@designable/shared'
+import { requestIdle } from '@sulesky/next-shared'
 import { observer } from '@formily/reactive-react'
 import { TextWidget, IconWidget } from '../widgets'
 import { usePrefix, useWorkbench } from '../hooks'
@@ -7,6 +7,7 @@ import cls from 'classnames'
 export interface ISettingPanelProps {
   title?: React.ReactNode
   extra?: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const SettingsPanel: React.FC<ISettingPanelProps> = observer((props) => {

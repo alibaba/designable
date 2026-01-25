@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   IconWidget,
@@ -16,19 +16,18 @@ import {
   ViewportPanel,
   SettingsPanel,
   HistoryWidget,
-} from '@designable/react'
-import { SettingsForm, MonacoInput } from '@designable/react-settings-form'
+} from '@sulesky/next-react'
+import { SettingsForm, MonacoInput } from '@sulesky/next-react-settings-form'
 import { observer } from '@formily/react'
 import {
   createDesigner,
   createResource,
   createBehavior,
   GlobalRegistry,
-} from '@designable/core'
-import { Space, Button, Radio } from 'antd'
+} from '@sulesky/next-core'
+import { Space, Button } from 'antd'
 import { GithubOutlined } from '@ant-design/icons'
-import { Sandbox } from '@designable/react-sandbox'
-import 'antd/dist/antd.less'
+import { Sandbox } from '@sulesky/next-react-sandbox'
 
 const RootBehavior = createBehavior({
   name: 'Root',
@@ -37,14 +36,8 @@ const RootBehavior = createBehavior({
     droppable: true,
   },
   designerLocales: {
-    'zh-CN': {
-      title: '根组件',
-    },
     'en-US': {
       title: 'Root',
-    },
-    'ko-KR': {
-      title: '루트',
     },
   },
 })
@@ -61,14 +54,13 @@ const InputBehavior = createBehavior({
         'field-properties': {
           type: 'void',
           'x-component': 'CollapseItem',
-          title: '字段属性',
+          title: 'Field Properties',
           properties: {
             title: {
               type: 'string',
               'x-decorator': 'FormItem',
               'x-component': 'Input',
             },
-
             hidden: {
               type: 'string',
               'x-decorator': 'FormItem',
@@ -80,16 +72,16 @@ const InputBehavior = createBehavior({
             },
             test: {
               type: 'void',
-              title: '测试',
+              title: 'Test',
               'x-decorator': 'FormItem',
               'x-component': 'DrawerSetter',
               'x-component-props': {
-                text: '打开抽屉',
+                text: 'Open Drawer',
               },
               properties: {
                 test: {
                   type: 'string',
-                  title: '测试输入',
+                  title: 'Test Input',
                   'x-decorator': 'FormItem',
                   'x-component': 'Input',
                 },
@@ -97,10 +89,9 @@ const InputBehavior = createBehavior({
             },
           },
         },
-
         'component-styles': {
           type: 'void',
-          title: '样式',
+          title: 'Styles',
           'x-component': 'CollapseItem',
           properties: {
             'style.width': {
@@ -143,26 +134,6 @@ const InputBehavior = createBehavior({
     },
   },
   designerLocales: {
-    'zh-CN': {
-      title: '输入框',
-      settings: {
-        title: '标题',
-        hidden: '是否隐藏',
-        default: '默认值',
-        style: {
-          width: '宽度',
-          height: '高度',
-          display: '展示',
-          background: '背景',
-          boxShadow: '阴影',
-          font: '字体',
-          margin: '外边距',
-          padding: '内边距',
-          borderRadius: '圆角',
-          border: '边框',
-        },
-      },
-    },
     'en-US': {
       title: 'Input',
       settings: {
@@ -183,26 +154,6 @@ const InputBehavior = createBehavior({
         },
       },
     },
-    'ko-KR': {
-      title: '입력',
-      settings: {
-        title: '텍스트',
-        hidden: '숨김 여부',
-        default: '기본 설정 값',
-        style: {
-          width: '너비',
-          height: '높이',
-          display: '디스플레이',
-          background: '배경',
-          boxShadow: '그림자 박스',
-          font: '폰트',
-          margin: '마진',
-          padding: '패딩',
-          borderRadius: '테두리 굴곡',
-          border: '테두리',
-        },
-      },
-    },
   },
 })
 
@@ -213,14 +164,8 @@ const CardBehavior = createBehavior({
     droppable: true,
   },
   designerLocales: {
-    'zh-CN': {
-      title: '卡片',
-    },
     'en-US': {
       title: 'Card',
-    },
-    'ko-KR': {
-      title: '카드',
     },
   },
 })
@@ -229,16 +174,14 @@ GlobalRegistry.setDesignerBehaviors([RootBehavior, InputBehavior, CardBehavior])
 
 const Input = createResource({
   title: {
-    'zh-CN': '输入框',
     'en-US': 'Input',
-    'ko-KR': '입력 상자',
   },
   icon: 'InputSource',
   elements: [
     {
       componentName: 'Field',
       props: {
-        title: '输入框',
+        title: 'Input',
         type: 'string',
         'x-decorator': 'FormItem',
         'x-component': 'Input',
@@ -249,41 +192,25 @@ const Input = createResource({
 
 const Card = createResource({
   title: {
-    'zh-CN': '卡片',
     'en-US': 'Card',
-    'ko-KR': '카드 상자',
   },
   icon: 'CardSource',
   elements: [
     {
       componentName: 'Card',
       props: {
-        title: '卡片',
+        title: 'Card',
       },
     },
   ],
 })
 
 GlobalRegistry.registerDesignerLocales({
-  'zh-CN': {
-    sources: {
-      Inputs: '输入控件',
-      Displays: '展示控件',
-      Feedbacks: '反馈控件',
-    },
-  },
   'en-US': {
     sources: {
       Inputs: 'Inputs',
       Displays: 'Displays',
       Feedbacks: 'Feedbacks',
-    },
-  },
-  'ko-KR': {
-    sources: {
-      Inputs: '입력',
-      Displays: '디스플레이',
-      Feedbacks: '피드백',
     },
   },
 })
@@ -298,32 +225,17 @@ const Logo: React.FC = () => (
 )
 
 const Actions = observer(() => {
-  const supportLocales = ['zh-cn', 'en-us', 'ko-kr']
   useEffect(() => {
-    if (!supportLocales.includes(GlobalRegistry.getDesignerLanguage())) {
-      GlobalRegistry.setDesignerLanguage('zh-cn')
-    }
+    GlobalRegistry.setDesignerLanguage('en-us')
   }, [])
   return (
     <Space style={{ marginRight: 10 }}>
-      <Radio.Group
-        value={GlobalRegistry.getDesignerLanguage()}
-        optionType="button"
-        options={[
-          { label: 'English', value: 'en-us' },
-          { label: '简体中文', value: 'zh-cn' },
-          { label: '한국어', value: 'ko-kr' },
-        ]}
-        onChange={(e) => {
-          GlobalRegistry.setDesignerLanguage(e.target.value)
-        }}
-      />
-      <Button href="https://github.com/alibaba/designable" target="_blank">
+      <Button href="https://github.com/kapelan/designable" target="_blank">
         <GithubOutlined />
         Github
       </Button>
-      <Button>保存</Button>
-      <Button type="primary">发布</Button>
+      <Button>Save</Button>
+      <Button type="primary">Publish</Button>
     </Space>
   )
 })
@@ -364,9 +276,8 @@ const App = () => {
                   <Sandbox
                     jsAssets={[
                       'https://unpkg.com/moment/min/moment-with-locales.js',
-                      'https://unpkg.com/react/umd/react.production.min.js',
-                      'https://unpkg.com/react-dom/umd/react-dom.production.min.js',
-                      'https://unpkg.com/antd/dist/antd-with-locales.min.js',
+                      'https://unpkg.com/react@18/umd/react.production.min.js',
+                      'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
                       './sandbox.bundle.js',
                     ]}
                   />
@@ -388,7 +299,8 @@ const App = () => {
             </ViewportPanel>
           </WorkspacePanel>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            {/* Configure uploadAction with your own upload endpoint */}
+            <SettingsForm uploadAction="" />
           </SettingsPanel>
         </StudioPanel>
       </Workbench>
@@ -396,4 +308,4 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(<App />)

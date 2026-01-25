@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
-import { createBehavior, createResource } from '@designable/core'
+import { createBehavior, createResource } from '@sulesky/next-core'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/react'
-import { Form as FormilyForm } from '@formily/antd'
-import { usePrefix, DnFC } from '@designable/react'
+import { Form as FormilyForm } from '@formily/antd-v5'
+import { usePrefix, DnFC } from '@sulesky/next-react'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 import './styles.less'
@@ -16,7 +16,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
         createForm({
           designable: true,
         }),
-      []
+      [],
     )
     return (
       <FormilyForm
@@ -28,7 +28,7 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
         {props.children}
       </FormilyForm>
     )
-  }
+  },
 )
 
 Form.Behavior = createBehavior({
@@ -57,7 +57,7 @@ Form.Behavior = createBehavior({
 })
 
 Form.Resource = createResource({
-  title: { 'zh-CN': '表单', 'en-US': 'Form' },
+  title: { 'en-US': 'Form' },
   icon: 'FormLayoutSource',
   elements: [
     {

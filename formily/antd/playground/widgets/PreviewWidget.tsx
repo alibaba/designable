@@ -28,10 +28,10 @@ import {
   FormCollapse,
   ArrayTable,
   ArrayCards,
-} from '@formily/antd'
+} from '@formily/antd-v5'
 import { Card, Slider, Rate } from 'antd'
-import { TreeNode } from '@designable/core'
-import { transformToSchema } from '@designable/formily-transformer'
+import { TreeNode } from '@sulesky/next-core'
+import { transformToSchema } from '@sulesky/next-formily-transformer'
 
 const Text: React.FC<{
   value?: string

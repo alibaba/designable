@@ -2,7 +2,7 @@
 import { OutputOptions, rollup, RollupOptions } from 'rollup'
 import postcss from 'rollup-plugin-postcss'
 import NpmImport from 'less-plugin-npm-import'
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
 
 export const getRollupBasePlugin = () => [
   resolve(),
@@ -23,7 +23,7 @@ export const getRollupBasePlugin = () => [
 ]
 
 export const build = async (
-  rollupConfig: Omit<RollupOptions, 'output'> & { output: OutputOptions }
+  rollupConfig: Omit<RollupOptions, 'output'> & { output: OutputOptions },
 ) => {
   const { output, ...input } = rollupConfig
   const bundle = await rollup(input)

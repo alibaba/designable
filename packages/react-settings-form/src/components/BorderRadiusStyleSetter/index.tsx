@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconWidget } from '@designable/react'
+import { IconWidget } from '@sulesky/next-react'
 import { BoxStyleSetter } from '../BoxStyleSetter'
 export interface IBorderRadiusStyleSetterProps {
   value?: string

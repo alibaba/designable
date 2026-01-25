@@ -1,11 +1,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { usePrefix, useViewport } from '../hooks'
 import { AuxToolWidget, EmptyWidget } from '../widgets'
-import { Viewport as ViewportType } from '@designable/core'
-import { requestIdle, globalThisPolyfill } from '@designable/shared'
+import { Viewport as ViewportType } from '@sulesky/next-core'
+import { requestIdle, globalThisPolyfill } from '@sulesky/next-shared'
 import cls from 'classnames'
-export interface IViewportProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'placeholder'> {
+export interface IViewportProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'placeholder'
+> {
   placeholder?: React.ReactNode
   dragTipsDirection?: 'left' | 'right'
 }
@@ -18,8 +20,8 @@ export const Viewport: React.FC<IViewportProps> = ({
   const [loaded, setLoaded] = useState(false)
   const prefix = usePrefix('viewport')
   const viewport = useViewport()
-  const ref = useRef<HTMLDivElement>()
-  const viewportRef = useRef<ViewportType>()
+  const ref = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<ViewportType>(null)
   const isFrameRef = useRef(false)
   useLayoutEffect(() => {
     const frameElement = ref.current.querySelector('iframe')

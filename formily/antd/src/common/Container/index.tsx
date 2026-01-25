@@ -1,10 +1,14 @@
 import React from 'react'
 import { observer } from '@formily/reactive-react'
-import { DroppableWidget } from '@designable/react'
+import { DroppableWidget } from '@sulesky/next-react'
 import './styles.less'
 
-export const Container: React.FC = observer((props) => {
-  return <DroppableWidget>{props.children}</DroppableWidget>
+interface IContainerProps {
+  children?: React.ReactNode
+}
+
+export const Container: React.FC<IContainerProps> = observer(({ children }) => {
+  return <DroppableWidget>{children}</DroppableWidget>
 })
 
 export const withContainer = (Target: React.JSXElementConstructor<any>) => {

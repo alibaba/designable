@@ -1,15 +1,15 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useMemo } from 'react'
 import { observer } from '@formily/react'
 import { Tabs } from 'antd'
-import { TabsProps, TabPaneProps } from 'antd/lib/tabs'
-import { TreeNode, createBehavior, createResource } from '@designable/core'
+import type { TabsProps } from 'antd'
+import { TreeNode, createBehavior, createResource } from '@sulesky/next-core'
 import {
   useNodeIdProps,
   useTreeNode,
   TreeNodeWidget,
   DroppableWidget,
   DnFC,
-} from '@designable/react'
+} from '@sulesky/next-react'
 import { LoadTemplate } from '../../common/LoadTemplate'
 import { useDropTemplate } from '../../hooks'
 import { createVoidFieldSchema } from '../Field'
@@ -34,7 +34,7 @@ const getCorrectActiveKey = (activeKey: string, tabs: TreeNode[]) => {
 }
 
 export const FormTab: DnFC<TabsProps> & {
-  TabPane?: React.FC<TabPaneProps>
+  TabPane?: React.FC<{ tab?: React.ReactNode; children?: React.ReactNode }>
 } = observer((props) => {
   const [activeKey, setActiveKey] = useState<string>()
   const nodeId = useNodeIdProps()
@@ -55,6 +55,39 @@ export const FormTab: DnFC<TabsProps> & {
     ]
   })
   const tabs = parseTabs(node)
+
+  const tabItems = useMemo(() => {
+    return tabs.map((tab) => {
+      const tabProps = tab.props['x-component-props'] || {}
+      return {
+        key: tab.id,
+        label: (
+          <span
+            data-content-editable="x-component-props.tab"
+            data-content-editable-node-id={tab.id}
+          >
+            {tabProps.tab}
+          </span>
+        ),
+        style: tabProps.style,
+        children: React.createElement(
+          'div',
+          {
+            [designer.props.nodeIdAttrName]: tab.id,
+            style: {
+              padding: '20px 0',
+            },
+          },
+          tab.children.length ? (
+            <TreeNodeWidget node={tab} />
+          ) : (
+            <DroppableWidget node={tab} />
+          ),
+        ),
+      }
+    })
+  }, [tabs, designer.props.nodeIdAttrName])
+
   const renderTabs = () => {
     if (!node.children?.length) return <DroppableWidget />
     return (
@@ -64,41 +97,8 @@ export const FormTab: DnFC<TabsProps> & {
         onChange={(id) => {
           setActiveKey(id)
         }}
-      >
-        {tabs.map((tab) => {
-          const props = tab.props['x-component-props'] || {}
-          return (
-            <Tabs.TabPane
-              {...props}
-              style={{ ...props.style }}
-              tab={
-                <span
-                  data-content-editable="x-component-props.tab"
-                  data-content-editable-node-id={tab.id}
-                >
-                  {props.tab}
-                </span>
-              }
-              key={tab.id}
-            >
-              {React.createElement(
-                'div',
-                {
-                  [designer.props.nodeIdAttrName]: tab.id,
-                  style: {
-                    padding: '20px 0',
-                  },
-                },
-                tab.children.length ? (
-                  <TreeNodeWidget node={tab} />
-                ) : (
-                  <DroppableWidget node={tab} />
-                )
-              )}
-            </Tabs.TabPane>
-          )
-        })}
-      </Tabs>
+        items={tabItems}
+      />
     )
   }
   return (
@@ -158,7 +158,7 @@ FormTab.Behavior = createBehavior(
       propsSchema: createVoidFieldSchema(AllSchemas.FormTab.TabPane),
     },
     designerLocales: AllLocales.FormTabPane,
-  }
+  },
 )
 
 FormTab.Resource = createResource({

@@ -1,6 +1,5 @@
-import 'antd/dist/antd.less'
 import React, { useMemo } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import {
   Designer,
   DesignerToolsWidget,
@@ -17,17 +16,17 @@ import {
   ViewPanel,
   SettingsPanel,
   ComponentTreeWidget,
-} from '@designable/react'
+} from '@sulesky/next-react'
 import {
   SettingsForm,
   setNpmCDNRegistry,
-} from '@designable/react-settings-form'
+} from '@sulesky/next-react-settings-form'
 import {
   createDesigner,
   GlobalRegistry,
   Shortcut,
   KeyCode,
-} from '@designable/core'
+} from '@sulesky/next-core'
 import {
   LogoWidget,
   ActionsWidget,
@@ -69,28 +68,12 @@ import {
 setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
-  'zh-CN': {
-    sources: {
-      Inputs: '输入控件',
-      Layouts: '布局组件',
-      Arrays: '自增组件',
-      Displays: '展示组件',
-    },
-  },
   'en-US': {
     sources: {
       Inputs: 'Inputs',
       Layouts: 'Layouts',
       Arrays: 'Arrays',
       Displays: 'Displays',
-    },
-  },
-  'ko-KR': {
-    sources: {
-      Inputs: '입력',
-      Layouts: '레이아웃',
-      Arrays: '배열',
-      Displays: '디스플레이',
     },
   },
 })
@@ -112,7 +95,7 @@ const App = () => {
         ],
         rootComponentName: 'Form',
       }),
-    []
+    [],
   )
   return (
     <Designer engine={engine}>
@@ -223,11 +206,12 @@ const App = () => {
           </WorkspacePanel>
         </Workspace>
         <SettingsPanel title="panels.PropertySettings">
-          <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+          {/* Configure uploadAction with your own upload endpoint */}
+          <SettingsForm uploadAction="" />
         </SettingsPanel>
       </StudioPanel>
     </Designer>
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(<App />)

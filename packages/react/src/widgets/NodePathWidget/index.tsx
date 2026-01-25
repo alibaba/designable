@@ -24,31 +24,29 @@ export const NodePathWidget: React.FC<INodePathWidgetProps> = observer(
       .slice(0, maxItems - 1)
       .reverse()
       .concat(selected)
-    return (
-      <Breadcrumb className={prefix}>
-        {nodes.map((node, key) => {
-          return (
-            <Breadcrumb.Item key={key}>
-              {key === 0 && (
-                <IconWidget infer="Position" style={{ marginRight: 3 }} />
-              )}
-              <a
-                href=""
-                onMouseEnter={() => {
-                  hover.setHover(node)
-                }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  selection.select(node)
-                }}
-              >
-                <NodeTitleWidget node={node} />
-              </a>
-            </Breadcrumb.Item>
-          )
-        })}
-      </Breadcrumb>
-    )
-  }
+    const items = nodes.map((node, key) => ({
+      key,
+      title: (
+        <>
+          {key === 0 && (
+            <IconWidget infer="Position" style={{ marginRight: 3 }} />
+          )}
+          <a
+            href=""
+            onMouseEnter={() => {
+              hover.setHover(node)
+            }}
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              selection.select(node)
+            }}
+          >
+            <NodeTitleWidget node={node} />
+          </a>
+        </>
+      ),
+    }))
+    return <Breadcrumb className={prefix} items={items} />
+  },
 )

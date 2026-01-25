@@ -6,7 +6,7 @@ module.exports = {
   preset: 'ts-jest',
   testMatch: ['**/__tests__/**/*.spec.[jt]s?(x)'],
   setupFilesAfterEnv: [
-    require.resolve('jest-dom/extend-expect'),
+    require.resolve('@testing-library/jest-dom'),
     path.resolve(__dirname, './global.ts'),
   ],
   // moduleNameMapper: process.env.TEST_ENV === 'production' ? undefined : alias,

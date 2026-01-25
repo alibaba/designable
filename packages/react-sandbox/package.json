@@ -1,6 +1,6 @@
 {
-  "name": "@designable/react-sandbox",
-  "version": "1.0.0-beta.45",
+  "name": "@sulesky/next-react-sandbox",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -10,24 +10,25 @@
   "module": "esm",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+    "url": "git+https://github.com/kapelan/designable.git"
   },
   "bugs": {
-    "url": "https://github.com/alibaba/designable/issues"
+    "url": "https://github.com/kapelan/designable/issues"
   },
-  "homepage": "https://github.com/alibaba/designable#readme",
+  "homepage": "https://github.com/kapelan/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
     "build:cjs": "tsc --project tsconfig.build.json",
     "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
-    "build:umd": "rollup --config"
+    "build:umd": "rollup --config rollup.config.mjs"
   },
   "peerDependencies": {
-    "react": "16.x || 17.x"
+    "react": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0",
+    "react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0"
   },
   "dependencies": {
-    "@designable/react": "1.0.0-beta.45",
-    "@designable/shared": "1.0.0-beta.45"
+    "@sulesky/next-react": "1.0.0",
+    "@sulesky/next-shared": "1.0.0"
   },
   "publishConfig": {
     "access": "public"

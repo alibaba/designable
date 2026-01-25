@@ -10,16 +10,16 @@ import {
   ISchema,
   Schema,
 } from '@formily/react'
-import { FormItem } from '@formily/antd'
+import { FormItem } from '@formily/antd-v5'
 import { each, reduce } from '@formily/shared'
-import { createBehavior } from '@designable/core'
+import { createBehavior } from '@sulesky/next-core'
 import {
   useDesigner,
   useTreeNode,
   useComponents,
   DnFC,
-} from '@designable/react'
-import { isArr, isStr } from '@designable/shared'
+} from '@sulesky/next-react'
+import { isArr, isStr } from '@sulesky/next-shared'
 import { Container } from '../../common/Container'
 import { AllLocales } from '../../locales'
 

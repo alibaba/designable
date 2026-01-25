@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Engine, GlobalRegistry } from '@designable/core'
+import { Engine, GlobalRegistry } from '@sulesky/next-core'
 import { DesignerEngineContext } from '../context'
 import { IDesignerProps } from '../types'
 import { GhostWidget } from '../widgets'
@@ -9,42 +9,43 @@ import * as icons from '../icons'
 
 GlobalRegistry.registerDesignerIcons(icons)
 
-export const Designer: React.FC<IDesignerProps> = (props) => {
-  const engine = useDesigner()
-  const ref = useRef<Engine>()
+export const Designer: React.FC<IDesignerProps> = ({
+  prefixCls = 'dn-',
+  theme = 'light',
+  children,
+  engine: propsEngine,
+  ...restProps
+}) => {
+  const engine = useDesigner(undefined)
+  const ref = useRef<Engine>(null)
   useEffect(() => {
-    if (props.engine) {
-      if (props.engine && ref.current) {
-        if (props.engine !== ref.current) {
+    if (propsEngine) {
+      if (propsEngine && ref.current) {
+        if (propsEngine !== ref.current) {
           ref.current.unmount()
         }
       }
-      props.engine.mount()
-      ref.current = props.engine
+      propsEngine.mount()
+      ref.current = propsEngine
     }
     return () => {
-      if (props.engine) {
-        props.engine.unmount()
+      if (propsEngine) {
+        propsEngine.unmount()
       }
     }
-  }, [props.engine])
+  }, [propsEngine])
 
   if (engine)
     throw new Error(
-      'There can only be one Designable Engine Context in the React Tree'
+      'There can only be one Designable Engine Context in the React Tree',
     )
 
   return (
-    <Layout {...props}>
-      <DesignerEngineContext.Provider value={props.engine}>
-        {props.children}
+    <Layout prefixCls={prefixCls} theme={theme} {...restProps}>
+      <DesignerEngineContext.Provider value={propsEngine}>
+        {children}
         <GhostWidget />
       </DesignerEngineContext.Provider>
     </Layout>
   )
-}
-
-Designer.defaultProps = {
-  prefixCls: 'dn-',
-  theme: 'light',
 }

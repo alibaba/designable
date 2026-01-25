@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Input, Popover } from 'antd'
-import { usePrefix } from '@designable/react'
+import { usePrefix } from '@sulesky/next-react'
 import { SketchPicker } from 'react-color'
 import './styles.less'
 
@@ -10,7 +10,7 @@ export interface IColorInputProps {
 }
 
 export const ColorInput: React.FC<IColorInputProps> = (props) => {
-  const container = useRef<HTMLDivElement>()
+  const container = useRef<HTMLDivElement>(null)
   const prefix = usePrefix('color-input')
   const color = props.value as string
   return (
@@ -25,7 +25,7 @@ export const ColorInput: React.FC<IColorInputProps> = (props) => {
           <Popover
             autoAdjustOverflow
             trigger="click"
-            overlayInnerStyle={{ padding: 0 }}
+            styles={{ body: { padding: 0 } }}
             getPopupContainer={() => container.current}
             content={
               <SketchPicker

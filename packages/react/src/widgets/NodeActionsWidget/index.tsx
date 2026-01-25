@@ -11,10 +11,12 @@ export interface INodeActionsWidgetProps {
   className?: string
   style?: React.CSSProperties
   activeShown?: boolean
+  children?: React.ReactNode
 }
 
 export interface INodeActionsWidgetActionProps
-  extends Omit<React.ComponentProps<'a'>, 'title' | 'type' | 'ref'>,
+  extends
+    Omit<React.ComponentProps<'a'>, 'title' | 'type' | 'ref'>,
     Partial<TypographyProps['Link']> {
   className?: string
   style?: React.CSSProperties

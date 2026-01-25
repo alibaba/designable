@@ -1,5 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from 'react'
-import { TreeNode } from '@designable/core'
+import { TreeNode } from '@sulesky/next-core'
+import { Rect } from '@sulesky/next-shared'
 import { reaction } from '@formily/reactive'
 import { usePrefix, useViewport } from '../../hooks'
 import { Selector } from './Selector'
@@ -12,7 +13,7 @@ const HELPER_DEBOUNCE_TIMEOUT = 100
 
 export interface IHelpersProps {
   node: TreeNode
-  nodeRect: DOMRect
+  nodeRect: Rect
 }
 export interface IViewportState {
   viewportWidth?: number
@@ -27,13 +28,13 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
   const prefix = usePrefix('aux-helpers')
   const viewport = useViewport()
   const unmountRef = useRef(false)
-  const ref = useRef<HTMLDivElement>()
+  const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState('top-right')
 
   useLayoutEffect(() => {
     let request = null
 
-    const getYInViewport = (nodeRect: DOMRect, helpersRect: DOMRect) => {
+    const getYInViewport = (nodeRect: Rect, helpersRect: DOMRect) => {
       if (nodeRect.top - viewport.scrollY > helpersRect.height) {
         return 'top'
       } else if (
@@ -51,7 +52,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       return 'bottom'
     }
 
-    const getXInViewport = (nodeRect: DOMRect, helpersRect: DOMRect) => {
+    const getXInViewport = (nodeRect: Rect, helpersRect: DOMRect) => {
       const widthDelta = helpersRect.width - nodeRect.width
       if (widthDelta >= 0) {
         if (nodeRect.x < widthDelta) {
@@ -72,7 +73,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       setPosition(
         getYInViewport(nodeRect, helpersRect) +
           '-' +
-          getXInViewport(nodeRect, helpersRect)
+          getXInViewport(nodeRect, helpersRect),
       )
     }
 
@@ -90,7 +91,7 @@ export const Helpers: React.FC<IHelpersProps> = ({ node, nodeRect }) => {
       () => {
         clearTimeout(request)
         request = setTimeout(update, HELPER_DEBOUNCE_TIMEOUT)
-      }
+      },
     )
   }, [viewport, nodeRect])
 

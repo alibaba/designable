@@ -1,39 +1,38 @@
-name: Node CI
+name: CI
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-#     branches:
-#       - main
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
 
-# jobs:
-#   build:
-#     runs-on: ${{ matrix.os }}
-#     strategy:
-#       matrix:
-#         node_version: [10.x, 11.x]
-#         os: [ubuntu-latest]
-#     steps:
-#       - uses: actions/checkout@v1
-#       - name: Use Node.js ${{ matrix.node_version }}
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: ${{ matrix.node_version }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#       - run: yarn -v
-#       - run: yarn --ignore-engines
-#       - run: yarn build
-#       - run: yarn test:prod
-#         env:
-#           CI: true
-#           HEADLESS: false
-#           PROGRESS: none
-#           NODE_ENV: test
-#           NODE_OPTIONS: --max_old_space_size=4096
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
 
-#       - name: Upload coverage to Codecov
-#         uses: codecov/codecov-action@v1
-#         with:
-#           token: ${{ secrets.CODECOV_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Check Antd 5 deprecations
+        run: yarn check:antd5
+
+      - name: Test
+        run: yarn test
+        env:
+          CI: true

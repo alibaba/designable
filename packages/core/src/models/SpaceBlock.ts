@@ -3,7 +3,7 @@ import {
   calcDistanceOfSnapLineToEdges,
   LineSegment,
   Rect,
-} from '@designable/shared'
+} from '@sulesky/next-shared'
 import { SnapLine } from './SnapLine'
 import { TransformHelper } from './TransformHelper'
 import { TreeNode } from './TreeNode'

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { createForm } from '@formily/core'
-import { Form } from '@formily/antd'
+import { Form } from '@formily/antd-v5'
 import { observer } from '@formily/react'
-import { requestIdle, cancelIdle } from '@designable/shared'
+import { requestIdle, cancelIdle } from '@sulesky/next-shared'
 import {
   usePrefix,
   useSelected,
@@ -11,7 +11,7 @@ import {
   useWorkbench,
   IconWidget,
   NodePathWidget,
-} from '@designable/react'
+} from '@sulesky/next-react'
 import { SchemaField } from './SchemaField'
 import { ISettingFormProps } from './types'
 import { SettingsFormContext } from './shared/context'

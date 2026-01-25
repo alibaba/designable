@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./lib",
     "paths": {
-      "@designable/*": ["../../packages/*", "../../formily/*"]
+      "@sulesky/next-*": ["../../packages/*", "../../formily/*"]
     },
     "declaration": true
   }

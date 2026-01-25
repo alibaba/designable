@@ -1,9 +1,9 @@
 import path from 'path'
 import fs from 'fs-extra'
-import { GlobSync } from 'glob'
+import { globSync } from 'glob'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import autoprefixer from 'autoprefixer'
-//import { getThemeVariables } from 'antd/dist/theme'
+import type { Configuration } from 'webpack'
 
 const getWorkspaceAlias = () => {
   const basePath = path.resolve(__dirname, '../../../')
@@ -12,10 +12,10 @@ const getWorkspaceAlias = () => {
   const workspaces = pkg.workspaces
   if (Array.isArray(workspaces)) {
     workspaces.forEach((pattern) => {
-      const { found } = new GlobSync(pattern, { cwd: basePath })
+      const found = globSync(pattern, { cwd: basePath })
       found.forEach((name) => {
         const pkg = fs.readJSONSync(
-          path.resolve(basePath, name, './package.json')
+          path.resolve(basePath, name, './package.json'),
         )
         results[pkg.name] = path.resolve(basePath, name, './src')
       })
@@ -24,9 +24,9 @@ const getWorkspaceAlias = () => {
   return results
 }
 
-export default {
+const config: Configuration = {
   mode: 'development',
-  devtool: 'inline-source-map', // 嵌入到源文件中
+  devtool: 'inline-source-map',
   stats: {
     entrypoints: false,
     children: false,
@@ -36,20 +36,17 @@ export default {
   },
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: '[name].[hash].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
   },
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: getWorkspaceAlias(),
   },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    moment: 'moment',
-    antd: 'antd',
-  },
+  // Externals removed - React 18 + Antd 5 don't have compatible UMD builds
   module: {
+    // Suppress "Critical dependency" warning for dynamic imports with variable URLs
+    exprContextCritical: false,
     rules: [
       {
         test: /\.tsx?$/,
@@ -74,31 +71,38 @@ export default {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => autoprefixer(),
+              postcssOptions: {
+                plugins: [autoprefixer()],
+              },
             },
           },
           {
             loader: 'less-loader',
             options: {
-              // modifyVars: getThemeVariables({
-              //   dark: true, // 开启暗黑模式
-              // }),
-              javascriptEnabled: true,
+              lessOptions: {
+                javascriptEnabled: true,
+              },
             },
           },
         ],
       },
       {
         test: /\.(woff|woff2|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: ['url-loader'],
+        type: 'asset',
       },
       {
         test: /\.html?$/,
-        loader: require.resolve('file-loader'),
-        options: {
-          name: '[name].[ext]',
+        type: 'asset/resource',
+        generator: {
+          filename: '[name][ext]',
         },
       },
     ],
   },
+  // Disable performance hints - this is a dev tool with large dependencies
+  performance: {
+    hints: false,
+  },
 }
+
+export default config

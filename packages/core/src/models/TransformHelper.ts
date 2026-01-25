@@ -14,7 +14,7 @@ import {
   ILineSegment,
   calcClosestEdges,
   calcCombineSnapLineSegment,
-} from '@designable/shared'
+} from '@sulesky/next-shared'
 import { observable, define, action } from '@formily/reactive'
 import { SpaceBlock, AroundSpaceBlock } from './SpaceBlock'
 import { Operation } from './Operation'

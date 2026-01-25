@@ -1,6 +1,6 @@
 import React from 'react'
-import { ScreenType } from '@designable/core'
-import { requestIdle } from '@designable/shared'
+import { ScreenType } from '@sulesky/next-core'
+import { requestIdle } from '@sulesky/next-shared'
 import { observer } from '@formily/reactive-react'
 import { useScreen } from '../hooks'
 import {

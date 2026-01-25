@@ -1,5 +1,6 @@
 import { parse } from '@babel/parser'
-import { getNpmCDNRegistry } from '../../registry'
+import { getNpmCDNRegistry, validateCDNUrl } from '../../registry'
+
 interface IPrettierModule {
   default: {
     format(
@@ -7,7 +8,7 @@ interface IPrettierModule {
       options: {
         semi?: boolean
         parser?: (code: string) => any
-      }
+      },
     ): string
   }
 }
@@ -16,12 +17,25 @@ const cache: { prettier: Promise<IPrettierModule> } = {
   prettier: null,
 }
 
+const loadPrettier = async (): Promise<IPrettierModule> => {
+  const cdnUrl = `${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs`
+
+  // Validate the URL is from an allowed CDN before loading
+  if (!validateCDNUrl(cdnUrl)) {
+    throw new Error(
+      `Security error: CDN URL "${cdnUrl}" is not in the allowlist. ` +
+        `Use setNpmCDNRegistry() with an allowed CDN host.`,
+    )
+  }
+
+  // Use dynamic import - this is safe because we validated the URL
+  // Note: The CDN URL must be a full URL for dynamic import to work
+  return import(/* webpackIgnore: true */ cdnUrl)
+}
+
 export const format = async (language: string, source: string) => {
-  cache.prettier =
-    cache.prettier ||
-    new Function(
-      `return import("${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs")`
-    )()
+  cache.prettier = cache.prettier || loadPrettier()
+
   return cache.prettier.then((module) => {
     if (
       language === 'javascript.expression' ||

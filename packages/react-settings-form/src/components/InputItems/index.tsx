@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { usePrefix, IconWidget } from '@designable/react'
+import { usePrefix, IconWidget } from '@sulesky/next-react'
 import cls from 'classnames'
 import './styles.less'
 
@@ -13,6 +13,7 @@ export interface IInputItemsProps {
   style?: React.CSSProperties
   width?: string | number
   vertical?: boolean
+  children?: React.ReactNode
 }
 
 export interface IInputItemProps {
@@ -22,44 +23,50 @@ export interface IInputItemProps {
   width?: string | number
   vertical?: boolean
   title?: React.ReactNode
+  children?: React.ReactNode
 }
 
 const InputItemsContext = React.createContext<IInputItemsContext>(null)
 
 export const InputItems: React.FC<IInputItemsProps> & {
   Item: React.FC<IInputItemProps>
-} = (props) => {
+} = ({ className, style, width = '100%', vertical, children }) => {
   const prefix = usePrefix('input-items')
+  const contextValue = { width, vertical }
   return (
-    <InputItemsContext.Provider value={props}>
-      <div className={cls(prefix, props.className)} style={props.style}>
-        {props.children}
+    <InputItemsContext.Provider value={contextValue}>
+      <div className={cls(prefix, className)} style={style}>
+        {children}
       </div>
     </InputItemsContext.Provider>
   )
 }
 
-InputItems.defaultProps = {
-  width: '100%',
-}
-
-InputItems.Item = (props) => {
+InputItems.Item = ({
+  className,
+  style,
+  icon,
+  width,
+  vertical,
+  title,
+  children,
+}) => {
   const prefix = usePrefix('input-items-item')
   const ctx = useContext(InputItemsContext)
   return (
     <div
-      className={cls(prefix, props.className, {
-        vertical: props.vertical || ctx.vertical,
+      className={cls(prefix, className, {
+        vertical: vertical || ctx.vertical,
       })}
-      style={{ width: props.width || ctx.width, ...props.style }}
+      style={{ width: width || ctx.width, ...style }}
     >
-      {props.icon && (
+      {icon && (
         <div className={prefix + '-icon'}>
-          <IconWidget infer={props.icon} size={16} />
+          <IconWidget infer={icon} size={16} />
         </div>
       )}
-      {props.title && <div className={prefix + '-title'}>{props.title}</div>}
-      <div className={prefix + '-controller'}>{props.children}</div>
+      {title && <div className={prefix + '-title'}>{title}</div>}
+      <div className={prefix + '-controller'}>{children}</div>
     </div>
   )
 }

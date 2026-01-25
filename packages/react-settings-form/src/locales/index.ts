@@ -1,6 +1,4 @@
-import { GlobalRegistry } from '@designable/core'
-import zhCN from './zh-CN'
+import { GlobalRegistry } from '@sulesky/next-core'
 import enUS from './en-US'
-import koKR from './ko-KR'
 
-GlobalRegistry.registerDesignerLocales(zhCN, enUS, koKR)
+GlobalRegistry.registerDesignerLocales(enUS)

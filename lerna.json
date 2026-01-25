@@ -1,13 +1,12 @@
 {
-  "version": "1.0.0-beta.45",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "1.0.0",
   "npmClient": "yarn",
-  "useWorkspaces": true,
-  "npmClientArgs": ["--ignore-engines"],
   "command": {
     "version": {
       "forcePublish": true,
       "exact": true,
-      "message": "chore(versions): 😊 publish %s"
+      "message": "chore(versions): publish %s"
     }
   }
 }

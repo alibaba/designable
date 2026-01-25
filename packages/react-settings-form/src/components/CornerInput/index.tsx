@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { usePrefix } from '@designable/react'
+import { usePrefix } from '@sulesky/next-react'
 import cls from 'classnames'
 import './styles.less'
 

@@ -1,6 +1,6 @@
 {
-  "name": "@designable/formily-transformer",
-  "version": "1.0.0-beta.45",
+  "name": "@sulesky/next-formily-transformer",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "lib",
   "engines": {
@@ -9,13 +9,13 @@
   "module": "esm",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alibaba/designable.git"
+    "url": "git+https://github.com/kapelan/designable.git"
   },
   "types": "esm/index.d.ts",
   "bugs": {
-    "url": "https://github.com/alibaba/designable/issues"
+    "url": "https://github.com/kapelan/designable/issues"
   },
-  "homepage": "https://github.com/alibaba/designable#readme",
+  "homepage": "https://github.com/kapelan/designable#readme",
   "scripts": {
     "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc --project tsconfig.build.json",
@@ -25,16 +25,16 @@
     "access": "public"
   },
   "devDependencies": {
-    "@formily/core": "^2.0.2",
-    "@formily/json-schema": "^2.0.2"
+    "@formily/core": "^2.3.0",
+    "@formily/json-schema": "^2.3.0"
   },
   "peerDependencies": {
-    "@formily/core": "^2.0.2",
-    "@formily/json-schema": "^2.0.2"
+    "@formily/core": "^2.3.0",
+    "@formily/json-schema": "^2.3.0"
   },
   "dependencies": {
-    "@designable/core": "1.0.0-beta.45",
-    "@designable/shared": "1.0.0-beta.45"
+    "@sulesky/next-core": "1.0.0",
+    "@sulesky/next-shared": "1.0.0"
   },
   "gitHead": "bda070c137ba0003cc4451b2208e089d2e326b23"
 }

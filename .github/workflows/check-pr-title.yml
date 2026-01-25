@@ -1,18 +1,13 @@
-name: Check PR title
+name: PR Title Check
+
 on:
   pull_request_target:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: aslafy-z/conventional-pr-title-action@master
-        with:
-          preset: conventional-changelog-angular@^5.0.6
+      - uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
