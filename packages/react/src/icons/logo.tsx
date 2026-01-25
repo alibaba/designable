@@ -1,5 +1,21 @@
+// Simple text-based logo - no external dependencies
 export const Logo = {
   light:
-    '//img.alicdn.com/imgextra/i3/O1CN01Eib3GC1c7JthHYQnI_!!6000000003553-55-tps-1783-385.svg',
-  dark: '//img.alicdn.com/imgextra/i1/O1CN018hbWup1QhhyhiElX0_!!6000000002008-55-tps-1783-385.svg',
+    'data:image/svg+xml,' +
+    encodeURIComponent(
+      `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40">
+      <text x="10" y="28" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1890ff">Designable</text>
+    </svg>
+  `.trim(),
+    ),
+  dark:
+    'data:image/svg+xml,' +
+    encodeURIComponent(
+      `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40">
+      <text x="10" y="28" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#40a9ff">Designable</text>
+    </svg>
+  `.trim(),
+    ),
 }

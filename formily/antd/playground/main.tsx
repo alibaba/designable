@@ -17,7 +17,10 @@ import {
   SettingsPanel,
   ComponentTreeWidget,
 } from '@sulesky/next-react'
-import { SettingsForm, setNpmCDNRegistry } from '@sulesky/next-react-settings-form'
+import {
+  SettingsForm,
+  setNpmCDNRegistry,
+} from '@sulesky/next-react-settings-form'
 import {
   createDesigner,
   GlobalRegistry,
@@ -203,7 +206,8 @@ const App = () => {
           </WorkspacePanel>
         </Workspace>
         <SettingsPanel title="panels.PropertySettings">
-          <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+          {/* Configure uploadAction with your own upload endpoint */}
+          <SettingsForm uploadAction="" />
         </SettingsPanel>
       </StudioPanel>
     </Designer>

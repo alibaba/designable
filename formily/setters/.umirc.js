@@ -1,11 +1,10 @@
 import { resolve } from 'path'
 export default {
   mode: 'site',
-  logo: '//img.alicdn.com/imgextra/i2/O1CN01Kq3OHU1fph6LGqjIz_!!6000000004056-55-tps-1141-150.svg',
-  title: 'Formily',
+  logo: false,
+  title: 'Designable',
   hash: true,
-  favicon:
-    '//img.alicdn.com/imgextra/i3/O1CN01XtT3Tv1Wd1b5hNVKy_!!6000000002810-55-tps-360-360.svg',
+  favicon: false,
   outputPath: './doc-site',
   navs: [
     {
@@ -13,12 +12,8 @@ export default {
       path: '/components',
     },
     {
-      title: '主站',
-      path: 'https://v2.formilyjs.org',
-    },
-    {
       title: 'GITHUB',
-      path: 'https://github.com/alibaba/formily',
+      path: 'https://github.com/kapelan/designable',
     },
   ],
   styles: [
@@ -26,13 +21,12 @@ export default {
       height: 60px !important;
       width: 150px !important;
       padding-left:0 !important;
-      color: transparent !important;
     }
     .__dumi-default-navbar{
       padding: 0 28px !important;
     }
     .__dumi-default-layout-hero{
-      background-image: url(//img.alicdn.com/imgextra/i4/O1CN01ZcvS4e26XMsdsCkf9_!!6000000007671-2-tps-6001-4001.png);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       background-size: cover;
       background-repeat: no-repeat;
     }

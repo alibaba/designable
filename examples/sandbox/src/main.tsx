@@ -299,7 +299,8 @@ const App = () => {
             </ViewportPanel>
           </WorkspacePanel>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            {/* Configure uploadAction with your own upload endpoint */}
+            <SettingsForm uploadAction="" />
           </SettingsPanel>
         </StudioPanel>
       </Workbench>
