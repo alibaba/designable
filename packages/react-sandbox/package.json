@@ -1,6 +1,6 @@
 {
   "name": "@sulesky/next-react-sandbox",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -27,8 +27,8 @@
     "react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0"
   },
   "dependencies": {
-    "@sulesky/next-react": "1.0.0",
-    "@sulesky/next-shared": "1.0.0"
+    "@sulesky/next-react": "1.0.2",
+    "@sulesky/next-shared": "1.0.2"
   },
   "publishConfig": {
     "access": "public"

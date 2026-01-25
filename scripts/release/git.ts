@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execa, execaSync } from 'execa'
 import semver from 'semver'
 
 export async function changedPaths(sha: string): Promise<string[]> {
@@ -14,8 +14,7 @@ export async function changedPaths(sha: string): Promise<string[]> {
 }
 
 export function getSortableAllTags() {
-  return execa
-    .sync('git', ['tag', '-l'])
+  return execaSync('git', ['tag', '-l'])
     .stdout.split(/\n/)
     .sort((a, b) => {
       const v1 = a.replace(/^v/, '')
@@ -25,11 +24,11 @@ export function getSortableAllTags() {
 }
 
 export function getCurrentBranch() {
-  return execa.sync('git', ['branch', '--show-current']).stdout
+  return execaSync('git', ['branch', '--show-current']).stdout
 }
 
 export function getTaggedTime(tag: string) {
-  return execa.sync('git', ['log', '-1', '--format=%ai', tag]).stdout
+  return execaSync('git', ['log', '-1', '--format=%ai', tag]).stdout
 }
 
 export function getGithubToken() {
@@ -39,18 +38,18 @@ export function getGithubToken() {
  * All existing tags in the repository
  */
 export function listTagNames(): string[] {
-  return execa.sync('git', ['tag']).stdout.split('\n').filter(Boolean)
+  return execaSync('git', ['tag']).stdout.split('\n').filter(Boolean)
 }
 
 /**
  * The latest reachable tag starting from HEAD
  */
 export function lastTag(): string {
-  return execa.sync('git', ['describe', '--abbrev=0', '--tags']).stdout
+  return execaSync('git', ['describe', '--abbrev=0', '--tags']).stdout
 }
 
 export function getPreviousTag(current: string): string {
-  return execa.sync('git', ['describe', '--abbrev=0', '--tags', current + '^'])
+  return execaSync('git', ['describe', '--abbrev=0', '--tags', current + '^'])
     .stdout
 }
 
@@ -65,7 +64,7 @@ export interface CommitListItem {
 export function parseLogMessage(commit: string): CommitListItem | null {
   const parts =
     commit.match(
-      /hash<(.+)> ref<(.*)> message<(.*)> date<(.*)> author<(.*)>/
+      /hash<(.+)> ref<(.*)> message<(.*)> date<(.*)> author<(.*)>/,
     ) || []
 
   if (!parts || parts.length === 0) {
@@ -84,14 +83,13 @@ export function parseLogMessage(commit: string): CommitListItem | null {
 export function listCommits(from: string, to = ''): CommitListItem[] {
   // Prints "hash<short-hash> ref<ref-name> message<summary> date<date>"
   // This format is used in `getCommitInfos` for easily analize the commit.
-  return execa
-    .sync('git', [
-      'log',
-      '--oneline',
-      '--pretty="hash<%h> ref<%D> message<%s> date<%cd> author<%an>"',
-      '--date=short',
-      `${from}..${to}`,
-    ])
+  return execaSync('git', [
+    'log',
+    '--oneline',
+    '--pretty="hash<%h> ref<%D> message<%s> date<%cd> author<%an>"',
+    '--date=short',
+    `${from}..${to}`,
+  ])
     .stdout.split('\n')
     .filter(Boolean)
     .map(parseLogMessage)

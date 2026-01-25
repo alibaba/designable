@@ -1,6 +1,6 @@
 {
   "name": "@sulesky/next-formily-setters",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "module": "esm",
@@ -41,10 +41,10 @@
     "react-dom": ">=16.8.0 || >=17.0.0 || >=18.0.0 || >=19.0.0"
   },
   "dependencies": {
-    "@sulesky/next-core": "1.0.0",
-    "@sulesky/next-formily-transformer": "1.0.0",
-    "@sulesky/next-react": "1.0.0",
-    "@sulesky/next-react-settings-form": "1.0.0"
+    "@sulesky/next-core": "1.0.2",
+    "@sulesky/next-formily-transformer": "1.0.2",
+    "@sulesky/next-react": "1.0.2",
+    "@sulesky/next-react-settings-form": "1.0.2"
   },
   "publishConfig": {
     "access": "public"

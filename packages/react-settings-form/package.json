@@ -1,6 +1,6 @@
 {
   "name": "@sulesky/next-react-settings-form",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -44,10 +44,10 @@
   },
   "dependencies": {
     "@babel/parser": "^7.14.7",
-    "@sulesky/next-core": "1.0.0",
-    "@sulesky/next-react": "1.0.0",
-    "@sulesky/next-shared": "1.0.0",
     "@monaco-editor/react": "^4.2.1",
+    "@sulesky/next-core": "1.0.2",
+    "@sulesky/next-react": "1.0.2",
+    "@sulesky/next-shared": "1.0.2",
     "monaco-editor": "^0.52.0",
     "prettier": "^2.3.2",
     "react-color": "^2.19.3",

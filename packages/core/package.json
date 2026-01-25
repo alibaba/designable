@@ -1,6 +1,6 @@
 {
   "name": "@sulesky/next-core",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "lib",
   "types": "lib/index.d.ts",
@@ -33,8 +33,8 @@
     "@formily/reactive": "^2.3.0"
   },
   "dependencies": {
-    "@sulesky/next-shared": "1.0.0",
-    "@juggle/resize-observer": "^3.3.1"
+    "@juggle/resize-observer": "^3.3.1",
+    "@sulesky/next-shared": "1.0.2"
   },
   "publishConfig": {
     "access": "public"
