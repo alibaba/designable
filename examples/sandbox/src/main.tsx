@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   Designer,
@@ -16,7 +16,14 @@ import {
   ViewPanel,
   SettingsPanel,
   ComponentTreeWidget,
+  useDesigner,
 } from '@sulesky/next-react'
+import { Space as AntSpace, Button, message } from 'antd'
+import {
+  transformToSchema,
+  transformToTreeNode,
+} from '@sulesky/next-formily-transformer'
+
 import {
   SettingsForm,
   setNpmCDNRegistry,
@@ -61,13 +68,12 @@ import {
 
 // Import widgets from formily/antd playground (shared, not duplicated)
 import {
-  ActionsWidget,
   PreviewWidget,
   SchemaEditorWidget,
   MarkupSchemaWidget,
 } from '../../../formily/antd/playground/widgets'
 
-// Custom logo - can be any React element
+// Custom logo
 const CustomLogo = () => (
   <div
     style={{
@@ -80,7 +86,43 @@ const CustomLogo = () => (
     Kaplan Studio
   </div>
 )
-import { saveSchema } from '../../../formily/antd/playground/service'
+
+// Custom actions - Save and Close only
+const CustomActions = () => {
+  const designer = useDesigner()
+
+  // Initialize: load saved schema and set language
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('formily-schema')
+      if (saved) {
+        designer.setCurrentTree(transformToTreeNode(JSON.parse(saved)))
+      }
+    } catch {}
+    GlobalRegistry.setDesignerLanguage('en-us')
+  }, [])
+
+  const handleSave = () => {
+    const schema = transformToSchema(designer.getCurrentTree())
+    localStorage.setItem('formily-schema', JSON.stringify(schema))
+    message.success('Saved!')
+  }
+
+  const handleClose = () => {
+    if (confirm('Close without saving?')) {
+      window.close()
+    }
+  }
+
+  return (
+    <AntSpace style={{ marginRight: 10 }}>
+      <Button onClick={handleSave}>Save</Button>
+      <Button danger onClick={handleClose}>
+        Close
+      </Button>
+    </AntSpace>
+  )
+}
 
 setNpmCDNRegistry('//unpkg.com')
 
@@ -106,7 +148,9 @@ const App = () => {
               [KeyCode.Control, KeyCode.S],
             ],
             handler(ctx) {
-              saveSchema(ctx.engine)
+              const schema = transformToSchema(ctx.engine.getCurrentTree())
+              localStorage.setItem('formily-schema', JSON.stringify(schema))
+              message.success('Saved!')
             },
           }),
         ],
@@ -117,7 +161,7 @@ const App = () => {
 
   return (
     <Designer engine={engine}>
-      <StudioPanel logo={<CustomLogo />} actions={<ActionsWidget />}>
+      <StudioPanel logo={<CustomLogo />} actions={<CustomActions />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
