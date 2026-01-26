@@ -30,7 +30,6 @@ const config: Configuration = {
   },
   entry: {
     playground: path.resolve(__dirname, '../src/main'),
-    sandbox: path.resolve(__dirname, '../src/sandbox'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),

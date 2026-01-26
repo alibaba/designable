@@ -14,6 +14,7 @@
     "fs-extra": "^11.0.0",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.9.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.8.0",
@@ -23,11 +24,13 @@
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
+    "@formily/core": "^2.3.0",
+    "@formily/react": "^2.3.0",
     "@formily/reactive": "^2.3.0",
     "@formily/reactive-react": "^2.3.0",
     "@sulesky/next-core": "1.0.3",
+    "@sulesky/next-formily-antd": "1.0.3",
     "@sulesky/next-react": "1.0.3",
-    "@sulesky/next-react-sandbox": "1.0.3",
     "@sulesky/next-react-settings-form": "1.0.3",
     "@sulesky/next-shared": "1.0.3",
     "antd": "^5.24.0",

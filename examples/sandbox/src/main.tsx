@@ -1,309 +1,232 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   Designer,
-  IconWidget,
-  Workbench,
-  ViewPanel,
   DesignerToolsWidget,
   ViewToolsWidget,
+  Workspace,
   OutlineTreeWidget,
   ResourceWidget,
+  HistoryWidget,
   StudioPanel,
   CompositePanel,
   WorkspacePanel,
   ToolbarPanel,
   ViewportPanel,
+  ViewPanel,
   SettingsPanel,
-  HistoryWidget,
+  ComponentTreeWidget,
 } from '@sulesky/next-react'
-import { SettingsForm, MonacoInput } from '@sulesky/next-react-settings-form'
-import { observer } from '@formily/react'
+import {
+  SettingsForm,
+  setNpmCDNRegistry,
+} from '@sulesky/next-react-settings-form'
 import {
   createDesigner,
-  createResource,
-  createBehavior,
   GlobalRegistry,
+  Shortcut,
+  KeyCode,
 } from '@sulesky/next-core'
-import { Space, Button } from 'antd'
-import { GithubOutlined } from '@ant-design/icons'
-import { Sandbox } from '@sulesky/next-react-sandbox'
 
-const RootBehavior = createBehavior({
-  name: 'Root',
-  selector: 'Root',
-  designerProps: {
-    droppable: true,
-  },
-  designerLocales: {
-    'en-US': {
-      title: 'Root',
-    },
-  },
-})
+// Import components from formily-antd package
+import {
+  Form,
+  Field,
+  Input,
+  Select,
+  TreeSelect,
+  Cascader,
+  Radio,
+  Checkbox,
+  Slider,
+  Rate,
+  NumberPicker,
+  Transfer,
+  Password,
+  DatePicker,
+  TimePicker,
+  Upload,
+  Switch,
+  Text,
+  Card,
+  ArrayCards,
+  ObjectContainer,
+  ArrayTable,
+  Space,
+  FormTab,
+  FormCollapse,
+  FormLayout,
+  FormGrid,
+} from '@sulesky/next-formily-antd'
 
-const InputBehavior = createBehavior({
-  name: 'Input',
-  selector: (node) =>
-    node.componentName === 'Field' && node.props['x-component'] === 'Input',
-  designerProps: {
-    propsSchema: {
-      type: 'object',
-      $namespace: 'Field',
-      properties: {
-        'field-properties': {
-          type: 'void',
-          'x-component': 'CollapseItem',
-          title: 'Field Properties',
-          properties: {
-            title: {
-              type: 'string',
-              'x-decorator': 'FormItem',
-              'x-component': 'Input',
-            },
-            hidden: {
-              type: 'string',
-              'x-decorator': 'FormItem',
-              'x-component': 'Switch',
-            },
-            default: {
-              'x-decorator': 'FormItem',
-              'x-component': 'ValueInput',
-            },
-            test: {
-              type: 'void',
-              title: 'Test',
-              'x-decorator': 'FormItem',
-              'x-component': 'DrawerSetter',
-              'x-component-props': {
-                text: 'Open Drawer',
-              },
-              properties: {
-                test: {
-                  type: 'string',
-                  title: 'Test Input',
-                  'x-decorator': 'FormItem',
-                  'x-component': 'Input',
-                },
-              },
-            },
-          },
-        },
-        'component-styles': {
-          type: 'void',
-          title: 'Styles',
-          'x-component': 'CollapseItem',
-          properties: {
-            'style.width': {
-              type: 'string',
-              'x-decorator': 'FormItem',
-              'x-component': 'SizeInput',
-            },
-            'style.height': {
-              type: 'string',
-              'x-decorator': 'FormItem',
-              'x-component': 'SizeInput',
-            },
-            'style.display': {
-              'x-component': 'DisplayStyleSetter',
-            },
-            'style.background': {
-              'x-component': 'BackgroundStyleSetter',
-            },
-            'style.boxShadow': {
-              'x-component': 'BoxShadowStyleSetter',
-            },
-            'style.font': {
-              'x-component': 'FontStyleSetter',
-            },
-            'style.margin': {
-              'x-component': 'BoxStyleSetter',
-            },
-            'style.padding': {
-              'x-component': 'BoxStyleSetter',
-            },
-            'style.borderRadius': {
-              'x-component': 'BorderRadiusStyleSetter',
-            },
-            'style.border': {
-              'x-component': 'BorderStyleSetter',
-            },
-          },
-        },
-      },
-    },
-  },
-  designerLocales: {
-    'en-US': {
-      title: 'Input',
-      settings: {
-        title: 'Title',
-        hidden: 'Hidden',
-        default: 'Default Value',
-        style: {
-          width: 'Width',
-          height: 'Height',
-          display: 'Display',
-          background: 'Background',
-          boxShadow: 'Box Shadow',
-          font: 'Font',
-          margin: 'Margin',
-          padding: 'Padding',
-          borderRadius: 'Border Radius',
-          border: 'Border',
-        },
-      },
-    },
-  },
-})
+// Import widgets from formily/antd playground (shared, not duplicated)
+import {
+  ActionsWidget,
+  PreviewWidget,
+  SchemaEditorWidget,
+  MarkupSchemaWidget,
+} from '../../../formily/antd/playground/widgets'
 
-const CardBehavior = createBehavior({
-  name: 'Card',
-  selector: 'Card',
-  designerProps: {
-    droppable: true,
-  },
-  designerLocales: {
-    'en-US': {
-      title: 'Card',
-    },
-  },
-})
+// Custom logo - can be any React element
+const CustomLogo = () => (
+  <div
+    style={{
+      fontWeight: 'bold',
+      color: '#1890ff',
+      padding: '12px 8px',
+      fontSize: 16,
+    }}
+  >
+    Kaplan Studio
+  </div>
+)
+import { saveSchema } from '../../../formily/antd/playground/service'
 
-GlobalRegistry.setDesignerBehaviors([RootBehavior, InputBehavior, CardBehavior])
-
-const Input = createResource({
-  title: {
-    'en-US': 'Input',
-  },
-  icon: 'InputSource',
-  elements: [
-    {
-      componentName: 'Field',
-      props: {
-        title: 'Input',
-        type: 'string',
-        'x-decorator': 'FormItem',
-        'x-component': 'Input',
-      },
-    },
-  ],
-})
-
-const Card = createResource({
-  title: {
-    'en-US': 'Card',
-  },
-  icon: 'CardSource',
-  elements: [
-    {
-      componentName: 'Card',
-      props: {
-        title: 'Card',
-      },
-    },
-  ],
-})
+setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
   'en-US': {
     sources: {
       Inputs: 'Inputs',
+      Layouts: 'Layouts',
+      Arrays: 'Arrays',
       Displays: 'Displays',
-      Feedbacks: 'Feedbacks',
     },
   },
 })
 
-const Logo: React.FC = () => (
-  <div style={{ display: 'flex', alignItems: 'center', fontSize: 14 }}>
-    <IconWidget
-      infer="Logo"
-      style={{ margin: 10, height: 24, width: 'auto' }}
-    />
-  </div>
-)
-
-const Actions = observer(() => {
-  useEffect(() => {
-    GlobalRegistry.setDesignerLanguage('en-us')
-  }, [])
-  return (
-    <Space style={{ marginRight: 10 }}>
-      <Button href="https://github.com/kapelan/designable" target="_blank">
-        <GithubOutlined />
-        Github
-      </Button>
-      <Button>Save</Button>
-      <Button type="primary">Publish</Button>
-    </Space>
-  )
-})
-
-const engine = createDesigner()
 const App = () => {
+  const engine = useMemo(
+    () =>
+      createDesigner({
+        shortcuts: [
+          new Shortcut({
+            codes: [
+              [KeyCode.Meta, KeyCode.S],
+              [KeyCode.Control, KeyCode.S],
+            ],
+            handler(ctx) {
+              saveSchema(ctx.engine)
+            },
+          }),
+        ],
+        rootComponentName: 'Form',
+      }),
+    [],
+  )
+
   return (
     <Designer engine={engine}>
-      <Workbench>
-        <StudioPanel logo={<Logo />} actions={<Actions />}>
-          <CompositePanel>
-            <CompositePanel.Item title="panels.Component" icon="Component">
-              <ResourceWidget title="sources.Inputs" sources={[Input, Card]} />
-              <ResourceWidget
-                title="sources.Displays"
-                sources={[Input, Card]}
-              />
-              <ResourceWidget
-                title="sources.Feedbacks"
-                sources={[Input, Card]}
-              />
-            </CompositePanel.Item>
-            <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
-              <OutlineTreeWidget />
-            </CompositePanel.Item>
-            <CompositePanel.Item title="panels.History" icon="History">
-              <HistoryWidget />
-            </CompositePanel.Item>
-          </CompositePanel>
+      <StudioPanel logo={<CustomLogo />} actions={<ActionsWidget />}>
+        <CompositePanel>
+          <CompositePanel.Item title="panels.Component" icon="Component">
+            <ResourceWidget
+              title="sources.Inputs"
+              sources={[
+                Input,
+                Password,
+                NumberPicker,
+                Rate,
+                Slider,
+                Select,
+                TreeSelect,
+                Cascader,
+                Transfer,
+                Checkbox,
+                Radio,
+                DatePicker,
+                TimePicker,
+                Upload,
+                Switch,
+                ObjectContainer,
+              ]}
+            />
+            <ResourceWidget
+              title="sources.Layouts"
+              sources={[
+                Card,
+                FormGrid,
+                FormTab,
+                FormLayout,
+                FormCollapse,
+                Space,
+              ]}
+            />
+            <ResourceWidget
+              title="sources.Arrays"
+              sources={[ArrayCards, ArrayTable]}
+            />
+            <ResourceWidget title="sources.Displays" sources={[Text]} />
+          </CompositePanel.Item>
+          <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
+            <OutlineTreeWidget />
+          </CompositePanel.Item>
+          <CompositePanel.Item title="panels.History" icon="History">
+            <HistoryWidget />
+          </CompositePanel.Item>
+        </CompositePanel>
+        <Workspace id="form">
           <WorkspacePanel>
             <ToolbarPanel>
               <DesignerToolsWidget />
-              <ViewToolsWidget />
+              <ViewToolsWidget
+                use={['DESIGNABLE', 'JSONTREE', 'MARKUP', 'PREVIEW']}
+              />
             </ToolbarPanel>
-            <ViewportPanel>
+            <ViewportPanel style={{ height: '100%' }}>
               <ViewPanel type="DESIGNABLE">
                 {() => (
-                  <Sandbox
-                    jsAssets={[
-                      'https://unpkg.com/moment/min/moment-with-locales.js',
-                      'https://unpkg.com/react@18/umd/react.production.min.js',
-                      'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
-                      './sandbox.bundle.js',
-                    ]}
+                  <ComponentTreeWidget
+                    components={{
+                      Form,
+                      Field,
+                      Input,
+                      Select,
+                      TreeSelect,
+                      Cascader,
+                      Radio,
+                      Checkbox,
+                      Slider,
+                      Rate,
+                      NumberPicker,
+                      Transfer,
+                      Password,
+                      DatePicker,
+                      TimePicker,
+                      Upload,
+                      Switch,
+                      Text,
+                      Card,
+                      ArrayCards,
+                      ArrayTable,
+                      Space,
+                      FormTab,
+                      FormCollapse,
+                      FormGrid,
+                      FormLayout,
+                      ObjectContainer,
+                    }}
                   />
                 )}
               </ViewPanel>
-              <ViewPanel type="JSONTREE">
-                {() => {
-                  return (
-                    <div style={{ overflow: 'hidden', height: '100%' }}>
-                      <MonacoInput
-                        language="javascript"
-                        helpCode="//hello world"
-                        defaultValue={`<div><div>123123<div>123123<div>123123<div>123123</div></div></div></div></div>`}
-                      />
-                    </div>
-                  )
-                }}
+              <ViewPanel type="JSONTREE" scrollable={false}>
+                {(tree, onChange) => (
+                  <SchemaEditorWidget tree={tree} onChange={onChange} />
+                )}
+              </ViewPanel>
+              <ViewPanel type="MARKUP" scrollable={false}>
+                {(tree) => <MarkupSchemaWidget tree={tree} />}
+              </ViewPanel>
+              <ViewPanel type="PREVIEW">
+                {(tree) => <PreviewWidget tree={tree} />}
               </ViewPanel>
             </ViewportPanel>
           </WorkspacePanel>
-          <SettingsPanel title="panels.PropertySettings">
-            {/* Configure uploadAction with your own upload endpoint */}
-            <SettingsForm uploadAction="" />
-          </SettingsPanel>
-        </StudioPanel>
-      </Workbench>
+        </Workspace>
+        <SettingsPanel title="panels.PropertySettings">
+          <SettingsForm uploadAction="" />
+        </SettingsPanel>
+      </StudioPanel>
     </Designer>
   )
 }

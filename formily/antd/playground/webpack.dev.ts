@@ -32,7 +32,7 @@ export default {
       },
     ]),
     new MonacoPlugin({
-      languages: ['json'],
+      languages: ['json', 'typescript'],
     }),
   ],
   devServer: {

@@ -1,7 +1,12 @@
 import { loader } from '@monaco-editor/react'
+import * as monaco from 'monaco-editor'
 import chromeTheme from './themes/chrome'
 import monokaiTheme from './themes/monokai'
 import { format } from './format'
+
+// Use webpack-bundled Monaco instead of loading from CDN
+// This avoids CORS issues with web workers and duplicate module loading
+loader.config({ monaco })
 
 let initialized = false
 
@@ -32,7 +37,7 @@ export const initMonaco = () => {
           {
             text: await format(
               model['getDesignerLanguage']?.() || 'typescript',
-              model.getValue()
+              model.getValue(),
             ),
             range: model.getFullModelRange(),
           },
